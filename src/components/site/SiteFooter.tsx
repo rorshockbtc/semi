@@ -4,93 +4,77 @@ import React from 'react';
 import Link from 'next/link';
 import { Smile } from 'accent-ui';
 import { SemiMark } from '@/components/brand/SemiMark';
+import { SEMI_TRACKS } from '@/data/semi-songs';
 
 export default function SiteFooter() {
   return (
-    <footer>
-      <section
-        aria-labelledby="studio-band"
-        className="bg-[var(--a-ink)] text-[var(--a-bg)]"
-      >
-        <div className="mx-auto grid max-w-[1400px] gap-10 px-5 sm:px-8 lg:px-12 py-20 sm:py-28 lg:grid-cols-12 lg:items-end">
-          <div className="lg:col-span-7 space-y-6">
-            <p className="font-sans text-[13px] font-semibold uppercase tracking-[0.16em] text-[var(--a-bg)]/65">
-              Colon Hyphen Bracket · West Nashville × San Francisco
-            </p>
-            <h2 id="studio-band" className="font-display text-big font-bold text-[var(--a-bg)]">
-              Built with care by Colon&nbsp;Hyphen&nbsp;Bracket.
-            </h2>
-            <p className="max-w-[52ch] text-lg sm:text-xl leading-relaxed text-[var(--a-bg)]/80">
-              Semi (<SemiMark className="text-[18px] mx-0.5" color="#FE299E" />) is our open-source
-              unlimited-memory companion and acoustic songwriter—living alongside{' '}
-              <strong className="font-semibold text-[var(--a-bg)]">Pipes (\)</strong>,{' '}
-              <strong className="font-semibold text-[var(--a-bg)]">asterisk (*)</strong>, and{' '}
-              <strong className="font-semibold text-[var(--a-bg)]">Greater (&gt;)</strong> under Accént 3.0.
-            </p>
-          </div>
-
-          <div className="lg:col-span-5 flex flex-col items-start lg:items-end justify-between gap-8">
-            <div aria-hidden="true" className="select-none">
-              <Smile
-                color="#FE299E"
-                winkEvery={4500}
-                className="font-mark text-[72px] sm:text-[104px] font-bold leading-none"
-              />
+    <footer className="bg-[#0d0b0a] text-[#F3EFE9]">
+      <div className="mx-auto max-w-[1400px] px-5 sm:px-8 lg:px-12 pt-20 pb-10">
+        <div className="grid gap-12 border-b border-white/10 pb-14 lg:grid-cols-12">
+          <div className="lg:col-span-5">
+            <div className="flex items-center gap-3">
+              <span className="font-display text-4xl font-bold">Semi</span>
+              <SemiMark className="text-[30px]" color="#FE299E" />
             </div>
-            <a
-              href="https://colonhyphenbracket.pink"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex min-h-[48px] items-center gap-3 rounded-full border-2 border-[var(--a-bg)] px-6 text-lg font-semibold text-[var(--a-bg)] no-underline transition-colors hover:bg-[var(--a-bg)] hover:text-[var(--a-ink)]"
-            >
-              Visit colonhyphenbracket.pink <span aria-hidden="true">→</span>
-            </a>
-          </div>
-        </div>
-      </section>
-
-      <div className="border-t border-[var(--a-rule)] bg-[var(--a-bg)]">
-        <div className="mx-auto flex max-w-[1400px] flex-wrap items-center justify-between gap-4 px-5 sm:px-8 lg:px-12 py-6 text-[13px] text-[var(--a-muted)]">
-          <div className="flex items-center gap-2.5">
-            <SemiMark className="text-base" color="#FE299E" />
-            <span>Semi · Apache-2.0 open source · West Nashville Sessions</span>
-          </div>
-
-          <nav aria-label="Footer" className="flex flex-wrap items-center gap-5">
-            <Link href="/songs" className="wc-link min-h-[44px] inline-flex items-center text-[var(--a-ink)]">
-              Songs &amp; Stories
-            </Link>
-            <Link href="/about" className="wc-link min-h-[44px] inline-flex items-center text-[var(--a-ink)]">
-              Unlimited Memory
-            </Link>
-            <Link href="/colophon" className="wc-link min-h-[44px] inline-flex items-center text-[var(--a-ink)]">
-              Colophon
-            </Link>
-            <a
-              href="https://github.com/rorshockbtc/semi"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="wc-link min-h-[44px] inline-flex items-center text-[var(--a-ink)]"
-            >
-              GitHub
-            </a>
+            <p className="mt-5 max-w-[36ch] text-lg leading-relaxed text-[#F3EFE9]/70">
+              An AI companion who remembers, and a songwriter from West Nashville.
+            </p>
             <a
               href="https://pipes.pink/semi"
               target="_blank"
               rel="noopener noreferrer"
-              className="wc-link min-h-[44px] inline-flex items-center text-[var(--a-ink)]"
+              className="mt-7 inline-flex min-h-[48px] items-center rounded-full bg-[var(--a-accent-fill)] px-6 text-[15px] font-semibold text-white no-underline hover:bg-white hover:text-[#0d0b0a] transition-colors"
             >
-              Pipes × Semi
+              Talk to Semi on Pipes ↗
             </a>
-            <a
-              href="https://asterisk.pipes.pink"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="wc-link min-h-[44px] inline-flex items-center text-[var(--a-ink)]"
-            >
-              asterisk (*)
-            </a>
+          </div>
+
+          <nav aria-label="Songs" className="lg:col-span-3">
+            <p className="text-[13px] font-semibold uppercase tracking-[0.2em] text-[#F3EFE9]/50">Songs</p>
+            <ul className="mt-4">
+              {SEMI_TRACKS.map((t) => (
+                <li key={t.slug}>
+                  <Link href={`/songs/${t.slug}`} className="min-h-[44px] inline-flex items-center text-[16px] text-[#F3EFE9]/85 no-underline hover:text-white">
+                    {t.title}
+                  </Link>
+                </li>
+              ))}
+            </ul>
           </nav>
+
+          <nav aria-label="Site" className="lg:col-span-2">
+            <p className="text-[13px] font-semibold uppercase tracking-[0.2em] text-[#F3EFE9]/50">Site</p>
+            <ul className="mt-4">
+              {[
+                { href: '/songs', l: 'All songs' },
+                { href: '/gallery', l: 'Gallery' },
+                { href: '/about', l: 'About' },
+              ].map((i) => (
+                <li key={i.href}>
+                  <Link href={i.href} className="min-h-[44px] inline-flex items-center text-[16px] text-[#F3EFE9]/85 no-underline hover:text-white">
+                    {i.l}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </nav>
+
+          <div className="lg:col-span-2 flex lg:justify-end">
+            <a href="https://colonhyphenbracket.pink" target="_blank" rel="noopener noreferrer" aria-label="Colon Hyphen Bracket" className="no-underline">
+              <Smile color="#FE299E" winkEvery={5000} className="font-mark text-[56px] font-bold leading-none" />
+            </a>
+          </div>
+        </div>
+
+        <div className="flex flex-col gap-3 pt-8 text-[13px] text-[#F3EFE9]/55 sm:flex-row sm:items-center sm:justify-between">
+          <span>© 2026 Colon Hyphen Bracket, LLC · West Nashville</span>
+          <span>
+            Site code open source on{' '}
+            <a href="https://github.com/rorshockbtc/semi" target="_blank" rel="noopener noreferrer" className="underline underline-offset-4 hover:text-white">
+              GitHub
+            </a>
+            . Semi is proprietary.
+          </span>
         </div>
       </div>
     </footer>

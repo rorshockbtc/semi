@@ -1,6 +1,6 @@
 'use client';
 
-import React, { createContext, useContext, useSyncExternalStore } from 'react';
+import React, { createContext, useContext, useEffect, useSyncExternalStore } from 'react';
 import { MotionConfig, useReducedMotion } from 'framer-motion';
 import { useMotionPreference } from 'accent-ui/motion';
 
@@ -45,6 +45,10 @@ export function AmbientMotionProvider({ children }: { children: React.ReactNode 
 
   const osReduced = Boolean(framerReduced || accentMotion.isReduced);
   const motionActive = !osReduced && !pausedByUser;
+
+  useEffect(() => {
+    document.documentElement.dataset.motion = pausedByUser ? 'paused' : 'active';
+  }, [pausedByUser]);
 
   const togglePause = () => {
     const next = !getPausedSnapshot();

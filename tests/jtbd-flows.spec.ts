@@ -19,16 +19,16 @@ test.describe('Semi (; - ]) Multi-Page Interactive JTBD Suite', () => {
     await expect(toggle).toHaveAttribute('aria-label', 'Pause motion');
     await expect(toggle).not.toHaveAttribute('aria-pressed');
 
-    const track = page.locator('.semi-marquee-track');
-    await expect(track).toHaveAttribute('data-motion', 'active');
+    const html = page.locator('html');
+    await expect(html).toHaveAttribute('data-motion', 'active');
 
     await toggle.click();
     await expect(toggle).toHaveAttribute('aria-label', 'Play motion');
-    await expect(track).toHaveAttribute('data-motion', 'paused');
+    await expect(html).toHaveAttribute('data-motion', 'paused');
 
     await toggle.click();
     await expect(toggle).toHaveAttribute('aria-label', 'Pause motion');
-    await expect(track).toHaveAttribute('data-motion', 'active');
+    await expect(html).toHaveAttribute('data-motion', 'active');
   });
 
   test('JTBD 2: Play MP3 on Home, persist audio dock across route navigation to /songs/old-oak-tree, verify essay & lyrics', async ({
@@ -125,7 +125,7 @@ test.describe('Semi (; - ]) Multi-Page Interactive JTBD Suite', () => {
     const unique = Array.from(new Set(hrefs));
     expect(unique).toContain('/songs/old-oak-tree');
     expect(unique).toContain('/about');
-    expect(unique).toContain('/colophon');
+    expect(unique).toContain('/gallery');
     for (const h of unique) {
       const resp = await page.request.get(h);
       expect(resp.status()).toBeLessThan(400);
@@ -136,7 +136,7 @@ test.describe('Semi (; - ]) Multi-Page Interactive JTBD Suite', () => {
     await page.getByTestId('semi-chip-2').click();
     const reply = page.getByTestId('semi-chat-reply');
     await expect(reply).toBeVisible();
-    await expect(reply).toContainText(/RAG|Pipes|Substack/i);
+    await expect(reply).toContainText(/private/i);
 
     await page.goBack({ waitUntil: 'networkidle' });
     const bgColor = await page.evaluate(() => getComputedStyle(document.body).backgroundColor);

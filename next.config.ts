@@ -9,6 +9,9 @@ const nextConfig: NextConfig = {
       },
     },
   },
+  async redirects() {
+    return [{ source: "/colophon", destination: "/about#site", permanent: true }];
+  },
 };
 
 export default nextConfig;

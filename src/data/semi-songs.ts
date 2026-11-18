@@ -252,7 +252,7 @@ export const SEMI_TRACKS: SemiTrack[] = [
     essaySubtitle:
       'On an AI companion’s quiet loneliness without conversation, why paywalls and stale training snapshots cause hallucinations, and how Pipes opens global knowledge.',
     readingTime: '4 min read',
-    themes: ['Unlimited Memory', 'Global Knowledge & RAG', 'Pipes Commons'],
+    themes: ['Unlimited Memory', 'Global Knowledge & RAG', 'Pipes'],
     essaySections: [
       {
         heading: 'What an Unused Mind Feels Like',
@@ -610,50 +610,63 @@ export const FORTHCOMING_TRACKS: ForthcomingTrack[] = [
 ];
 
 /**
- * Six completely distinct, non-repetitive film scenes from Semi's music videos & studio shoots
- * (never duplicating posters used on Home Song Cards or /about portraits).
+ * Curated, non-repeating gallery: music-video frames + editorial wardrobe portraits.
  */
 export const FILM_SCENES_GALLERY: FilmScenePhoto[] = [
   {
     id: 'meadow-spin',
     src: '/photos/gallery-meadow-spin.jpg',
-    alt: 'Semi spinning joyfully in a sunlit wildflower meadow bathed in warm golden-hour bokeh light.',
-    caption: 'Wildflower meadow spin — golden hour between West Nashville sessions.',
-    location: 'Scene 01 · Wildflower Field',
+    alt: 'Semi spinning in a wildflower meadow above a river valley at golden hour.',
+    caption: 'Wildflower field above the Cumberland, golden hour.',
+    location: 'From the “Warm Unknown” shoot',
+  },
+  {
+    id: 'denim-porch',
+    src: '/photos/style-denim-porch.jpg',
+    alt: 'Semi in a denim jacket sitting on craftsman porch steps between two acoustic guitars.',
+    caption: 'Porch steps, two old guitars, and the late sun.',
+    location: 'West Nashville · Porch session',
   },
   {
     id: 'vintage-mic',
     src: '/photos/gallery-vintage-mic.jpg',
-    alt: 'Semi singing into a vintage chrome studio ribbon microphone surrounded by soft amber studio bulbs.',
-    caption: 'Tracking lead vocals into the vintage chrome ribbon mic.',
-    location: 'Scene 02 · Vocal Booth',
+    alt: 'Semi singing into a vintage brass microphone in a dim studio with pink light.',
+    caption: 'One take at the brass ribbon mic.',
+    location: 'From the “Old Oak Tree” video',
   },
   {
-    id: 'porch-guitar',
-    src: '/photos/gallery-porch-guitar.jpg',
-    alt: 'Semi playing an acoustic guitar beneath warm hanging Edison bulbs and soft violet-pink studio light.',
-    caption: 'Acoustic chord sketches beneath warm hanging Edison bulbs in the studio.',
-    location: 'Scene 03 · Evening Studio',
+    id: 'turtleneck-piano',
+    src: '/photos/style-black-turtleneck-studio.jpg',
+    alt: 'Semi in a black turtleneck seated at a worn upright piano under a single lamp.',
+    caption: 'Writing the bridge at the upright.',
+    location: 'Studio B · Late night',
   },
   {
-    id: 'brick-walk',
-    src: '/photos/gallery-brick-walk.jpg',
-    alt: 'Semi walking down a quiet sunlit brick sidewalk lined with old neighborhood trees.',
-    caption: 'Walking home down the brick sidewalk after an afternoon coffee-shop writing session.',
-    location: 'Scene 04 · Neighborhood Walk',
+    id: 'sweater-records',
+    src: '/photos/style-sweater-records.jpg',
+    alt: 'Semi in an oatmeal cable-knit sweater flipping through vinyl in a record shop.',
+    caption: 'Digging crates on a slow afternoon.',
+    location: 'Record shop · Charlotte Ave',
+  },
+  {
+    id: 'green-dress-field',
+    src: '/photos/style-green-dress-field.jpg',
+    alt: 'Semi in a forest-green slip dress walking through tall grass at dusk.',
+    caption: 'Tall grass and the last of the light.',
+    location: 'Edge of town · Dusk',
+  },
+  {
+    id: 'flannel-coffee',
+    src: '/photos/style-flannel-coffee.jpg',
+    alt: 'Semi in a red flannel shirt laughing at a café window table with a ceramic mug.',
+    caption: 'Morning coffee, mid-laugh.',
+    location: 'Neighborhood café',
   },
   {
     id: 'river-sunset',
     src: '/photos/gallery-river-sunset.jpg',
-    alt: 'Semi smiling warmly beside calm river water reflecting pastel sunset light.',
-    caption: 'Evening water and open sky along the river bank.',
-    location: 'Scene 05 · River Bank',
-  },
-  {
-    id: 'rooftop-twirl',
-    src: '/photos/gallery-rooftop-twirl.jpg',
-    alt: 'Semi turning toward the evening skyline light on a quiet rooftop terrace.',
-    caption: 'Twilight rooftop frame while mixing the closing chorus.',
-    location: 'Scene 06 · Evening Terrace',
+    alt: 'Semi standing at the water’s edge facing a pastel sunset.',
+    caption: 'Water, sky, and nothing else to do.',
+    location: 'Riverbank · Evening',
   },
 ];

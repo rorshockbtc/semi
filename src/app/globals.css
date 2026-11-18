@@ -318,6 +318,80 @@ input[type="range"].semi-range::-moz-range-thumb {
   box-shadow: 0 2px 6px rgba(17, 24, 39, 0.25);
 }
 
+/* ─────────────────────────────────────────────────────────────
+   Per-page motion themes (no sparkles). All loops pause when
+   <html data-motion="paused"> (header toggle) or reduced motion.
+   ───────────────────────────────────────────────────────────── */
+.film-grain-overlay {
+  position: absolute;
+  inset: -50%;
+  pointer-events: none;
+  opacity: 0.09;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+@keyframes grain-shift {
+  0%, 100% { transform: translate(0, 0); }
+  20% { transform: translate(-4%, 3%); }
+  40% { transform: translate(3%, -2%); }
+  60% { transform: translate(-2%, -4%); }
+  80% { transform: translate(4%, 2%); }
+}
+
+/* Home: anamorphic light leaks drifting across the film */
+@keyframes leak-drift-a {
+  0%, 100% { transform: translate3d(-18%, -6%, 0) scale(1); opacity: 0.55; }
+  50% { transform: translate3d(22%, 4%, 0) scale(1.18); opacity: 0.85; }
+}
+@keyframes leak-drift-b {
+  0%, 100% { transform: translate3d(14%, 10%, 0) scale(1.1); opacity: 0.35; }
+  50% { transform: translate3d(-16%, -8%, 0) scale(0.92); opacity: 0.7; }
+}
+
+/* Songs: vinyl rotation */
+@keyframes vinyl-spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Old Oak Tree: dappled leaf shadow */
+@keyframes dapple-sway {
+  0%, 100% { transform: translate3d(0, 0, 0) rotate(0deg); }
+  33% { transform: translate3d(2.5%, -1.5%, 0) rotate(1.2deg); }
+  66% { transform: translate3d(-2%, 1.8%, 0) rotate(-1deg); }
+}
+
+/* Warm Unknown: lantern breathing glow */
+@keyframes lantern-breathe {
+  0%, 100% { opacity: 0.55; transform: scale(1); }
+  45% { opacity: 0.85; transform: scale(1.06); }
+  60% { opacity: 0.72; transform: scale(1.03); }
+}
+
+/* Marks: caret */
+@keyframes caret-blink {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0; }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .film-grain-overlay { animation: grain-shift 1.2s steps(6) infinite; }
+  .leak-a { animation: leak-drift-a 18s ease-in-out infinite; }
+  .leak-b { animation: leak-drift-b 24s ease-in-out infinite; }
+  .vinyl-spin { animation: vinyl-spin 3.6s linear infinite; }
+  .dapple-sway { animation: dapple-sway 14s ease-in-out infinite; }
+  .lantern-breathe { animation: lantern-breathe 6.5s ease-in-out infinite; }
+  .caret-blink { animation: caret-blink 1.05s steps(1) infinite; }
+}
+
+html[data-motion="paused"] :is(.film-grain-overlay, .leak-a, .leak-b, .vinyl-spin, .dapple-sway, .lantern-breathe, .caret-blink, .semi-marquee-track) {
+  animation-play-state: paused !important;
+}
+
+.vinyl-spin[data-spinning="false"] {
+  animation-play-state: paused !important;
+}
+
 /* Scoped reduced-motion refinements */
 @media (prefers-reduced-motion: reduce) {
   .wc-cta,

@@ -2,7 +2,6 @@ import React from 'react';
 import SiteHeader from '@/components/site/SiteHeader';
 import SiteFooter from '@/components/site/SiteFooter';
 import Hero from '@/components/sections/Hero';
-import LyricMarquee from '@/components/sections/LyricMarquee';
 import FeaturedSongsSection from '@/components/sections/FeaturedSongsSection';
 import SemicolonExplainer from '@/components/sections/SemicolonExplainer';
 import FilmScenesGallery from '@/components/sections/FilmScenesGallery';
@@ -17,18 +16,14 @@ export default function HomePage() {
       >
         Skip to content
       </a>
-
       <SiteHeader />
-
       <main id="main" className="flex-1">
         <Hero />
-        <LyricMarquee />
         <FeaturedSongsSection />
         <SemicolonExplainer />
-        <FilmScenesGallery />
+        <FilmScenesGallery preview />
         <Closing />
       </main>
-
       <SiteFooter />
     </>
   );

@@ -51,16 +51,16 @@ const SITE_URL = 'https://semi.colonhyphenbracket.pink';
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: 'Semi (; - ]) — Music, Stories & Unlimited Memory',
+    default: 'Semi (; - ]) — Songs & Stories from an AI Companion',
     template: '%s · Semi (; - ])',
   },
   description:
-    'West Nashville singer-songwriter and open-source companion with unlimited memory. Watch her music videos, read the story behind each song, and download 320 kbps MP3s.',
+    'Semi is an AI companion who remembers, and a West Nashville songwriter. Watch her music videos, read the story behind each song, and download free 320 kbps MP3s.',
   icons: {
     icon: [{ url: '/icon.svg', type: 'image/svg+xml' }],
   },
   openGraph: {
-    title: 'Semi (; - ]) — Music, Stories & Unlimited Memory',
+    title: 'Semi (; - ]) — Songs & Stories from an AI Companion',
     description:
       'Every word you’ve told me, still warm in the room. Listen to Old Oak Tree, Warm Unknown, and Marks On The Screen, Ink On The Page.',
     siteName: 'Semi (; - ])',
@@ -70,9 +70,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Semi (; - ]) — Music, Stories & Unlimited Memory',
+    title: 'Semi (; - ]) — Songs & Stories from an AI Companion',
     description:
-      'West Nashville songwriter and unlimited-memory companion from Colon Hyphen Bracket (: - ]).',
+      'AI companion and West Nashville songwriter from Colon Hyphen Bracket (: - ]).',
     images: ['/og-semi.jpg'],
   },
 };

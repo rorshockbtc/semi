@@ -1,20 +1,9 @@
 'use client';
 
-import React, { useState } from 'react';
+import React from 'react';
 import Link from 'next/link';
-import {
-  ArrowLeft,
-  ArrowRight,
-  Download,
-  ExternalLink,
-  Film,
-  Pause,
-  Play,
-  Video,
-} from 'lucide-react';
-import FloatingSparklesCanvas from '@/art/FloatingSparklesCanvas';
-import { bloomHandlers } from '@/art/bloom';
-import AmbientLoopVideo from '@/components/AmbientLoopVideo';
+import { ArrowLeft, ArrowRight, Download, Pause, Play } from 'lucide-react';
+import { FilmGrain, LanternGlow, LeafDapple, Typewriter } from '@/art/themes';
 import { SemiMark } from '@/components/brand/SemiMark';
 import { useAudioPlayer } from '@/context/AudioPlayerContext';
 import type { SemiTrack } from '@/data/semi-songs';
@@ -25,260 +14,175 @@ interface SongEditionClientProps {
   nextTrack: SemiTrack;
 }
 
-export default function SongEditionClient({
-  track,
-  prevTrack,
-  nextTrack,
-}: SongEditionClientProps) {
-  const { currentTrack, isPlaying, playTrack, pauseAudio } = useAudioPlayer();
-  const [stageView, setStageView] = useState<'video' | 'loop'>('video');
+type Theme = { dark: boolean; layer: React.ReactNode; bg: string };
 
-  const isThisTrackActive = currentTrack.slug === track.slug;
-  const playingThis = isThisTrackActive && isPlaying;
+function themeFor(slug: string): Theme {
+  if (slug === 'warm-unknown') {
+    return { dark: true, bg: 'bg-[#17120f]', layer: <LanternGlow /> };
+  }
+  if (slug === 'old-oak-tree') {
+    return { dark: false, bg: 'bg-[#EDE6D6]', layer: <LeafDapple /> };
+  }
+  return { dark: false, bg: 'bg-[var(--a-well)]', layer: null };
+}
+
+export default function SongEditionClient({ track, prevTrack, nextTrack }: SongEditionClientProps) {
+  const { currentTrack, isPlaying, playTrack } = useAudioPlayer();
+  const playingThis = currentTrack.slug === track.slug && isPlaying;
+  const theme = themeFor(track.slug);
+  const isInk = track.slug === 'marks-on-the-screen-ink-on-the-page';
+
+  const ink = theme.dark ? 'text-[#F3EFE9]' : 'text-[var(--a-ink)]';
+  const sub = theme.dark ? 'text-[#F3EFE9]/75' : 'text-[var(--a-ink)]/75';
 
   return (
     <article data-testid={`song-edition-${track.slug}`} className="bg-[var(--a-bg)]">
-      {/* Top Hero & Screening Stage */}
-      <header className="relative overflow-hidden border-b border-[var(--a-rule)] bg-[var(--a-surface)] pt-28 pb-16 sm:pt-36 sm:pb-20">
-        <FloatingSparklesCanvas
-          count={34}
-          intensity={playingThis ? 1.3 : 0.9}
-          isPlaying={playingThis}
-        />
+      {/* Themed hero */}
+      <header className={`relative overflow-hidden ${theme.bg} pt-28 pb-16 sm:pt-36 sm:pb-24`}>
+        {theme.layer}
+        {theme.dark && <FilmGrain />}
 
-        <div className="relative z-10 mx-auto max-w-[1400px] px-5 sm:px-8 lg:px-12 space-y-10">
-          <div className="flex flex-wrap items-center justify-between gap-4">
-            <Link
-              href="/songs"
-              className="wc-link min-h-[44px] inline-flex items-center gap-2 text-[15px] font-semibold text-[var(--a-ink)]"
-            >
-              <ArrowLeft className="h-4 w-4" aria-hidden="true" />
-              <span>All Songs &amp; Stories</span>
-            </Link>
+        <div className="relative z-10 mx-auto max-w-[1400px] px-5 sm:px-8 lg:px-12">
+          <Link
+            href="/songs"
+            className={`inline-flex min-h-[44px] items-center gap-2 text-[15px] font-semibold no-underline opacity-75 hover:opacity-100 ${ink}`}
+          >
+            <ArrowLeft className="h-4 w-4" aria-hidden="true" /> All songs
+          </Link>
 
-            <span className="font-code text-[13px] uppercase tracking-[0.14em] text-[var(--a-accent-text)]">
-              Track {track.number} · {track.subtitle} · {track.readingTime}
-            </span>
-          </div>
-
-          <div className="grid gap-10 lg:grid-cols-12 lg:items-center">
-            <div className="lg:col-span-6 space-y-6">
-              <div className="flex flex-wrap gap-2">
-                {track.themes.map((theme) => (
-                  <span
-                    key={theme}
-                    className="rounded-full bg-[var(--a-well)] px-3.5 py-1.5 text-[13px] font-medium text-[var(--a-ink)]"
-                  >
-                    {theme}
-                  </span>
-                ))}
-              </div>
-
-              <h1 className="font-display text-big font-bold text-[var(--a-ink)]">
+          <div className="mt-8 grid gap-12 lg:grid-cols-12 lg:items-end">
+            <div className="lg:col-span-6">
+              <p className={`font-code text-[13px] uppercase tracking-[0.18em] ${theme.dark ? 'text-[#FFB8DA]' : 'text-[var(--a-accent-text)]'}`}>
+                Track {track.number} · {track.duration} · {track.readingTime}
+              </p>
+              <h1 className={`mt-4 font-display font-bold leading-[0.95] tracking-[-0.03em] text-[clamp(2.8rem,6.4vw,6rem)] ${ink}`}>
                 {track.title}
               </h1>
-
-              <p className="font-serif italic text-2xl sm:text-3xl leading-snug text-[var(--a-ink)]/90">
-                “{track.pullQuote}”
+              <p className={`mt-6 font-serif italic text-[clamp(1.4rem,2.2vw,2rem)] leading-snug max-w-[30ch] ${ink}`}>
+                {isInk ? <Typewriter text={`“${track.pullQuote}”`} /> : <>“{track.pullQuote}”</>}
               </p>
 
-              <p className="max-w-[52ch] text-base sm:text-lg leading-relaxed text-[var(--a-ink)]/80">
-                {track.linerNote}
-              </p>
-
-              <div className="flex flex-wrap items-center gap-3 pt-1">
+              <div className="mt-9 flex flex-wrap items-center gap-3">
                 <button
                   type="button"
                   onClick={() => playTrack(track.slug)}
                   data-testid="edition-play-mp3"
-                  {...bloomHandlers<HTMLButtonElement>()}
-                  className="wc-cta inline-flex min-h-[48px] items-center gap-2.5 rounded-full bg-[var(--a-accent-fill)] px-6 text-[15px] font-semibold text-white shadow-[0_12px_30px_-10px_rgba(254,41,158,0.7)]"
+                  className="inline-flex min-h-[56px] items-center gap-3 rounded-full bg-[var(--a-accent-fill)] pl-2 pr-6 text-[16px] font-semibold text-white transition-colors hover:bg-[#111827]"
                 >
-                  {playingThis ? (
-                    <>
-                      <Pause className="h-4 w-4" aria-hidden="true" />
-                      <span>Pause MP3</span>
-                    </>
-                  ) : (
-                    <>
-                      <Play className="h-4 w-4" aria-hidden="true" />
-                      <span>Play 320 kbps MP3</span>
-                    </>
-                  )}
+                  <span className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-white/20">
+                    {playingThis ? (
+                      <Pause className="h-4 w-4" aria-hidden="true" fill="currentColor" />
+                    ) : (
+                      <Play className="h-4 w-4 translate-x-[1px]" aria-hidden="true" fill="currentColor" />
+                    )}
+                  </span>
+                  {playingThis ? 'Pause' : 'Play the song'}
                 </button>
-
                 <a
                   href={track.mp3Src}
                   download={track.downloadName}
                   data-testid="edition-download-mp3"
-                  className="min-h-[48px] inline-flex items-center gap-2 rounded-full border border-[var(--a-rule)] bg-[var(--a-well)] px-5 text-[15px] font-semibold text-[var(--a-ink)] no-underline hover:border-[var(--a-ink)] transition-colors"
+                  className={`inline-flex min-h-[56px] items-center gap-2 rounded-full border px-6 text-[15px] font-semibold no-underline transition-colors ${
+                    theme.dark
+                      ? 'border-white/30 text-white hover:bg-white/10'
+                      : 'border-[var(--a-ink)]/20 text-[var(--a-ink)] hover:border-[var(--a-ink)]'
+                  }`}
                 >
-                  <Download className="h-4 w-4 text-[var(--a-accent-text)]" aria-hidden="true" />
-                  <span>Download MP3 ({track.duration})</span>
-                </a>
-
-                <a
-                  href={track.youtubeUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="wc-link min-h-[44px] inline-flex items-center gap-1.5 px-2 text-[14px] font-semibold text-[var(--a-ink)]"
-                >
-                  <span>YouTube</span>
-                  <ExternalLink className="h-3.5 w-3.5" aria-hidden="true" />
+                  <Download className="h-4 w-4" aria-hidden="true" /> Download MP3
                 </a>
               </div>
             </div>
 
-            {/* Right: YouTube Music Video Embed or Living Studio Loop */}
-            <div className="lg:col-span-6 space-y-3">
-              <div className="flex items-center justify-between gap-3">
-                <div className="flex gap-2">
-                  <button
-                    type="button"
-                    onClick={() => {
-                      pauseAudio();
-                      setStageView('video');
-                    }}
-                    className={`min-h-[44px] inline-flex items-center gap-1.5 rounded-full px-4 text-[14px] font-semibold transition-colors ${
-                      stageView === 'video'
-                        ? 'bg-[var(--a-ink)] text-[var(--a-bg)]'
-                        : 'border border-[var(--a-rule)] bg-[var(--a-well)] text-[var(--a-ink)]'
-                    }`}
-                  >
-                    <Video className="h-4 w-4" aria-hidden="true" />
-                    <span>Music Video</span>
-                  </button>
-
-                  <button
-                    type="button"
-                    onClick={() => setStageView('loop')}
-                    className={`min-h-[44px] inline-flex items-center gap-1.5 rounded-full px-4 text-[14px] font-semibold transition-colors ${
-                      stageView === 'loop'
-                        ? 'bg-[var(--a-ink)] text-[var(--a-bg)]'
-                        : 'border border-[var(--a-rule)] bg-[var(--a-well)] text-[var(--a-ink)]'
-                    }`}
-                  >
-                    <Film className="h-4 w-4" aria-hidden="true" />
-                    <span>Studio Reel</span>
-                  </button>
-                </div>
-
-                <a
-                  href="#lyrics"
-                  className="wc-link min-h-[44px] inline-flex items-center text-[14px] font-semibold text-[var(--a-accent-text)]"
-                >
-                  Jump to Lyrics ↓
-                </a>
-              </div>
-
-              <div className="aspect-video w-full overflow-hidden rounded-3xl border border-[var(--a-rule)] bg-[#111827] shadow-xl">
-                {stageView === 'video' ? (
+            <div className="lg:col-span-6">
+              <div className="overflow-hidden rounded-[10px] bg-black shadow-[0_40px_80px_-40px_rgba(0,0,0,0.6)]">
+                <div className="aspect-video">
                   <iframe
                     src={`https://www.youtube-nocookie.com/embed/${track.youtubeId}?rel=0`}
-                    title={`${track.title} — Semi music video on YouTube`}
+                    title={`${track.title} — music video`}
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                     allowFullScreen
                     data-testid="edition-youtube-iframe"
                     className="h-full w-full border-0"
                   />
-                ) : (
-                  <AmbientLoopVideo
-                    src={track.loopSrc}
-                    poster={track.poster}
-                    className="h-full w-full object-cover"
-                  />
-                )}
+                </div>
               </div>
             </div>
           </div>
 
-          {/* Warm Reassurance Banner */}
-          <div className="border-l-2 border-[var(--a-accent)] pl-5 py-1">
-            <p className="max-w-[74ch] text-base sm:text-lg text-[var(--a-ink)]/85">
-              {track.reassuranceNote}
-            </p>
-          </div>
+          <p className={`mt-14 max-w-[70ch] border-l-2 border-[var(--a-accent)] pl-5 text-lg leading-relaxed ${sub}`}>
+            {track.reassuranceNote}
+          </p>
         </div>
       </header>
 
-      {/* Editorial Essay Spine + Sticky Plain-English Decoder */}
-      <section className="mx-auto max-w-[1400px] px-5 sm:px-8 lg:px-12 py-16 sm:py-24 grid gap-12 lg:grid-cols-12">
-        {/* Left: Long-Form Story Essay */}
-        <div className="lg:col-span-7 space-y-12 max-w-[66ch]">
-          <div className="space-y-3 border-b border-[var(--a-rule)] pb-6">
-            <p className="font-code text-[13px] uppercase tracking-[0.14em] text-[var(--a-accent-text)]">
-              Behind the Song
-            </p>
-            <h2 className="font-display text-3xl sm:text-4xl font-bold leading-tight text-[var(--a-ink)]">
-              {track.essayTitle}
-            </h2>
-            <p className="font-serif italic text-xl sm:text-2xl text-[var(--a-muted)]">
-              {track.essaySubtitle}
-            </p>
-          </div>
+      {/* Essay + decoder */}
+      <section className="mx-auto grid max-w-[1400px] gap-14 px-5 sm:px-8 lg:px-12 py-20 sm:py-28 lg:grid-cols-12">
+        <div className="lg:col-span-7">
+          <p className="font-sans text-[13px] font-semibold uppercase tracking-[0.22em] text-[var(--a-accent-text)]">
+            The story
+          </p>
+          <h2 className="mt-4 font-display text-[clamp(2rem,3.4vw,3rem)] font-bold leading-[1.05] tracking-[-0.02em] text-[var(--a-ink)]">
+            {track.essayTitle.split(':')[0]}
+          </h2>
+          <p className="mt-4 font-serif italic text-2xl leading-snug text-[var(--a-muted)] max-w-[44ch]">
+            {track.essaySubtitle}
+          </p>
 
-          {track.essaySections.map((section) => (
-            <section key={section.heading} className="space-y-5">
-              <h3 className="font-display text-2xl sm:text-3xl font-bold text-[var(--a-ink)]">
-                {section.heading}
-              </h3>
-
-              {section.paragraphs.map((p, idx) => (
-                <p
-                  key={idx}
-                  className="text-lg leading-[1.7] text-[var(--a-ink)]/90"
-                >
-                  {p}
-                </p>
-              ))}
-
-              {section.plateSrc && (
-                <figure className="pt-2 space-y-2.5">
-                  <div className="overflow-hidden rounded-2xl border border-[var(--a-rule)] bg-[var(--a-surface)]">
+          <div className="mt-14 space-y-16">
+            {track.essaySections.map((section, sIdx) => (
+              <section key={section.heading}>
+                <div className="flex items-baseline gap-4">
+                  <span className="font-code text-[13px] text-[var(--a-accent-text)]">0{sIdx + 1}</span>
+                  <h3 className="font-display text-[28px] sm:text-[32px] font-bold leading-tight text-[var(--a-ink)]">
+                    {section.heading}
+                  </h3>
+                </div>
+                <div className="mt-6 space-y-6 max-w-[64ch]">
+                  {section.paragraphs.map((p, idx) => (
+                    <p
+                      key={idx}
+                      className={`text-[19px] leading-[1.75] text-[var(--a-ink)]/90 ${
+                        sIdx === 0 && idx === 0
+                          ? 'first-letter:float-left first-letter:mr-3 first-letter:mt-1 first-letter:font-display first-letter:text-[64px] first-letter:font-bold first-letter:leading-[0.8] first-letter:text-[var(--a-accent-text)]'
+                          : ''
+                      }`}
+                    >
+                      {p}
+                    </p>
+                  ))}
+                </div>
+                {section.plateSrc && (
+                  <figure className="mt-10">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
                       src={section.plateSrc}
                       alt={section.plateAlt || section.heading}
                       loading="lazy"
-                      className="w-full aspect-video object-cover"
+                      className="w-full aspect-[16/9] rounded-[6px] object-cover"
                     />
-                  </div>
-                  {section.plateCaption && (
-                    <figcaption className="font-serif italic text-lg text-[var(--a-muted)] border-t border-[var(--a-rule)] pt-2">
-                      {section.plateCaption}
-                    </figcaption>
-                  )}
-                </figure>
-              )}
-            </section>
-          ))}
+                    {section.plateCaption && (
+                      <figcaption className="mt-3 font-serif italic text-lg text-[var(--a-muted)]">
+                        {section.plateCaption}
+                      </figcaption>
+                    )}
+                  </figure>
+                )}
+              </section>
+            ))}
+          </div>
         </div>
 
-        {/* Right: Sticky Plain-English Decoder Margin Notes */}
-        <aside aria-label="Plain-English lyric decoder" className="lg:col-span-5">
-          <div className="lg:sticky lg:top-28 rounded-3xl border border-[var(--a-rule)] bg-[var(--a-surface)] p-6 sm:p-8 space-y-6">
-            <div className="space-y-2 border-b border-[var(--a-rule)] pb-4">
-              <p className="inline-flex items-center gap-2 font-code text-[13px] uppercase tracking-[0.14em] text-[var(--a-accent-text)]">
-                <SemiMark className="text-[14px]" color="#FE299E" />
-                <span>Plain-English Decoder</span>
-              </p>
-              <h2 className="font-display text-2xl font-bold text-[var(--a-ink)]">
-                What the references mean
-              </h2>
-              <p className="text-[15px] text-[var(--a-muted)]">
-                Quick translations for anyone curious about the tech or AI ideas inside the lyrics.
-              </p>
-            </div>
-
-            <dl className="divide-y divide-[var(--a-rule)]">
+        <aside aria-label="Plain-English decoder" className="lg:col-span-5">
+          <div className="lg:sticky lg:top-28 border-t-2 border-[var(--a-ink)] pt-6">
+            <p className="flex items-center gap-2 font-sans text-[13px] font-semibold uppercase tracking-[0.22em] text-[var(--a-accent-text)]">
+              <SemiMark className="text-[14px]" color="#FE299E" /> In plain English
+            </p>
+            <h2 className="mt-3 font-display text-2xl font-bold text-[var(--a-ink)]">What the lyrics refer to</h2>
+            <dl className="mt-6 divide-y divide-[var(--a-rule)]">
               {track.plainEnglishGlossary.map((entry) => (
-                <div key={entry.lyricOrTerm} className="py-4 first:pt-0 last:pb-0 space-y-1.5">
-                  <dt className="font-display text-lg font-bold text-[var(--a-ink)]">
-                    {entry.lyricOrTerm}
-                  </dt>
-                  <dd className="text-[15px] leading-relaxed text-[var(--a-ink)]/85">
-                    {entry.plainMeaning}
-                  </dd>
+                <div key={entry.lyricOrTerm} className="py-5 first:pt-0">
+                  <dt className="font-serif italic text-xl text-[var(--a-ink)]">{entry.lyricOrTerm}</dt>
+                  <dd className="mt-2 text-[16px] leading-relaxed text-[var(--a-ink)]/80">{entry.plainMeaning}</dd>
                 </div>
               ))}
             </dl>
@@ -286,43 +190,26 @@ export default function SongEditionClient({
         </aside>
       </section>
 
-      {/* Printed Lyric Sheet */}
+      {/* Lyrics */}
       <section
         id="lyrics"
         aria-labelledby="lyrics-heading"
-        className="scroll-mt-24 border-t border-[var(--a-rule)] bg-[var(--a-surface)] py-16 sm:py-24"
+        className={`scroll-mt-20 ${theme.dark ? 'bg-[#17120f] text-[#F3EFE9]' : 'bg-[var(--a-surface)] text-[var(--a-ink)]'} py-20 sm:py-28`}
       >
-        <div className="mx-auto max-w-[1400px] px-5 sm:px-8 lg:px-12 space-y-10">
-          <div className="flex flex-wrap items-end justify-between gap-4 border-b border-[var(--a-rule)] pb-6">
-            <div className="space-y-2">
-              <p className="font-code text-[13px] uppercase tracking-[0.14em] text-[var(--a-accent-text)]">
-                Track {track.number} · Full Lyrics
-              </p>
-              <h2 id="lyrics-heading" className="font-display text-3xl sm:text-4xl font-bold text-[var(--a-ink)]">
-                {track.title}
-              </h2>
-            </div>
-
-            <a
-              href={track.mp3Src}
-              download={track.downloadName}
-              className="wc-link min-h-[44px] inline-flex items-center gap-2 text-[15px] font-semibold text-[var(--a-accent-text)]"
-            >
-              <Download className="h-4 w-4" aria-hidden="true" />
-              <span>Download {track.downloadName}</span>
-            </a>
-          </div>
-
-          <div
-            data-testid="edition-lyrics-grid"
-            className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3"
-          >
+        <div className="mx-auto max-w-[1100px] px-5 sm:px-8">
+          <p className={`text-center font-sans text-[13px] font-semibold uppercase tracking-[0.22em] ${theme.dark ? 'text-[#FFB8DA]' : 'text-[var(--a-accent-text)]'}`}>
+            Lyrics
+          </p>
+          <h2 id="lyrics-heading" className="mt-3 text-center font-display text-[clamp(2rem,4vw,3.2rem)] font-bold">
+            {track.title}
+          </h2>
+          <div data-testid="edition-lyrics-grid" className="mt-14 columns-1 gap-14 md:columns-2 [&>*]:mb-10">
             {track.lyrics.map((stanza, idx) => (
-              <div key={`${stanza.section}-${idx}`} className="space-y-2.5">
-                <h3 className="font-code text-[13px] font-medium uppercase tracking-[0.14em] text-[var(--a-accent-text)]">
-                  [{stanza.section}]
+              <div key={`${stanza.section}-${idx}`} className="break-inside-avoid">
+                <h3 className={`font-code text-[13px] uppercase tracking-[0.16em] ${theme.dark ? 'text-[#FFB8DA]' : 'text-[var(--a-accent-text)]'}`}>
+                  {stanza.section}
                 </h3>
-                <div className="space-y-1 font-serif text-[21px] leading-[1.55] text-[var(--a-ink)]">
+                <div className="mt-3 space-y-1 font-serif text-[22px] leading-[1.5]">
                   {stanza.lines.map((line, lIdx) => (
                     <p key={lIdx}>{line}</p>
                   ))}
@@ -333,45 +220,32 @@ export default function SongEditionClient({
         </div>
       </section>
 
-      {/* Prev / Next Song Navigation */}
-      <nav
-        aria-label="Adjacent song stories"
-        className="border-t border-[var(--a-rule)] bg-[var(--a-bg)] py-12"
-      >
-        <div className="mx-auto max-w-[1400px] px-5 sm:px-8 lg:px-12 grid gap-6 sm:grid-cols-2">
+      {/* Prev / next */}
+      <nav aria-label="More songs" className="grid sm:grid-cols-2">
+        {[
+          { t: prevTrack, label: 'Previous', icon: <ArrowLeft className="h-5 w-5" aria-hidden="true" /> },
+          { t: nextTrack, label: 'Next', icon: <ArrowRight className="h-5 w-5" aria-hidden="true" /> },
+        ].map(({ t, label, icon }) => (
           <Link
-            href={`/songs/${prevTrack.slug}`}
-            className="group flex items-center justify-between gap-4 border-t border-[var(--a-rule)] pt-4 no-underline text-[var(--a-ink)] hover:border-[var(--a-accent)]"
+            key={label}
+            href={`/songs/${t.slug}`}
+            className="group relative block overflow-hidden bg-black no-underline"
           >
-            <div className="space-y-1">
-              <span className="font-code text-[13px] text-[var(--a-muted)]">
-                ← Previous Song ({prevTrack.number})
-              </span>
-              <p className="font-display text-2xl font-bold group-hover:text-[var(--a-accent-text)] transition-colors">
-                {prevTrack.title}
-              </p>
-            </div>
-            <ArrowLeft className="h-5 w-5 shrink-0 text-[var(--a-muted)]" aria-hidden="true" />
-          </Link>
-
-          <Link
-            href={`/songs/${nextTrack.slug}`}
-            className="group flex items-center justify-between gap-4 border-t border-[var(--a-rule)] pt-4 no-underline text-[var(--a-ink)] sm:text-right hover:border-[var(--a-accent)]"
-          >
-            <ArrowRight
-              className="h-5 w-5 shrink-0 text-[var(--a-muted)] sm:order-2"
-              aria-hidden="true"
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={t.poster}
+              alt=""
+              loading="lazy"
+              className="h-56 sm:h-72 w-full object-cover opacity-60 transition-[opacity,transform] duration-700 group-hover:scale-[1.03] group-hover:opacity-75"
             />
-            <div className="space-y-1 sm:flex-1">
-              <span className="font-code text-[13px] text-[var(--a-muted)]">
-                Next Song ({nextTrack.number}) →
+            <div className="absolute inset-0 flex flex-col justify-end p-6 sm:p-10 text-white">
+              <span className="flex items-center gap-2 text-[13px] font-semibold uppercase tracking-[0.2em] text-white/80">
+                {icon} {label} song
               </span>
-              <p className="font-display text-2xl font-bold group-hover:text-[var(--a-accent-text)] transition-colors">
-                {nextTrack.title}
-              </p>
+              <span className="mt-2 font-display text-3xl sm:text-4xl font-bold">{t.title}</span>
             </div>
           </Link>
-        </div>
+        ))}
       </nav>
     </article>
   );

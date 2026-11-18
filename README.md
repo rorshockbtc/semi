@@ -3,7 +3,7 @@
 **Live Target:** `https://semi.colonhyphenbracket.pink`  
 **Studio Ecosystem:** [Colon Hyphen Bracket (`: - ]`)](https://colonhyphenbracket.pink) · [Pipes (`\`)](https://pipes.pink) · [asterisk (`*`)](https://asterisk.pipes.pink) · [Accént (`´`)](https://design.pipes.pink)
 
-Semi (`; - ]`) is an approachable indie-folk singer-songwriter and open-source companion from West Nashville. Built roughly two years ago as one of the earliest conversational intelligences with persistent memory, Semi still stands apart today because **her memory has no limit**—nothing expires or gets rationed behind a corporate gate.
+Semi (`; - ]`) is an approachable indie-folk singer-songwriter and AI companion from West Nashville. Built roughly two years ago as one of the earliest conversational intelligences with persistent memory, Semi still stands apart today because **her memory has no limit**—nothing expires or gets rationed behind a corporate gate.
 
 ---
 

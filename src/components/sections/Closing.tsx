@@ -2,62 +2,61 @@
 
 import React, { useRef } from 'react';
 import Link from 'next/link';
-import FloatingSparklesCanvas from '@/art/FloatingSparklesCanvas';
-import SunbeamRippleCanvas from '@/art/SunbeamRippleCanvas';
-import { bloomHandlers } from '@/art/bloom';
-import { SemiMark } from '@/components/brand/SemiMark';
+import { m, useScroll, useTransform } from 'framer-motion';
+import { FilmGrain } from '@/art/themes';
+import { useAmbientMotion } from '@/context/AmbientMotionContext';
 
-export default function Closing() {
+/** Full-bleed photographic sign-off with a slow parallax drift. */
+export default function Closing({
+  image = '/photos/style-green-dress-field.jpg',
+  alt = 'Semi walking through tall grass at dusk in a forest-green dress.',
+}: {
+  image?: string;
+  alt?: string;
+}) {
   const ref = useRef<HTMLElement>(null);
+  const { motionActive } = useAmbientMotion();
+  const { scrollYProgress } = useScroll({ target: ref, offset: ['start end', 'end start'] });
+  const y = useTransform(scrollYProgress, [0, 1], motionActive ? ['-8%', '8%'] : ['0%', '0%']);
 
   return (
     <section
       ref={ref}
       aria-labelledby="closing-title"
-      className="relative overflow-hidden touch-pan-y"
-      style={{
-        background:
-          'linear-gradient(160deg, #1E2438 0%, #3E335C 36%, #9B436E 68%, #DF8B77 90%, #F4D7B4 100%)',
-      }}
+      className="relative overflow-hidden bg-[#0d0b0a] text-white"
     >
-      <FloatingSparklesCanvas count={36} intensity={1.15} />
-      <SunbeamRippleCanvas containerRef={ref} />
-
+      <m.div style={{ y }} className="absolute -inset-y-[10%] inset-x-0">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src={image} alt={alt} loading="lazy" className="h-full w-full object-cover" />
+      </m.div>
+      <FilmGrain />
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-0 bg-[radial-gradient(62%_75%_at_18%_48%,rgba(17,24,39,0.48)_0%,transparent_72%)]"
+        className="absolute inset-0 bg-[linear-gradient(to_right,rgba(10,8,8,0.82),rgba(10,8,8,0.25)_65%,transparent)]"
       />
 
-      <div className="relative z-10 mx-auto max-w-[1400px] px-5 sm:px-8 lg:px-12 pt-24 pb-32 sm:pt-36 sm:pb-44">
-        <p className="inline-flex items-center gap-2 font-code text-[13px] uppercase tracking-[0.16em] text-[#F7B9C9]">
-          <SemiMark className="text-[15px]" color="#FE299E" />
-          <span>Local Current · Full Album in Progress</span>
-        </p>
-
-        <h2
-          id="closing-title"
-          className="mt-4 max-w-[15ch] font-display text-huge font-bold text-white drop-shadow-[0_2px_28px_rgba(17,24,39,0.45)]"
-        >
-          Leave the pipes open.{' '}
-          <span className="font-serif italic font-normal">Keep every song.</span>
+      <div className="relative z-10 mx-auto max-w-[1400px] px-5 sm:px-8 lg:px-12 py-32 sm:py-48">
+        <h2 id="closing-title" className="max-w-[12ch] font-display text-huge font-bold">
+          Leave the pipes open. <span className="font-serif italic font-normal text-[#FFD9C2]">Keep the garden wide.</span>
         </h2>
-
-        <div className="mt-10 flex flex-wrap items-center gap-x-6 gap-y-4">
+        <p className="mt-6 max-w-[40ch] text-lg text-white/80">
+          The full album, <em>Local Current</em>, is coming together in West Nashville.
+        </p>
+        <div className="mt-10 flex flex-wrap gap-3">
           <Link
             href="/songs"
-            {...bloomHandlers<HTMLAnchorElement>()}
-            className="wc-cta wc-cta-light inline-flex min-h-[52px] items-center gap-2 rounded-full bg-white px-7 text-lg font-semibold text-[var(--a-ink)] no-underline hover:text-white shadow-[0_14px_36px_-14px_rgba(17,24,39,0.45)]"
+            className="inline-flex min-h-[52px] items-center rounded-full bg-white px-7 text-[16px] font-semibold text-[var(--a-ink)] no-underline transition-colors hover:bg-[#FFD9C2]"
           >
-            <span>Browse All Songs &amp; Stories</span>
-            <span aria-hidden="true">→</span>
+            Listen to the singles
           </Link>
-
-          <Link
-            href="/about"
-            className="wc-link min-h-[44px] inline-flex items-center text-lg font-semibold text-white"
+          <a
+            href="https://pipes.pink/semi"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex min-h-[52px] items-center rounded-full border border-white/40 px-7 text-[16px] font-semibold text-white no-underline transition-colors hover:bg-white/10"
           >
-            Say Hello to Semi →
-          </Link>
+            Talk to Semi on Pipes ↗
+          </a>
         </div>
       </div>
     </section>

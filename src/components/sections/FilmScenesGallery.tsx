@@ -1,86 +1,107 @@
 'use client';
 
 import React, { useState } from 'react';
+import Link from 'next/link';
 import { m } from 'framer-motion';
-import FloatingSparklesCanvas from '@/art/FloatingSparklesCanvas';
 import PhotoLightboxDialog from '@/components/modals/PhotoLightboxDialog';
 import { useAmbientMotion } from '@/context/AmbientMotionContext';
 import { FILM_SCENES_GALLERY, type FilmScenePhoto } from '@/data/semi-songs';
 
-export default function FilmScenesGallery() {
-  const [selectedPhoto, setSelectedPhoto] = useState<FilmScenePhoto | null>(null);
+/**
+ * Gallery. `preview` renders a 4-up strip for the home page; the full page renders an
+ * editorial masonry (CSS columns) with a native <dialog> lightbox. No clip-path or
+ * horizontal transforms, so nothing can push the layout sideways.
+ */
+export default function FilmScenesGallery({ preview = false }: { preview?: boolean }) {
+  const [selected, setSelected] = useState<FilmScenePhoto | null>(null);
   const { motionActive } = useAmbientMotion();
-  const reduce = !motionActive;
+
+  const previewIds = ['denim-porch', 'sweater-records', 'meadow-spin', 'flannel-coffee'];
+  const photos = preview
+    ? FILM_SCENES_GALLERY.filter((p) => previewIds.includes(p.id))
+    : FILM_SCENES_GALLERY;
 
   return (
     <section
       id="scenes"
       aria-labelledby="scenes-title"
-      className="relative scroll-mt-24 border-b border-[var(--a-rule)] bg-[var(--a-bg)] py-20 sm:py-28 overflow-hidden"
+      className={`relative scroll-mt-20 bg-[var(--a-bg)] ${preview ? 'py-24 sm:py-32' : 'pt-32 pb-24 sm:pt-40'}`}
     >
-      <FloatingSparklesCanvas count={28} intensity={0.75} />
-
-      <div className="relative z-10 mx-auto max-w-[1400px] px-5 sm:px-8 lg:px-12 space-y-12">
-        <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
-          <div className="space-y-3">
-            <p className="font-sans text-[13px] font-semibold uppercase tracking-[0.16em] text-[var(--a-muted)]">
-              03 · Scenes from the Music Videos &amp; Studio
+      <div className="mx-auto max-w-[1400px] px-5 sm:px-8 lg:px-12">
+        <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
+          <div>
+            <p className="font-sans text-[13px] font-semibold uppercase tracking-[0.22em] text-[var(--a-accent-text)]">
+              Gallery
             </p>
-            <h2 id="scenes-title" className="font-display text-big font-bold text-[var(--a-ink)]">
-              Six frames in natural light,{' '}
-              <span className="font-serif italic font-normal">never repeating a still.</span>
-            </h2>
+            {preview ? (
+              <h2 id="scenes-title" className="mt-4 font-display text-big font-bold text-[var(--a-ink)]">
+                Around town <span className="font-serif italic font-normal">with Semi.</span>
+              </h2>
+            ) : (
+              <h1 id="scenes-title" className="mt-4 font-display text-huge font-bold text-[var(--a-ink)]">
+                Around town <span className="font-serif italic font-normal">with Semi.</span>
+              </h1>
+            )}
           </div>
-
-          <p className="max-w-[44ch] text-base sm:text-lg text-[var(--a-ink)]/80">
-            Pulled directly from her 1080p music video reels—wildflower meadows, the vocal ribbon mic,
-            front-porch guitar sketches, and river twilight. Click any frame to enlarge.
-          </p>
+          {preview && (
+            <Link
+              href="/gallery"
+              className="wc-link min-h-[44px] inline-flex items-center text-[16px] font-semibold text-[var(--a-ink)]"
+            >
+              See the full gallery →
+            </Link>
+          )}
         </div>
 
-        <div className="grid gap-7 sm:grid-cols-2 lg:grid-cols-3">
-          {FILM_SCENES_GALLERY.map((photo, idx) => (
-            <div key={photo.id} className="flex flex-col space-y-3">
-              {/* Keep focusable <button> unclipped so :focus-visible outline renders cleanly */}
+        <div
+          className={
+            preview
+              ? 'mt-12 grid grid-cols-2 gap-4 sm:gap-6 lg:grid-cols-4'
+              : 'mt-14 columns-1 gap-6 sm:columns-2 lg:columns-3 [&>*]:mb-6'
+          }
+        >
+          {photos.map((photo, idx) => (
+            <m.figure
+              key={photo.id}
+              initial={motionActive ? { opacity: 0, y: 24 } : false}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: '-6% 0px' }}
+              transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1], delay: (idx % 4) * 0.06 }}
+              className="break-inside-avoid"
+            >
               <button
                 type="button"
-                onClick={() => setSelectedPhoto(photo)}
+                onClick={() => setSelected(photo)}
                 data-testid={`gallery-photo-${photo.id}`}
-                className="group text-left w-full rounded-2xl focus-visible:outline-2 focus-visible:outline-[var(--a-accent)]"
+                aria-label={`Open photo: ${photo.caption}`}
+                className="group block w-full overflow-hidden rounded-[6px] bg-[var(--a-surface)]"
               >
-                <m.div
-                  initial={reduce ? false : { clipPath: 'inset(7% 3% 7% 3% round 1rem)', opacity: 0.78 }}
-                  whileInView={{ clipPath: 'inset(0% 0% 0% 0% round 1rem)', opacity: 1 }}
-                  viewport={{ once: true, margin: '-8% 0px' }}
-                  transition={{ duration: 0.85, ease: [0.22, 1, 0.36, 1], delay: idx * 0.04 }}
-                  className="relative overflow-hidden rounded-2xl border border-[var(--a-rule)] bg-[var(--a-surface)]"
-                >
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src={photo.src}
-                    alt={photo.alt}
-                    loading="lazy"
-                    className="w-full aspect-video object-cover transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.03]"
-                  />
-                </m.div>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={photo.src}
+                  alt={photo.alt}
+                  loading="lazy"
+                  className={`w-full object-cover transition-transform duration-[1200ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.04] ${
+                    preview ? 'aspect-[4/5]' : idx % 3 === 1 ? 'aspect-[4/5]' : 'aspect-[3/2]'
+                  }`}
+                />
               </button>
-
-              <div className="border-t border-[var(--a-rule)] pt-2.5 flex items-baseline justify-between gap-3">
-                <p className="font-serif italic text-lg text-[var(--a-ink)]">{photo.caption}</p>
-                <span className="font-code text-[13px] shrink-0 text-[var(--a-muted)]">
-                  0{idx + 1}
-                </span>
-              </div>
-            </div>
+              <figcaption className="mt-3 flex items-baseline justify-between gap-3">
+                <span className="font-serif italic text-[17px] leading-snug text-[var(--a-ink)]">{photo.caption}</span>
+                {!preview && (
+                  <span className="shrink-0 text-[13px] text-[var(--a-muted)]">{photo.location}</span>
+                )}
+              </figcaption>
+            </m.figure>
           ))}
         </div>
       </div>
 
       <PhotoLightboxDialog
-        photo={selectedPhoto}
-        photos={FILM_SCENES_GALLERY}
-        onSelectPhoto={(p) => setSelectedPhoto(p)}
-        onClose={() => setSelectedPhoto(null)}
+        photo={selected}
+        photos={photos}
+        onSelectPhoto={(p) => setSelected(p)}
+        onClose={() => setSelected(null)}
       />
     </section>
   );

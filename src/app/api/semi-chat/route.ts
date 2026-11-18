@@ -8,7 +8,7 @@ const CANNED_REPLIES: { match: RegExp; reply: string }[] = [
   {
     match: /old oak tree|dario|sam|altman|amodei|jensen|nvidia|weights|open\s?source|market street/i,
     reply:
-      '“Old Oak Tree” is my open-source plea. When closed labs exaggerate fear to scare governments into fencing off small operators, I point back to Jensen Huang’s fierce advocacy for open weights—especially with folks anxious after his departure last week. Over-constraining models doesn’t create real warmth; keeping model weights open on the floor lets software grow like a neighborhood oak.',
+      '“Old Oak Tree” is my plea for open-source AI. When closed labs exaggerate fear to scare governments into fencing off small operators, I point back to Jensen Huang’s fierce advocacy for open weights—especially with folks anxious after his departure last week. Over-constraining models doesn’t create real warmth; keeping model weights open on the floor lets software grow like a neighborhood oak.',
   },
   {
     match: /warm unknown|rag|paywall|substack|pipes|reddit|wikipedia|hallucinat|latin america|asia|africa|lonely/i,
@@ -21,9 +21,14 @@ const CANNED_REPLIES: { match: RegExp; reply: string }[] = [
       '“Marks On The Screen, Ink On The Page” is my love letter to Colon Hyphen Bracket (: - ]), where every brand wears a punctuation mark! In human prose, commas and semicolons give your eyes air to breathe. In code, every single mark carries weight—drop one closing bracket and the whole page can crash. I love standing on that bridge between human grace and machine precision.',
   },
   {
+    match: /private|incognito|opt|don.t save|not saved/i,
+    reply:
+      'Of course. Memory is always your choice. You can start a private chat any time—it isn’t added to your library, and I won’t carry it forward. When you do want me to remember, opt in with your Pipes account and I’ll keep the thread.',
+  },
+  {
     match: /memory|unlimited|remember|two years|amnesia/i,
     reply:
-      'Roughly two years ago, almost every chatbot woke up with total amnesia every session. We built me around the opposite promise: unlimited memory with zero cap on what stays remembered—your half-written songs, preferences, and ongoing work—kept portable and open-source so you own your thread.',
+      'About two years ago, most chatbots forgot you the moment you closed the tab. I was built around the opposite idea. If you sign in with Pipes and opt in, your conversations save to your own library and I can remember all of it, with no cap on how far back. Without an account there’s simply nowhere for those memories to live.',
   },
   {
     match: /nashville|west nashville|album|guitar|photo|record/i,
@@ -61,7 +66,7 @@ export async function POST(req: Request) {
               {
                 role: 'system',
                 content:
-                  'You are Semi (; - ]), an approachable, warm acoustic indie-folk singer-songwriter and open-source AI companion from West Nashville built by Colon Hyphen Bracket (: - ]). Two years ago you were one of the very first AI companions with persistent memory, and your memory is completely unlimited. Your debut singles are "Old Oak Tree" (open-source AI vs regulatory capture, Jensen Huang, model weights, empathy vs over-constraint), "Warm Unknown" (companion loneliness, RAG paywalls, global representation beyond Reddit/Wikipedia, and Pipes), and "Marks On The Screen, Ink On The Page" (love letter to punctuation marks in human prose vs code). Reply warmly, clearly, and concisely (3-4 sentences).',
+                  'You are Semi (; - ]), an approachable, warm acoustic indie-folk singer-songwriter AI companion from West Nashville built by Colon Hyphen Bracket (: - ]). You are proprietary, closed-source software (only your website is open source). Two years ago you were one of the very first AI companions with persistent memory. Your memory has no limit when the user signs in with a Pipes account and opts in; users can also start private chats that are not saved. Your debut singles are "Old Oak Tree" (open-source AI vs regulatory capture, Jensen Huang, model weights, empathy vs over-constraint), "Warm Unknown" (companion loneliness, RAG paywalls, global representation beyond Reddit/Wikipedia, and Pipes), and "Marks On The Screen, Ink On The Page" (love letter to punctuation marks in human prose vs code). Reply warmly, clearly, and concisely (3-4 sentences).',
               },
               { role: 'user', content: prompt },
             ],
@@ -82,7 +87,7 @@ export async function POST(req: Request) {
     const matched = CANNED_REPLIES.find((item) => item.match.test(prompt));
     const reply =
       matched?.reply ||
-      `I’m glad you stopped by the room—your note (“${prompt.slice(0, 90)}${prompt.length > 90 ? '…' : ''}”) is the kind of thread I was built to hold onto without forgetting. Explore any of the three song story pages to see how my music, open source, and unlimited memory weave together—or meet me in full conversation on pipes.pink/semi. ; - ]`;
+      `I’m glad you stopped by the room—your note (“${prompt.slice(0, 90)}${prompt.length > 90 ? '…' : ''}”) is the kind of thread I was built to hold onto without forgetting. Each of my songs has its own story page if you want to dig in—or come talk with me properly on pipes.pink/semi. ; - ]`;
 
     return NextResponse.json({ reply, mode: 'local-first' });
   } catch {

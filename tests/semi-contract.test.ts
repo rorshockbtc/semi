@@ -81,6 +81,11 @@ test('All v2 living loops, 16+ distinct photo stills, OG image, and icon exist',
     'public/photos/semi-standing-linen.jpg',
     'public/photos/semi-notebook-window.jpg',
     'public/photos/semi-coffee-journal.jpg',
+    'public/photos/style-denim-porch.jpg',
+    'public/photos/style-sweater-records.jpg',
+    'public/photos/style-green-dress-field.jpg',
+    'public/photos/style-black-turtleneck-studio.jpg',
+    'public/photos/style-flannel-coffee.jpg',
     'public/og-semi.jpg',
     'public/icon.svg',
   ];
@@ -95,7 +100,7 @@ test('Zero duplicate image paths across song posters, essay plates, and home fil
   const { FILM_SCENES_GALLERY, SEMI_TRACKS } = await import('../src/data/semi-songs.ts');
 
   assert.equal(SEMI_TRACKS.length, 3);
-  assert.equal(FILM_SCENES_GALLERY.length, 6);
+  assert.equal(FILM_SCENES_GALLERY.length, 8);
 
   const usedImages: string[] = [];
   for (const track of SEMI_TRACKS) {
@@ -142,5 +147,13 @@ test('Strict brand spelling (Semi, never Simmy/Simi), zero internal jargon, and 
     const rel = path.relative(ROOT, file);
     assert.equal(forbiddenWords.test(content), false, `Forbidden term detected in ${rel}`);
     assert.equal(sub13Text.test(content), false, `Sub-13px micro-text class detected in ${rel}`);
+  }
+});
+
+test('Semi is never described as open source in site copy (only the website is)', () => {
+  const files = walkFiles(path.join(ROOT, 'src'), new Set(['.ts', '.tsx']));
+  const bad = /(open[- ]source (ai )?companion|semi is (fiercely )?(pro-)?open[- ]source|apache[- ]2\.0)/i;
+  for (const file of files) {
+    assert.equal(bad.test(fs.readFileSync(file, 'utf8')), false, `Open-source claim about Semi in ${path.relative(ROOT, file)}`);
   }
 });

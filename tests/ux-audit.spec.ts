@@ -53,37 +53,40 @@ test.describe('UX & Visual Ergonomics Audit (Multi-Page Desktop 1440×900 & Mobi
       Array.from(document.querySelectorAll('img')).map((img) => img.getAttribute('src'))
     );
     expect(new Set(homeImgSrcs).size).toBe(homeImgSrcs.length);
-    await page.screenshot({ path: path.join(SCREENSHOT_DIR, 'desktop-home-v2.png') });
+    await page.screenshot({ path: path.join(SCREENSHOT_DIR, 'desktop-home-v3.png') });
 
-    await page.evaluate(() => {
-      const el = document.getElementById('songs');
-      if (el) window.scrollTo({ top: el.offsetTop - 80, behavior: 'instant' as ScrollBehavior });
-    });
-    await page.waitForTimeout(450);
-    await page.screenshot({ path: path.join(SCREENSHOT_DIR, 'desktop-songs-home-v2.png') });
+    for (const id of ['songs', 'story']) {
+      await page.evaluate((sid) => {
+        const el = document.getElementById(sid);
+        if (el) window.scrollTo({ top: el.offsetTop - 40, behavior: 'instant' as ScrollBehavior });
+      }, id);
+      await page.waitForTimeout(900);
+      await page.screenshot({ path: path.join(SCREENSHOT_DIR, `desktop-home-${id}-v3.png`) });
+    }
 
     await page.evaluate(() => {
       const el = document.getElementById('scenes');
       if (el) window.scrollTo({ top: el.offsetTop - 80, behavior: 'instant' as ScrollBehavior });
     });
     await page.waitForTimeout(550);
-    await page.screenshot({ path: path.join(SCREENSHOT_DIR, 'desktop-gallery-v2.png') });
+    await page.screenshot({ path: path.join(SCREENSHOT_DIR, 'desktop-home-gallery-v3.png') });
 
     // 2. Song Story Pages
     await auditRouteErgonomics(page, '/songs/old-oak-tree');
-    await page.screenshot({ path: path.join(SCREENSHOT_DIR, 'desktop-song-oak-tree.png') });
+    await page.screenshot({ path: path.join(SCREENSHOT_DIR, 'desktop-song-oak-tree-v3.png') });
 
     await auditRouteErgonomics(page, '/songs/warm-unknown');
-    await page.screenshot({ path: path.join(SCREENSHOT_DIR, 'desktop-song-warm-unknown.png') });
+    await page.screenshot({ path: path.join(SCREENSHOT_DIR, 'desktop-song-warm-unknown-v3.png') });
 
     await auditRouteErgonomics(page, '/songs/marks-on-the-screen-ink-on-the-page');
-    await page.screenshot({ path: path.join(SCREENSHOT_DIR, 'desktop-song-marks-ink.png') });
+    await page.screenshot({ path: path.join(SCREENSHOT_DIR, 'desktop-song-marks-ink-v3.png') });
 
     // 3. Songs Index, About & Colophon
     await auditRouteErgonomics(page, '/songs');
     await auditRouteErgonomics(page, '/about');
-    await page.screenshot({ path: path.join(SCREENSHOT_DIR, 'desktop-about-v2.png') });
-    await auditRouteErgonomics(page, '/colophon');
+    await page.screenshot({ path: path.join(SCREENSHOT_DIR, 'desktop-about-v3.png') });
+    await auditRouteErgonomics(page, '/gallery');
+    await page.screenshot({ path: path.join(SCREENSHOT_DIR, 'desktop-gallery-page-v3.png') });
 
     expect(errors).toEqual([]);
   });
@@ -110,10 +113,10 @@ test.describe('UX & Visual Ergonomics Audit (Multi-Page Desktop 1440×900 & Mobi
       expect(ctaBox.height).toBeGreaterThanOrEqual(44);
     }
 
-    await page.screenshot({ path: path.join(SCREENSHOT_DIR, 'mobile-home-v2.png') });
+    await page.screenshot({ path: path.join(SCREENSHOT_DIR, 'mobile-home-v3.png') });
 
     await auditRouteErgonomics(page, '/songs/old-oak-tree');
-    await page.screenshot({ path: path.join(SCREENSHOT_DIR, 'mobile-song-oak-tree.png') });
+    await page.screenshot({ path: path.join(SCREENSHOT_DIR, 'mobile-song-oak-tree-v3.png') });
     await auditRouteErgonomics(page, '/about');
 
     expect(errors).toEqual([]);

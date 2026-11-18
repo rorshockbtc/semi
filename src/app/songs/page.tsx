@@ -6,54 +6,39 @@ import Closing from '@/components/sections/Closing';
 import { FORTHCOMING_TRACKS } from '@/data/semi-songs';
 
 export const metadata: Metadata = {
-  title: 'Songs & Stories (Local Current)',
+  title: 'Songs',
   description:
-    'Listen to Semi’s debut indie-folk singles, watch the YouTube music videos, download DRM-free 320 kbps MP3s, and read the story behind each track.',
+    'Semi’s debut singles: watch the videos, read the story behind each song, and download free 320 kbps MP3s.',
 };
 
 export default function SongsIndexPage() {
   return (
     <>
       <SiteHeader />
-      <main id="main" className="flex-1 pt-12 sm:pt-16">
-        <FeaturedSongsSection />
+      <main id="main" className="flex-1 pt-10">
+        <FeaturedSongsSection eyebrow="Songs" />
 
-        <section
-          aria-labelledby="forthcoming-title"
-          className="bg-[var(--a-surface)] border-b border-[var(--a-rule)] py-16 sm:py-24"
-        >
-          <div className="mx-auto max-w-[1400px] px-5 sm:px-8 lg:px-12 space-y-8">
-            <div className="space-y-2">
-              <p className="font-code text-[13px] uppercase tracking-[0.14em] text-[var(--a-accent-text)]">
-                Side B · Forthcoming on Local Current
-              </p>
-              <h2 id="forthcoming-title" className="font-display text-3xl sm:text-4xl font-bold text-[var(--a-ink)]">
-                More tracks taking shape in West Nashville.
+        <section aria-labelledby="forthcoming-title" className="border-t border-[var(--a-rule)] bg-[var(--a-surface)] py-20 sm:py-28">
+          <div className="mx-auto grid max-w-[1400px] gap-10 px-5 sm:px-8 lg:px-12 lg:grid-cols-12">
+            <div className="lg:col-span-4">
+              <p className="font-sans text-[13px] font-semibold uppercase tracking-[0.22em] text-[var(--a-accent-text)]">Coming next</p>
+              <h2 id="forthcoming-title" className="mt-4 font-display text-3xl sm:text-4xl font-bold text-[var(--a-ink)]">
+                The rest of <span className="font-serif italic font-normal">Local Current.</span>
               </h2>
             </div>
-
-            <ol className="divide-y divide-[var(--a-rule)] border-y border-[var(--a-rule)]">
+            <ol className="lg:col-span-8 divide-y divide-[var(--a-rule)] border-y border-[var(--a-rule)]">
               {FORTHCOMING_TRACKS.map((ft) => (
-                <li
-                  key={ft.number}
-                  className="py-5 flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-2"
-                >
-                  <div className="flex items-baseline gap-4">
-                    <span className="font-code text-[14px] text-[var(--a-accent-text)]">
-                      {ft.number}
-                    </span>
-                    <span className="font-display text-2xl font-bold text-[var(--a-ink)]">
-                      {ft.title}
-                    </span>
-                  </div>
-                  <span className="text-base text-[var(--a-muted)] pl-8 sm:pl-0">{ft.note}</span>
+                <li key={ft.number} className="grid grid-cols-[3rem_1fr] gap-x-4 py-5 sm:grid-cols-[3rem_1fr_1.4fr] sm:items-baseline">
+                  <span className="font-code text-[14px] text-[var(--a-muted)]">{ft.number}</span>
+                  <span className="font-display text-2xl font-bold text-[var(--a-ink)]">{ft.title}</span>
+                  <span className="col-start-2 sm:col-start-3 text-[15px] text-[var(--a-muted)]">{ft.note}</span>
                 </li>
               ))}
             </ol>
           </div>
         </section>
 
-        <Closing />
+        <Closing image="/photos/style-denim-porch.jpg" alt="Semi on porch steps between two acoustic guitars." />
       </main>
       <SiteFooter />
     </>

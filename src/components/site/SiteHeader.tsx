@@ -3,181 +3,133 @@
 import React, { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { ChevronDown, Pause, Play } from 'lucide-react';
-import { bloomHandlers } from '@/art/bloom';
+import { Menu, Pause, Play, X } from 'lucide-react';
 import { SemiMark } from '@/components/brand/SemiMark';
 import { useAmbientMotion } from '@/context/AmbientMotionContext';
 
 const NAV_ITEMS = [
-  { href: '/songs', label: 'Songs & Stories', match: (p: string) => p.startsWith('/songs') },
-  { href: '/about', label: 'Unlimited Memory', match: (p: string) => p === '/about' },
-  { href: '/#scenes', label: 'Film Gallery', match: () => false },
-  { href: '/colophon', label: 'Colophon', match: (p: string) => p === '/colophon' },
+  { href: '/songs', label: 'Songs', match: (p: string) => p.startsWith('/songs') },
+  { href: '/gallery', label: 'Gallery', match: (p: string) => p === '/gallery' },
+  { href: '/about', label: 'About', match: (p: string) => p === '/about' },
 ];
+
+/** Routes whose first screen is a full-bleed dark film, so the bar starts in light ink. */
+const DARK_HERO_ROUTES = new Set(['/']);
 
 export default function SiteHeader() {
   const pathname = usePathname() || '/';
-  const isHome = pathname === '/';
   const { motionActive, togglePause } = useAmbientMotion();
   const [scrolled, setScrolled] = useState(false);
-  const mobileMenuRef = useRef<HTMLDetailsElement>(null);
+  const [open, setOpen] = useState(false);
+  const panelRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 24);
+    const onScroll = () => setScrolled(window.scrollY > 40);
     onScroll();
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
   useEffect(() => {
-    const details = mobileMenuRef.current;
-    if (!details) return;
-    const onPointerDown = (e: PointerEvent) => {
-      if (details.open && !details.contains(e.target as Node)) {
-        details.open = false;
-      }
-    };
-    const onKeyDown = (e: KeyboardEvent) => {
-      if (details.open && e.key === 'Escape') {
-        details.open = false;
-      }
-    };
-    document.addEventListener('pointerdown', onPointerDown);
-    document.addEventListener('keydown', onKeyDown);
-    return () => {
-      document.removeEventListener('pointerdown', onPointerDown);
-      document.removeEventListener('keydown', onKeyDown);
-    };
-  }, []);
+    if (!open) return;
+    const onKey = (e: KeyboardEvent) => e.key === 'Escape' && setOpen(false);
+    document.addEventListener('keydown', onKey);
+    return () => document.removeEventListener('keydown', onKey);
+  }, [open]);
 
-  function closeMobileMenu() {
-    if (mobileMenuRef.current) mobileMenuRef.current.open = false;
-  }
+  const onDark = DARK_HERO_ROUTES.has(pathname) && !scrolled && !open;
+  const ink = onDark ? 'text-white' : 'text-[var(--a-ink)]';
 
   return (
     <header
-      className={`fixed inset-x-0 top-0 z-50 transition-[background-color,border-color,backdrop-filter] duration-300 ${
-        scrolled
-          ? 'border-b border-[var(--a-rule)] bg-[var(--a-bg)]/92 backdrop-blur-md'
-          : 'border-b border-transparent bg-transparent'
+      className={`fixed inset-x-0 top-0 z-50 transition-[background-color,border-color,color] duration-500 ${
+        onDark
+          ? 'border-b border-transparent bg-gradient-to-b from-black/45 to-transparent'
+          : 'border-b border-[var(--a-rule)] bg-[var(--a-bg)]/88 backdrop-blur-md'
       }`}
     >
-      <div className="mx-auto flex h-16 sm:h-20 max-w-[1400px] items-center justify-between gap-2 sm:gap-4 px-4 sm:px-8 lg:px-12">
+      <div className="mx-auto flex h-16 sm:h-[72px] max-w-[1400px] items-center justify-between gap-3 px-4 sm:px-8 lg:px-12">
         <Link
           href="/"
           data-testid="brand-logo"
-          className="inline-flex min-h-[44px] shrink-0 items-center gap-2 font-display text-[22px] sm:text-2xl font-bold tracking-[-0.02em] text-[var(--a-ink)] no-underline whitespace-nowrap"
+          className={`inline-flex min-h-[44px] shrink-0 items-center gap-2.5 no-underline ${ink}`}
         >
-          <span>semi</span>
-          <SemiMark className="text-[20px] sm:text-[22px]" color="#FE299E" />
+          <span className="font-display text-[24px] font-bold tracking-[-0.02em]">Semi</span>
+          <SemiMark className="text-[19px]" color="#FE299E" />
         </Link>
 
-        <nav aria-label="Primary navigation" className="hidden lg:flex items-center gap-7">
+        <nav aria-label="Primary navigation" className="hidden md:flex items-center gap-1">
           {NAV_ITEMS.map((item) => {
             const active = item.match(pathname);
             return (
               <Link
                 key={item.href}
                 href={item.href}
-                data-active={active ? 'true' : undefined}
-                className="wc-link min-h-[44px] inline-flex items-center text-[15px] font-medium text-[var(--a-ink)]/85 hover:text-[var(--a-ink)]"
+                aria-current={active ? 'page' : undefined}
+                className={`relative min-h-[44px] inline-flex items-center px-4 text-[15px] font-medium no-underline transition-opacity ${ink} ${
+                  active ? 'opacity-100' : 'opacity-75 hover:opacity-100'
+                }`}
               >
                 {item.label}
+                {active && (
+                  <span className="absolute left-4 right-4 bottom-2 h-[2px] rounded-full bg-[var(--a-accent)]" />
+                )}
               </Link>
             );
           })}
         </nav>
 
-        <div className="flex items-center gap-2 sm:gap-3">
-          {/* WCAG 2.2.2 Pause/Play control for continuous sparkles & film loops; omits aria-pressed */}
+        <div className="flex items-center gap-2">
+          {/* WCAG 2.2.2 pause control for looping film & ambient motion; label swaps, no aria-pressed */}
           <button
             type="button"
             onClick={togglePause}
             data-testid="motion-toggle"
             aria-label={motionActive ? 'Pause motion' : 'Play motion'}
-            className="inline-flex min-h-[44px] min-w-[44px] items-center justify-center gap-2 rounded-full border border-[var(--a-rule)] bg-[var(--a-surface)]/90 px-3 sm:px-4 text-[13px] font-medium text-[var(--a-ink)] transition-colors hover:border-[var(--a-ink)]"
+            className={`inline-flex min-h-[44px] min-w-[44px] items-center justify-center rounded-full transition-colors ${
+              onDark ? 'text-white hover:bg-white/15' : 'text-[var(--a-ink)] hover:bg-[var(--a-surface)]'
+            }`}
           >
-            {motionActive ? (
-              <Pause className="h-4 w-4 shrink-0" aria-hidden="true" />
-            ) : (
-              <Play className="h-4 w-4 shrink-0" aria-hidden="true" />
-            )}
-            <span className="hidden sm:inline">
-              {motionActive ? 'Pause motion' : 'Play motion'}
-            </span>
+            {motionActive ? <Pause className="h-4 w-4" aria-hidden="true" /> : <Play className="h-4 w-4" aria-hidden="true" />}
           </button>
 
           <Link
-            href={isHome ? '#songs' : '/songs'}
+            href="/songs"
             data-testid="header-listen-cta"
-            {...bloomHandlers<HTMLAnchorElement>()}
-            className="wc-cta inline-flex min-h-[44px] shrink-0 items-center gap-1.5 rounded-full bg-[var(--a-accent-fill)] px-4 sm:px-5 text-[14px] sm:text-[15px] font-semibold text-white no-underline shadow-[0_10px_28px_-10px_rgba(254,41,158,0.65)] whitespace-nowrap"
+            className="inline-flex min-h-[44px] shrink-0 items-center rounded-full bg-[var(--a-accent-fill)] px-5 text-[15px] font-semibold text-white no-underline transition-colors hover:bg-[var(--a-ink)]"
           >
-            <span>Listen</span>
-            <span aria-hidden="true">{isHome ? '↓' : '→'}</span>
+            Listen
           </Link>
 
-          <details ref={mobileMenuRef} className="relative lg:hidden">
-            <summary className="list-none cursor-pointer min-h-[44px] min-w-[44px] inline-flex items-center justify-center gap-1 rounded-full border border-[var(--a-rule)] bg-[var(--a-surface)]/90 px-3 text-[14px] font-medium text-[var(--a-ink)]">
-              <span>Menu</span>
-              <ChevronDown className="h-4 w-4" aria-hidden="true" />
-            </summary>
-            <div className="absolute right-0 mt-2 w-64 rounded-2xl border border-[var(--a-rule)] bg-[var(--a-well)] p-2 shadow-xl">
-              <nav aria-label="Mobile navigation" className="flex flex-col">
-                <Link
-                  href="/"
-                  onClick={closeMobileMenu}
-                  className="min-h-[44px] flex items-center rounded-xl px-4 text-[15px] font-medium text-[var(--a-ink)] no-underline hover:bg-[var(--a-surface)]"
-                >
-                  Home
-                </Link>
-                <Link
-                  href="/songs"
-                  onClick={closeMobileMenu}
-                  className="min-h-[44px] flex items-center rounded-xl px-4 text-[15px] font-medium text-[var(--a-ink)] no-underline hover:bg-[var(--a-surface)]"
-                >
-                  All Songs &amp; Stories
-                </Link>
-                <Link
-                  href="/songs/old-oak-tree"
-                  onClick={closeMobileMenu}
-                  className="min-h-[44px] flex items-center rounded-xl px-4 text-[14px] text-[var(--a-muted)] no-underline hover:bg-[var(--a-surface)] hover:text-[var(--a-ink)]"
-                >
-                  01 · Old Oak Tree
-                </Link>
-                <Link
-                  href="/songs/warm-unknown"
-                  onClick={closeMobileMenu}
-                  className="min-h-[44px] flex items-center rounded-xl px-4 text-[14px] text-[var(--a-muted)] no-underline hover:bg-[var(--a-surface)] hover:text-[var(--a-ink)]"
-                >
-                  02 · Warm Unknown
-                </Link>
-                <Link
-                  href="/songs/marks-on-the-screen-ink-on-the-page"
-                  onClick={closeMobileMenu}
-                  className="min-h-[44px] flex items-center rounded-xl px-4 text-[14px] text-[var(--a-muted)] no-underline hover:bg-[var(--a-surface)] hover:text-[var(--a-ink)]"
-                >
-                  03 · Marks On The Screen
-                </Link>
-                <Link
-                  href="/about"
-                  onClick={closeMobileMenu}
-                  className="min-h-[44px] flex items-center rounded-xl px-4 text-[15px] font-medium text-[var(--a-ink)] no-underline hover:bg-[var(--a-surface)]"
-                >
-                  Unlimited Memory &amp; About
-                </Link>
-                <Link
-                  href="/colophon"
-                  onClick={closeMobileMenu}
-                  className="min-h-[44px] flex items-center rounded-xl px-4 text-[15px] font-medium text-[var(--a-accent-text)] no-underline hover:bg-[var(--a-surface)]"
-                >
-                  Colophon &amp; Craft
-                </Link>
-              </nav>
-            </div>
-          </details>
+          <button
+            type="button"
+            onClick={() => setOpen((v) => !v)}
+            aria-expanded={open}
+            aria-controls="mobile-nav"
+            aria-label={open ? 'Close menu' : 'Open menu'}
+            className={`md:hidden inline-flex min-h-[44px] min-w-[44px] items-center justify-center rounded-full ${ink}`}
+          >
+            {open ? <X className="h-5 w-5" aria-hidden="true" /> : <Menu className="h-5 w-5" aria-hidden="true" />}
+          </button>
         </div>
       </div>
+
+      {open && (
+        <div id="mobile-nav" ref={panelRef} className="md:hidden border-t border-[var(--a-rule)] bg-[var(--a-bg)]">
+          <nav aria-label="Mobile navigation" className="mx-auto flex max-w-[1400px] flex-col px-4 py-3">
+            {[{ href: '/', label: 'Home' }, ...NAV_ITEMS].map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                onClick={() => setOpen(false)}
+                className="min-h-[52px] flex items-center border-b border-[var(--a-rule)] last:border-b-0 font-display text-2xl font-bold text-[var(--a-ink)] no-underline"
+              >
+                {item.label}
+              </Link>
+            ))}
+          </nav>
+        </div>
+      )}
     </header>
   );
 }
