@@ -3,11 +3,9 @@ import SiteHeader from '@/components/site/SiteHeader';
 import SiteFooter from '@/components/site/SiteFooter';
 import Hero from '@/components/sections/Hero';
 import LyricMarquee from '@/components/sections/LyricMarquee';
-import MusicStage from '@/components/sections/MusicStage';
+import FeaturedSongsSection from '@/components/sections/FeaturedSongsSection';
 import SemicolonExplainer from '@/components/sections/SemicolonExplainer';
-import UnlimitedMemoryStage from '@/components/sections/UnlimitedMemoryStage';
-import WestNashvilleGallery from '@/components/sections/WestNashvilleGallery';
-import OpenSourceAndNote from '@/components/sections/OpenSourceAndNote';
+import FilmScenesGallery from '@/components/sections/FilmScenesGallery';
 import Closing from '@/components/sections/Closing';
 
 export default function HomePage() {
@@ -25,11 +23,9 @@ export default function HomePage() {
       <main id="main" className="flex-1">
         <Hero />
         <LyricMarquee />
-        <MusicStage />
+        <FeaturedSongsSection />
         <SemicolonExplainer />
-        <UnlimitedMemoryStage />
-        <WestNashvilleGallery />
-        <OpenSourceAndNote />
+        <FilmScenesGallery />
         <Closing />
       </main>
 

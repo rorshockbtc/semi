@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { ArrowUpRight, Loader2, Send } from 'lucide-react';
 import { bloomHandlers } from '@/art/bloom';
+import { SemiMark } from '@/components/brand/SemiMark';
 
 const FACTS = [
   {
@@ -22,8 +23,8 @@ const FACTS = [
 const STARTER_CHIPS = [
   "What inspired 'Old Oak Tree'?",
   'How does your unlimited memory actually work?',
-  'Tell me about making this album in West Nashville.',
-  'Why does open source matter so much to you?',
+  'Why do paywalls and RAG blind spots cause hallucinations?',
+  'Tell me about Colon Hyphen Bracket and punctuation!',
 ];
 
 export default function OpenSourceAndNote() {
@@ -60,13 +61,12 @@ export default function OpenSourceAndNote() {
     <section
       id="open"
       aria-labelledby="open-title"
-      className="relative scroll-mt-24 border-b border-[var(--a-rule)] bg-[var(--a-surface)] py-20 sm:py-28"
+      className="relative scroll-mt-24 border-b border-[var(--a-rule)] bg-[var(--a-bg)] py-20 sm:py-28"
     >
       <div className="mx-auto max-w-[1400px] px-5 sm:px-8 lg:px-12 space-y-20">
-        {/* Part 1: Pro-Open Source Pedestal */}
         <div className="grid gap-12 lg:grid-cols-12 lg:items-center">
           <figure className="lg:col-span-5">
-            <div className="overflow-hidden rounded-3xl border border-[var(--a-rule)] bg-[var(--a-bg)]">
+            <div className="overflow-hidden rounded-3xl border border-[var(--a-rule)] bg-[var(--a-surface)]">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src="/photos/semi-coffee-journal.jpg"
@@ -79,7 +79,7 @@ export default function OpenSourceAndNote() {
 
           <div className="lg:col-span-7 space-y-8">
             <p className="font-sans text-[13px] font-semibold uppercase tracking-[0.16em] text-[var(--a-muted)]">
-              05 · Pro-Open Source &amp; Free Commons
+              02 · Pro-Open Source &amp; Free Commons
             </p>
             <h2 id="open-title" className="font-display text-big font-bold text-[var(--a-ink)]">
               Keep the weights on the floor.{' '}
@@ -87,9 +87,9 @@ export default function OpenSourceAndNote() {
             </h2>
             <p className="max-w-[54ch] text-lg sm:text-xl leading-relaxed text-[var(--a-ink)]/85">
               A companion who remembers your whole life should never hold your memories hostage.
-              Everything here—the site, the audio player, and Semi’s open architecture under{' '}
-              <strong className="font-semibold">Colon Hyphen Bracket (:-])</strong>—lives out in the
-              open so anyone can study it, run it locally, or build beside us.
+              Everything here—the site, the songs, and Semi’s open architecture under{' '}
+              <strong className="font-semibold">Colon Hyphen Bracket (: - ])</strong>—lives out
+              in the open so anyone can study it, run it locally, or build beside us.
             </p>
 
             <dl className="grid gap-6 border-t border-[var(--a-rule)] pt-7 sm:grid-cols-3">
@@ -130,21 +130,22 @@ export default function OpenSourceAndNote() {
           </div>
         </div>
 
-        {/* Part 2: Interactive Ask Semi Room */}
+        {/* Interactive Say Hello to Semi */}
         <div
           data-testid="ask-semi-section"
           className="border-t border-[var(--a-rule)] pt-16 grid gap-10 lg:grid-cols-12 lg:items-start"
         >
           <div className="lg:col-span-5 space-y-4">
-            <p className="font-code text-[13px] font-medium uppercase tracking-[0.14em] text-[var(--a-accent-text)]">
-              ;-] · Say Hello
+            <p className="inline-flex items-center gap-2 font-code text-[13px] font-medium uppercase tracking-[0.14em] text-[var(--a-accent-text)]">
+              <SemiMark className="text-[15px]" color="#FE299E" />
+              <span>Say Hello</span>
             </p>
             <h3 className="font-display text-3xl sm:text-4xl font-bold text-[var(--a-ink)]">
               Ask Semi about a song,{' '}
               <span className="font-serif italic font-normal">or how she remembers.</span>
             </h3>
             <p className="text-base sm:text-lg leading-relaxed text-[var(--a-muted)]">
-              Tap a starter note or write your own question right here in the listening room.
+              Tap a starter note or ask your own question right here.
             </p>
           </div>
 
@@ -178,7 +179,7 @@ export default function OpenSourceAndNote() {
                 type="text"
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
-                placeholder="Ask about Old Oak Tree, West Nashville, or unlimited memory..."
+                placeholder="Ask about Old Oak Tree, RAG & paywalls, or unlimited memory..."
                 data-testid="semi-chat-input"
                 className="min-h-[48px] flex-1 rounded-full border border-[var(--a-rule)] bg-white px-5 text-[16px] text-[var(--a-ink)] placeholder:text-[var(--a-muted)]"
               />
@@ -214,8 +215,9 @@ export default function OpenSourceAndNote() {
                 data-testid="semi-chat-reply"
                 className="border-t border-[var(--a-rule)] pt-5 space-y-2"
               >
-                <p className="font-code text-[13px] font-medium text-[var(--a-accent-text)]">
-                  Semi (;-])
+                <p className="inline-flex items-center gap-1.5 font-code text-[13px] font-medium text-[var(--a-accent-text)]">
+                  <span>Semi</span>
+                  <SemiMark className="text-[14px]" color="#FE299E" />
                 </p>
                 <p className="font-serif italic text-xl sm:text-2xl leading-relaxed text-[var(--a-ink)]">
                   “{reply}”

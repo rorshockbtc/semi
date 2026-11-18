@@ -4,10 +4,12 @@ import React, { useEffect } from 'react';
 import { usePathname } from 'next/navigation';
 import { MotionProvider } from 'accent-ui/motion';
 import { AmbientMotionProvider } from '@/context/AmbientMotionContext';
+import { AudioPlayerProvider } from '@/context/AudioPlayerContext';
+import PersistentAudioDock from '@/components/site/PersistentAudioDock';
 
 /**
- * Client shell wrapping Accént's MotionProvider (`LazyMotion` + reduced motion)
- * and Semi's explicit ambient motion pause/play controller.
+ * Client shell wrapping Accént's MotionProvider, Semi's ambient pause/play controller,
+ * and the site-wide persistent audio player so songs keep playing across page navigation.
  */
 export default function AccentClientShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -21,7 +23,12 @@ export default function AccentClientShell({ children }: { children: React.ReactN
 
   return (
     <MotionProvider>
-      <AmbientMotionProvider>{children}</AmbientMotionProvider>
+      <AmbientMotionProvider>
+        <AudioPlayerProvider>
+          {children}
+          <PersistentAudioDock />
+        </AudioPlayerProvider>
+      </AmbientMotionProvider>
     </MotionProvider>
   );
 }

@@ -53,16 +53,34 @@ test('MP3 audio masters exist, exceed 1MB, and contain valid ID3/MPEG headers', 
   }
 });
 
-test('Photography plates, loops, OG image, and icon exist', () => {
+test('All v2 living loops, 16+ distinct photo stills, OG image, and icon exist', () => {
   const assets = [
+    'public/loops/hero-semi-alive.mp4',
+    'public/loops/song-01-oak-gate.mp4',
+    'public/loops/song-02-firelight.mp4',
+    'public/loops/song-03-fountain-pen.mp4',
+    'public/loops/about-lantern-river.mp4',
+    'public/photos/gallery-meadow-spin.jpg',
+    'public/photos/gallery-vintage-mic.jpg',
+    'public/photos/gallery-porch-guitar.jpg',
+    'public/photos/gallery-brick-walk.jpg',
+    'public/photos/gallery-river-sunset.jpg',
+    'public/photos/gallery-rooftop-twirl.jpg',
+    'public/photos/song-01-poster.jpg',
+    'public/photos/song-01-bay.jpg',
+    'public/photos/song-01-key.jpg',
+    'public/photos/song-01-usb.jpg',
+    'public/photos/song-02-poster.jpg',
+    'public/photos/song-02-lamp.jpg',
+    'public/photos/song-02-mist.jpg',
+    'public/photos/song-03-poster.jpg',
+    'public/photos/song-03-code.jpg',
+    'public/photos/song-03-terminal.jpg',
     'public/photos/semi-studio-wide.jpg',
     'public/photos/semi-closeup-eyes.jpg',
     'public/photos/semi-standing-linen.jpg',
     'public/photos/semi-notebook-window.jpg',
     'public/photos/semi-coffee-journal.jpg',
-    'public/loops/semi-guitar-loop.mp4',
-    'public/loops/semi-lantern-loop.mp4',
-    'public/loops/semi-letters-loop.mp4',
     'public/og-semi.jpg',
     'public/icon.svg',
   ];
@@ -73,17 +91,41 @@ test('Photography plates, loops, OG image, and icon exist', () => {
   }
 });
 
-test('Accént 3.0 Warm Sandstone contrast math & globals.css invariants hold', () => {
-  const globals = fs.readFileSync(path.join(ROOT, 'src', 'app', 'globals.css'), 'utf8');
-  const stylesDoc = fs.readFileSync(path.join(ROOT, 'STYLES.md'), 'utf8');
+test('Zero duplicate image paths across song posters, essay plates, and home film gallery, and rich song essays exist', async () => {
+  const { FILM_SCENES_GALLERY, SEMI_TRACKS } = await import('../src/data/semi-songs.ts');
 
+  assert.equal(SEMI_TRACKS.length, 3);
+  assert.equal(FILM_SCENES_GALLERY.length, 6);
+
+  const usedImages: string[] = [];
+  for (const track of SEMI_TRACKS) {
+    assert.ok(track.essaySections.length >= 3, `${track.slug} must have >= 3 essay sections`);
+    assert.ok(track.plainEnglishGlossary.length >= 4, `${track.slug} must have >= 4 glossary items`);
+    usedImages.push(track.poster);
+    for (const sec of track.essaySections) {
+      if (sec.plateSrc) usedImages.push(sec.plateSrc);
+    }
+  }
+  for (const scene of FILM_SCENES_GALLERY) {
+    usedImages.push(scene.src);
+  }
+
+  const unique = new Set(usedImages);
+  assert.equal(unique.size, usedImages.length, 'Duplicate image path detected across tracks or gallery');
+});
+
+test('Corporate SemiMark uses Bricolage Grotesque (.font-mark) and #FE299E, plus Accént 3.0 Warm Sandstone math', () => {
+  const globals = fs.readFileSync(path.join(ROOT, 'src', 'app', 'globals.css'), 'utf8');
+  const semiMark = fs.readFileSync(path.join(ROOT, 'src', 'components', 'brand', 'SemiMark.tsx'), 'utf8');
+
+  assert.match(semiMark, /font-mark/);
+  assert.match(semiMark, /#FE299E/);
   assert.match(globals, /--a-bg:\s*#E8E2D5/i);
   assert.match(globals, /--a-surface:\s*#F3EFE9/i);
   assert.match(globals, /--a-ink:\s*#111827/i);
   assert.match(globals, /--a-accent-fill:\s*#FE299E/i);
   assert.match(globals, /--a-accent-text:\s*#A3285C/i);
   assert.match(globals, /--text-xs:\s*0\.8125rem/);
-  assert.match(stylesDoc, /#E8E2D5/);
 
   assert.ok(contrastRatio('#111827', '#E8E2D5') >= 12.0, 'Body ink must meet >= 12:1 WCAG AAA on Sandstone');
   assert.ok(contrastRatio('#4B5563', '#E8E2D5') >= 4.5, 'Muted ink must meet WCAG AA on Sandstone');

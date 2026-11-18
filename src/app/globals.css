@@ -11,19 +11,18 @@
   --a-muted: #4B5563;
   --a-rule: rgba(17, 24, 39, 0.14);
 
-  /* Sovereign Hot Pink CTA fill & punctuation mark; #A3285C inline accessible text */
+  /* Sovereign Hot Pink CTA fill & corporate mark; #A3285C WCAG AA inline pink text */
   --a-accent: #FE299E;
   --a-accent-fill: #FE299E;
   --a-accent-fill-hover: #111827;
   --a-accent-fg: #FFFFFF;
   --a-accent-text: #A3285C;
 
-  /* Sunlit West Nashville Prism Layer */
+  /* Sunlit West Nashville Prism & Sparkle Layer */
   --semi-honey: #F4D7B4;
   --semi-rose: #F7B9C9;
   --semi-iris: #C9B9E8;
   --semi-sky: #A9D3EA;
-  --semi-copper: #B45309;
 
   --a-radius-cta: 9999px;
   --target-size: 44px;
@@ -36,6 +35,7 @@
   --font-display: var(--font-playfair), Georgia, "Times New Roman", serif;
   --font-serif: var(--font-cormorant), Georgia, serif;
   --font-sans: var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
+  --font-mark: var(--font-bricolage), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-jetbrains), ui-monospace, SFMono-Regular, Menlo, monospace;
 
   /* Strict Accént Layer 1 13px minimum typographic floor */
@@ -61,7 +61,7 @@
     color: var(--a-ink);
     font-family: var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
     font-size: 1rem;
-    line-height: 1.6;
+    line-height: 1.65;
     overflow-wrap: break-word;
     -webkit-font-smoothing: antialiased;
   }
@@ -116,9 +116,15 @@
   font-family: var(--font-jetbrains), ui-monospace, SFMono-Regular, Menlo, monospace;
 }
 
+.font-mark {
+  font-family: var(--font-bricolage), ui-sans-serif, system-ui, sans-serif;
+  font-optical-sizing: auto;
+  letter-spacing: 0;
+}
+
 /* Editorial Display Scales */
 .text-huge {
-  font-size: clamp(2.85rem, 6.8vw, 6.75rem);
+  font-size: clamp(2.85rem, 6.6vw, 6.5rem);
   line-height: 0.94;
   letter-spacing: -0.03em;
 }
@@ -134,7 +140,7 @@
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .08 0 0 0 0 .10 0 0 0 0 .16 0 0 0 .055 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
-/* Override accent-ui's .wc-cta bloom to radiate warm Sovereign Pink */
+/* Pigment bloom CTA */
 .wc-cta {
   position: relative;
   isolation: isolate;
@@ -186,21 +192,21 @@
   );
 }
 
-/* Warm brushstroke underline */
+/* Clean editorial swipe underline (corporate standard) */
 .wc-link {
   text-decoration: none;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 8' preserveAspectRatio='none'%3E%3Cpath d='M1 5.2c14-2.6 28 1.4 42-.6 15-2.1 29-2.3 44 .2 11 1.8 22 .9 32-1.4' fill='none' stroke='%23FE299E' stroke-width='2.6' stroke-linecap='round' opacity='.88'/%3E%3C/svg%3E");
+  background-image: linear-gradient(var(--a-accent), var(--a-accent));
   background-repeat: no-repeat;
   background-position: 0 100%;
-  background-size: 0% 0.4em;
-  padding-bottom: 0.14em;
-  transition: background-size 420ms var(--ease-editorial), color 180ms ease;
+  background-size: 0% 2px;
+  padding-bottom: 0.16em;
+  transition: background-size 340ms var(--ease-editorial), color 180ms ease;
 }
 
 .wc-link:hover,
 .wc-link:focus-visible,
 .wc-link[data-active="true"] {
-  background-size: 100% 0.4em;
+  background-size: 100% 2px;
 }
 
 .wc-link[data-active="true"] {
@@ -210,7 +216,7 @@
 /* Native top-layer <dialog> entry/exit & backdrop containment */
 dialog.semi-dialog {
   margin: auto;
-  max-width: min(92vw, 48rem);
+  max-width: min(92vw, 52rem);
   width: 100%;
   max-height: 88dvh;
   border: 1px solid var(--a-rule);
@@ -241,34 +247,9 @@ dialog.semi-dialog[open] {
 }
 
 dialog.semi-dialog::backdrop {
-  background-color: rgba(17, 24, 39, 0.46);
+  background-color: rgba(17, 24, 39, 0.5);
   backdrop-filter: blur(4px);
   overscroll-behavior: contain;
-}
-
-/* Single-row responsive audio/video tablist */
-.semi-tablist {
-  display: flex;
-  flex-wrap: nowrap;
-  overflow-x: auto;
-  scrollbar-width: none;
-  gap: 0.5rem;
-}
-
-.semi-tablist::-webkit-scrollbar {
-  display: none;
-}
-
-.semi-tablist [role="tab"] {
-  position: relative;
-  flex: none;
-}
-
-.semi-tablist [role="tab"][aria-selected="true"]::after {
-  content: "";
-  position: absolute;
-  inset: auto 0 0;
-  border-block-end: 2.5px solid var(--a-accent);
 }
 
 /* Lyric Marquee Ribbon */

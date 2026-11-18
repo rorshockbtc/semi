@@ -3,12 +3,12 @@
 import React, { useId } from 'react';
 import { ChevronLeft, ChevronRight, X } from 'lucide-react';
 import SemiDialogPortal from '@/components/modals/SemiDialogPortal';
-import type { StudioPhoto } from '@/data/semi-songs';
+import type { FilmScenePhoto } from '@/data/semi-songs';
 
 interface PhotoLightboxDialogProps {
-  photo: StudioPhoto | null;
-  photos: StudioPhoto[];
-  onSelectPhoto: (photo: StudioPhoto) => void;
+  photo: FilmScenePhoto | null;
+  photos: FilmScenePhoto[];
+  onSelectPhoto: (photo: FilmScenePhoto) => void;
   onClose: () => void;
 }
 

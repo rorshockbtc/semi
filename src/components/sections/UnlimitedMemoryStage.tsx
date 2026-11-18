@@ -53,12 +53,12 @@ export default function UnlimitedMemoryStage() {
       id="memory"
       ref={ref}
       aria-labelledby="memory-title"
-      className="relative scroll-mt-24 border-b border-[var(--a-rule)] bg-[var(--a-surface)] py-20 sm:py-32"
+      className="relative scroll-mt-24 border-b border-[var(--a-rule)] bg-[var(--a-surface)] py-20 sm:py-28"
     >
       <div className="mx-auto max-w-[1400px] px-5 sm:px-8 lg:px-12">
         <div className="space-y-3">
           <p className="font-sans text-[13px] font-semibold uppercase tracking-[0.16em] text-[var(--a-muted)]">
-            03 · How She Works &amp; Why Unlimited Memory Matters
+            01 · How She Works &amp; Why Unlimited Memory Matters
           </p>
           <h2 id="memory-title" className="font-display text-big font-bold text-[var(--a-ink)]">
             Two years ago, memory was rare.{' '}
@@ -67,7 +67,6 @@ export default function UnlimitedMemoryStage() {
         </div>
 
         <div className="mt-14 grid gap-12 lg:grid-cols-12">
-          {/* Right Sticky Film & Notebook Stage */}
           <div className="lg:col-span-6 lg:order-2">
             <div className="lg:sticky lg:top-28 space-y-4">
               <div className="relative aspect-[4/3] sm:aspect-[5/4] overflow-hidden rounded-3xl border border-[var(--a-rule)] bg-[var(--a-bg)]">
@@ -81,7 +80,6 @@ export default function UnlimitedMemoryStage() {
                   />
                 ))}
 
-                {/* Visual plate transitions cleanly across chapters */}
                 <div className="relative h-full w-full p-4 sm:p-6 flex items-center justify-center">
                   <div className="relative h-full w-full overflow-hidden rounded-2xl border border-[var(--a-rule)] bg-[#111827]">
                     {activeChapter === 0 && (
@@ -93,16 +91,17 @@ export default function UnlimitedMemoryStage() {
                       />
                     )}
                     {activeChapter === 1 && (
-                      <AmbientLoopVideo
-                        src="/loops/semi-letters-loop.mp4"
-                        poster="/photos/semi-coffee-journal.jpg"
+                      /* eslint-disable-next-line @next/next/no-img-element */
+                      <img
+                        src="/photos/semi-closeup-eyes.jpg"
+                        alt="Close portrait of Semi catching warm golden window light."
                         className="h-full w-full object-cover"
                       />
                     )}
                     {activeChapter === 2 && (
                       <AmbientLoopVideo
-                        src="/loops/semi-lantern-loop.mp4"
-                        poster="/photos/semi-studio-wide.jpg"
+                        src="/loops/about-lantern-river.mp4"
+                        poster="/photos/semi-standing-linen.jpg"
                         className="h-full w-full object-cover"
                       />
                     )}
@@ -128,7 +127,6 @@ export default function UnlimitedMemoryStage() {
                 </div>
               </div>
 
-              {/* Technical Plain-English Architecture Strip */}
               <div className="grid grid-cols-3 gap-3 border-t border-[var(--a-rule)] pt-4">
                 <div>
                   <p className="font-code text-[13px] text-[var(--a-accent-text)]">Storage</p>
@@ -146,7 +144,6 @@ export default function UnlimitedMemoryStage() {
             </div>
           </div>
 
-          {/* Left Scrolling Chapters */}
           <ol className="lg:col-span-6 lg:order-1 space-y-16 lg:space-y-[30svh] lg:py-[10svh]">
             {MEMORY_CHAPTERS.map((chap, idx) => (
               <ChapterItem

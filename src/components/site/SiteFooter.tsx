@@ -3,6 +3,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { Smile } from 'accent-ui';
+import { SemiMark } from '@/components/brand/SemiMark';
 
 export default function SiteFooter() {
   return (
@@ -20,7 +21,7 @@ export default function SiteFooter() {
               Built with care by Colon&nbsp;Hyphen&nbsp;Bracket.
             </h2>
             <p className="max-w-[52ch] text-lg sm:text-xl leading-relaxed text-[var(--a-bg)]/80">
-              Semi (<span className="text-[var(--a-accent)] font-semibold">;-]</span>) is our open-source
+              Semi (<SemiMark className="text-[18px] mx-0.5" color="#FE299E" />) is our open-source
               unlimited-memory companion and acoustic songwriter—living alongside{' '}
               <strong className="font-semibold text-[var(--a-bg)]">Pipes (\)</strong>,{' '}
               <strong className="font-semibold text-[var(--a-bg)]">asterisk (*)</strong>, and{' '}
@@ -33,7 +34,7 @@ export default function SiteFooter() {
               <Smile
                 color="#FE299E"
                 winkEvery={4500}
-                className="font-display text-[72px] sm:text-[104px] font-bold leading-none tracking-[-0.04em]"
+                className="font-mark text-[72px] sm:text-[104px] font-bold leading-none"
               />
             </div>
             <a
@@ -51,13 +52,17 @@ export default function SiteFooter() {
       <div className="border-t border-[var(--a-rule)] bg-[var(--a-bg)]">
         <div className="mx-auto flex max-w-[1400px] flex-wrap items-center justify-between gap-4 px-5 sm:px-8 lg:px-12 py-6 text-[13px] text-[var(--a-muted)]">
           <div className="flex items-center gap-2.5">
-            <span aria-hidden="true" className="font-display text-base font-bold text-[var(--a-accent-text)]">
-              ;-]
-            </span>
+            <SemiMark className="text-base" color="#FE299E" />
             <span>Semi · Apache-2.0 open source · West Nashville Sessions</span>
           </div>
 
           <nav aria-label="Footer" className="flex flex-wrap items-center gap-5">
+            <Link href="/songs" className="wc-link min-h-[44px] inline-flex items-center text-[var(--a-ink)]">
+              Songs &amp; Stories
+            </Link>
+            <Link href="/about" className="wc-link min-h-[44px] inline-flex items-center text-[var(--a-ink)]">
+              Unlimited Memory
+            </Link>
             <Link href="/colophon" className="wc-link min-h-[44px] inline-flex items-center text-[var(--a-ink)]">
               Colophon
             </Link>
@@ -84,14 +89,6 @@ export default function SiteFooter() {
               className="wc-link min-h-[44px] inline-flex items-center text-[var(--a-ink)]"
             >
               asterisk (*)
-            </a>
-            <a
-              href="https://design.pipes.pink"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="wc-link min-h-[44px] inline-flex items-center text-[var(--a-ink)]"
-            >
-              Accént Design System
             </a>
           </nav>
         </div>

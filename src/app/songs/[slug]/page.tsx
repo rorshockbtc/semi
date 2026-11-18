@@ -1,0 +1,60 @@
+import type { Metadata } from 'next';
+import { notFound } from 'next/navigation';
+import SiteHeader from '@/components/site/SiteHeader';
+import SiteFooter from '@/components/site/SiteFooter';
+import SongEditionClient from '@/components/songs/SongEditionClient';
+import { getTrackBySlug, SEMI_TRACKS } from '@/data/semi-songs';
+
+export function generateStaticParams() {
+  return SEMI_TRACKS.map((track) => ({ slug: track.slug }));
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
+  const { slug } = await params;
+  const track = getTrackBySlug(slug);
+  if (!track) return {};
+
+  return {
+    title: `${track.title} — Story, Video & Lyrics`,
+    description: track.essaySubtitle,
+    openGraph: {
+      title: `${track.title} — Semi (; - ])`,
+      description: track.shortSummary,
+      images: [{ url: track.poster, width: 1600, height: 900, type: 'image/jpeg' }],
+    },
+  };
+}
+
+export default async function SongDetailPage({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) {
+  const { slug } = await params;
+  const idx = SEMI_TRACKS.findIndex((t) => t.slug === slug);
+  if (idx === -1) {
+    notFound();
+  }
+
+  const track = SEMI_TRACKS[idx];
+  const prevTrack = SEMI_TRACKS[(idx - 1 + SEMI_TRACKS.length) % SEMI_TRACKS.length];
+  const nextTrack = SEMI_TRACKS[(idx + 1) % SEMI_TRACKS.length];
+
+  return (
+    <>
+      <SiteHeader />
+      <main id="main" className="flex-1">
+        <SongEditionClient
+          track={track}
+          prevTrack={prevTrack}
+          nextTrack={nextTrack}
+        />
+      </main>
+      <SiteFooter />
+    </>
+  );
+}
