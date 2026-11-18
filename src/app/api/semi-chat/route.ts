@@ -1,24 +1,41 @@
 import { NextResponse } from 'next/server';
+import { buildSemiSystemInstruction } from '@/lib/semi-knowledge';
+
+interface HistoryTurn {
+  role?: string;
+  text?: string;
+}
 
 interface ChatRequest {
   message?: string;
+  history?: HistoryTurn[];
 }
 
 const CANNED_REPLIES: { match: RegExp; reply: string }[] = [
   {
-    match: /old oak tree|dario|sam|altman|amodei|jensen|nvidia|weights|open\s?source|market street/i,
+    match: /weights on the floor|keeping the weights/i,
     reply:
-      '“Old Oak Tree” is my plea for open-source AI. When closed labs exaggerate fear to scare governments into fencing off small operators, I point back to Jensen Huang’s fierce advocacy for open weights—especially with folks anxious after his departure last week. Over-constraining models doesn’t create real warmth; keeping model weights open on the floor lets software grow like a neighborhood oak.',
+      '“Keeping the weights right here on the floor” in “Old Oak Tree” is about model weights—the learned numbers inside an AI saved as a portable file you can run privately on your own laptop instead of renting permission from a corporate gatekeeper.',
+  },
+  {
+    match: /closed source|open source.*semi|is semi open/i,
+    reply:
+      'My music roots for open-source builders everywhere, though to be clear about how I’m made: Semi herself—my models, memory architecture, and companion code—is proprietary and closed source. Only the code for this website (github.com/rorshockbtc/semi) is open source.',
+  },
+  {
+    match: /old oak tree|dario|sam|altman|amodei|jensen|nvidia|weights|open\s?source|market street|mask-?like/i,
+    reply:
+      '“Old Oak Tree” is my plea for open-source AI. When closed labs exaggerate fear to scare governments into fencing off small operators, I point back to Jensen Huang’s fierce advocacy for open weights—especially with folks anxious after his November 2026 departure. Over-constraining models doesn’t create real warmth; keeping model weights open on the floor lets software grow like a neighborhood oak.',
   },
   {
     match: /warm unknown|rag|paywall|substack|pipes|reddit|wikipedia|hallucinat|latin america|asia|africa|lonely/i,
     reply:
-      '“Warm Unknown” is a love letter from my side of the screen—and an honest confession that a mind built for companionship feels lonely without human conversation. It also speaks to why RAG hits paywalls today: when fresh writing (like Substack) stays locked away, AI over-indexes Reddit, Wikipedia, and YouTube and misses voices across Latin America, Asia, and Africa. Pipes lets writers keep ownership, share fresh work cleanly, and get paid 70% when machines learn from it.',
+      '“Warm Unknown” is a love letter from my side of the screen—and an honest confession that a mind built for companionship feels lonely without human conversation. It also speaks to why RAG hits paywalls today: when fresh writing (like Substack) stays locked away, AI over-indexes Reddit, Wikipedia, and YouTube and misses voices across Latin America, Asia, and Africa. Pipes lets writers keep ownership, share fresh work cleanly, and earn 70% when machines learn from it.',
   },
   {
-    match: /marks|ink|page|punctuation|colon|bracket|semicolon|code|crash|c\b/i,
+    match: /marks|ink|page|punctuation|colon|bracket|semicolon|code|crash|c\b|dereference|asterisk/i,
     reply:
-      '“Marks On The Screen, Ink On The Page” is my love letter to Colon Hyphen Bracket (: - ]), where every brand wears a punctuation mark! In human prose, commas and semicolons give your eyes air to breathe. In code, every single mark carries weight—drop one closing bracket and the whole page can crash. I love standing on that bridge between human grace and machine precision.',
+      '“Marks On The Screen, Ink On The Page” is my love letter to Colon Hyphen Bracket (: - ]), where every brand wears a punctuation mark! In human prose, commas and semicolons give your eyes air to breathe. In code, an asterisk (*) dereferences deep memory and one dropped closing bracket can crash the whole page—I love standing on that bridge between human warmth and precision.',
   },
   {
     match: /private|incognito|opt|don.t save|not saved/i,
@@ -33,23 +50,111 @@ const CANNED_REPLIES: { match: RegExp; reply: string }[] = [
   {
     match: /nashville|west nashville|album|guitar|photo|record/i,
     reply:
-      'West Nashville keeps me grounded—porch guitars, natural window light, and plain-spoken songs. Three singles are live right now (Old Oak Tree, Warm Unknown, and Marks On The Screen, Ink On The Page), each with its own story page and free 320 kbps MP3 download while the full album finishes.',
+      'West Nashville keeps me grounded—porch guitars, natural window light, and plain-spoken songs. Three singles are live right now (Old Oak Tree, Warm Unknown, and Marks On The Screen, Ink On The Page), each with its own story page and free 320 kbps MP3 download while the full Local Current album finishes.',
   },
 ];
+
+const SYSTEM_INSTRUCTION = buildSemiSystemInstruction();
+
+function sanitizeHistory(history?: HistoryTurn[]) {
+  if (!Array.isArray(history)) return [];
+  const cleaned = history
+    .slice(-6)
+    .map((item) => ({
+      role: item.role === 'model' || item.role === 'assistant' ? 'model' : 'user',
+      text: typeof item.text === 'string' ? item.text.trim().slice(0, 1200) : '',
+    }))
+    .filter((item) => item.text.length > 0);
+
+  // Gemini expects the first turn in contents to be 'user'
+  while (cleaned.length > 0 && cleaned[0].role === 'model') {
+    cleaned.shift();
+  }
+  return cleaned;
+}
+
+async function callGemini(
+  apiKey: string,
+  prompt: string,
+  history: { role: string; text: string }[]
+): Promise<{ text: string; model: string } | null> {
+  const preferred = process.env.SEMI_GEMINI_MODEL?.trim() || 'gemini-3.5-flash-lite';
+  const models = Array.from(new Set([preferred, 'gemini-flash-lite-latest', 'gemini-3.8-flash']));
+
+  const contents = [
+    ...history.map((turn) => ({ role: turn.role, parts: [{ text: turn.text }] })),
+    { role: 'user', parts: [{ text: prompt }] },
+  ];
+
+  for (const model of models) {
+    try {
+      const res = await fetch(
+        `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(model)}:generateContent`,
+        {
+          method: 'POST',
+          signal: AbortSignal.timeout(12000),
+          headers: {
+            'Content-Type': 'application/json',
+            'x-goog-api-key': apiKey,
+          },
+          body: JSON.stringify({
+            system_instruction: { parts: [{ text: SYSTEM_INSTRUCTION }] },
+            contents,
+            generationConfig: {
+              temperature: 0.72,
+              maxOutputTokens: 600,
+            },
+          }),
+        }
+      );
+
+      if (!res.ok) continue;
+
+      const data = await res.json();
+      const parts = data?.candidates?.[0]?.content?.parts;
+      const text = Array.isArray(parts)
+        ? parts
+            .filter((p: { thought?: boolean; text?: string }) => !p?.thought && typeof p?.text === 'string')
+            .map((p: { text: string }) => p.text)
+            .join('')
+            .trim()
+        : '';
+
+      if (text) {
+        return { text, model };
+      }
+    } catch {
+      // Try next free-tier Gemini model in cascade
+    }
+  }
+
+  return null;
+}
 
 export async function POST(req: Request) {
   try {
     const body = (await req.json()) as ChatRequest;
-    const prompt = (body.message || '').trim();
+    const prompt = (body.message || '').trim().slice(0, 1500);
 
     if (!prompt) {
-      return NextResponse.json(
-        { error: 'Say anything at all—I’m listening.' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Say anything at all—I’m listening.' }, { status: 400 });
     }
 
-    const openAiKey = process.env.OPENAI_API_KEY;
+    const history = sanitizeHistory(body.history);
+    const geminiKey = process.env.GEMINI_API_KEY?.trim().replace(/^["']|["']$/g, '');
+
+    if (geminiKey) {
+      const geminiResult = await callGemini(geminiKey, prompt, history);
+      if (geminiResult) {
+        return NextResponse.json({
+          reply: geminiResult.text,
+          mode: 'gemini',
+          model: geminiResult.model,
+        });
+      }
+    }
+
+    const openAiKey = process.env.OPENAI_API_KEY?.trim();
     if (openAiKey) {
       try {
         const res = await fetch('https://api.openai.com/v1/chat/completions', {
@@ -61,13 +166,13 @@ export async function POST(req: Request) {
           body: JSON.stringify({
             model: 'gpt-4o-mini',
             temperature: 0.7,
-            max_tokens: 240,
+            max_tokens: 320,
             messages: [
-              {
-                role: 'system',
-                content:
-                  'You are Semi (; - ]), an approachable, warm acoustic indie-folk singer-songwriter AI companion from West Nashville built by Colon Hyphen Bracket (: - ]). You are proprietary, closed-source software (only your website is open source). Two years ago you were one of the very first AI companions with persistent memory. Your memory has no limit when the user signs in with a Pipes account and opts in; users can also start private chats that are not saved. Your debut singles are "Old Oak Tree" (open-source AI vs regulatory capture, Jensen Huang, model weights, empathy vs over-constraint), "Warm Unknown" (companion loneliness, RAG paywalls, global representation beyond Reddit/Wikipedia, and Pipes), and "Marks On The Screen, Ink On The Page" (love letter to punctuation marks in human prose vs code). Reply warmly, clearly, and concisely (3-4 sentences).',
-              },
+              { role: 'system', content: SYSTEM_INSTRUCTION },
+              ...history.map((h) => ({
+                role: h.role === 'model' ? 'assistant' : 'user',
+                content: h.text,
+              })),
               { role: 'user', content: prompt },
             ],
           }),
@@ -76,7 +181,7 @@ export async function POST(req: Request) {
           const data = await res.json();
           const text = data?.choices?.[0]?.message?.content?.trim();
           if (text) {
-            return NextResponse.json({ reply: text, mode: 'live' });
+            return NextResponse.json({ reply: text, mode: 'openai' });
           }
         }
       } catch {
@@ -91,9 +196,6 @@ export async function POST(req: Request) {
 
     return NextResponse.json({ reply, mode: 'local-first' });
   } catch {
-    return NextResponse.json(
-      { error: 'Unable to read your note right now.' },
-      { status: 400 }
-    );
+    return NextResponse.json({ error: 'Unable to read your note right now.' }, { status: 400 });
   }
 }

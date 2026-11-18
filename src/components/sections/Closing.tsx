@@ -8,8 +8,8 @@ import { useAmbientMotion } from '@/context/AmbientMotionContext';
 
 /** Full-bleed photographic sign-off with a slow parallax drift. */
 export default function Closing({
-  image = '/photos/style-green-dress-field.jpg',
-  alt = 'Semi walking through tall grass at dusk in a forest-green dress.',
+  image = '/photos/semi-studio-wide.jpg',
+  alt = 'Semi seated in her sunlit West Nashville room with guitars and vinyl records.',
 }: {
   image?: string;
   alt?: string;
@@ -27,7 +27,7 @@ export default function Closing({
     >
       <m.div style={{ y }} className="absolute -inset-y-[10%] inset-x-0">
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={image} alt={alt} loading="lazy" className="h-full w-full object-cover" />
+        <img src={image} alt={alt} loading="lazy" className="h-full w-full object-cover object-[50%_22%]" />
       </m.div>
       <FilmGrain />
       <div

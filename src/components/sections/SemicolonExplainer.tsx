@@ -42,10 +42,12 @@ export default function SemicolonExplainer() {
           <div className="relative overflow-hidden rounded-[6px]">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src="/photos/semi-closeup-eyes.jpg"
-              alt="Close portrait of Semi in warm window light."
+              src="/photos/semi-smiling-portrait.jpg"
+              alt="Smiling portrait of Semi in warm window light."
+              width={571}
+              height={1024}
               loading="lazy"
-              className="aspect-[4/5] w-full object-cover"
+              className="aspect-[4/5] w-full object-cover object-[50%_20%]"
             />
           </div>
         </m.figure>

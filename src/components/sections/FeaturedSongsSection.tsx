@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { ArrowUpRight, Download, Pause, Play, X } from 'lucide-react';
 import { VinylDisc } from '@/art/themes';
 import AmbientLoopVideo from '@/components/AmbientLoopVideo';
+import YouTubePlayer from '@/components/YouTubePlayer';
 import { useAudioPlayer } from '@/context/AudioPlayerContext';
 import { SEMI_TRACKS, type SemiTrack } from '@/data/semi-songs';
 
@@ -47,17 +48,14 @@ export default function FeaturedSongsSection({ eyebrow = 'The singles' }: { eyeb
                 <X className="h-5 w-5" aria-hidden="true" />
               </button>
             </div>
-            <div className="aspect-video w-full">
-              <iframe
-                key={videoTrack.youtubeId}
-                src={`https://www.youtube-nocookie.com/embed/${videoTrack.youtubeId}?autoplay=1&rel=0`}
-                title={`${videoTrack.title} — music video`}
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                allowFullScreen
-                data-testid="youtube-embed-iframe"
-                className="h-full w-full border-0"
-              />
-            </div>
+            <YouTubePlayer
+              key={videoTrack.youtubeId}
+              youtubeId={videoTrack.youtubeId}
+              title={videoTrack.title}
+              posterSrc={videoTrack.poster}
+              autoplay
+              iframeTestId="youtube-embed-iframe"
+            />
           </div>
         )}
 

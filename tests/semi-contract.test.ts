@@ -78,14 +78,23 @@ test('All v2 living loops, 16+ distinct photo stills, OG image, and icon exist',
     'public/photos/song-03-terminal.jpg',
     'public/photos/semi-studio-wide.jpg',
     'public/photos/semi-closeup-eyes.jpg',
+    'public/photos/semi-smiling-portrait.jpg',
     'public/photos/semi-standing-linen.jpg',
     'public/photos/semi-notebook-window.jpg',
     'public/photos/semi-coffee-journal.jpg',
+    'public/photos/about-nashville-studio.jpg',
+    'public/photos/about-remembered-first.jpg',
+    'public/photos/about-pipes-library.jpg',
+    'public/photos/about-private-porch.jpg',
     'public/photos/style-denim-porch.jpg',
     'public/photos/style-sweater-records.jpg',
     'public/photos/style-green-dress-field.jpg',
     'public/photos/style-black-turtleneck-studio.jpg',
     'public/photos/style-flannel-coffee.jpg',
+    'public/photos/style-leather-backstage.jpg',
+    'public/photos/style-cardigan-bookstore.jpg',
+    'public/photos/style-sunflower-trail.jpg',
+    'public/photos/style-kitchen-songwriting.jpg',
     'public/og-semi.jpg',
     'public/icon.svg',
   ];
@@ -96,16 +105,27 @@ test('All v2 living loops, 16+ distinct photo stills, OG image, and icon exist',
   }
 });
 
-test('Zero duplicate image paths across song posters, essay plates, and home film gallery, and rich song essays exist', async () => {
+test('Zero duplicate image paths across the entire site, rich song essays, and interactive lyricNotes exist', async () => {
   const { FILM_SCENES_GALLERY, SEMI_TRACKS } = await import('../src/data/semi-songs.ts');
 
   assert.equal(SEMI_TRACKS.length, 3);
-  assert.equal(FILM_SCENES_GALLERY.length, 8);
+  assert.equal(FILM_SCENES_GALLERY.length, 12);
 
-  const usedImages: string[] = [];
+  const usedImages: string[] = [
+    '/photos/gallery-porch-guitar.jpg',
+    '/photos/semi-smiling-portrait.jpg',
+    '/photos/semi-studio-wide.jpg',
+    '/photos/gallery-brick-walk.jpg',
+    '/photos/about-nashville-studio.jpg',
+    '/photos/about-remembered-first.jpg',
+    '/photos/about-pipes-library.jpg',
+    '/photos/about-private-porch.jpg',
+  ];
+
   for (const track of SEMI_TRACKS) {
     assert.ok(track.essaySections.length >= 3, `${track.slug} must have >= 3 essay sections`);
     assert.ok(track.plainEnglishGlossary.length >= 4, `${track.slug} must have >= 4 glossary items`);
+    assert.ok(track.lyricNotes.length >= 6, `${track.slug} must have >= 6 interactive lyricNotes`);
     usedImages.push(track.poster);
     for (const sec of track.essaySections) {
       if (sec.plateSrc) usedImages.push(sec.plateSrc);
@@ -115,8 +135,30 @@ test('Zero duplicate image paths across song posters, essay plates, and home fil
     usedImages.push(scene.src);
   }
 
+  const oak = SEMI_TRACKS.find((t) => t.slug === 'old-oak-tree');
+  assert.ok(oak);
+  const weightsNote = oak.lyricNotes.find((n) =>
+    n.line.toLowerCase().includes('keeping the weights right here on the floor')
+  );
+  assert.ok(weightsNote, 'old-oak-tree must annotate "Keeping the weights right here on the floor"');
+  assert.match(weightsNote.explanation, /model weights|weights|numerical parameters/i);
+
   const unique = new Set(usedImages);
-  assert.equal(unique.size, usedImages.length, 'Duplicate image path detected across tracks or gallery');
+  assert.equal(unique.size, usedImages.length, 'Duplicate image path detected across site sections, tracks, or gallery');
+});
+
+test('Gemini chat endpoint and knowledge builder cover Semi persona, closed-source fact, Pipes memory, and all songs', async () => {
+  const { buildSemiSystemInstruction } = await import('../src/lib/semi-knowledge.ts');
+  const prompt = buildSemiSystemInstruction();
+  const routeSrc = fs.readFileSync(path.join(ROOT, 'src', 'app', 'api', 'semi-chat', 'route.ts'), 'utf8');
+
+  assert.match(routeSrc, /GEMINI_API_KEY/);
+  assert.match(prompt, /Old Oak Tree/);
+  assert.match(prompt, /Warm Unknown/);
+  assert.match(prompt, /Marks On The Screen, Ink On The Page/);
+  assert.match(prompt, /closed source/i);
+  assert.match(prompt, /private chat/i);
+  assert.match(prompt, /Keeping the weights right here on the floor/);
 });
 
 test('Corporate SemiMark uses Bricolage Grotesque (.font-mark) and #FE299E, plus Accént 3.0 Warm Sandstone math', () => {

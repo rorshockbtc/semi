@@ -55,25 +55,30 @@ test.describe('UX & Visual Ergonomics Audit (Multi-Page Desktop 1440×900 & Mobi
     expect(new Set(homeImgSrcs).size).toBe(homeImgSrcs.length);
     await page.screenshot({ path: path.join(SCREENSHOT_DIR, 'desktop-home-v3.png') });
 
-    for (const id of ['songs', 'story']) {
-      await page.evaluate((sid) => {
-        const el = document.getElementById(sid);
-        if (el) window.scrollTo({ top: el.offsetTop - 40, behavior: 'instant' as ScrollBehavior });
-      }, id);
-      await page.waitForTimeout(900);
-      await page.screenshot({ path: path.join(SCREENSHOT_DIR, `desktop-home-${id}-v3.png`) });
-    }
-
     await page.evaluate(() => {
-      const el = document.getElementById('scenes');
-      if (el) window.scrollTo({ top: el.offsetTop - 80, behavior: 'instant' as ScrollBehavior });
+      const el = document.getElementById('story');
+      if (el) window.scrollTo({ top: el.offsetTop - 20, behavior: 'instant' as ScrollBehavior });
     });
-    await page.waitForTimeout(550);
-    await page.screenshot({ path: path.join(SCREENSHOT_DIR, 'desktop-home-gallery-v3.png') });
+    await page.waitForTimeout(800);
+    await page.screenshot({ path: path.join(SCREENSHOT_DIR, 'desktop-home-story-v4.png') });
 
-    // 2. Song Story Pages
+    // 2. Song Story Pages & Interactive Single-Column Lyric Notes
     await auditRouteErgonomics(page, '/songs/old-oak-tree');
     await page.screenshot({ path: path.join(SCREENSHOT_DIR, 'desktop-song-oak-tree-v3.png') });
+
+    const desktopNote = page.getByTestId('lyric-note-old-oak-tree-0');
+    await desktopNote.scrollIntoViewIfNeeded();
+    await desktopNote.locator('summary').click();
+    await page.evaluate(() => {
+      const el = document.getElementById('lyrics');
+      if (el) window.scrollTo({ top: el.offsetTop + 90, behavior: 'instant' as ScrollBehavior });
+    });
+    await page.waitForTimeout(450);
+    const desktopLyricsOverflow = await page.evaluate(
+      () => document.documentElement.scrollWidth <= window.innerWidth
+    );
+    expect(desktopLyricsOverflow, 'Overflow on /songs/old-oak-tree after opening lyric note').toBe(true);
+    await page.screenshot({ path: path.join(SCREENSHOT_DIR, 'desktop-song-lyrics-callout-v4.png') });
 
     await auditRouteErgonomics(page, '/songs/warm-unknown');
     await page.screenshot({ path: path.join(SCREENSHOT_DIR, 'desktop-song-warm-unknown-v3.png') });
@@ -81,17 +86,29 @@ test.describe('UX & Visual Ergonomics Audit (Multi-Page Desktop 1440×900 & Mobi
     await auditRouteErgonomics(page, '/songs/marks-on-the-screen-ink-on-the-page');
     await page.screenshot({ path: path.join(SCREENSHOT_DIR, 'desktop-song-marks-ink-v3.png') });
 
-    // 3. Songs Index, About & Colophon
+    // 3. Songs Index, About & Gallery
     await auditRouteErgonomics(page, '/songs');
     await auditRouteErgonomics(page, '/about');
-    await page.screenshot({ path: path.join(SCREENSHOT_DIR, 'desktop-about-v3.png') });
+    await page.screenshot({ path: path.join(SCREENSHOT_DIR, 'desktop-about-top-v4.png') });
+    await page.evaluate(() => {
+      const heading = Array.from(document.querySelectorAll('h3')).find((h) =>
+        (h.textContent || '').includes('No limit, with Pipes')
+      );
+      if (heading) {
+        const li = heading.closest('li');
+        li?.scrollIntoView({ behavior: 'instant' as ScrollBehavior, block: 'center' });
+      }
+    });
+    await page.waitForTimeout(800);
+    await page.screenshot({ path: path.join(SCREENSHOT_DIR, 'desktop-about-memory-v4.png') });
+
     await auditRouteErgonomics(page, '/gallery');
-    await page.screenshot({ path: path.join(SCREENSHOT_DIR, 'desktop-gallery-page-v3.png') });
+    await page.screenshot({ path: path.join(SCREENSHOT_DIR, 'desktop-gallery-v4.png') });
 
     expect(errors).toEqual([]);
   });
 
-  test('Mobile 390×844: header non-overlap, zero overflow across / and /songs/old-oak-tree', async ({
+  test('Mobile 390×844: header non-overlap, zero overflow across /, /songs/old-oak-tree, and /about', async ({
     page,
   }) => {
     const errors: string[] = [];
@@ -116,7 +133,17 @@ test.describe('UX & Visual Ergonomics Audit (Multi-Page Desktop 1440×900 & Mobi
     await page.screenshot({ path: path.join(SCREENSHOT_DIR, 'mobile-home-v3.png') });
 
     await auditRouteErgonomics(page, '/songs/old-oak-tree');
-    await page.screenshot({ path: path.join(SCREENSHOT_DIR, 'mobile-song-oak-tree-v3.png') });
+    const mobileNote = page.getByTestId('lyric-note-old-oak-tree-0');
+    await mobileNote.scrollIntoViewIfNeeded();
+    await mobileNote.locator('summary').click();
+    await page.waitForTimeout(400);
+    const mobileLyricsOverflow = await page.evaluate(
+      () => document.documentElement.scrollWidth <= window.innerWidth
+    );
+    expect(mobileLyricsOverflow, 'Mobile overflow on /songs/old-oak-tree after opening lyric note').toBe(
+      true
+    );
+    await page.screenshot({ path: path.join(SCREENSHOT_DIR, 'mobile-song-lyrics-v4.png') });
     await auditRouteErgonomics(page, '/about');
 
     expect(errors).toEqual([]);

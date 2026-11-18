@@ -2,11 +2,16 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { ArrowLeft, ArrowRight, Download, Pause, Play } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Download, Info, Pause, Play } from 'lucide-react';
 import { FilmGrain, LanternGlow, LeafDapple, Typewriter } from '@/art/themes';
+import YouTubePlayer from '@/components/YouTubePlayer';
 import { SemiMark } from '@/components/brand/SemiMark';
 import { useAudioPlayer } from '@/context/AudioPlayerContext';
-import type { SemiTrack } from '@/data/semi-songs';
+import type { LyricReferenceNote, SemiTrack } from '@/data/semi-songs';
+
+function normalizeLine(value: string): string {
+  return value.trim().toLowerCase().replace(/[’']/g, "'");
+}
 
 interface SongEditionClientProps {
   track: SemiTrack;
@@ -34,6 +39,12 @@ export default function SongEditionClient({ track, prevTrack, nextTrack }: SongE
 
   const ink = theme.dark ? 'text-[#F3EFE9]' : 'text-[var(--a-ink)]';
   const sub = theme.dark ? 'text-[#F3EFE9]/75' : 'text-[var(--a-ink)]/75';
+
+  const noteByNormalizedLine = new Map<string, { note: LyricReferenceNote; idx: number }>();
+  track.lyricNotes.forEach((note, idx) => {
+    noteByNormalizedLine.set(normalizeLine(note.line), { note, idx });
+  });
+  const seenNoteLines = new Set<string>();
 
   return (
     <article data-testid={`song-edition-${track.slug}`} className="bg-[var(--a-bg)]">
@@ -95,16 +106,13 @@ export default function SongEditionClient({ track, prevTrack, nextTrack }: SongE
 
             <div className="lg:col-span-6">
               <div className="overflow-hidden rounded-[10px] bg-black shadow-[0_40px_80px_-40px_rgba(0,0,0,0.6)]">
-                <div className="aspect-video">
-                  <iframe
-                    src={`https://www.youtube-nocookie.com/embed/${track.youtubeId}?rel=0`}
-                    title={`${track.title} — music video`}
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                    allowFullScreen
-                    data-testid="edition-youtube-iframe"
-                    className="h-full w-full border-0"
-                  />
-                </div>
+                <YouTubePlayer
+                  key={track.youtubeId}
+                  youtubeId={track.youtubeId}
+                  title={track.title}
+                  posterSrc={track.poster}
+                  iframeTestId="edition-youtube-iframe"
+                />
               </div>
             </div>
           </div>
@@ -151,6 +159,30 @@ export default function SongEditionClient({ track, prevTrack, nextTrack }: SongE
                     </p>
                   ))}
                 </div>
+                {section.referenceCallout && (
+                  <details
+                    data-testid={`essay-callout-${track.slug}-${sIdx}`}
+                    className="semi-note group mt-6 max-w-[64ch] border-l-2 border-[var(--a-accent)] pl-4"
+                  >
+                    <summary className="flex min-h-[44px] items-center justify-between gap-3 py-1 text-left">
+                      <span className="inline-flex items-center gap-2.5 text-[15px] font-medium text-[var(--a-ink)]">
+                        <Info className="h-4 w-4 shrink-0 text-[var(--a-accent-text)]" aria-hidden="true" />
+                        <span className="font-serif italic text-[18px]">{section.referenceCallout.quote}</span>
+                      </span>
+                      <span className="shrink-0 rounded-full border border-[var(--a-accent-text)]/35 px-3 py-1 text-[13px] font-semibold text-[var(--a-accent-text)] transition-colors group-open:border-[var(--a-accent-fill)] group-open:bg-[var(--a-accent-fill)] group-open:text-white">
+                        What this means
+                      </span>
+                    </summary>
+                    <div className="pt-2 pb-1">
+                      <p className="text-[13px] font-semibold uppercase tracking-[0.16em] text-[var(--a-accent-text)]">
+                        {section.referenceCallout.topic}
+                      </p>
+                      <p className="mt-1.5 text-[15px] leading-relaxed text-[var(--a-ink)]/85">
+                        {section.referenceCallout.explanation}
+                      </p>
+                    </div>
+                  </details>
+                )}
                 {section.plateSrc && (
                   <figure className="mt-10">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -190,29 +222,97 @@ export default function SongEditionClient({ track, prevTrack, nextTrack }: SongE
         </aside>
       </section>
 
-      {/* Lyrics */}
+      {/* Lyrics (single unambiguous reading column with interactive reference notes) */}
       <section
         id="lyrics"
         aria-labelledby="lyrics-heading"
         className={`scroll-mt-20 ${theme.dark ? 'bg-[#17120f] text-[#F3EFE9]' : 'bg-[var(--a-surface)] text-[var(--a-ink)]'} py-20 sm:py-28`}
       >
-        <div className="mx-auto max-w-[1100px] px-5 sm:px-8">
+        <div className="mx-auto max-w-[760px] px-5 sm:px-8">
           <p className={`text-center font-sans text-[13px] font-semibold uppercase tracking-[0.22em] ${theme.dark ? 'text-[#FFB8DA]' : 'text-[var(--a-accent-text)]'}`}>
             Lyrics
           </p>
           <h2 id="lyrics-heading" className="mt-3 text-center font-display text-[clamp(2rem,4vw,3.2rem)] font-bold">
             {track.title}
           </h2>
-          <div data-testid="edition-lyrics-grid" className="mt-14 columns-1 gap-14 md:columns-2 [&>*]:mb-10">
+          <p className={`mt-4 text-center text-[15px] leading-relaxed ${theme.dark ? 'text-[#F3EFE9]/75' : 'text-[var(--a-muted)]'}`}>
+            <Info
+              className={`mr-1.5 inline-block h-4 w-4 align-[-2px] ${theme.dark ? 'text-[#FFB8DA]' : 'text-[var(--a-accent-text)]'}`}
+              aria-hidden="true"
+            />
+            Tap any Note mark beside a lyric line to see what it references.
+          </p>
+
+          <div data-testid="edition-lyrics-grid" className="mx-auto mt-14 max-w-[620px] space-y-12">
             {track.lyrics.map((stanza, idx) => (
-              <div key={`${stanza.section}-${idx}`} className="break-inside-avoid">
+              <div
+                key={`${stanza.section}-${idx}`}
+                className={`border-t pt-6 first:border-t-0 first:pt-0 ${theme.dark ? 'border-white/15' : 'border-[var(--a-rule)]'}`}
+              >
                 <h3 className={`font-code text-[13px] uppercase tracking-[0.16em] ${theme.dark ? 'text-[#FFB8DA]' : 'text-[var(--a-accent-text)]'}`}>
                   {stanza.section}
                 </h3>
-                <div className="mt-3 space-y-1 font-serif text-[22px] leading-[1.5]">
-                  {stanza.lines.map((line, lIdx) => (
-                    <p key={lIdx}>{line}</p>
-                  ))}
+                <div className="mt-4 space-y-1 font-serif text-[22px] sm:text-[24px] leading-[1.55]">
+                  {stanza.lines.map((line, lIdx) => {
+                    const normalized = normalizeLine(line);
+                    const matched = !seenNoteLines.has(normalized) ? noteByNormalizedLine.get(normalized) : undefined;
+                    if (!matched) {
+                      return (
+                        <p key={lIdx} className="py-0.5">
+                          {line}
+                        </p>
+                      );
+                    }
+                    seenNoteLines.add(normalized);
+                    const { note, idx: noteIdx } = matched;
+                    return (
+                      <details
+                        key={lIdx}
+                        data-testid={`lyric-note-${track.slug}-${noteIdx}`}
+                        className="semi-note group my-1"
+                      >
+                        <summary
+                          className={`flex min-h-[44px] items-center justify-between gap-3 rounded-[6px] py-1.5 -mx-2 px-2 transition-colors ${
+                            theme.dark ? 'hover:bg-white/5' : 'hover:bg-black/5'
+                          }`}
+                        >
+                          <span
+                            className={`underline decoration-dotted underline-offset-[6px] ${
+                              theme.dark ? 'decoration-[#FFB8DA]/70' : 'decoration-[var(--a-accent-text)]/60'
+                            }`}
+                          >
+                            {line}
+                          </span>
+                          <span
+                            className={`inline-flex shrink-0 items-center gap-1.5 rounded-full border px-2.5 py-1 font-sans text-[13px] font-semibold transition-colors ${
+                              theme.dark
+                                ? 'border-[#FFB8DA]/45 text-[#FFB8DA] group-open:border-[#FE299E] group-open:bg-[#FE299E] group-open:text-white'
+                                : 'border-[var(--a-accent-text)]/40 text-[var(--a-accent-text)] group-open:border-[var(--a-accent-fill)] group-open:bg-[var(--a-accent-fill)] group-open:text-white'
+                            }`}
+                          >
+                            <Info className="h-3.5 w-3.5" aria-hidden="true" />
+                            <span>Note</span>
+                          </span>
+                        </summary>
+                        <div className="mt-2 mb-4 border-l-2 border-[#FE299E] pl-4 py-1.5 font-sans">
+                          <p
+                            className={`text-[13px] font-semibold uppercase tracking-[0.16em] ${
+                              theme.dark ? 'text-[#FFB8DA]' : 'text-[var(--a-accent-text)]'
+                            }`}
+                          >
+                            {note.topic}
+                          </p>
+                          <p
+                            className={`mt-1 text-[15px] leading-relaxed ${
+                              theme.dark ? 'text-[#F3EFE9]/90' : 'text-[var(--a-ink)]/90'
+                            }`}
+                          >
+                            {note.explanation}
+                          </p>
+                        </div>
+                      </details>
+                    );
+                  })}
                 </div>
               </div>
             ))}

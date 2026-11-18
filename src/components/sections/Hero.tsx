@@ -31,7 +31,7 @@ export default function Hero() {
       <m.div style={{ scale: videoScale }} className="absolute inset-0">
         <AmbientLoopVideo
           src="/loops/hero-semi-alive.mp4"
-          poster="/photos/gallery-vintage-mic.jpg"
+          poster="/photos/gallery-porch-guitar.jpg"
           className="h-full w-full object-cover object-[60%_30%]"
         />
       </m.div>

@@ -35,9 +35,9 @@ export default function AboutPage() {
             <figure className="lg:col-span-5">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                src="/photos/semi-studio-wide.jpg"
-                alt="Semi in her sunlit West Nashville studio surrounded by guitars and records."
-                className="w-full aspect-[4/3] rounded-[6px] object-cover"
+                src="/photos/about-nashville-studio.jpg"
+                alt="Semi smiling with an acoustic guitar in her sunlit West Nashville studio."
+                className="w-full aspect-[4/3] rounded-[6px] object-cover object-[50%_18%]"
               />
             </figure>
           </div>

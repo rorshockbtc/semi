@@ -10,22 +10,22 @@ const CHAPTERS = [
     n: '01',
     title: 'She remembered first.',
     body: 'About two years ago, chatbots forgot you the moment you closed the tab. Semi was built from day one around long-term memory—picking up the thread instead of starting over.',
-    img: '/photos/semi-notebook-window.jpg',
-    alt: 'Semi reading handwritten notes by a window.',
+    img: '/photos/about-remembered-first.jpg',
+    alt: 'Semi writing notes by hand at her sunlit oak desk.',
   },
   {
     n: '02',
     title: 'No limit, with Pipes.',
     body: 'When you sign in with a Pipes account and opt in, your conversations are saved to your own library—and Semi can remember all of it, with no cap on how far back she goes. Without an account, there’s simply nowhere for those memories to live.',
-    img: '/photos/semi-standing-linen.jpg',
-    alt: 'Semi standing in her sunlit writing room.',
+    img: '/photos/about-pipes-library.jpg',
+    alt: 'Semi standing beside wooden bookshelves of notebooks and vinyl records.',
   },
   {
     n: '03',
     title: 'Private when you want it.',
     body: 'Memory is opt-in, not a trap. Start a private chat whenever you like: it isn’t added to your library and Semi won’t carry it forward.',
-    img: '/photos/semi-coffee-journal.jpg',
-    alt: 'A ceramic mug beside an open journal on a wooden desk.',
+    img: '/photos/about-private-porch.jpg',
+    alt: 'Semi sitting peacefully on a West Nashville porch at twilight with a mug and closed journal.',
   },
 ];
 
@@ -69,7 +69,12 @@ export default function UnlimitedMemoryStage() {
               </div>
               <div className={`lg:col-span-6 ${i % 2 ? 'lg:order-1' : ''}`}>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={c.img} alt={c.alt} loading="lazy" className="w-full aspect-[4/3] rounded-[6px] object-cover" />
+                <img
+                  src={c.img}
+                  alt={c.alt}
+                  loading="lazy"
+                  className="w-full aspect-[4/3] rounded-[6px] object-cover object-[50%_18%]"
+                />
               </div>
             </m.li>
           ))}

@@ -81,7 +81,7 @@ export default function FilmScenesGallery({ preview = false }: { preview?: boole
                   src={photo.src}
                   alt={photo.alt}
                   loading="lazy"
-                  className={`w-full object-cover transition-transform duration-[1200ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.04] ${
+                  className={`w-full object-cover object-[50%_20%] transition-transform duration-[1200ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.04] ${
                     preview ? 'aspect-[4/5]' : idx % 3 === 1 ? 'aspect-[4/5]' : 'aspect-[3/2]'
                   }`}
                 />

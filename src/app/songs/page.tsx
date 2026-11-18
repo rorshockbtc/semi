@@ -38,7 +38,10 @@ export default function SongsIndexPage() {
           </div>
         </section>
 
-        <Closing image="/photos/style-denim-porch.jpg" alt="Semi on porch steps between two acoustic guitars." />
+        <Closing
+          image="/photos/gallery-brick-walk.jpg"
+          alt="Semi walking down a tree-lined brick sidewalk carrying a notebook."
+        />
       </main>
       <SiteFooter />
     </>

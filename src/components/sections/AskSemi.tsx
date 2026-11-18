@@ -4,6 +4,11 @@ import React, { useState } from 'react';
 import { Loader2, Send } from 'lucide-react';
 import { SemiMark } from '@/components/brand/SemiMark';
 
+interface HistoryTurn {
+  role: 'user' | 'model';
+  text: string;
+}
+
 const STARTERS = [
   'What is “Old Oak Tree” about?',
   'How does your memory work?',
@@ -14,6 +19,7 @@ const STARTERS = [
 export default function AskSemi() {
   const [message, setMessage] = useState('');
   const [reply, setReply] = useState<string | null>(null);
+  const [history, setHistory] = useState<HistoryTurn[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -27,11 +33,12 @@ export default function AskSemi() {
       const res = await fetch('/api/semi-chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message: clean }),
+        body: JSON.stringify({ message: clean, history: history.slice(-6) }),
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Could not reach Semi right now.');
       setReply(data.reply);
+      setHistory((prev) => [...prev.slice(-4), { role: 'user', text: clean }, { role: 'model', text: data.reply }]);
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : 'Something went wrong.');
     } finally {
@@ -80,7 +87,9 @@ export default function AskSemi() {
             }}
             className="mt-6 flex items-center gap-2 rounded-full border border-white/20 bg-white/5 p-1.5 focus-within:border-[#FE299E]"
           >
-            <label htmlFor="semi-question-input" className="sr-only">Ask Semi a question</label>
+            <label htmlFor="semi-question-input" className="sr-only">
+              Ask Semi a question
+            </label>
             <input
               id="semi-question-input"
               type="text"
@@ -101,7 +110,11 @@ export default function AskSemi() {
             </button>
           </form>
 
-          {error && <p role="alert" className="mt-4 text-[15px] text-[#FCA5A5]">{error}</p>}
+          {error && (
+            <p role="alert" className="mt-4 text-[15px] text-[#FCA5A5]">
+              {error}
+            </p>
+          )}
 
           {reply && (
             <div data-testid="semi-chat-reply" aria-live="polite" className="mt-8 border-l-2 border-[#FE299E] pl-6">

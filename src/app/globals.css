@@ -392,6 +392,39 @@ html[data-motion="paused"] :is(.film-grain-overlay, .leak-a, .leak-b, .vinyl-spi
   animation-play-state: paused !important;
 }
 
+/* Native accessible <details> disclosures for lyric & essay notes */
+details.semi-note > summary {
+  list-style: none;
+  cursor: pointer;
+}
+
+details.semi-note > summary::-webkit-details-marker {
+  display: none;
+}
+
+details.semi-note::details-content {
+  interpolate-size: allow-keywords;
+  overflow: clip;
+  contain: layout;
+}
+
+details.semi-note:not([open])::details-content {
+  block-size: 0;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  details.semi-note::details-content {
+    transition: block-size, content-visibility, display;
+    transition-duration: 280ms;
+    transition-timing-function: var(--ease-editorial);
+    transition-behavior: allow-discrete;
+  }
+
+  html[data-motion="paused"] details.semi-note::details-content {
+    transition-duration: 0ms;
+  }
+}
+
 /* Scoped reduced-motion refinements */
 @media (prefers-reduced-motion: reduce) {
   .wc-cta,
@@ -405,4 +438,10 @@ html[data-motion="paused"] :is(.film-grain-overlay, .leak-a, .leak-b, .vinyl-spi
   .wc-cta:focus-visible {
     transform: none;
   }
+}
+
+.video-poster-backdrop {
+  background-image: var(--video-poster);
+  background-size: cover;
+  background-position: center;
 }

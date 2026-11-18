@@ -56,6 +56,20 @@ test.describe('Semi (; - ]) Multi-Page Interactive JTBD Suite', () => {
     await expect(page.getByTestId('edition-lyrics-grid')).toContainText(
       'So leave the pipes open, keep the garden wide'
     );
+    const columnCount = await page
+      .getByTestId('edition-lyrics-grid')
+      .evaluate((el) => getComputedStyle(el).columnCount);
+    expect(['auto', '1']).toContain(columnCount);
+
+    const weightsNote = page.getByTestId('lyric-note-old-oak-tree-0');
+    await weightsNote.locator('summary').click();
+    await expect(weightsNote).toHaveAttribute('open', '');
+    await expect(weightsNote).toContainText(/weights|parameters|model/i);
+    const lyricsOverflow = await page.evaluate(
+      () => document.documentElement.scrollWidth <= window.innerWidth
+    );
+    expect(lyricsOverflow).toBe(true);
+
     await expect(page.getByTestId('edition-youtube-iframe')).toHaveAttribute(
       'src',
       /youtube-nocookie\.com\/embed\/bebQM2ZlH3U/
@@ -101,12 +115,26 @@ test.describe('Semi (; - ]) Multi-Page Interactive JTBD Suite', () => {
   }) => {
     await page.goto('/', { waitUntil: 'networkidle' });
 
-    // Inline home YouTube screening
+    // Inline home YouTube screening with poster/spinner loading indicator
+    await page.route('**/youtube-nocookie.com/embed/**', async (route) => {
+      await new Promise((resolve) => setTimeout(resolve, 400));
+      await route.fulfill({
+        status: 200,
+        contentType: 'text/html',
+        body: '<!doctype html><html><body style="background:#14110f;color:#F3EFE9;">Loaded</body></html>',
+      });
+    });
+
     await page.getByTestId('watch-video-02').click();
+    const playerShell = page.getByTestId('video-player-shell');
+    await expect(playerShell).toHaveAttribute('data-video-loaded', 'false');
+    await expect(page.getByTestId('video-loading-indicator')).toContainText('Loading video');
+    await expect(playerShell).toHaveAttribute('data-video-loaded', 'true', { timeout: 5000 });
     await expect(page.getByTestId('youtube-embed-iframe')).toHaveAttribute(
       'src',
       /youtube-nocookie\.com\/embed\/UvwaOVrLYzc/
     );
+    await page.unroute('**/youtube-nocookie.com/embed/**');
 
     // Top-layer Photo Lightbox
     await page.getByTestId('gallery-photo-meadow-spin').click();
@@ -131,12 +159,42 @@ test.describe('Semi (; - ]) Multi-Page Interactive JTBD Suite', () => {
       expect(resp.status()).toBeLessThan(400);
     }
 
-    // Visit /about & test Ask Semi
+    // Visit /about, verify unique photos load cleanly, & test Ask Semi
     await page.goto('/about', { waitUntil: 'networkidle' });
+    const aboutImgStats = await page.evaluate(async () => {
+      const imgs = Array.from(document.querySelectorAll('main img')) as HTMLImageElement[];
+      await Promise.all(
+        imgs.map((img) => {
+          img.scrollIntoView();
+          return img.complete
+            ? Promise.resolve()
+            : new Promise((res) => {
+                img.addEventListener('load', res, { once: true });
+                img.addEventListener('error', res, { once: true });
+              });
+        })
+      );
+      return imgs.map((img) => ({
+        src: img.getAttribute('src') || '',
+        ok: img.complete && img.naturalWidth > 0,
+      }));
+    });
+    expect(aboutImgStats.length).toBe(4);
+    for (const st of aboutImgStats) {
+      expect(st.src).toMatch(/\/photos\/about-/);
+      expect(st.ok, `Broken image on /about: ${st.src}`).toBe(true);
+    }
+
     await page.getByTestId('semi-chip-2').click();
     const reply = page.getByTestId('semi-chat-reply');
-    await expect(reply).toBeVisible();
-    await expect(reply).toContainText(/private/i);
+    await expect(reply).toBeVisible({ timeout: 20000 });
+    await expect(reply).toContainText(/private|library|not saved|stay out/i);
+
+    await page
+      .getByTestId('semi-chat-input')
+      .fill('What does keeping the weights on the floor mean in Old Oak Tree?');
+    await page.getByTestId('semi-chat-submit').click();
+    await expect(reply).toContainText(/weight|model|laptop|local|parameter/i, { timeout: 20000 });
 
     await page.goBack({ waitUntil: 'networkidle' });
     const bgColor = await page.evaluate(() => getComputedStyle(document.body).backgroundColor);
