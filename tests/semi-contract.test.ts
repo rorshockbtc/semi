@@ -1,0 +1,104 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import path from 'node:path';
+
+const ROOT = path.resolve(import.meta.dirname, '..');
+
+function walkFiles(dir: string, exts: Set<string>): string[] {
+  const results: string[] = [];
+  for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+    const full = path.join(dir, entry.name);
+    if (entry.isDirectory()) {
+      results.push(...walkFiles(full, exts));
+    } else if (exts.has(path.extname(entry.name))) {
+      results.push(full);
+    }
+  }
+  return results;
+}
+
+function relativeLuminance(hex: string): number {
+  const clean = hex.replace('#', '');
+  const [r, g, b] = [0, 2, 4].map((offset) => {
+    const c = parseInt(clean.slice(offset, offset + 2), 16) / 255;
+    return c <= 0.03928 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4);
+  });
+  return 0.2126 * r + 0.7152 * g + 0.0722 * b;
+}
+
+function contrastRatio(hexA: string, hexB: string): number {
+  const l1 = relativeLuminance(hexA);
+  const l2 = relativeLuminance(hexB);
+  const light = Math.max(l1, l2);
+  const dark = Math.min(l1, l2);
+  return (light + 0.05) / (dark + 0.05);
+}
+
+test('MP3 audio masters exist, exceed 1MB, and contain valid ID3/MPEG headers', () => {
+  const expected = [
+    '01-semi-old-oak-tree.mp3',
+    '02-semi-warm-unknown.mp3',
+    '03-semi-marks-on-the-screen-ink-on-the-page.mp3',
+  ];
+  for (const file of expected) {
+    const full = path.join(ROOT, 'public', 'audio', file);
+    assert.ok(fs.existsSync(full), `Missing MP3: ${file}`);
+    const stat = fs.statSync(full);
+    assert.ok(stat.size > 1_000_000, `MP3 too small (${stat.size} bytes): ${file}`);
+    const head = fs.readFileSync(full).subarray(0, 3);
+    const isId3 = head.toString('ascii') === 'ID3';
+    const isMpegFrame = head[0] === 0xff && (head[1] & 0xe0) === 0xe0;
+    assert.ok(isId3 || isMpegFrame, `Invalid MP3 header in ${file}`);
+  }
+});
+
+test('Photography plates, loops, OG image, and icon exist', () => {
+  const assets = [
+    'public/photos/semi-studio-wide.jpg',
+    'public/photos/semi-closeup-eyes.jpg',
+    'public/photos/semi-standing-linen.jpg',
+    'public/photos/semi-notebook-window.jpg',
+    'public/photos/semi-coffee-journal.jpg',
+    'public/loops/semi-guitar-loop.mp4',
+    'public/loops/semi-lantern-loop.mp4',
+    'public/loops/semi-letters-loop.mp4',
+    'public/og-semi.jpg',
+    'public/icon.svg',
+  ];
+  for (const rel of assets) {
+    const full = path.join(ROOT, rel);
+    assert.ok(fs.existsSync(full), `Missing asset: ${rel}`);
+    assert.ok(fs.statSync(full).size > 400, `Asset unexpectedly empty: ${rel}`);
+  }
+});
+
+test('Accént 3.0 Warm Sandstone contrast math & globals.css invariants hold', () => {
+  const globals = fs.readFileSync(path.join(ROOT, 'src', 'app', 'globals.css'), 'utf8');
+  const stylesDoc = fs.readFileSync(path.join(ROOT, 'STYLES.md'), 'utf8');
+
+  assert.match(globals, /--a-bg:\s*#E8E2D5/i);
+  assert.match(globals, /--a-surface:\s*#F3EFE9/i);
+  assert.match(globals, /--a-ink:\s*#111827/i);
+  assert.match(globals, /--a-accent-fill:\s*#FE299E/i);
+  assert.match(globals, /--a-accent-text:\s*#A3285C/i);
+  assert.match(globals, /--text-xs:\s*0\.8125rem/);
+  assert.match(stylesDoc, /#E8E2D5/);
+
+  assert.ok(contrastRatio('#111827', '#E8E2D5') >= 12.0, 'Body ink must meet >= 12:1 WCAG AAA on Sandstone');
+  assert.ok(contrastRatio('#4B5563', '#E8E2D5') >= 4.5, 'Muted ink must meet WCAG AA on Sandstone');
+  assert.ok(contrastRatio('#A3285C', '#E8E2D5') >= 4.5, 'Accent text must meet WCAG AA on Sandstone');
+});
+
+test('Strict brand spelling (Semi, never Simmy/Simi), zero internal jargon, and >= 13px floor across src/', () => {
+  const files = walkFiles(path.join(ROOT, 'src'), new Set(['.ts', '.tsx', '.css']));
+  const forbiddenWords = /\b(simmy|simi|grader|hydrate|node\s+payload)\b/i;
+  const sub13Text = /text-\[(10|11|12)px\]/;
+
+  for (const file of files) {
+    const content = fs.readFileSync(file, 'utf8');
+    const rel = path.relative(ROOT, file);
+    assert.equal(forbiddenWords.test(content), false, `Forbidden term detected in ${rel}`);
+    assert.equal(sub13Text.test(content), false, `Sub-13px micro-text class detected in ${rel}`);
+  }
+});

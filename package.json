@@ -1,0 +1,44 @@
+{
+  "name": "semi",
+  "version": "0.1.0",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rorshockbtc/semi.git"
+  },
+  "homepage": "https://semi.colonhyphenbracket.pink",
+  "private": false,
+  "type": "module",
+  "scripts": {
+    "dev": "next dev -p 3450",
+    "build": "next build",
+    "start": "next start -p 3450",
+    "lint": "eslint",
+    "prepare-media": "node scripts/prepare-media.mjs",
+    "test:unit": "node --experimental-strip-types --test tests/*.test.ts",
+    "test:e2e": "playwright test"
+  },
+  "dependencies": {
+    "accent-ui": "file:vendor/accent-ui-1.1.0.tgz",
+    "diff": "^9.0.0",
+    "framer-motion": "^12.43.0",
+    "lucide-react": "^1.73.0",
+    "next": "16.4.6",
+    "react": "19.3.0",
+    "react-dom": "19.3.0",
+    "three": "^0.181.2"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.52.0",
+    "@tailwindcss/turbopack": "4.3.3",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "@types/three": "^0.181.0",
+    "eslint": "^9",
+    "eslint-config-next": "16.4.6",
+    "ffmpeg-static": "^5.2.0",
+    "tailwindcss": "4.3.3",
+    "typescript": "^5"
+  }
+}

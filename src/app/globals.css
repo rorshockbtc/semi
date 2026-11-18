@@ -1,0 +1,353 @@
+@import "tailwindcss";
+@import "accent-ui/styles.css";
+
+:root {
+  /* Sunlit Sandstone & Prism Light Dialect (Accént 3.0) */
+  --a-bg: #E8E2D5;
+  --a-surface: #F3EFE9;
+  --a-card: #F3EFE9;
+  --a-well: #FAF8F5;
+  --a-ink: #111827;
+  --a-muted: #4B5563;
+  --a-rule: rgba(17, 24, 39, 0.14);
+
+  /* Sovereign Hot Pink CTA fill & punctuation mark; #A3285C inline accessible text */
+  --a-accent: #FE299E;
+  --a-accent-fill: #FE299E;
+  --a-accent-fill-hover: #111827;
+  --a-accent-fg: #FFFFFF;
+  --a-accent-text: #A3285C;
+
+  /* Sunlit West Nashville Prism Layer */
+  --semi-honey: #F4D7B4;
+  --semi-rose: #F7B9C9;
+  --semi-iris: #C9B9E8;
+  --semi-sky: #A9D3EA;
+  --semi-copper: #B45309;
+
+  --a-radius-cta: 9999px;
+  --target-size: 44px;
+  --ease-editorial: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@theme inline {
+  --color-background: var(--a-bg);
+  --color-foreground: var(--a-ink);
+  --font-display: var(--font-playfair), Georgia, "Times New Roman", serif;
+  --font-serif: var(--font-cormorant), Georgia, serif;
+  --font-sans: var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains), ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  /* Strict Accént Layer 1 13px minimum typographic floor */
+  --text-xs: 0.8125rem;
+  --text-xs--line-height: 1.4;
+}
+
+@layer base {
+  html {
+    scroll-padding-top: 5.5rem;
+    background-color: var(--a-bg);
+    color: var(--a-ink);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
+  }
+
+  body {
+    background: var(--a-bg);
+    color: var(--a-ink);
+    font-family: var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
+    font-size: 1rem;
+    line-height: 1.6;
+    overflow-wrap: break-word;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  :where(a, code) {
+    overflow-wrap: anywhere;
+  }
+
+  img,
+  video {
+    max-inline-size: 100%;
+    block-size: auto;
+  }
+
+  h1,
+  h2,
+  h3 {
+    text-wrap: balance;
+  }
+
+  p,
+  li {
+    text-wrap: pretty;
+  }
+
+  input,
+  textarea,
+  select {
+    font-size: max(1rem, 1em);
+  }
+
+  :where(
+    button,
+    select,
+    textarea,
+    input:not([type="checkbox"], [type="radio"]),
+    [role="button"],
+    [role="tab"],
+    nav a
+  ) {
+    min-block-size: var(--target-size);
+    min-inline-size: var(--target-size);
+  }
+
+  :where(a, button, input, textarea, select, summary, [tabindex]):focus-visible {
+    outline: 2.5px solid var(--a-accent);
+    outline-offset: 2px;
+  }
+}
+
+.font-code {
+  font-family: var(--font-jetbrains), ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+/* Editorial Display Scales */
+.text-huge {
+  font-size: clamp(2.85rem, 6.8vw, 6.75rem);
+  line-height: 0.94;
+  letter-spacing: -0.03em;
+}
+
+.text-big {
+  font-size: clamp(2.1rem, 4.4vw, 4.1rem);
+  line-height: 0.99;
+  letter-spacing: -0.025em;
+}
+
+/* Subtle analog film paper tooth */
+.film-grain {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .08 0 0 0 0 .10 0 0 0 0 .16 0 0 0 .055 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* Override accent-ui's .wc-cta bloom to radiate warm Sovereign Pink */
+.wc-cta {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  --bx: 50%;
+  --by: 50%;
+  transition:
+    transform 220ms var(--ease-editorial),
+    background-color 220ms var(--ease-editorial),
+    color 220ms var(--ease-editorial),
+    box-shadow 220ms var(--ease-editorial);
+}
+
+.wc-cta::before {
+  content: "";
+  position: absolute;
+  left: var(--bx);
+  top: var(--by);
+  width: 260%;
+  aspect-ratio: 1;
+  z-index: -1;
+  border-radius: 50%;
+  background: radial-gradient(
+    closest-side,
+    color-mix(in oklab, #111827 92%, transparent) 0%,
+    color-mix(in oklab, #2A2F45 84%, var(--a-accent)) 60%,
+    transparent 74%
+  );
+  transform: translate(-50%, -50%) scale(0);
+  transition: transform 520ms var(--ease-editorial);
+}
+
+.wc-cta:hover::before,
+.wc-cta:focus-visible::before {
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.wc-cta:hover,
+.wc-cta:focus-visible {
+  transform: translateY(-2px);
+}
+
+.wc-cta-light::before {
+  background: radial-gradient(
+    closest-side,
+    color-mix(in oklab, var(--a-accent) 92%, transparent) 0%,
+    color-mix(in oklab, var(--a-accent) 78%, var(--semi-rose)) 60%,
+    transparent 74%
+  );
+}
+
+/* Warm brushstroke underline */
+.wc-link {
+  text-decoration: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 8' preserveAspectRatio='none'%3E%3Cpath d='M1 5.2c14-2.6 28 1.4 42-.6 15-2.1 29-2.3 44 .2 11 1.8 22 .9 32-1.4' fill='none' stroke='%23FE299E' stroke-width='2.6' stroke-linecap='round' opacity='.88'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: 0 100%;
+  background-size: 0% 0.4em;
+  padding-bottom: 0.14em;
+  transition: background-size 420ms var(--ease-editorial), color 180ms ease;
+}
+
+.wc-link:hover,
+.wc-link:focus-visible,
+.wc-link[data-active="true"] {
+  background-size: 100% 0.4em;
+}
+
+.wc-link[data-active="true"] {
+  color: var(--a-accent-text);
+}
+
+/* Native top-layer <dialog> entry/exit & backdrop containment */
+dialog.semi-dialog {
+  margin: auto;
+  max-width: min(92vw, 48rem);
+  width: 100%;
+  max-height: 88dvh;
+  border: 1px solid var(--a-rule);
+  border-radius: 1.25rem;
+  background: var(--a-well);
+  color: var(--a-ink);
+  padding: 0;
+  overscroll-behavior: contain;
+  opacity: 0;
+  transform: translateY(12px) scale(0.985);
+  transition:
+    opacity 220ms var(--ease-editorial),
+    transform 220ms var(--ease-editorial),
+    display 220ms allow-discrete,
+    overlay 220ms allow-discrete;
+}
+
+dialog.semi-dialog[open] {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+@starting-style {
+  dialog.semi-dialog[open] {
+    opacity: 0;
+    transform: translateY(12px) scale(0.985);
+  }
+}
+
+dialog.semi-dialog::backdrop {
+  background-color: rgba(17, 24, 39, 0.46);
+  backdrop-filter: blur(4px);
+  overscroll-behavior: contain;
+}
+
+/* Single-row responsive audio/video tablist */
+.semi-tablist {
+  display: flex;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  scrollbar-width: none;
+  gap: 0.5rem;
+}
+
+.semi-tablist::-webkit-scrollbar {
+  display: none;
+}
+
+.semi-tablist [role="tab"] {
+  position: relative;
+  flex: none;
+}
+
+.semi-tablist [role="tab"][aria-selected="true"]::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0;
+  border-block-end: 2.5px solid var(--a-accent);
+}
+
+/* Lyric Marquee Ribbon */
+@keyframes semi-marquee-scroll {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+.semi-marquee-track {
+  display: flex;
+  width: max-content;
+  will-change: transform;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .semi-marquee-track[data-motion="active"] {
+    animation: semi-marquee-scroll 34s linear infinite;
+  }
+  .semi-marquee-track[data-motion="active"]:hover {
+    animation-play-state: paused;
+  }
+}
+
+/* Custom accessible audio range slider */
+input[type="range"].semi-range {
+  -webkit-appearance: none;
+  appearance: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+input[type="range"].semi-range::-webkit-slider-runnable-track {
+  height: 4px;
+  border-radius: 9999px;
+  background: rgba(17, 24, 39, 0.16);
+}
+
+input[type="range"].semi-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 18px;
+  width: 18px;
+  margin-top: -7px;
+  border-radius: 9999px;
+  background: var(--a-accent);
+  border: 2px solid #ffffff;
+  box-shadow: 0 2px 6px rgba(17, 24, 39, 0.25);
+}
+
+input[type="range"].semi-range::-moz-range-track {
+  height: 4px;
+  border-radius: 9999px;
+  background: rgba(17, 24, 39, 0.16);
+}
+
+input[type="range"].semi-range::-moz-range-thumb {
+  height: 18px;
+  width: 18px;
+  border-radius: 9999px;
+  background: var(--a-accent);
+  border: 2px solid #ffffff;
+  box-shadow: 0 2px 6px rgba(17, 24, 39, 0.25);
+}
+
+/* Scoped reduced-motion refinements */
+@media (prefers-reduced-motion: reduce) {
+  .wc-cta,
+  .wc-cta::before,
+  .wc-link,
+  dialog.semi-dialog {
+    transition: color 180ms ease, background-color 180ms ease, border-color 180ms ease;
+    transform: none;
+  }
+  .wc-cta:hover,
+  .wc-cta:focus-visible {
+    transform: none;
+  }
+}
