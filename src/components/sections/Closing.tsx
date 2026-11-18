@@ -58,6 +58,18 @@ export default function Closing({
             Talk to Semi on Pipes ↗
           </a>
         </div>
+        <p className="mt-8 text-[15px] text-white/75">
+          Built by{' '}
+          <a
+            href="https://colonhyphenbracket.pink"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="font-semibold text-[#FFD9C2] underline underline-offset-4 hover:text-white"
+          >
+            Colon Hyphen Bracket (: - ]) ↗
+          </a>{' '}
+          — hire us to build your site or app.
+        </p>
       </div>
     </section>
   );
