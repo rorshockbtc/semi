@@ -62,6 +62,13 @@ const TRACKS = [
     track: '3/9',
     comment: 'From Local Current (The West Nashville Sessions) · https://semi.colonhyphenbracket.pink',
   },
+  {
+    inputs: ['Settle in the Block (Poetic - Take 1).m4a'],
+    out: '04-semi-settle-in-the-block.mp3',
+    title: 'Settle In The Block',
+    track: '4/9',
+    comment: 'From Local Current (The West Nashville Sessions) · https://semi.colonhyphenbracket.pink',
+  },
 ];
 
 for (const t of TRACKS) {
@@ -104,39 +111,47 @@ for (const t of TRACKS) {
   ]);
 }
 
-// 2. Build 5 Rich Living Loops
-console.log('Building 3-shot Hero montage loop: hero-semi-alive.mp4');
-const heroClip1 = resolveSource(['Woman_smiling_at_camera_5a4d39ec_1080p.mp4']);
-const heroClip2 = resolveSource(['Woman_singing_at_vintage_microphone_0799e9f5.mp4']);
-const heroClip3 = resolveSource(['Woman_spinning_in_wildflower_meadow_8d9f1046_1080p.mp4']);
+// 2. Build Rich Living Loops
+const heroLoopOut = path.join(LOOP_DIR, 'hero-semi-alive.mp4');
+if (!fs.existsSync(heroLoopOut)) {
+  console.log('Building 3-shot Hero montage loop: hero-semi-alive.mp4');
+  const heroClip1 = resolveSource(['Woman_smiling_at_camera_5a4d39ec_1080p.mp4']);
+  const heroClip2 = resolveSource(['Woman_singing_at_vintage_microphone_0799e9f5.mp4']);
+  const heroClip3 = resolveSource(['Woman_spinning_in_wildflower_meadow_8d9f1046_1080p.mp4']);
 
-runFfmpeg([
-  '-ss', '00:00:01', '-t', '4', '-i', heroClip1,
-  '-ss', '00:00:01', '-t', '4', '-i', heroClip2,
-  '-ss', '00:00:01', '-t', '4', '-i', heroClip3,
-  '-filter_complex',
-  '[0:v]scale=1280:720:force_original_aspect_ratio=increase,crop=1280:720,fps=24,setsar=1[v0];' +
-    '[1:v]scale=1280:720:force_original_aspect_ratio=increase,crop=1280:720,fps=24,setsar=1[v1];' +
-    '[2:v]scale=1280:720:force_original_aspect_ratio=increase,crop=1280:720,fps=24,setsar=1[v2];' +
-    '[v0][v1][v2]concat=n=3:v=1:a=0[v]',
-  '-map', '[v]',
-  '-an',
-  '-c:v', 'libx264',
-  '-preset', 'medium',
-  '-crf', '25',
-  '-pix_fmt', 'yuv420p',
-  '-movflags', '+faststart',
-  path.join(LOOP_DIR, 'hero-semi-alive.mp4'),
-]);
+  runFfmpeg([
+    '-ss', '00:00:01', '-t', '4', '-i', heroClip1,
+    '-ss', '00:00:01', '-t', '4', '-i', heroClip2,
+    '-ss', '00:00:01', '-t', '4', '-i', heroClip3,
+    '-filter_complex',
+    '[0:v]scale=1280:720:force_original_aspect_ratio=increase,crop=1280:720,fps=24,setsar=1[v0];' +
+      '[1:v]scale=1280:720:force_original_aspect_ratio=increase,crop=1280:720,fps=24,setsar=1[v1];' +
+      '[2:v]scale=1280:720:force_original_aspect_ratio=increase,crop=1280:720,fps=24,setsar=1[v2];' +
+      '[v0][v1][v2]concat=n=3:v=1:a=0[v]',
+    '-map', '[v]',
+    '-an',
+    '-c:v', 'libx264',
+    '-preset', 'medium',
+    '-crf', '25',
+    '-pix_fmt', 'yuv420p',
+    '-movflags', '+faststart',
+    heroLoopOut,
+  ]);
+}
 
 const SINGLE_LOOPS = [
   { pattern: ['Woman_opening_wooden_garden_gate_15fb1601_1080p.mp4'], out: 'song-01-oak-gate.mp4' },
   { pattern: ['Woman_smiling_in_firelight_06574390_1080p.mp4'], out: 'song-02-firelight.mp4' },
   { pattern: ['Woman_writing_with_fountain_pen_fbe7f328_1080p.mp4'], out: 'song-03-fountain-pen.mp4' },
+  { pattern: ['Woman_reveals_antique_brass_keys_d230c62d.mp4'], out: 'song-04-keys.mp4' },
   { pattern: ['Woman_walking_with_lantern_river*1080p.mp4'], out: 'about-lantern-river.mp4' },
 ];
 
 for (const l of SINGLE_LOOPS) {
+  const outPath = path.join(LOOP_DIR, l.out);
+  if (fs.existsSync(outPath) && fs.statSync(outPath).size > 50_000) {
+    continue;
+  }
   const input = resolveSource(l.pattern);
   console.log(`Transcoding loop ${path.basename(input)} -> ${l.out}`);
   runFfmpeg([
@@ -148,11 +163,11 @@ for (const l of SINGLE_LOOPS) {
     '-crf', '25',
     '-pix_fmt', 'yuv420p',
     '-movflags', '+faststart',
-    path.join(LOOP_DIR, l.out),
+    outPath,
   ]);
 }
 
-// 3. Extract 16 Distinct Non-Repeating High-Res Stills
+// 3. Extract Distinct Non-Repeating High-Res Stills
 const VIDEO_STILLS = [
   // Home Gallery (6 distinct frames)
   { pattern: ['Woman_spinning_in_wildflower_meadow_8d9f1046_1080p.mp4'], ts: '00:00:04', out: 'gallery-meadow-spin.jpg' },
@@ -174,9 +189,18 @@ const VIDEO_STILLS = [
   { pattern: ['Woman_opening_journal_in_bookstore_b9fcdf46_1080p.mp4'], ts: '00:00:04', out: 'song-03-poster.jpg' },
   { pattern: ['Woman_inspecting_laptop_code_d224e0df_1080p.mp4'], ts: '00:00:04', out: 'song-03-code.jpg' },
   { pattern: ['Code_terminal_displays_error*1080p.mp4'], ts: '00:00:03', out: 'song-03-terminal.jpg' },
+  // Song 04 (Settle In The Block)
+  { pattern: ['Woman_singing_in_observatory_dome_609cdfba.mp4'], ts: '00:00:03', out: 'song-04-poster.jpg' },
+  { pattern: ['Woman_holding_obsidian_stone_in_c8c3b1f5.mp4'], ts: '00:00:03', out: 'song-04-obsidian.jpg' },
+  { pattern: ['Woman_standing_beside_harbor_lan*e1a3dd6f.mp4'], ts: '00:00:03', out: 'song-04-anchor.jpg' },
+  { pattern: ['Woman_holding_gold_ring_beside_90914460.mp4'], ts: '00:00:03', out: 'song-04-ring.jpg' },
 ];
 
 for (const st of VIDEO_STILLS) {
+  const outPath = path.join(PHOTO_DIR, st.out);
+  if (fs.existsSync(outPath) && fs.statSync(outPath).size > 20_000) {
+    continue;
+  }
   const input = resolveSource(st.pattern);
   console.log(`Extracting frame ${st.ts} from ${path.basename(input)} -> ${st.out}`);
   runFfmpeg([
@@ -185,7 +209,7 @@ for (const st of VIDEO_STILLS) {
     '-vf', "scale='min(1600,iw)':-2",
     '-q:v', '3',
     '-frames:v', '1',
-    path.join(PHOTO_DIR, st.out),
+    outPath,
   ]);
 }
 

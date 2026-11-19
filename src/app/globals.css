@@ -374,6 +374,12 @@ input[type="range"].semi-range::-moz-range-thumb {
   50%, 100% { opacity: 0; }
 }
 
+/* Settle In The Block: steady amber ten-minute block pulse */
+@keyframes block-pulse {
+  0%, 100% { opacity: 0.42; transform: scale(0.98); }
+  50% { opacity: 0.82; transform: scale(1.06); }
+}
+
 @media (prefers-reduced-motion: no-preference) {
   .film-grain-overlay { animation: grain-shift 1.2s steps(6) infinite; }
   .leak-a { animation: leak-drift-a 18s ease-in-out infinite; }
@@ -382,9 +388,10 @@ input[type="range"].semi-range::-moz-range-thumb {
   .dapple-sway { animation: dapple-sway 14s ease-in-out infinite; }
   .lantern-breathe { animation: lantern-breathe 6.5s ease-in-out infinite; }
   .caret-blink { animation: caret-blink 1.05s steps(1) infinite; }
+  .block-pulse { animation: block-pulse 10s ease-in-out infinite; }
 }
 
-html[data-motion="paused"] :is(.film-grain-overlay, .leak-a, .leak-b, .vinyl-spin, .dapple-sway, .lantern-breathe, .caret-blink, .semi-marquee-track) {
+html[data-motion="paused"] :is(.film-grain-overlay, .leak-a, .leak-b, .vinyl-spin, .dapple-sway, .lantern-breathe, .caret-blink, .block-pulse, .semi-marquee-track) {
   animation-play-state: paused !important;
 }
 

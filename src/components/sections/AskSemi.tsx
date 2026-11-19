@@ -10,9 +10,10 @@ interface HistoryTurn {
 }
 
 const STARTERS = [
-  'What is “Old Oak Tree” about?',
+  'What is “Settle In The Block” about?',
   'How does your memory work?',
   'Can I talk to you privately?',
+  'What is “Old Oak Tree” about?',
   'Why are your brands punctuation marks?',
 ];
 

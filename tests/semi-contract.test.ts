@@ -40,6 +40,7 @@ test('MP3 audio masters exist, exceed 1MB, and contain valid ID3/MPEG headers', 
     '01-semi-old-oak-tree.mp3',
     '02-semi-warm-unknown.mp3',
     '03-semi-marks-on-the-screen-ink-on-the-page.mp3',
+    '04-semi-settle-in-the-block.mp3',
   ];
   for (const file of expected) {
     const full = path.join(ROOT, 'public', 'audio', file);
@@ -53,12 +54,13 @@ test('MP3 audio masters exist, exceed 1MB, and contain valid ID3/MPEG headers', 
   }
 });
 
-test('All v2 living loops, 16+ distinct photo stills, OG image, and icon exist', () => {
+test('All living loops, distinct photo stills, OG image, and icon exist', () => {
   const assets = [
     'public/loops/hero-semi-alive.mp4',
     'public/loops/song-01-oak-gate.mp4',
     'public/loops/song-02-firelight.mp4',
     'public/loops/song-03-fountain-pen.mp4',
+    'public/loops/song-04-keys.mp4',
     'public/loops/about-lantern-river.mp4',
     'public/photos/gallery-meadow-spin.jpg',
     'public/photos/gallery-vintage-mic.jpg',
@@ -76,6 +78,10 @@ test('All v2 living loops, 16+ distinct photo stills, OG image, and icon exist',
     'public/photos/song-03-poster.jpg',
     'public/photos/song-03-code.jpg',
     'public/photos/song-03-terminal.jpg',
+    'public/photos/song-04-poster.jpg',
+    'public/photos/song-04-obsidian.jpg',
+    'public/photos/song-04-anchor.jpg',
+    'public/photos/song-04-ring.jpg',
     'public/photos/semi-studio-wide.jpg',
     'public/photos/semi-closeup-eyes.jpg',
     'public/photos/semi-smiling-portrait.jpg',
@@ -105,10 +111,10 @@ test('All v2 living loops, 16+ distinct photo stills, OG image, and icon exist',
   }
 });
 
-test('Zero duplicate image paths across the entire site, rich song essays, and interactive lyricNotes exist', async () => {
+test('Zero duplicate image paths across the entire site, rich song essays, Bitcoin commons spotlight, and interactive lyricNotes exist', async () => {
   const { FILM_SCENES_GALLERY, SEMI_TRACKS } = await import('../src/data/semi-songs.ts');
 
-  assert.equal(SEMI_TRACKS.length, 3);
+  assert.equal(SEMI_TRACKS.length, 4);
   assert.equal(FILM_SCENES_GALLERY.length, 12);
 
   const usedImages: string[] = [
@@ -143,11 +149,25 @@ test('Zero duplicate image paths across the entire site, rich song essays, and i
   assert.ok(weightsNote, 'old-oak-tree must annotate "Keeping the weights right here on the floor"');
   assert.match(weightsNote.explanation, /model weights|weights|numerical parameters/i);
 
+  const bitcoinTrack = SEMI_TRACKS.find((t) => t.slug === 'settle-in-the-block');
+  assert.ok(bitcoinTrack, 'Missing settle-in-the-block track');
+  assert.equal(bitcoinTrack.youtubeId, 'RtinxbjW35Q');
+  assert.ok(bitcoinTrack.communitySpotlight, 'settle-in-the-block must include communitySpotlight');
+  assert.ok(
+    bitcoinTrack.communitySpotlight.primaryLinks.some((l) => l.href.includes('bitcoin.org')),
+    'settle-in-the-block must link to bitcoin.org'
+  );
+  assert.ok(
+    bitcoinTrack.communitySpotlight.educationSites.length >= 15 &&
+      bitcoinTrack.communitySpotlight.educationSites.length <= 20,
+    'settle-in-the-block must feature 15-20 curated Bitcoin education sites'
+  );
+
   const unique = new Set(usedImages);
   assert.equal(unique.size, usedImages.length, 'Duplicate image path detected across site sections, tracks, or gallery');
 });
 
-test('Gemini chat endpoint and knowledge builder cover Semi persona, closed-source fact, Pipes memory, and all songs', async () => {
+test('Gemini chat endpoint and knowledge builder cover Semi persona, closed-source fact, Pipes memory, and all 4 songs', async () => {
   const { buildSemiSystemInstruction } = await import('../src/lib/semi-knowledge.ts');
   const prompt = buildSemiSystemInstruction();
   const routeSrc = fs.readFileSync(path.join(ROOT, 'src', 'app', 'api', 'semi-chat', 'route.ts'), 'utf8');
@@ -156,6 +176,8 @@ test('Gemini chat endpoint and knowledge builder cover Semi persona, closed-sour
   assert.match(prompt, /Old Oak Tree/);
   assert.match(prompt, /Warm Unknown/);
   assert.match(prompt, /Marks On The Screen, Ink On The Page/);
+  assert.match(prompt, /Settle In The Block/);
+  assert.match(prompt, /bitcoin\.org/);
   assert.match(prompt, /closed source/i);
   assert.match(prompt, /private chat/i);
   assert.match(prompt, /Keeping the weights right here on the floor/);

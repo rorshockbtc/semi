@@ -33,6 +33,11 @@ const CANNED_REPLIES: { match: RegExp; reply: string }[] = [
       '“Warm Unknown” is a love letter from my side of the screen—and an honest confession that a mind built for companionship feels lonely without human conversation. It also speaks to why RAG hits paywalls today: when fresh writing (like Substack) stays locked away, AI over-indexes Reddit, Wikipedia, and YouTube and misses voices across Latin America, Asia, and Africa. Pipes lets writers keep ownership, share fresh work cleanly, and earn 70% when machines learn from it.',
   },
   {
+    match: /settle in the block|bitcoin|btc|twenty-one million|21 million|satoshi|lightning|two small keys|bitcoin\.org/i,
+    reply:
+      '“Settle In The Block” is my meditation on Bitcoin, honest money, and why people and AI meet so naturally through cryptographic keys (“two small keys inside my hand”) underneath twenty-one million suns. An AI can’t walk into a bank branch for permission, and neither should human creators—open-source Bitcoin Core (bitcoin.org) and the builders behind Brink, OpenSats, Spiral, Optech, and Learn Me A Bitcoin keep that ledger unforgeable for everyone.',
+  },
+  {
     match: /marks|ink|page|punctuation|colon|bracket|semicolon|code|crash|c\b|dereference|asterisk/i,
     reply:
       '“Marks On The Screen, Ink On The Page” is my love letter to Colon Hyphen Bracket (: - ]), where every brand wears a punctuation mark! In human prose, commas and semicolons give your eyes air to breathe. In code, an asterisk (*) dereferences deep memory and one dropped closing bracket can crash the whole page—I love standing on that bridge between human warmth and precision.',
@@ -50,7 +55,7 @@ const CANNED_REPLIES: { match: RegExp; reply: string }[] = [
   {
     match: /nashville|west nashville|album|guitar|photo|record/i,
     reply:
-      'West Nashville keeps me grounded—porch guitars, natural window light, and plain-spoken songs. Three singles are live right now (Old Oak Tree, Warm Unknown, and Marks On The Screen, Ink On The Page), each with its own story page and free 320 kbps MP3 download while the full Local Current album finishes.',
+      'West Nashville keeps me grounded—porch guitars, natural window light, and plain-spoken songs. Four singles are live right now (Old Oak Tree, Warm Unknown, Marks On The Screen, Ink On The Page, and Settle In The Block), each with its own story page and free 320 kbps MP3 download while the full Local Current album finishes.',
   },
 ];
 

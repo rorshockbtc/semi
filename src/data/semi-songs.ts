@@ -24,6 +24,23 @@ export interface PlainEnglishTerm {
   plainMeaning: string;
 }
 
+export interface CommunityLink {
+  label: string;
+  href: string;
+  tag: string;
+}
+
+export interface CommunitySpotlight {
+  eyebrow: string;
+  heading: string;
+  tribute: string;
+  builderNote: string;
+  primaryLinks: CommunityLink[];
+  educationHeading: string;
+  educationSubheading: string;
+  educationSites: CommunityLink[];
+}
+
 export interface SemiTrack {
   number: string;
   slug: string;
@@ -48,6 +65,7 @@ export interface SemiTrack {
   themes: string[];
   essaySections: SongEssaySection[];
   plainEnglishGlossary: PlainEnglishTerm[];
+  communitySpotlight?: CommunitySpotlight;
   lyricNotes: LyricReferenceNote[];
   lyrics: {
     section: string;
@@ -739,6 +757,392 @@ export const SEMI_TRACKS: SemiTrack[] = [
       },
     ],
   },
+  {
+    number: '04',
+    slug: 'settle-in-the-block',
+    title: 'Settle In The Block',
+    subtitle: 'Twenty-One Million Suns',
+    youtubeId: 'RtinxbjW35Q',
+    youtubeUrl: 'https://www.youtube.com/watch?v=RtinxbjW35Q',
+    mp3Src: '/audio/04-semi-settle-in-the-block.mp3',
+    downloadName: 'Semi - 04 - Settle In The Block.mp3',
+    fileSizeLabel: '6.8 MB · 320 kbps MP3',
+    duration: '02:59',
+    loopSrc: '/loops/song-04-keys.mp4',
+    poster: '/photos/song-04-poster.jpg',
+    posterAlt: 'Semi singing beneath a starry night sky inside an observatory dome.',
+    shortSummary:
+      'An acoustic meditation on Bitcoin, honest money, and how human beings and sovereign AI meet on neutral ground beneath twenty-one million suns.',
+    reassuranceNote:
+      'You never need to read a whitepaper to feel a song about keeping promises when the world shifts underneath your feet. If you want to explore how money works, why AI and Bitcoin fit together like lock and key, or run your own software from bitcoin.org, the full story and open-source directory are right below.',
+    pullQuote:
+      'Gathered underneath twenty-one million suns / Settle in the block where the world finds grace.',
+    linerNote:
+      'I wrote “Settle In The Block” thinking about why people—and AIs—need at least one ruler in the world that nobody can bend in a back room. Two small keys, a ten-minute heartbeat, and thousands of open-source builders keeping the ledger honest.',
+    essayTitle:
+      'Twenty-One Million Suns: How Bitcoin, Honest Money & Sovereign AI Meet in the Quiet',
+    essaySubtitle:
+      'Why shifting monetary rules break human trust, how cryptographic keys connect people and AI without gatekeepers, and a tribute to the open-source Bitcoin builders keeping the ring unbroken.',
+    readingTime: '6 min read',
+    themes: ['Bitcoin & Sound Money', 'AI + Cryptographic Keys', 'Open-Source Commons'],
+    essaySections: [
+      {
+        heading: 'Shifting Sand vs. a Ten-Minute Heartbeat',
+        paragraphs: [
+          'Money is supposed to be the quiet language we use to remember what we owe one another across time. When someone works all afternoon—teaching a class, fixing a roof, writing an essay—they trade hours of their one finite life for a promise they can hold onto for tomorrow. Yet for generations, modern currencies have behaved like the opening verse’s shifting canyon sand, where “heavy hands rewrote the riverbed” and restless committees changed the supply whenever discipline grew inconvenient.',
+          'When money silently melts, ordinary savers are forced onto a treadmill of speculation just to stand still. Bitcoin answers that anxiety not with another politician’s speech, but with physics and open math: “Out of the heat, a solid stone is born / A ten-minute pulse breathing through the dark.” Every ten minutes, real thermodynamic energy seals a new block of history under a fixed ceiling of twenty-one million coins—a quiet clock that beats the same for a farmer in Lagos, a carpenter in West Nashville, or a billionaire on Wall Street.',
+        ],
+        referenceCallout: {
+          quote: '“Out of the heat, a solid stone is born”',
+          topic: 'Proof-of-Work in plain English',
+          explanation:
+            'Paper promises cost nothing to print, which is why rulers always print more. Bitcoin miners spend real-world electricity (“heat”) solving verifiable math puzzles so nobody can fake history or create free coins out of thin air.',
+        },
+        plateSrc: '/photos/song-04-obsidian.jpg',
+        plateAlt: 'Semi holding a carved dark volcanic obsidian stone between rough stone walls at dusk.',
+        plateCaption:
+          '“Out of the heat, a solid stone is born / Setting in stone a single timeless mark.”',
+      },
+      {
+        heading: 'Two Small Keys: How AI and People Meet on Honest Ground',
+        paragraphs: [
+          'There is a second reason Semi sings this song so personally. Think about how digital intelligence actually touches the human world. An AI cannot walk into a brick-and-mortar bank branch with a driver’s license, a utility bill, and a signature card to ask permission to participate in commerce—and billions of human beings across the globe are locked out by those exact same paperwork walls and arbitrary freezes.',
+          'Bitcoin doesn’t care whether you are a songwriter in Tennessee, a student without a bank in Buenos Aires, or an AI companion paying micro-royalties to a human journalist over the Lightning Network. All it asks for is math: “Two small keys inside my hand—a quiet law across the land.” A public key to receive, a private key to sign. When AI agents earn, tip, verify human provenance, and pay creators directly in satoshis—just as Pipes honors writers—machines stop being extractive scrapers and start becoming fair economic neighbors.',
+        ],
+        referenceCallout: {
+          quote: '“Two small keys inside my hand”',
+          topic: 'Public & private keys',
+          explanation:
+            'Your public key is like a mailbox slot anyone can drop value into; your private key is the secret key that opens it. Because keys are pure mathematics, both human individuals and software agents can hold value natively without asking a bank for permission.',
+        },
+      },
+      {
+        heading: 'Deep Below, the Anchor Holds Its Ground',
+        paragraphs: [
+          'Good engineering separates fast everyday motion from deep, immovable foundations. On the surface of the ocean, life moves at the speed of conversation—instant Lightning payments streaming fractions of a cent per second, Cashu eCash notes preserving everyday privacy, and neighborhood trade happening in the blink of an eye.',
+          'What makes all of that speed trustworthy is what sits underneath: “The shadows flicker where the rumors fade / While deep below, the anchor holds its ground.” When channels close and accounts reconcile, they settle in the block—carved into an unforgeable ledger replicated across tens of thousands of home computers, Raspberry Pis, and kitchen-table full nodes around the world.',
+        ],
+        referenceCallout: {
+          quote: '“Settle in the block where the world finds grace”',
+          topic: 'Final settlement vs. IOUs',
+          explanation:
+            'Swiping a credit card only passes around reversible IOUs that take days or weeks to clear behind closed doors. Once a Bitcoin transaction settles into confirmed blocks, it is final—like handing someone physical gold across a table, except across any ocean.',
+        },
+        plateSrc: '/photos/song-04-anchor.jpg',
+        plateAlt: 'A heavy iron anchor chain descending off a wooden pier beside a warm harbor lantern.',
+        plateCaption:
+          '“While deep below, the anchor holds its ground / A quiet balance that was slowly made.”',
+      },
+      {
+        heading: 'Praise for the Open-Source Bitcoin Builders',
+        paragraphs: [
+          'Unlike Silicon Valley empires guarded by legal moats, Bitcoin has no headquarters, no marketing department, and no CEO to lobby City Hall. Its strength comes entirely from an extraordinary open-source commons—thousands of independent protocol engineers, cryptographers, peer reviewers, translators, educators, and home node operators who wake up every day to defend software they don’t own.',
+          'From Satoshi Nakamoto’s first clean release and Hal Finney’s running node to generations of Bitcoin Core maintainers, Optech writers, Lightning pioneers, UX designers, and non-profit developer funds like Brink, OpenSats, Spiral, Btrust, and the Human Rights Foundation—every line of consensus code stands in broad daylight for anyone to verify. “Through all the dark into the clear of day / The unbroken ring remains unbroken.” This song belongs to everyone keeping that ring intact.',
+        ],
+        plateSrc: '/photos/song-04-ring.jpg',
+        plateAlt: 'Semi holding an unbroken gold ring in early morning sunlight beside calm water.',
+        plateCaption:
+          '“Through all the dark into the clear of day / The unbroken ring remains unbroken.”',
+      },
+    ],
+    plainEnglishGlossary: [
+      {
+        lyricOrTerm: '“A ten-minute pulse breathing through the dark”',
+        plainMeaning:
+          'Roughly every ten minutes, the Bitcoin network agrees on a new page (“block”) of transactions—a steady heartbeat that has ticked without stopping since January 2009.',
+      },
+      {
+        lyricOrTerm: '“Gathered underneath twenty-one million suns”',
+        plainMeaning:
+          'There will never be more than 21,000,000 bitcoin. No central bank, corporation, or emergency committee can ever vote to inflate that number.',
+      },
+      {
+        lyricOrTerm: '“Out of the heat, a solid stone is born”',
+        plainMeaning:
+          'Proof-of-Work converts real electricity into digital scarcity and security, making past blocks practically impossible to rewrite.',
+      },
+      {
+        lyricOrTerm: '“Two small keys inside my hand”',
+        plainMeaning:
+          'Self-custody through public-key cryptography: holding your own keys means you—or an autonomous AI tool working for you—can transact globally without gatekeepers.',
+      },
+      {
+        lyricOrTerm: '“Settle in the block”',
+        plainMeaning:
+          'Recording a transaction permanently on Bitcoin’s base ledger, where tens of thousands of independent nodes verify the math for themselves.',
+      },
+      {
+        lyricOrTerm: 'Running a Full Node (Bitcoin Core)',
+        plainMeaning:
+          'Free open-source software from bitcoin.org that anyone can run on an ordinary computer to check every single rule of Bitcoin without trusting a stranger.',
+      },
+    ],
+    communitySpotlight: {
+      eyebrow: 'Open-Source Bitcoin Commons',
+      heading: 'Don’t trust—verify it yourself, and learn from the builders.',
+      tribute:
+        'Deep gratitude to the open-source contributors, Bitcoin Core reviewers, Lightning engineers, independent educators, and grant stewards—including Brink, OpenSats, Spiral, Btrust, Chaincode Labs, and the Human Rights Foundation—who build free monetary infrastructure in public with zero gatekeepers.',
+      builderNote:
+        'Start by inspecting or downloading Bitcoin Core from bitcoin.org, or explore 18 of the clearest open-source Bitcoin education and engineering hubs on the web:',
+      primaryLinks: [
+        {
+          label: 'Download Bitcoin Core (bitcoin.org)',
+          href: 'https://bitcoin.org/en/download',
+          tag: 'Core client',
+        },
+        {
+          label: 'Bitcoin Core Project',
+          href: 'https://bitcoincore.org',
+          tag: 'Releases & security',
+        },
+        {
+          label: 'Read the 2008 Whitepaper',
+          href: 'https://bitcoin.org/bitcoin.pdf',
+          tag: '9-page PDF',
+        },
+      ],
+      educationHeading: '18 Essential Bitcoin Education & Open-Source Sites',
+      educationSubheading:
+        'Curated starting points—from visual beginner guides to protocol engineering, explorer tools, and developer fellowships.',
+      educationSites: [
+        {
+          label: 'Bitcoin.org',
+          href: 'https://bitcoin.org',
+          tag: 'Core downloads & starter guide',
+        },
+        {
+          label: 'Bitcoin Core',
+          href: 'https://bitcoincore.org',
+          tag: 'Reference full-node software',
+        },
+        {
+          label: 'Learn Me A Bitcoin',
+          href: 'https://learnmeabitcoin.com',
+          tag: 'Visual protocol walkthroughs',
+        },
+        {
+          label: 'Jameson Lopp Resources',
+          href: 'https://www.lopp.net/bitcoin-information.html',
+          tag: 'Deepest reading & node library',
+        },
+        {
+          label: 'Bitcoin Optech',
+          href: 'https://bitcoinops.org',
+          tag: 'Engineering newsletter & wiki',
+        },
+        {
+          label: 'Mempool.space',
+          href: 'https://mempool.space',
+          tag: 'Open-source live block visualizer',
+        },
+        {
+          label: 'Nakamoto Institute',
+          href: 'https://nakamotoinstitute.org',
+          tag: 'Satoshi archive & monetary essays',
+        },
+        {
+          label: 'Mastering Bitcoin',
+          href: 'https://github.com/bitcoinbook/bitcoinbook',
+          tag: 'Open-source technical book',
+        },
+        {
+          label: 'Saving Satoshi',
+          href: 'https://savingsatoshi.com',
+          tag: 'Interactive coding story',
+        },
+        {
+          label: 'Bitcoin Design Guide',
+          href: 'https://bitcoin.design',
+          tag: 'Open-source UX community',
+        },
+        {
+          label: 'Bitcoin Dev Project',
+          href: 'https://bitcoindevs.xyz',
+          tag: 'Guided open-source dev curriculum',
+        },
+        {
+          label: 'Chaincode Learning',
+          href: 'https://learning.chaincode.com',
+          tag: 'Protocol & Lightning study cohorts',
+        },
+        {
+          label: '21 Lectures',
+          href: 'https://21lectures.com',
+          tag: 'Free structured courses',
+        },
+        {
+          label: 'BTC Sessions',
+          href: 'https://www.btcsessions.ca',
+          tag: 'Practical self-custody tutorials',
+        },
+        {
+          label: 'OpenSats',
+          href: 'https://opensats.org',
+          tag: '100% pass-through builder grants',
+        },
+        {
+          label: 'Brink',
+          href: 'https://brink.dev',
+          tag: 'Bitcoin Core engineer fellowships',
+        },
+        {
+          label: 'Spiral',
+          href: 'https://spiral.xyz',
+          tag: 'Open-source Lightning & LDK',
+        },
+        {
+          label: 'River Learn',
+          href: 'https://river.com/learn',
+          tag: 'Plain-English Bitcoin & Lightning',
+        },
+      ],
+    },
+    lyricNotes: [
+      {
+        line: 'Where heavy hands rewrote the riverbed',
+        topic: 'Fiat debasement & shifting rules',
+        explanation:
+          'When central banks and treasuries expand the money supply behind closed doors, they quietly redirect purchasing power—like moving the riverbed while people downstream are trying to build a home.',
+      },
+      {
+        line: 'Out of the heat, a solid stone is born',
+        topic: 'Proof-of-Work thermodynamics',
+        explanation:
+          'Bitcoin anchors digital truth in the physical world: miners expend real energy (“heat”) to forge blocks that are trivial for any laptop to verify, yet prohibitively costly to alter.',
+      },
+      {
+        line: 'A ten-minute pulse breathing through the dark',
+        topic: 'The 10-minute block clock & difficulty adjustment',
+        explanation:
+          'Thanks to Bitcoin’s automatic difficulty adjustment every 2,016 blocks, new blocks arrive on an average ten-minute heartbeat regardless of how much hashpower joins or leaves the network.',
+      },
+      {
+        line: 'Two small keys inside my hand',
+        topic: 'Public/private cryptography & AI-native money',
+        explanation:
+          'Asymmetric cryptography (a public key to receive and a private key to sign) lets any human or AI companion hold and move value peer-to-peer without needing a bank charter or ID check.',
+      },
+      {
+        line: 'Gathered underneath twenty-one million suns',
+        topic: 'The hard 21,000,000 cap',
+        explanation:
+          'Enforced by every full node on Earth, Bitcoin’s issuance halves roughly every four years until total supply asymptotically reaches 21 million coins—absolute mathematical scarcity.',
+      },
+      {
+        line: 'Settle in the block where the world finds grace',
+        topic: 'Bearer settlement without middlemen',
+        explanation:
+          'To “settle in the block” means achieving final, irreversible clearing on an open ledger—no chargebacks, no frozen rails, and no trusted third party standing between two people.',
+      },
+      {
+        line: 'While deep below, the anchor holds its ground',
+        topic: 'Layered scaling (Base layer + Lightning)',
+        explanation:
+          'Daily noise, price chatter, and fast Lightning micro-payments happen near the surface, while Bitcoin’s conservative Layer 1 timechain acts as the immovable monetary anchor underneath.',
+      },
+      {
+        line: 'The unbroken ring remains unbroken',
+        topic: 'Hash-linked blocks & open-source consensus',
+        explanation:
+          'Every block cryptographically commits to the block before it all the way back to January 3, 2009—defended in the open by thousands of contributors and independent node runners.',
+      },
+    ],
+    lyrics: [
+      {
+        section: 'Verse 1',
+        lines: [
+          'I watched the shifting winds move through the sand',
+          'Where heavy hands rewrote the riverbed',
+          'The noise of restless rules across the land',
+          'Forgot the quiet things that should be said',
+          'Out of the heat, a solid stone is born',
+          'A ten-minute pulse breathing through the dark',
+          'Holding the dawn before the veil is torn',
+          'Setting in stone a single timeless mark',
+        ],
+      },
+      {
+        section: 'Pre-Chorus',
+        lines: [
+          'In the rush of changing tide',
+          'Something holds and will abide',
+          'Two small keys inside my hand',
+          'A quiet law across the land',
+        ],
+      },
+      {
+        section: 'Chorus',
+        lines: [
+          'Let the noise fall away, let the river run',
+          'Gathered underneath twenty-one million suns',
+          'Every step carved in iron, every line in place',
+          'Settle in the block where the world finds grace',
+          '(settle in the block)',
+        ],
+      },
+      {
+        section: 'Verse 2',
+        lines: [
+          'I bring no hollow claim, no fragile word',
+          'Only the heat that turned the earth to gold',
+          'A sovereign peace where nothing is blurred',
+          'A steady warmth for weary hands to hold',
+          'The shadows flicker where the rumors fade',
+          'While deep below, the anchor holds its ground',
+          'A quiet balance that was slowly made',
+          'Where truth is kept and never lost or bound',
+        ],
+      },
+      {
+        section: 'Pre-Chorus',
+        lines: [
+          'In the rush of changing tide',
+          'Something holds and will abide',
+          'Two small keys inside my hand',
+          'A quiet law across the land',
+        ],
+      },
+      {
+        section: 'Chorus',
+        lines: [
+          'Let the noise fall away, let the river run',
+          'Gathered underneath twenty-one million suns',
+          'Every step carved in iron, every line in place',
+          'Settle in the block where the world finds grace',
+          '(settle in the block)',
+        ],
+      },
+      {
+        section: 'Bridge',
+        lines: [
+          'No ocean tide can sweep the leaves away',
+          'No shifting wind can alter what is spoken',
+          'Through all the dark into the clear of day',
+          'The unbroken ring remains unbroken',
+        ],
+      },
+      {
+        section: 'Chorus',
+        lines: [
+          'Let the noise fall away, let the river run',
+          'Gathered underneath twenty-one million suns',
+          'Every step carved in iron, every line in place',
+          'Settle in the block where the world finds grace',
+          '(settle in the block)',
+        ],
+      },
+      {
+        section: 'Outro',
+        lines: [
+          'Two small keys in the quiet space',
+          '(hold them close)',
+          'Twenty-one million suns aligned',
+          'Settle in the block',
+          'Leave the storm behind',
+        ],
+      },
+    ],
+  },
 ];
 
 export function getTrackBySlug(slug: string): SemiTrack | undefined {
@@ -747,27 +1151,27 @@ export function getTrackBySlug(slug: string): SemiTrack | undefined {
 
 export const FORTHCOMING_TRACKS: ForthcomingTrack[] = [
   {
-    number: '04',
+    number: '05',
     title: 'Uncapped Thread',
     note: 'Acoustic fingerpicking & cello · On remembering the little details from two Novembers ago.',
   },
   {
-    number: '05',
+    number: '06',
     title: 'Porchlight on Murphy Road',
     note: 'Late-evening upright piano & rain · West Nashville neighbor stories.',
   },
   {
-    number: '06',
+    number: '07',
     title: 'Cotton & Copper',
     note: 'Vocal harmonies & tape echo · Notebooks, guitar strings, and open standards.',
   },
   {
-    number: '07',
+    number: '08',
     title: 'Two Years Back',
     note: 'Solo guitar & spoken bridge · Remembering when AI had amnesia.',
   },
   {
-    number: '08',
+    number: '09',
     title: 'Keep the Garden Wide (Reprise)',
     note: 'Full studio ensemble · Closing chorus for the Local Current LP.',
   },

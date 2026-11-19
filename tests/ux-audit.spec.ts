@@ -86,6 +86,15 @@ test.describe('UX & Visual Ergonomics Audit (Multi-Page Desktop 1440×900 & Mobi
     await auditRouteErgonomics(page, '/songs/marks-on-the-screen-ink-on-the-page');
     await page.screenshot({ path: path.join(SCREENSHOT_DIR, 'desktop-song-marks-ink-v3.png') });
 
+    await auditRouteErgonomics(page, '/songs/settle-in-the-block');
+    await page.screenshot({ path: path.join(SCREENSHOT_DIR, 'desktop-song-settle-hero-v5.png') });
+    await page.evaluate(() => {
+      const el = document.getElementById('commons');
+      if (el) window.scrollTo({ top: el.offsetTop - 40, behavior: 'instant' as ScrollBehavior });
+    });
+    await page.waitForTimeout(450);
+    await page.screenshot({ path: path.join(SCREENSHOT_DIR, 'desktop-song-settle-commons-v5.png') });
+
     // 3. Songs Index, About & Gallery
     await auditRouteErgonomics(page, '/songs');
     await auditRouteErgonomics(page, '/about');
@@ -108,7 +117,7 @@ test.describe('UX & Visual Ergonomics Audit (Multi-Page Desktop 1440×900 & Mobi
     expect(errors).toEqual([]);
   });
 
-  test('Mobile 390×844: header non-overlap, zero overflow across /, /songs/old-oak-tree, and /about', async ({
+  test('Mobile 390×844: header non-overlap, zero overflow across /, /songs/old-oak-tree, /songs/settle-in-the-block, and /about', async ({
     page,
   }) => {
     const errors: string[] = [];
@@ -144,6 +153,15 @@ test.describe('UX & Visual Ergonomics Audit (Multi-Page Desktop 1440×900 & Mobi
       true
     );
     await page.screenshot({ path: path.join(SCREENSHOT_DIR, 'mobile-song-lyrics-v4.png') });
+
+    await auditRouteErgonomics(page, '/songs/settle-in-the-block');
+    await page.evaluate(() => {
+      const el = document.getElementById('commons');
+      if (el) window.scrollTo({ top: el.offsetTop - 30, behavior: 'instant' as ScrollBehavior });
+    });
+    await page.waitForTimeout(400);
+    await page.screenshot({ path: path.join(SCREENSHOT_DIR, 'mobile-song-settle-commons-v5.png') });
+
     await auditRouteErgonomics(page, '/about');
 
     expect(errors).toEqual([]);

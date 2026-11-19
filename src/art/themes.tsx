@@ -116,6 +116,26 @@ export function LanternGlow({ className = '' }: { className?: string }) {
   );
 }
 
+export function BlockPulse({ className = '' }: { className?: string }) {
+  return (
+    <div aria-hidden="true" className={`pointer-events-none absolute inset-0 overflow-hidden ${className}`}>
+      <div
+        className="block-pulse absolute right-[8%] top-[12%] h-[82%] w-[64%] rounded-full blur-3xl"
+        style={{
+          background:
+            'radial-gradient(closest-side, rgba(245,158,11,0.34), rgba(254,41,158,0.14) 54%, transparent 82%)',
+        }}
+      />
+      <div
+        className="absolute inset-x-0 bottom-0 h-px opacity-30"
+        style={{
+          background: 'linear-gradient(90deg, transparent, rgba(245,158,11,0.8), transparent)',
+        }}
+      />
+    </div>
+  );
+}
+
 /** Types text in once on view with a caret; renders complete text when motion is off. */
 export function Typewriter({
   text,

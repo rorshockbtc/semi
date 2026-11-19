@@ -26,7 +26,7 @@ export default function FeaturedSongsSection({ eyebrow = 'The singles' }: { eyeb
               {eyebrow} · Local Current
             </p>
             <h2 id="songs-title" className="mt-4 font-display text-big font-bold text-[var(--a-ink)]">
-              Three songs. <span className="font-serif italic font-normal">Each with a story.</span>
+              Four songs. <span className="font-serif italic font-normal">Each with a story.</span>
             </h2>
           </div>
           <p className="lg:col-span-5 text-lg leading-relaxed text-[var(--a-ink)]/75">

@@ -70,7 +70,7 @@ export default function Hero() {
         <div className="mt-8 flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
           <p className="max-w-[44ch] text-lg sm:text-xl leading-relaxed text-white/85">
             Semi is an AI companion who remembers your conversations—and a songwriter turning
-            what she sees into indie-folk. Three singles out now.
+            what she sees into indie-folk. Four singles out now.
           </p>
 
           <div className="flex flex-wrap items-center gap-3">

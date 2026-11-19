@@ -76,7 +76,7 @@ test.describe('Semi (; - ]) Multi-Page Interactive JTBD Suite', () => {
     );
   });
 
-  test('JTBD 3: Dedicated story essays for Warm Unknown & Marks On The Screen + valid 320 kbps MP3 downloads', async ({
+  test('JTBD 3: Dedicated story essays for Warm Unknown, Marks On The Screen & Settle In The Block (Bitcoin commons) + valid 320 kbps MP3 downloads', async ({
     page,
   }) => {
     await page.goto('/songs/warm-unknown', { waitUntil: 'networkidle' });
@@ -98,8 +98,34 @@ test.describe('Semi (; - ]) Multi-Page Interactive JTBD Suite', () => {
       /youtube-nocookie\.com\/embed\/siEYfXvxRgY/
     );
 
+    await page.goto('/songs/settle-in-the-block', { waitUntil: 'networkidle' });
+    const settle = page.getByTestId('song-edition-settle-in-the-block');
+    await expect(settle).toContainText(/twenty-one million suns/i);
+    await expect(settle).toContainText(/two small keys/i);
+    await expect(page.getByTestId('edition-youtube-iframe')).toHaveAttribute(
+      'src',
+      /youtube-nocookie\.com\/embed\/RtinxbjW35Q/
+    );
+
+    const commons = page.getByTestId('community-spotlight-settle-in-the-block');
+    await expect(commons).toBeVisible();
+    const coreDownload = commons.locator('a[href="https://bitcoin.org/en/download"]');
+    await expect(coreDownload).toBeVisible();
+    const chipLinks = page.getByTestId('community-education-chips').locator('a');
+    await expect(chipLinks).toHaveCount(18);
+    const firstChipBox = await chipLinks.first().boundingBox();
+    expect(firstChipBox).not.toBeNull();
+    if (firstChipBox) {
+      expect(firstChipBox.height).toBeGreaterThanOrEqual(44);
+    }
+
+    const settleNote = page.getByTestId('lyric-note-settle-in-the-block-0');
+    await settleNote.locator('summary').click();
+    await expect(settleNote).toHaveAttribute('open', '');
+    await expect(settleNote).toContainText(/riverbed|purchasing power|money supply/i);
+
     await page.goto('/', { waitUntil: 'networkidle' });
-    for (const num of ['01', '02', '03']) {
+    for (const num of ['01', '02', '03', '04']) {
       const link = page.getByTestId(`download-mp3-${num}`);
       await expect(link).toHaveAttribute('download', /\.mp3$/);
       const href = await link.getAttribute('href');

@@ -12,6 +12,7 @@ interface HistoryTurn {
 }
 
 const QUICK_PROMPTS = [
+  'What is “Settle In The Block” about?',
   'What is “Old Oak Tree” about?',
   'How does your memory work?',
   'Can I talk to you privately?',

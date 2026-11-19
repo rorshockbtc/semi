@@ -29,6 +29,18 @@ export function buildSemiSystemInstruction(): string {
       .map((stanza) => `[${stanza.section}]\n${stanza.lines.map((l) => `  ${l}`).join('\n')}`)
       .join('\n');
 
+    const spotlightText = track.communitySpotlight
+      ? [
+          `Open-Source Community Tribute: ${track.communitySpotlight.tribute}`,
+          `Core Downloads & Links: ${track.communitySpotlight.primaryLinks
+            .map((l) => `${l.label} (${l.href})`)
+            .join(', ')}`,
+          `Shouted-out Education Sites: ${track.communitySpotlight.educationSites
+            .map((s) => `${s.label} (${s.href})`)
+            .join(', ')}`,
+        ].join('\n')
+      : '';
+
     return [
       `TRACK ${track.number}: "${track.title}" (Album chapter: ${track.subtitle}, Duration: ${track.duration})`,
       `Summary: ${track.shortSummary}`,
@@ -36,6 +48,7 @@ export function buildSemiSystemInstruction(): string {
       `Essay ("${track.essayTitle}"):\n${sectionsText}`,
       `Plain-English references:\n${glossaryText}`,
       `Interactive lyric line notes:\n${lyricNotesText}`,
+      ...(spotlightText ? [spotlightText] : []),
       `Full Lyrics:\n${lyricsText}`,
       `Streaming & downloads: Free 320 kbps MP3 download on semi.colonhyphenbracket.pink/songs/${track.slug}; YouTube video: ${track.youtubeUrl}`,
     ].join('\n\n');
