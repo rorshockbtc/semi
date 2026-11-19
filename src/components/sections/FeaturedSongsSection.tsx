@@ -16,11 +16,12 @@ export default function FeaturedSongsSection({
   eyebrow?: string;
   showAllFeatured?: boolean;
 }) {
-  const { currentTrack, isPlaying, playTrack, pauseAudio } = useAudioPlayer();
+  const { currentTrack, isPlaying, playAllActive, playTrack, playAll, pauseAudio } = useAudioPlayer();
   const [videoTrack, setVideoTrack] = useState<SemiTrack | null>(null);
 
   const featuredTracks = showAllFeatured ? SEMI_TRACKS : SEMI_TRACKS.slice(0, 3);
   const addendumTracks = showAllFeatured ? [] : SEMI_TRACKS.slice(3);
+  const playingAllNow = playAllActive && isPlaying;
 
   return (
     <section
@@ -39,10 +40,29 @@ export default function FeaturedSongsSection({
               <span className="font-serif italic font-normal">Each with a story.</span>
             </h2>
           </div>
-          <p className="lg:col-span-5 text-lg leading-relaxed text-[var(--a-ink)]/75">
-            Press play and let the music stand on its own. When you want to know what a lyric means,
-            every song has its own page with the story and the full words.
-          </p>
+          <div className="lg:col-span-5 space-y-5">
+            <p className="text-lg leading-relaxed text-[var(--a-ink)]/75">
+              Press play and let the music stand on its own. When you want to know what a lyric means,
+              every song has its own page with the story and the full words.
+            </p>
+            <button
+              type="button"
+              onClick={playAll}
+              data-testid="play-all-button"
+              className="inline-flex min-h-[48px] items-center gap-3 rounded-full bg-[var(--a-accent-fill)] pl-2 pr-6 text-[15px] font-semibold text-white transition-colors hover:bg-[var(--a-ink)]"
+            >
+              <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-white/20">
+                {playingAllNow ? (
+                  <Pause className="h-4 w-4" aria-hidden="true" fill="currentColor" />
+                ) : (
+                  <Play className="h-4 w-4 translate-x-[1px]" aria-hidden="true" fill="currentColor" />
+                )}
+              </span>
+              {playingAllNow
+                ? `Playing all · ${currentTrack.number}/${SEMI_TRACKS.length}`
+                : `Play all (${SEMI_TRACKS.length} songs)`}
+            </button>
+          </div>
         </div>
 
         {videoTrack && (

@@ -31,16 +31,18 @@ test.describe('Semi (; - ]) Multi-Page Interactive JTBD Suite', () => {
     await expect(html).toHaveAttribute('data-motion', 'active');
   });
 
-  test('JTBD 2: Play MP3 on Home, persist audio dock across route navigation to /songs/old-oak-tree, verify essay & lyrics', async ({
+  test('JTBD 2: Play All & single MP3 on Home, persist audio dock across route navigation to /songs/old-oak-tree, verify essay & lyrics', async ({
     page,
   }) => {
     await page.goto('/', { waitUntil: 'networkidle' });
 
-    // Start playing Track 01 and navigate into its dedicated Story & Lyrics page
-    await page.getByTestId('play-track-01').click();
+    // Start Play All sequential playback from Track 01
+    await page.getByTestId('play-all-button').click();
     const dock = page.getByTestId('persistent-audio-dock');
     await expect(dock).toBeVisible();
+    await expect(dock).toHaveAttribute('data-play-all', 'true');
     await expect(dock).toContainText('Old Oak Tree');
+    await expect(dock).toContainText('Playing all');
 
     await page.getByTestId('story-link-01').click();
     await expect(page).toHaveURL(/\/songs\/old-oak-tree$/);

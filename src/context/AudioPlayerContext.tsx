@@ -14,9 +14,11 @@ interface AudioPlayerContextValue {
   currentTrack: SemiTrack;
   hasStarted: boolean;
   isPlaying: boolean;
+  playAllActive: boolean;
   currentTime: number;
   duration: number;
   playTrack: (slugOrIndex: string | number) => void;
+  playAll: () => void;
   selectTrack: (slugOrIndex: string | number) => void;
   togglePlay: () => void;
   pauseAudio: () => void;
@@ -33,8 +35,20 @@ export function AudioPlayerProvider({ children }: { children: React.ReactNode })
   const [activeIndex, setActiveIndex] = useState(0);
   const [hasStarted, setHasStarted] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [playAllActive, setPlayAllActive] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
+
+  const activeIndexRef = useRef(activeIndex);
+  const playAllRef = useRef(playAllActive);
+
+  useEffect(() => {
+    activeIndexRef.current = activeIndex;
+  }, [activeIndex]);
+
+  useEffect(() => {
+    playAllRef.current = playAllActive;
+  }, [playAllActive]);
 
   const currentTrack = SEMI_TRACKS[activeIndex];
 
@@ -46,6 +60,19 @@ export function AudioPlayerProvider({ children }: { children: React.ReactNode })
     const onTimeUpdate = () => setCurrentTime(el.currentTime);
     const onLoadedMetadata = () => setDuration(el.duration || 0);
     const onEnded = () => {
+      if (playAllRef.current && activeIndexRef.current < SEMI_TRACKS.length - 1) {
+        const nextIdx = activeIndexRef.current + 1;
+        activeIndexRef.current = nextIdx;
+        setActiveIndex(nextIdx);
+        setCurrentTime(0);
+        setDuration(0);
+        el.src = SEMI_TRACKS[nextIdx].mp3Src;
+        el.load();
+        const p = el.play();
+        if (p) p.catch(() => setIsPlaying(false));
+        return;
+      }
+      setPlayAllActive(false);
       setIsPlaying(false);
       setCurrentTime(0);
     };
@@ -98,6 +125,7 @@ export function AudioPlayerProvider({ children }: { children: React.ReactNode })
       const idx = resolveIndex(slugOrIndex);
       const el = audioRef.current;
       setHasStarted(true);
+      setPlayAllActive(false);
       if (!el) return;
 
       if (idx !== activeIndex) {
@@ -118,6 +146,39 @@ export function AudioPlayerProvider({ children }: { children: React.ReactNode })
     },
     [activeIndex, resolveIndex]
   );
+
+  const playAll = useCallback(() => {
+    const el = audioRef.current;
+    setHasStarted(true);
+    if (!el) return;
+
+    if (playAllActive && !el.paused) {
+      el.pause();
+      return;
+    }
+
+    setPlayAllActive(true);
+    if (playAllActive && el.paused) {
+      const p = el.play();
+      if (p) p.catch(() => setIsPlaying(false));
+      return;
+    }
+
+    if (activeIndex !== 0) {
+      el.pause();
+      el.src = SEMI_TRACKS[0].mp3Src;
+      el.load();
+      setCurrentTime(0);
+      setDuration(0);
+      setActiveIndex(0);
+    } else if (el.ended) {
+      el.currentTime = 0;
+      setCurrentTime(0);
+    }
+
+    const p = el.play();
+    if (p) p.catch(() => setIsPlaying(false));
+  }, [activeIndex, playAllActive]);
 
   const togglePlay = useCallback(() => {
     const el = audioRef.current;
@@ -180,6 +241,7 @@ export function AudioPlayerProvider({ children }: { children: React.ReactNode })
 
   const dismissDock = useCallback(() => {
     audioRef.current?.pause();
+    setPlayAllActive(false);
     setHasStarted(false);
   }, []);
 
@@ -189,9 +251,11 @@ export function AudioPlayerProvider({ children }: { children: React.ReactNode })
         currentTrack,
         hasStarted,
         isPlaying,
+        playAllActive,
         currentTime,
         duration,
         playTrack,
+        playAll,
         selectTrack,
         togglePlay,
         pauseAudio,

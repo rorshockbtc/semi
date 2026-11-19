@@ -17,6 +17,7 @@ export default function PersistentAudioDock() {
     currentTrack,
     hasStarted,
     isPlaying,
+    playAllActive,
     currentTime,
     duration,
     togglePlay,
@@ -34,6 +35,7 @@ export default function PersistentAudioDock() {
     <aside
       aria-label="Persistent music player"
       data-testid="persistent-audio-dock"
+      data-play-all={playAllActive ? 'true' : 'false'}
       className="fixed inset-x-0 bottom-3 z-40 px-3 sm:px-6 pointer-events-none"
     >
       <div className="pointer-events-auto mx-auto max-w-[1160px] rounded-2xl border border-[var(--a-rule)] bg-[var(--a-well)]/96 backdrop-blur-md px-4 py-3 shadow-[0_20px_50px_-15px_rgba(17,24,39,0.28)] flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
@@ -79,6 +81,7 @@ export default function PersistentAudioDock() {
             </Link>
             <p className="font-code text-[13px] text-[var(--a-muted)] truncate">
               Semi (; - ]) · {currentTrack.subtitle}
+              {playAllActive ? ' · Playing all' : ''}
             </p>
           </div>
         </div>
