@@ -104,6 +104,15 @@ export default function SongEditionClient({ track, prevTrack, nextTrack }: SongE
                 >
                   <Download className="h-4 w-4" aria-hidden="true" /> Download MP3
                 </a>
+                <a
+                  href="#lyrics"
+                  data-testid="edition-jump-lyrics"
+                  className={`inline-flex min-h-[56px] items-center px-3 text-[15px] font-semibold no-underline underline-offset-4 hover:underline ${
+                    theme.dark ? 'text-white/85 hover:text-white' : 'text-[var(--a-ink)]/80 hover:text-[var(--a-ink)]'
+                  }`}
+                >
+                  Read lyrics ↓
+                </a>
               </div>
             </div>
 

@@ -16,7 +16,7 @@ export default function SongsIndexPage() {
     <>
       <SiteHeader />
       <main id="main" className="flex-1 pt-10">
-        <FeaturedSongsSection eyebrow="Songs" />
+        <FeaturedSongsSection eyebrow="Songs" showAllFeatured />
 
         <section aria-labelledby="forthcoming-title" className="border-t border-[var(--a-rule)] bg-[var(--a-surface)] py-20 sm:py-28">
           <div className="mx-auto grid max-w-[1400px] gap-10 px-5 sm:px-8 lg:px-12 lg:grid-cols-12">

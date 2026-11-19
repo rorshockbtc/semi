@@ -9,9 +9,18 @@ import YouTubePlayer from '@/components/YouTubePlayer';
 import { useAudioPlayer } from '@/context/AudioPlayerContext';
 import { SEMI_TRACKS, type SemiTrack } from '@/data/semi-songs';
 
-export default function FeaturedSongsSection({ eyebrow = 'The singles' }: { eyebrow?: string }) {
+export default function FeaturedSongsSection({
+  eyebrow = 'The singles',
+  showAllFeatured = false,
+}: {
+  eyebrow?: string;
+  showAllFeatured?: boolean;
+}) {
   const { currentTrack, isPlaying, playTrack, pauseAudio } = useAudioPlayer();
   const [videoTrack, setVideoTrack] = useState<SemiTrack | null>(null);
+
+  const featuredTracks = showAllFeatured ? SEMI_TRACKS : SEMI_TRACKS.slice(0, 3);
+  const addendumTracks = showAllFeatured ? [] : SEMI_TRACKS.slice(3);
 
   return (
     <section
@@ -26,7 +35,8 @@ export default function FeaturedSongsSection({ eyebrow = 'The singles' }: { eyeb
               {eyebrow} · Local Current
             </p>
             <h2 id="songs-title" className="mt-4 font-display text-big font-bold text-[var(--a-ink)]">
-              Four songs. <span className="font-serif italic font-normal">Each with a story.</span>
+              {showAllFeatured ? 'Four songs.' : 'Three songs.'}{' '}
+              <span className="font-serif italic font-normal">Each with a story.</span>
             </h2>
           </div>
           <p className="lg:col-span-5 text-lg leading-relaxed text-[var(--a-ink)]/75">
@@ -60,7 +70,7 @@ export default function FeaturedSongsSection({ eyebrow = 'The singles' }: { eyeb
         )}
 
         <ol className="mt-16 sm:mt-20 space-y-20 sm:space-y-28">
-          {SEMI_TRACKS.map((track, idx) => {
+          {featuredTracks.map((track, idx) => {
             const playingThis = currentTrack.slug === track.slug && isPlaying;
             const flip = idx % 2 === 1;
 
@@ -165,6 +175,106 @@ export default function FeaturedSongsSection({ eyebrow = 'The singles' }: { eyeb
             );
           })}
         </ol>
+
+        {addendumTracks.length > 0 && (
+          <aside
+            aria-label="Song addendum"
+            data-testid="songs-addendum"
+            className="mt-20 sm:mt-24 border-t border-[var(--a-rule)] pt-12"
+          >
+            <p className="font-sans text-[13px] font-semibold uppercase tracking-[0.22em] text-[var(--a-accent-text)]">
+              Addendum · Also just released
+            </p>
+            <ul role="list" className="mt-6 divide-y divide-[var(--a-rule)]">
+              {addendumTracks.map((track) => {
+                const playingThis = currentTrack.slug === track.slug && isPlaying;
+                return (
+                  <li
+                    key={track.slug}
+                    data-testid={`addendum-song-${track.number}`}
+                    className="grid gap-6 py-6 first:pt-0 lg:grid-cols-12 lg:items-center"
+                  >
+                    <div className="lg:col-span-3">
+                      <div className="overflow-hidden rounded-[6px] bg-[#0d0b0a]">
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
+                          src={track.poster}
+                          alt={track.posterAlt}
+                          loading="lazy"
+                          className="aspect-video w-full object-cover object-[50%_22%]"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="lg:col-span-5">
+                      <p className="font-code text-[13px] uppercase tracking-[0.16em] text-[var(--a-muted)]">
+                        Track {track.number} · {track.duration} · {track.subtitle}
+                      </p>
+                      <h3 className="mt-1.5 font-display text-2xl sm:text-3xl font-bold text-[var(--a-ink)]">
+                        {track.title}
+                      </h3>
+                      <p className="mt-2 text-[16px] leading-relaxed text-[var(--a-ink)]/75">
+                        {track.shortSummary}
+                      </p>
+                    </div>
+
+                    <div className="lg:col-span-4 flex flex-wrap items-center gap-2.5 lg:justify-end">
+                      <button
+                        type="button"
+                        onClick={() => playTrack(track.slug)}
+                        data-testid={`play-track-${track.number}`}
+                        aria-label={playingThis ? `Pause ${track.title}` : `Play ${track.title}`}
+                        className="inline-flex min-h-[48px] items-center gap-2.5 rounded-full bg-[var(--a-ink)] pl-2 pr-5 text-[14px] font-semibold text-white transition-colors hover:bg-[var(--a-accent-fill)]"
+                      >
+                        <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-white/15">
+                          {playingThis ? (
+                            <Pause className="h-3.5 w-3.5" aria-hidden="true" fill="currentColor" />
+                          ) : (
+                            <Play className="h-3.5 w-3.5 translate-x-[1px]" aria-hidden="true" fill="currentColor" />
+                          )}
+                        </span>
+                        {playingThis ? 'Pause' : 'Play'}
+                      </button>
+
+                      <Link
+                        href={`/songs/${track.slug}`}
+                        data-testid={`story-link-${track.number}`}
+                        className="inline-flex min-h-[48px] items-center gap-1.5 rounded-full border border-[var(--a-ink)]/20 px-5 text-[14px] font-semibold text-[var(--a-ink)] no-underline transition-colors hover:border-[var(--a-ink)]"
+                      >
+                        Story &amp; lyrics <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
+                      </Link>
+
+                      <button
+                        type="button"
+                        onClick={() => {
+                          pauseAudio();
+                          setVideoTrack(track);
+                          requestAnimationFrame(() =>
+                            document.getElementById('songs')?.scrollIntoView({ behavior: 'smooth' })
+                          );
+                        }}
+                        data-testid={`watch-video-${track.number}`}
+                        className="min-h-[44px] px-2.5 text-[14px] font-semibold text-[var(--a-ink)]/80 hover:text-[var(--a-ink)]"
+                      >
+                        Watch video
+                      </button>
+
+                      <a
+                        href={track.mp3Src}
+                        download={track.downloadName}
+                        data-testid={`download-mp3-${track.number}`}
+                        aria-label={`Download ${track.title} MP3`}
+                        className="inline-flex min-h-[44px] min-w-[44px] items-center justify-center rounded-full text-[var(--a-accent-text)] hover:bg-[var(--a-surface)]"
+                      >
+                        <Download className="h-5 w-5" aria-hidden="true" />
+                      </a>
+                    </div>
+                  </li>
+                );
+              })}
+            </ul>
+          </aside>
+        )}
       </div>
     </section>
   );

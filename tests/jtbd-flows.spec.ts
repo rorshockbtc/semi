@@ -125,6 +125,10 @@ test.describe('Semi (; - ]) Multi-Page Interactive JTBD Suite', () => {
     await expect(settleNote).toContainText(/riverbed|purchasing power|money supply/i);
 
     await page.goto('/', { waitUntil: 'networkidle' });
+    await expect(page.getByTestId('featured-song-03')).toBeVisible();
+    await expect(page.getByTestId('featured-song-04')).toHaveCount(0);
+    await expect(page.getByTestId('songs-addendum')).toBeVisible();
+    await expect(page.getByTestId('addendum-song-04')).toContainText('Settle In The Block');
     for (const num of ['01', '02', '03', '04']) {
       const link = page.getByTestId(`download-mp3-${num}`);
       await expect(link).toHaveAttribute('download', /\.mp3$/);
