@@ -38,91 +38,149 @@ export default function PersistentAudioDock() {
       data-play-all={playAllActive ? 'true' : 'false'}
       className="fixed inset-x-0 bottom-3 z-40 px-3 sm:px-6 pointer-events-none"
     >
-      <div className="pointer-events-auto mx-auto max-w-[1160px] rounded-2xl border border-[var(--a-rule)] bg-[var(--a-well)]/96 backdrop-blur-md px-4 py-3 shadow-[0_20px_50px_-15px_rgba(17,24,39,0.28)] flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
-        <div className="flex items-center gap-2 sm:gap-3 min-w-0">
-          <button
-            type="button"
-            onClick={prevTrack}
-            aria-label="Previous track"
-            className="inline-flex min-h-[44px] min-w-[44px] items-center justify-center rounded-full text-[var(--a-ink)] hover:bg-[var(--a-surface)] transition-colors"
-          >
-            <SkipBack className="h-4 w-4" aria-hidden="true" />
-          </button>
+      <div className="pointer-events-auto mx-auto max-w-[1160px] rounded-2xl border border-[var(--a-rule)] bg-[var(--a-well)]/96 backdrop-blur-md px-3.5 py-2.5 sm:px-4 sm:py-3 shadow-[0_20px_50px_-15px_rgba(17,24,39,0.28)]">
+        {/* Desktop: single stable horizontal bar. Mobile: fixed 2-row compact layout with zero reflow */}
+        <div className="grid grid-cols-1 gap-1.5 md:grid-cols-[minmax(0,1fr)_minmax(220px,360px)_auto] md:items-center md:gap-4">
+          {/* Row 1 on mobile / Left on desktop: Track title + mobile MP3/Close actions */}
+          <div className="flex items-center justify-between gap-2 min-w-0">
+            <div className="hidden md:flex items-center gap-1 shrink-0">
+              <button
+                type="button"
+                onClick={prevTrack}
+                aria-label="Previous track"
+                className="inline-flex min-h-[44px] min-w-[44px] items-center justify-center rounded-full text-[var(--a-ink)] hover:bg-[var(--a-surface)] transition-colors"
+              >
+                <SkipBack className="h-4 w-4" aria-hidden="true" />
+              </button>
+              <button
+                type="button"
+                onClick={togglePlay}
+                aria-label={isPlaying ? `Pause ${currentTrack.title}` : `Play ${currentTrack.title}`}
+                data-testid="dock-play-toggle"
+                className="inline-flex min-h-[44px] min-w-[44px] items-center justify-center rounded-full bg-[var(--a-accent-fill)] text-white hover:bg-[var(--a-ink)] transition-colors"
+              >
+                {isPlaying ? (
+                  <Pause className="h-4 w-4" aria-hidden="true" />
+                ) : (
+                  <Play className="h-4 w-4 translate-x-0.5" aria-hidden="true" />
+                )}
+              </button>
+              <button
+                type="button"
+                onClick={nextTrack}
+                aria-label="Next track"
+                className="inline-flex min-h-[44px] min-w-[44px] items-center justify-center rounded-full text-[var(--a-ink)] hover:bg-[var(--a-surface)] transition-colors"
+              >
+                <SkipForward className="h-4 w-4" aria-hidden="true" />
+              </button>
+            </div>
 
-          <button
-            type="button"
-            onClick={togglePlay}
-            aria-label={isPlaying ? `Pause ${currentTrack.title}` : `Play ${currentTrack.title}`}
-            data-testid="dock-play-toggle"
-            className="inline-flex min-h-[44px] min-w-[44px] items-center justify-center rounded-full bg-[var(--a-accent-fill)] text-white hover:bg-[var(--a-ink)] transition-colors"
-          >
-            {isPlaying ? (
-              <Pause className="h-4 w-4" aria-hidden="true" />
-            ) : (
-              <Play className="h-4 w-4 translate-x-0.5" aria-hidden="true" />
-            )}
-          </button>
+            <div className="min-w-0 flex-1 md:pl-1">
+              <Link
+                href={`/songs/${currentTrack.slug}`}
+                className="wc-link block font-display text-[15px] sm:text-lg font-bold text-[var(--a-ink)] truncate"
+              >
+                {currentTrack.number} · {currentTrack.title}
+              </Link>
+              <p className="font-code text-[13px] text-[var(--a-muted)] truncate">
+                Semi (; - ]) · {currentTrack.subtitle}
+                {playAllActive ? ' · Playing all' : ''}
+              </p>
+            </div>
 
-          <button
-            type="button"
-            onClick={nextTrack}
-            aria-label="Next track"
-            className="inline-flex min-h-[44px] min-w-[44px] items-center justify-center rounded-full text-[var(--a-ink)] hover:bg-[var(--a-surface)] transition-colors"
-          >
-            <SkipForward className="h-4 w-4" aria-hidden="true" />
-          </button>
-
-          <div className="min-w-0 pl-1">
-            <Link
-              href={`/songs/${currentTrack.slug}`}
-              className="wc-link inline-block font-display text-base sm:text-lg font-bold text-[var(--a-ink)] truncate max-w-full"
-            >
-              {currentTrack.number} · {currentTrack.title}
-            </Link>
-            <p className="font-code text-[13px] text-[var(--a-muted)] truncate">
-              Semi (; - ]) · {currentTrack.subtitle}
-              {playAllActive ? ' · Playing all' : ''}
-            </p>
+            {/* Mobile-only right utility buttons so the dock stays compact (2 rows max) */}
+            <div className="flex md:hidden items-center gap-1 shrink-0">
+              <a
+                href={currentTrack.mp3Src}
+                download={currentTrack.downloadName}
+                aria-label={`Download ${currentTrack.title} MP3`}
+                className="inline-flex min-h-[44px] min-w-[44px] items-center justify-center rounded-full text-[var(--a-accent-text)] hover:bg-[var(--a-surface)] transition-colors"
+              >
+                <Download className="h-4 w-4" aria-hidden="true" />
+              </a>
+              <button
+                type="button"
+                onClick={dismissDock}
+                aria-label="Close persistent audio player"
+                className="inline-flex min-h-[44px] min-w-[44px] items-center justify-center rounded-full text-[var(--a-muted)] hover:text-[var(--a-ink)] hover:bg-[var(--a-surface)] transition-colors"
+              >
+                <X className="h-4 w-4" aria-hidden="true" />
+              </button>
+            </div>
           </div>
-        </div>
 
-        <div className="flex items-center gap-3 flex-1 md:max-w-sm">
-          <span className="font-code text-[13px] tabular-nums text-[var(--a-muted)]">
-            {formatTime(currentTime)}
-          </span>
-          <input
-            type="range"
-            min={0}
-            max={maxDuration}
-            step={0.5}
-            value={Math.min(currentTime, maxDuration)}
-            onChange={(e) => seek(Number(e.target.value))}
-            aria-label="Seek track progress"
-            className="semi-range flex-1 min-h-[44px]"
-          />
-          <span className="font-code text-[13px] tabular-nums text-[var(--a-muted)]">
-            {duration > 0 ? formatTime(duration) : currentTrack.duration}
-          </span>
-        </div>
+          {/* Row 2 on mobile / Middle on desktop: Transport (mobile) + fixed-width time + scrubber */}
+          <div className="flex items-center gap-1 sm:gap-2 min-w-0">
+            <div className="flex md:hidden items-center shrink-0">
+              <button
+                type="button"
+                onClick={prevTrack}
+                aria-label="Previous track (mobile)"
+                className="inline-flex min-h-[44px] min-w-[44px] items-center justify-center rounded-full text-[var(--a-ink)] hover:bg-[var(--a-surface)] transition-colors"
+              >
+                <SkipBack className="h-4 w-4" aria-hidden="true" />
+              </button>
+              <button
+                type="button"
+                onClick={togglePlay}
+                aria-label={isPlaying ? `Pause ${currentTrack.title}` : `Play ${currentTrack.title}`}
+                className="inline-flex min-h-[44px] min-w-[44px] items-center justify-center rounded-full bg-[var(--a-accent-fill)] text-white hover:bg-[var(--a-ink)] transition-colors"
+              >
+                {isPlaying ? (
+                  <Pause className="h-4 w-4" aria-hidden="true" />
+                ) : (
+                  <Play className="h-4 w-4 translate-x-0.5" aria-hidden="true" />
+                )}
+              </button>
+              <button
+                type="button"
+                onClick={nextTrack}
+                aria-label="Next track (mobile)"
+                data-testid="dock-next-mobile"
+                className="inline-flex min-h-[44px] min-w-[44px] items-center justify-center rounded-full text-[var(--a-ink)] hover:bg-[var(--a-surface)] transition-colors"
+              >
+                <SkipForward className="h-4 w-4" aria-hidden="true" />
+              </button>
+            </div>
 
-        <div className="flex items-center justify-between md:justify-end gap-2">
-          <a
-            href={currentTrack.mp3Src}
-            download={currentTrack.downloadName}
-            className="min-h-[44px] inline-flex items-center gap-1.5 rounded-full border border-[var(--a-rule)] bg-[var(--a-surface)] px-4 text-[14px] font-semibold text-[var(--a-accent-text)] no-underline hover:border-[var(--a-accent-text)] transition-colors"
-          >
-            <Download className="h-4 w-4" aria-hidden="true" />
-            <span>MP3</span>
-          </a>
+            <span className="w-[2.75rem] shrink-0 text-right font-code text-[13px] tabular-nums text-[var(--a-muted)]">
+              {formatTime(currentTime)}
+            </span>
+            <input
+              type="range"
+              min={0}
+              max={maxDuration}
+              step={0.5}
+              value={Math.min(currentTime, maxDuration)}
+              onChange={(e) => seek(Number(e.target.value))}
+              aria-label="Seek track progress"
+              className="semi-range min-w-0 flex-1 min-h-[44px]"
+            />
+            <span className="w-[2.75rem] shrink-0 text-left font-code text-[13px] tabular-nums text-[var(--a-muted)]">
+              {duration > 0 ? formatTime(duration) : currentTrack.duration}
+            </span>
+          </div>
 
-          <button
-            type="button"
-            onClick={dismissDock}
-            aria-label="Close persistent audio player"
-            className="inline-flex min-h-[44px] min-w-[44px] items-center justify-center rounded-full text-[var(--a-muted)] hover:text-[var(--a-ink)] hover:bg-[var(--a-surface)] transition-colors"
-          >
-            <X className="h-4 w-4" aria-hidden="true" />
-          </button>
+          {/* Desktop-only right utility buttons */}
+          <div className="hidden md:flex items-center justify-end gap-2 shrink-0">
+            <a
+              href={currentTrack.mp3Src}
+              download={currentTrack.downloadName}
+              className="min-h-[44px] inline-flex items-center gap-1.5 rounded-full border border-[var(--a-rule)] bg-[var(--a-surface)] px-4 text-[14px] font-semibold text-[var(--a-accent-text)] no-underline hover:border-[var(--a-accent-text)] transition-colors"
+            >
+              <Download className="h-4 w-4" aria-hidden="true" />
+              <span>MP3</span>
+            </a>
+
+            <button
+              type="button"
+              onClick={dismissDock}
+              aria-label="Close persistent audio player"
+              className="inline-flex min-h-[44px] min-w-[44px] items-center justify-center rounded-full text-[var(--a-muted)] hover:text-[var(--a-ink)] hover:bg-[var(--a-surface)] transition-colors"
+            >
+              <X className="h-4 w-4" aria-hidden="true" />
+            </button>
+          </div>
         </div>
       </div>
     </aside>

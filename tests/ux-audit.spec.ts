@@ -154,6 +154,26 @@ test.describe('UX & Visual Ergonomics Audit (Multi-Page Desktop 1440×900 & Mobi
 
     await page.screenshot({ path: path.join(SCREENSHOT_DIR, 'mobile-home-v3.png') });
 
+    // Mobile audio dock geometry stability & non-overlap with GlobalAskSemi
+    await page.getByTestId('play-all-button').click();
+    const mobileDock = page.getByTestId('persistent-audio-dock');
+    await expect(mobileDock).toBeVisible();
+    const box1 = await mobileDock.boundingBox();
+    await page.getByTestId('dock-next-mobile').click();
+    await page.getByTestId('dock-next-mobile').click();
+    await page.waitForTimeout(150);
+    const box3 = await mobileDock.boundingBox();
+    const askBox = await page.getByTestId('global-ask-semi-trigger').boundingBox();
+    expect(box1).not.toBeNull();
+    expect(box3).not.toBeNull();
+    expect(askBox).not.toBeNull();
+    if (box1 && box3 && askBox) {
+      expect(Math.abs(box1.height - box3.height)).toBeLessThanOrEqual(2);
+      expect(Math.abs(box1.y - box3.y)).toBeLessThanOrEqual(2);
+      expect(askBox.y + askBox.height).toBeLessThan(box3.y);
+    }
+    await page.screenshot({ path: path.join(SCREENSHOT_DIR, 'mobile-dock-stable-v7.png') });
+
     await auditRouteErgonomics(page, '/songs/old-oak-tree');
     const mobileNote = page.getByTestId('lyric-note-old-oak-tree-0');
     await mobileNote.scrollIntoViewIfNeeded();

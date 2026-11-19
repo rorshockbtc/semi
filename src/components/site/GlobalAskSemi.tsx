@@ -57,8 +57,8 @@ export default function GlobalAskSemi() {
         onClick={() => setOpen(true)}
         data-testid="global-ask-semi-trigger"
         aria-label="Ask Semi anything"
-        className={`fixed right-4 sm:right-6 z-40 inline-flex min-h-[48px] items-center gap-2.5 rounded-full bg-[#14110f] px-4 sm:px-5 text-[14px] font-semibold text-[#F3EFE9] shadow-[0_14px_34px_-10px_rgba(17,24,39,0.55)] ring-1 ring-white/15 transition-all hover:bg-[var(--a-accent-fill)] hover:text-white ${
-          hasStarted ? 'bottom-24 md:bottom-20' : 'bottom-4 sm:bottom-6'
+        className={`fixed right-4 sm:right-6 z-40 inline-flex min-h-[48px] items-center gap-2.5 rounded-full bg-[#14110f] px-4 sm:px-5 text-[14px] font-semibold text-[#F3EFE9] shadow-[0_14px_34px_-10px_rgba(17,24,39,0.55)] ring-1 ring-white/15 transition-[background-color,color,bottom] duration-200 hover:bg-[var(--a-accent-fill)] hover:text-white ${
+          hasStarted ? 'bottom-[8.75rem] md:bottom-24' : 'bottom-4 sm:bottom-6'
         }`}
       >
         <MessageCircle className="h-4 w-4 text-[#FE299E] group-hover:text-white" aria-hidden="true" />

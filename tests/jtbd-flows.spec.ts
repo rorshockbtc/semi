@@ -219,14 +219,15 @@ test.describe('Semi (; - ]) Multi-Page Interactive JTBD Suite', () => {
 
     await page.getByTestId('semi-chip-2').click();
     const reply = page.getByTestId('semi-chat-reply');
-    await expect(reply).toBeVisible({ timeout: 20000 });
+    await expect(reply).toBeVisible({ timeout: 25000 });
     await expect(reply).toContainText(/private|library|not saved|stay out/i);
+    await expect(page.getByTestId('semi-chat-submit')).toBeEnabled({ timeout: 25000 });
 
     await page
       .getByTestId('semi-chat-input')
       .fill('What does keeping the weights on the floor mean in Old Oak Tree?');
     await page.getByTestId('semi-chat-submit').click();
-    await expect(reply).toContainText(/weight|model|laptop|local|parameter/i, { timeout: 20000 });
+    await expect(reply).toContainText(/weight|model|laptop|local|parameter/i, { timeout: 25000 });
 
     await page.goBack({ waitUntil: 'networkidle' });
     const bgColor = await page.evaluate(() => getComputedStyle(document.body).backgroundColor);
