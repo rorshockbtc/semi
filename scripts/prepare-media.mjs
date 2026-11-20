@@ -86,6 +86,13 @@ const TRACKS = [
     track: '5/9',
     comment: 'Alternate Studio Take · Local Current (The West Nashville Sessions) · https://semi.colonhyphenbracket.pink',
   },
+  {
+    inputs: ['No Human Hands Can Hold.m4a'],
+    out: '06-semi-no-human-hands-can-hold.mp3',
+    title: 'No Human Hands Can Hold',
+    track: '6/9',
+    comment: 'From Local Current (The West Nashville Sessions) · https://semi.colonhyphenbracket.pink',
+  },
 ];
 
 for (const t of TRACKS) {
@@ -162,6 +169,7 @@ const SINGLE_LOOPS = [
   { pattern: ['Woman_writing_with_fountain_pen_fbe7f328_1080p.mp4'], out: 'song-03-fountain-pen.mp4' },
   { pattern: ['Woman_reveals_antique_brass_keys_d230c62d.mp4'], out: 'song-04-keys.mp4' },
   { pattern: ['Woman_singing_in_sunlit_rain_47a45420.mp4'], out: 'song-05-rain.mp4' },
+  { pattern: ['Woman_standing_in_sunlit_archway_268125b1.mp4'], out: 'song-06-archway.mp4' },
   { pattern: ['Woman_walking_with_lantern_river*1080p.mp4'], out: 'about-lantern-river.mp4' },
 ];
 
@@ -217,6 +225,11 @@ const VIDEO_STILLS = [
   { pattern: ['Woman_washing_ink_in_basin_ab97a032.mp4'], ts: '00:00:03', out: 'song-05-ink-basin.jpg' },
   { pattern: ['Woman_cleaning_mirror_at_vanity_992a60f4.mp4'], ts: '00:00:03', out: 'song-05-mirror.jpg' },
   { pattern: ['Woman_tossing_leaves_into_fire_0c935d5c.mp4'], ts: '00:00:03', out: 'song-05-fire.jpg' },
+  // Song 06 (No Human Hands Can Hold)
+  { pattern: ['Woman_standing_in_sunlit_archway_268125b1.mp4'], ts: '00:00:03', out: 'song-06-poster.jpg' },
+  { pattern: ['Woman_standing_by_church_window_56b3e700.mp4'], ts: '00:00:03', out: 'song-06-window.jpg' },
+  { pattern: ['Candles_flickering_on_iron_stand_53356d55.mp4'], ts: '00:00:03', out: 'song-06-candles.jpg' },
+  { pattern: ['Woman_looking_over_valley_bc29c651.mp4'], ts: '00:00:03', out: 'song-06-valley.jpg' },
 ];
 
 for (const st of VIDEO_STILLS) {

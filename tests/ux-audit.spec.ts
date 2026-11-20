@@ -124,6 +124,8 @@ test.describe('UX & Visual Ergonomics Audit (Multi-Page Desktop 1440×900 & Mobi
     await page.waitForTimeout(300);
     await page.screenshot({ path: path.join(SCREENSHOT_DIR, 'desktop-salt-show-chords-v7.png') });
 
+    await auditRouteErgonomics(page, '/songs/no-human-hands-can-hold');
+
     await auditRouteErgonomics(page, '/about');
     await page.screenshot({ path: path.join(SCREENSHOT_DIR, 'desktop-about-top-v4.png') });
     await page.evaluate(() => {

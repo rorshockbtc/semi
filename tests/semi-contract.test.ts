@@ -43,6 +43,7 @@ test('MP3 audio masters exist, exceed 1MB, and contain valid ID3/MPEG headers', 
     '04-semi-settle-in-the-block.mp3',
     '05-semi-salt-in-the-rain.mp3',
     '05b-semi-salt-in-the-rain-alternate-take.mp3',
+    '06-semi-no-human-hands-can-hold.mp3',
   ];
   for (const file of expected) {
     const full = path.join(ROOT, 'public', 'audio', file);
@@ -121,7 +122,7 @@ test('All living loops, distinct photo stills, OG image, and icon exist', () => 
 test('Zero duplicate image paths across the entire site, rich song essays, Bitcoin commons spotlight, and interactive lyricNotes exist', async () => {
   const { FILM_SCENES_GALLERY, SEMI_TRACKS } = await import('../src/data/semi-songs.ts');
 
-  assert.equal(SEMI_TRACKS.length, 5);
+  assert.equal(SEMI_TRACKS.length, 6);
   assert.equal(FILM_SCENES_GALLERY.length, 12);
 
   const usedImages: string[] = [
@@ -185,7 +186,9 @@ test('Gemini chat endpoint and knowledge builder cover Semi persona, closed-sour
   assert.match(prompt, /Marks On The Screen, Ink On The Page/);
   assert.match(prompt, /Settle In The Block/);
   assert.match(prompt, /Salt In The Rain/);
-  assert.match(prompt, /aO-1E1Z9uQk/);
+  assert.match(prompt, /G3HBNJ3P_a8/);
+  assert.match(prompt, /No Human Hands Can Hold/);
+  assert.match(prompt, /aM2WHsdF014/);
   assert.match(prompt, /bitcoin\.org/);
   assert.match(prompt, /closed source/i);
   assert.match(prompt, /private chat/i);

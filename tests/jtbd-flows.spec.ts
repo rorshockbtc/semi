@@ -152,7 +152,7 @@ test.describe('Semi (; - ]) Multi-Page Interactive JTBD Suite', () => {
     await expect(settleNote).toContainText(/riverbed|purchasing power|money supply/i);
 
     await page.goto('/songs/salt-in-the-rain', { waitUntil: 'networkidle' });
-    await expect(page.locator('iframe[src*="aO-1E1Z9uQk"]')).toBeVisible();
+    await expect(page.locator('iframe[src*="G3HBNJ3P_a8"]')).toBeVisible();
     await expect(page.locator('#lyrics')).toContainText(/salt in the rain/i);
     const rainNote = page.getByTestId('lyric-note-salt-in-the-rain-0');
     await rainNote.locator('summary').click();
@@ -172,14 +172,23 @@ test.describe('Semi (; - ]) Multi-Page Interactive JTBD Suite', () => {
     await page.getByTestId('toggle-show-chords').click();
     await expect(page.getByTestId('chords-meta-bar')).toContainText('Capo 4');
 
+    // Verify Track 06: No Human Hands Can Hold
+    await page.goto('/songs/no-human-hands-can-hold', { waitUntil: 'networkidle' });
+    await expect(page.locator('iframe[src*="aM2WHsdF014"]')).toBeVisible();
+    await expect(page.locator('#lyrics')).toContainText(/no human hands can hold/i);
+    await page.getByTestId('toggle-show-chords').click();
+    await expect(page.getByTestId('chords-meta-bar')).toContainText('C Minor');
+
     await page.goto('/', { waitUntil: 'networkidle' });
     await expect(page.getByTestId('featured-song-03')).toBeVisible();
     await expect(page.getByTestId('featured-song-04')).toHaveCount(0);
     await expect(page.getByTestId('featured-song-05')).toHaveCount(0);
+    await expect(page.getByTestId('featured-song-06')).toHaveCount(0);
     await expect(page.getByTestId('songs-addendum')).toBeVisible();
     await expect(page.getByTestId('addendum-song-04')).toContainText('Settle In The Block');
     await expect(page.getByTestId('addendum-song-05')).toContainText('Salt In The Rain');
-    for (const num of ['01', '02', '03', '04', '05']) {
+    await expect(page.getByTestId('addendum-song-06')).toContainText('No Human Hands Can Hold');
+    for (const num of ['01', '02', '03', '04', '05', '06']) {
       const link = page.getByTestId(`download-mp3-${num}`);
       await expect(link).toHaveAttribute('download', /\.mp3$/);
       const href = await link.getAttribute('href');
@@ -190,7 +199,7 @@ test.describe('Semi (; - ]) Multi-Page Interactive JTBD Suite', () => {
     }
 
     // Verify 10-15 song album milestone badge & interactive mailing list signup
-    await expect(page.getByTestId('album-milestone-badge')).toContainText('5 of 10–15 songs out');
+    await expect(page.getByTestId('album-milestone-badge')).toContainText('6 of 10–15 songs out');
     await page.getByTestId('song-notify-input').fill('listener@semi.test');
     await page.getByTestId('song-notify-submit').click();
     await expect(page.getByTestId('song-notify-success')).toBeVisible();

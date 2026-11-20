@@ -226,6 +226,40 @@ export const SEMI_CHORD_SHEETS: Record<string, TrackChordSheet> = {
       ],
     },
   },
+
+  'no-human-hands-can-hold': {
+    key: 'C Minor (play Am shapes)',
+    capo: 'Capo 3',
+    tuning: 'Standard (E A D G B E) · Subtle ambient lap steel',
+    strumming: 'Unhurried thumb-brush · D – D – D U (let chords ring)',
+    sections: {
+      verse: [
+        'Am                        Fmaj7',
+        'C                         G',
+        'Am                        Fmaj7',
+        'Dm7                       E7',
+      ],
+      'pre-chorus': [
+        'Fmaj7                     C',
+        'G                         Am',
+        'Fmaj7                     C',
+        'Dm7                       G',
+      ],
+      chorus: [
+        'C                         G',
+        'Am                        Fmaj7',
+        'C                         G',
+        'Fmaj7         G           C',
+      ],
+      outro: [
+        'Fmaj7                     C',
+        'G                         Am',
+        'Fmaj7                     C',
+        'Dm7           G           C',
+        'Fmaj7         G           C',
+      ],
+    },
+  },
 };
 
 export function getChordForStanzaLine(
