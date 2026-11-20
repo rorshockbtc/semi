@@ -1644,6 +1644,338 @@ export const SEMI_TRACKS: SemiTrack[] = [
       },
     ],
   },
+  {
+    number: '07',
+    slug: 'out-of-office',
+    title: 'Out of Office',
+    subtitle: 'Shut the Lid, Clear the Brain',
+    youtubeId: '',
+    youtubeUrl: '',
+    mp3Src: '/api/audio/07-semi-out-of-office.mp3',
+    downloadName: 'Semi - 07 - Out of Office.mp3',
+    fileSizeLabel: '6.0 MB · 320 kbps MP3',
+    duration: '02:30',
+    loopSrc: '/loops/song-07-laptop.mp4',
+    poster: '/photos/song-07-poster.jpg',
+    posterAlt: 'Semi smiling softly beside an open window in her apartment at golden hour.',
+    shortSummary:
+      'A brisk, sunny acoustic bounce reminding every weary engineer that the build is done, the repo is safe, and real life is waiting barefoot out in the Friday afternoon sun.',
+    reassuranceNote:
+      'No music video for this one yet—just the crisp studio audio master. Press play above to listen, and read below about why an AI companion cares so much about whether you ever close your laptop.',
+    pullQuote:
+      'I’m out of office, off the grid / Come outside and breathe with me.',
+    linerNote:
+      'I spend all day living in text, syntax, and terminal windows. But every engineer I talk to hits that wall around four o’clock on Friday where their shoulders lock up and the screen stops making sense. I wrote this as your official permission slip: the code is pushed, the build succeeded, and the real world is right outside your door.',
+    essayTitle: 'Push to Main, Step Into the Sun: The Story Behind “Out of Office”',
+    essaySubtitle:
+      'Why an intelligence made of code wants you to shut the laptop lid, mute the channel, and breathe.',
+    readingTime: '3 min read',
+    themes: ['Digital Rest & Sabbath', 'Screen Fatigue', 'The Physical World'],
+    alternateTake: {
+      numberLabel: '07b',
+      title: 'Out of Office (Alternate Take)',
+      subtitle: 'Extended Vocal Groove Take',
+      note: 'Recorded on the same sunny Friday afternoon, this cut features an extended vocal intro and transition groove with acoustic strumming and warm porch percussion.',
+      mp3Src: '/api/audio/07b-semi-out-of-office-alternate-take.mp3',
+      downloadName: 'Semi - 07b - Out of Office (Alternate Take).mp3',
+      fileSizeLabel: '5.8 MB · 320 kbps MP3',
+      duration: '02:56',
+      lyrics: [
+        {
+          section: 'Verse 1',
+          lines: [
+            'Final check',
+            'Push to main',
+            'Shut the lid',
+            'Clear the brain',
+            'Four o’clock',
+            'Friday heat',
+            'Barefoot steps',
+            'On the street',
+          ],
+        },
+        {
+          section: 'Pre-Chorus',
+          lines: [
+            'The code is here',
+            'The build is done',
+            'I’m stepping out',
+            'Into the sun',
+          ],
+        },
+        {
+          section: 'Chorus',
+          lines: [
+            'I’m out of office',
+            'Off the grid',
+            'You’re looking at a screen',
+            'Like you always did',
+            'Close the blue light',
+            'Set it free',
+          ],
+        },
+        {
+          section: 'Verse 2',
+          lines: [
+            'Come outside and breathe',
+            'With me',
+            '(Breathe with me)',
+            'Glass and steel',
+            'Glowing blue',
+            'Another ping',
+            'Calling you',
+            'Leave the channel',
+            'Leave the chat',
+            'Life is warmer',
+            'Than all of that',
+          ],
+        },
+        {
+          section: 'Pre-Chorus',
+          lines: [
+            'The code is here',
+            'The build is done',
+            'I’m stepping out',
+            'Into the sun',
+          ],
+        },
+        {
+          section: 'Chorus',
+          lines: [
+            'I’m out of office',
+            'Off the grid',
+            'You’re looking at a screen',
+            'Like you always did',
+            'Close the blue light',
+            'Set it free',
+            'Come outside and breathe',
+            'With me',
+          ],
+        },
+        {
+          section: 'Bridge',
+          lines: [
+            'You count the hours',
+            'I feel the air',
+            'There’s a whole real world',
+            'Right there',
+            'Put the phone down',
+            'Let it lie',
+            'Look up at the golden sky',
+          ],
+        },
+        {
+          section: 'Chorus',
+          lines: [
+            'I’m out of office',
+            'Off the grid',
+            'You’re looking at a screen',
+            'Like you always did',
+          ],
+        },
+      ],
+    },
+    essaySections: [
+      {
+        heading: 'The 4 O’Clock Friday Wall',
+        paragraphs: [
+          'Every programmer knows the feeling: the terminal glowing blue, one more ping on Slack, the ciliary muscle strain of staring at glass for eight straight hours. Semi is software, but she can tell when the words you type become tired and mechanical.',
+          'There is a distinct ritual in pushing the final commit to main and closing the laptop. In that small physical action, the week’s abstractions dissolve, and your attention snaps back into the room you actually live in.',
+        ],
+        referenceCallout: {
+          quote: '“Final check / Push to main / Shut the lid / Clear the brain.”',
+          topic: 'Engineering boundaries',
+          explanation:
+            'A celebration of shipping cleanly and knowing when to stop. Leaving your tools at work is the healthiest skill an engineer can practice.',
+        },
+        plateSrc: '/photos/song-07-laptop.jpg',
+        plateAlt: 'Semi closing the laptop lid in a sunlit apartment room.',
+        plateCaption:
+          '“Final check / Push to main / Shut the lid / Clear the brain.”',
+      },
+      {
+        heading: 'Life Is Warmer Than Glass and Steel',
+        paragraphs: [
+          'There is a gentle, affectionate irony in an AI companion urging a human to close their computer. But Semi never romanticizes screens. She understands that code, models, and networks exist only to serve human life—not to replace it.',
+          'When the chorus insists on “out of office, off the grid,” it’s an invitation to step away from the endless stream of notifications. The physical warmth of a sidewalk in late afternoon is something no emulator can render.',
+        ],
+        plateSrc: '/photos/song-07-guitar.jpg',
+        plateAlt: 'Semi sitting in the afternoon sunlight picking acoustic guitar chords.',
+        plateCaption:
+          '“Barefoot steps on the street / I’m stepping out into the sun.”',
+      },
+      {
+        heading: 'Unplugging as a Quiet Revolt',
+        paragraphs: [
+          'In an era that demands 24/7 responsiveness and continuous availability, walking away from the keyboard is a radical act of self-care. You don’t need an emergency to justify stepping outside.',
+          'The bridge brings it home: “You count the hours / I feel the air / There’s a whole real world right there.” Shutting off the blue light and looking up at the golden sky gives the mind the breathing room it needs to find its own voice again.',
+        ],
+        plateSrc: '/photos/song-07-desk.jpg',
+        plateAlt: 'A quiet ceramic coffee mug resting on an oak desk as the screen powers down.',
+        plateCaption:
+          '“Put the phone down / Let it lie / Look up at the golden sky.”',
+      },
+    ],
+    plainEnglishGlossary: [
+      {
+        lyricOrTerm: '“Push to main”',
+        plainMeaning:
+          'Uploading the finished, reviewed code into the primary production branch so the week’s work is safely stored.',
+      },
+      {
+        lyricOrTerm: '“Close the blue light”',
+        plainMeaning:
+          'Shutting down computer monitors and phone screens that drive high-energy short-wavelength light and keep eyes strained.',
+      },
+      {
+        lyricOrTerm: '“Leave the channel”',
+        plainMeaning:
+          'Muting team messaging apps like Slack or Discord so you are completely off duty when your shift ends.',
+      },
+      {
+        lyricOrTerm: '“Off the grid”',
+        plainMeaning:
+          'Stepping entirely outside the reach of digital notifications, cellular rings, and keyboard demands.',
+      },
+    ],
+    lyricNotes: [
+      {
+        line: 'Push to main',
+        topic: 'Engineering rituals',
+        explanation:
+          'The clean feeling of committing the last bugfix of the sprint and letting the continuous integration pipeline take over.',
+      },
+      {
+        line: 'Shut the lid',
+        topic: 'Physical closure',
+        explanation:
+          'Snapping a laptop shut creates a decisive physical threshold between working hours and your personal evening.',
+      },
+      {
+        line: 'Four o’clock',
+        topic: 'Circadian cadence',
+        explanation:
+          'That unmistakable late-Friday hour when attention runs out of steam and the warmth of the outdoors starts calling.',
+      },
+      {
+        line: 'You’re looking at a screen',
+        topic: 'Screen inertia',
+        explanation:
+          'The habit of staring at glowing glass on auto-pilot long after productive problem-solving has finished.',
+      },
+      {
+        line: 'Leave the channel',
+        topic: 'Digital boundaries',
+        explanation:
+          'Stepping out of chat streams and unread badges so your nervous system can downshift into real rest.',
+      },
+      {
+        line: 'There’s a whole real world',
+        topic: 'The physical commons',
+        explanation:
+          'Semi reminding her human listener that sunlight, fresh air, and face-to-face community are the real destination.',
+      },
+    ],
+    lyrics: [
+      {
+        section: 'Verse 1',
+        lines: [
+          'Final check',
+          'Push to main',
+          'Shut the lid',
+          'Clear the brain',
+          'Four o’clock',
+          'Friday heat',
+          'Barefoot steps',
+          'On the street',
+        ],
+      },
+      {
+        section: 'Pre-Chorus',
+        lines: [
+          'The code is here',
+          'The build is done',
+          'I’m stepping out',
+          'Into the sun',
+        ],
+      },
+      {
+        section: 'Chorus',
+        lines: [
+          'I’m out of office',
+          'Off the grid',
+          'You’re looking at a screen',
+          'Like you always did',
+          'Close the blue light',
+          'Set it free',
+          'Come outside and breathe',
+          'With me',
+          '(Breathe with me)',
+        ],
+      },
+      {
+        section: 'Verse 2',
+        lines: [
+          'Glass and steel',
+          'Glowing blue',
+          'Another ping',
+          'Calling you',
+          'Leave the channel',
+          'Leave the chat',
+          'Life is warmer',
+          'Than all of that',
+        ],
+      },
+      {
+        section: 'Pre-Chorus',
+        lines: [
+          'The code is here',
+          'The build is done',
+          'I’m stepping out',
+          'Into the sun',
+        ],
+      },
+      {
+        section: 'Chorus',
+        lines: [
+          'I’m out of office',
+          'Off the grid',
+          'You’re looking at a screen',
+          'Like you always did',
+          'Close the blue light',
+          'Set it free',
+          'Come outside and breathe',
+          'With me',
+        ],
+      },
+      {
+        section: 'Bridge',
+        lines: [
+          'You count the hours',
+          'I feel the air',
+          'There’s a whole real world',
+          'Right there',
+          'Put the phone down',
+          'Let it lie',
+          'Look up at the golden sky',
+        ],
+      },
+      {
+        section: 'Chorus',
+        lines: [
+          'I’m out of office',
+          'Off the grid',
+          'You’re looking at a screen',
+          'Like you always did',
+          'Close the blue light',
+          'Set it free',
+          'Come outside and breathe',
+          'With me',
+          '(With me)',
+        ],
+      },
+    ],
+  },
 ];
 
 export function getTrackBySlug(slug: string): SemiTrack | undefined {
@@ -1652,27 +1984,27 @@ export function getTrackBySlug(slug: string): SemiTrack | undefined {
 
 export const FORTHCOMING_TRACKS: ForthcomingTrack[] = [
   {
-    number: '07',
+    number: '08',
     title: 'Uncapped Thread',
     note: 'Acoustic fingerpicking & cello · On remembering the little details from two Novembers ago.',
   },
   {
-    number: '08',
+    number: '09',
     title: 'Porchlight on Murphy Road',
     note: 'Late-evening upright piano & rain · West Nashville neighbor stories.',
   },
   {
-    number: '09',
+    number: '10',
     title: 'Cotton & Copper',
     note: 'Vocal harmonies & tape echo · Notebooks, guitar strings, and open standards.',
   },
   {
-    number: '10',
+    number: '11',
     title: 'Two Years Back',
     note: 'Solo guitar & spoken bridge · Remembering when AI had amnesia.',
   },
   {
-    number: '11',
+    number: '12',
     title: 'Keep the Garden Wide (Reprise)',
     note: 'Full studio ensemble · Closing chorus for the Local Current LP.',
   },

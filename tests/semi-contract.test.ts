@@ -44,6 +44,8 @@ test('MP3 audio masters exist, exceed 1MB, and contain valid ID3/MPEG headers', 
     '05-semi-salt-in-the-rain.mp3',
     '05b-semi-salt-in-the-rain-alternate-take.mp3',
     '06-semi-no-human-hands-can-hold.mp3',
+    '07-semi-out-of-office.mp3',
+    '07b-semi-out-of-office-alternate-take.mp3',
   ];
   for (const file of expected) {
     const full = path.join(ROOT, 'public', 'audio', file);
@@ -65,6 +67,8 @@ test('All living loops, distinct photo stills, OG image, and icon exist', () => 
     'public/loops/song-03-fountain-pen.mp4',
     'public/loops/song-04-keys.mp4',
     'public/loops/song-05-rain.mp4',
+    'public/loops/song-06-archway.mp4',
+    'public/loops/song-07-laptop.mp4',
     'public/loops/about-lantern-river.mp4',
     'public/photos/gallery-meadow-spin.jpg',
     'public/photos/gallery-vintage-mic.jpg',
@@ -90,6 +94,14 @@ test('All living loops, distinct photo stills, OG image, and icon exist', () => 
     'public/photos/song-05-ink-basin.jpg',
     'public/photos/song-05-mirror.jpg',
     'public/photos/song-05-fire.jpg',
+    'public/photos/song-06-poster.jpg',
+    'public/photos/song-06-window.jpg',
+    'public/photos/song-06-candles.jpg',
+    'public/photos/song-06-valley.jpg',
+    'public/photos/song-07-poster.jpg',
+    'public/photos/song-07-laptop.jpg',
+    'public/photos/song-07-guitar.jpg',
+    'public/photos/song-07-desk.jpg',
     'public/photos/semi-studio-wide.jpg',
     'public/photos/semi-closeup-eyes.jpg',
     'public/photos/semi-smiling-portrait.jpg',
@@ -122,7 +134,7 @@ test('All living loops, distinct photo stills, OG image, and icon exist', () => 
 test('Zero duplicate image paths across the entire site, rich song essays, Bitcoin commons spotlight, and interactive lyricNotes exist', async () => {
   const { FILM_SCENES_GALLERY, SEMI_TRACKS } = await import('../src/data/semi-songs.ts');
 
-  assert.equal(SEMI_TRACKS.length, 6);
+  assert.equal(SEMI_TRACKS.length, 7);
   assert.equal(FILM_SCENES_GALLERY.length, 12);
 
   const usedImages: string[] = [

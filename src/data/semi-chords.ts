@@ -260,6 +260,47 @@ export const SEMI_CHORD_SHEETS: Record<string, TrackChordSheet> = {
       ],
     },
   },
+  'out-of-office': {
+    key: 'G Major',
+    capo: 'Standard (No Capo)',
+    tuning: 'Standard (E A D G B E)',
+    strumming: '118 BPM · Brisk Folk Strum · ↓  ↓↑  ↑↓↑',
+    sections: {
+      verse: [
+        'G                         Em',
+        'C                         D',
+        'G                         Em',
+        'C                         D',
+        'G                         Em',
+        'C                         D',
+        'G                         Em',
+        'C                         D',
+      ],
+      'pre-chorus': [
+        'C                         D',
+        'Em                        G',
+        'C                         D',
+        'C                         D',
+      ],
+      chorus: [
+        'G                         D',
+        'Em                        C',
+        'G                         D',
+        'C           D             G',
+      ],
+      bridge: [
+        'Em                        C',
+        'G                         D',
+        'Em                        C',
+        'Am          C             D',
+      ],
+      outro: [
+        'G                         Em',
+        'C           D             G',
+        'G',
+      ],
+    },
+  },
 };
 
 export function getChordForStanzaLine(

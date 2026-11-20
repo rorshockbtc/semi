@@ -126,13 +126,55 @@ export default function SongEditionClient({ track, prevTrack, nextTrack }: SongE
 
             <div className="lg:col-span-6">
               <div className="overflow-hidden rounded-[10px] bg-black shadow-[0_40px_80px_-40px_rgba(0,0,0,0.6)]">
-                <YouTubePlayer
-                  key={track.youtubeId}
-                  youtubeId={track.youtubeId}
-                  title={track.title}
-                  posterSrc={track.poster}
-                  iframeTestId="edition-youtube-iframe"
-                />
+                {track.youtubeId ? (
+                  <YouTubePlayer
+                    key={track.youtubeId}
+                    youtubeId={track.youtubeId}
+                    title={track.title}
+                    posterSrc={track.poster}
+                    iframeTestId="edition-youtube-iframe"
+                  />
+                ) : (
+                  <div
+                    data-testid="edition-listening-edition"
+                    className="relative aspect-video w-full overflow-hidden bg-[#14110f]"
+                  >
+                    <video
+                      autoPlay
+                      loop
+                      muted
+                      playsInline
+                      poster={track.poster}
+                      aria-label={`${track.title} living visual ambient loop`}
+                      className="absolute inset-0 h-full w-full object-cover"
+                    >
+                      <source src={track.loopSrc} type="video/mp4" />
+                    </video>
+                    <div
+                      aria-hidden="true"
+                      className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/35 to-black/30"
+                    />
+                    <div className="relative z-10 flex h-full flex-col justify-between p-6 sm:p-7">
+                      <div className="flex items-center justify-between gap-3">
+                        <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-black/60 px-3.5 py-1 font-code text-[13px] font-medium tracking-wider text-[#F3EFE9] backdrop-blur-md">
+                          <span className="h-2 w-2 rounded-full bg-[#FE299E] animate-pulse" />
+                          STUDIO LISTENING EDITION
+                        </span>
+                        <span className="rounded-full bg-white/10 px-3 py-1 font-code text-[13px] text-white/80 backdrop-blur-sm">
+                          Music video in production
+                        </span>
+                      </div>
+                      <div>
+                        <p className="font-sans text-[13px] uppercase tracking-widest text-[#FFB8DA]">
+                          Track {track.number} · {track.title}
+                        </p>
+                        <p className="mt-1 font-serif italic text-white/95 text-lg sm:text-2xl line-clamp-2">
+                          “{track.pullQuote}”
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
           </div>

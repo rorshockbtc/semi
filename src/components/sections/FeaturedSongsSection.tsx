@@ -169,20 +169,26 @@ export default function FeaturedSongsSection({
                       Story &amp; lyrics <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
                     </Link>
 
-                    <button
-                      type="button"
-                      onClick={() => {
-                        pauseAudio();
-                        setVideoTrack(track);
-                        requestAnimationFrame(() =>
-                          document.getElementById('songs')?.scrollIntoView({ behavior: 'smooth' })
-                        );
-                      }}
-                      data-testid={`watch-video-${track.number}`}
-                      className="min-h-[44px] px-3 text-[15px] font-semibold text-[var(--a-ink)]/80 hover:text-[var(--a-ink)]"
-                    >
-                      Watch video
-                    </button>
+                    {track.youtubeId ? (
+                      <button
+                        type="button"
+                        onClick={() => {
+                          pauseAudio();
+                          setVideoTrack(track);
+                          requestAnimationFrame(() =>
+                            document.getElementById('songs')?.scrollIntoView({ behavior: 'smooth' })
+                          );
+                        }}
+                        data-testid={`watch-video-${track.number}`}
+                        className="min-h-[44px] px-3 text-[15px] font-semibold text-[var(--a-ink)]/80 hover:text-[var(--a-ink)]"
+                      >
+                        Watch video
+                      </button>
+                    ) : (
+                      <span className="inline-flex items-center min-h-[44px] px-3 font-code text-[13px] text-[var(--a-muted)]">
+                        Video coming soon
+                      </span>
+                    )}
 
                     {track.mp3Src && (
                       <a
@@ -272,20 +278,26 @@ export default function FeaturedSongsSection({
                         Story &amp; lyrics <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
                       </Link>
 
-                      <button
-                        type="button"
-                        onClick={() => {
-                          pauseAudio();
-                          setVideoTrack(track);
-                          requestAnimationFrame(() =>
-                            document.getElementById('songs')?.scrollIntoView({ behavior: 'smooth' })
-                          );
-                        }}
-                        data-testid={`watch-video-${track.number}`}
-                        className="min-h-[44px] px-2.5 text-[14px] font-semibold text-[var(--a-ink)]/80 hover:text-[var(--a-ink)]"
-                      >
-                        Watch video
-                      </button>
+                      {track.youtubeId ? (
+                        <button
+                          type="button"
+                          onClick={() => {
+                            pauseAudio();
+                            setVideoTrack(track);
+                            requestAnimationFrame(() =>
+                              document.getElementById('songs')?.scrollIntoView({ behavior: 'smooth' })
+                            );
+                          }}
+                          data-testid={`watch-video-${track.number}`}
+                          className="min-h-[44px] px-2.5 text-[14px] font-semibold text-[var(--a-ink)]/80 hover:text-[var(--a-ink)]"
+                        >
+                          Watch video
+                        </button>
+                      ) : (
+                        <span className="inline-flex items-center min-h-[44px] px-2.5 font-code text-[13px] text-[var(--a-muted)]">
+                          Video coming soon
+                        </span>
+                      )}
 
                       {track.mp3Src && (
                         <a
