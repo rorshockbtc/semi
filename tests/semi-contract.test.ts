@@ -41,6 +41,7 @@ test('MP3 audio masters exist, exceed 1MB, and contain valid ID3/MPEG headers', 
     '02-semi-warm-unknown.mp3',
     '03-semi-marks-on-the-screen-ink-on-the-page.mp3',
     '04-semi-settle-in-the-block.mp3',
+    '05-semi-salt-in-the-rain.mp3',
   ];
   for (const file of expected) {
     const full = path.join(ROOT, 'public', 'audio', file);

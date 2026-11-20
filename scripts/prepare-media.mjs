@@ -23,20 +23,23 @@ function runFfmpeg(args) {
   execFileSync(ffmpegPath, ['-y', ...args], { stdio: 'inherit' });
 }
 
-const downloadEntries = fs.readdirSync(DOWNLOADS);
-
 function resolveSource(patterns) {
-  for (const pat of patterns) {
-    const exact = path.join(DOWNLOADS, pat);
-    if (fs.existsSync(exact)) return exact;
-    const prefix = pat.replace(/\*.*$/, '');
-    const suffix = pat.includes('*') ? pat.split('*').pop() : '';
-    const found = downloadEntries.find(
-      (name) => name.startsWith(prefix) && (!suffix || name.endsWith(suffix))
-    );
-    if (found) return path.join(DOWNLOADS, found);
+  const searchDirs = [DOWNLOADS, os.homedir()];
+  for (const dir of searchDirs) {
+    if (!fs.existsSync(dir)) continue;
+    const entries = fs.readdirSync(dir);
+    for (const pat of patterns) {
+      const exact = path.join(dir, pat);
+      if (fs.existsSync(exact)) return exact;
+      const prefix = pat.replace(/\*.*$/, '');
+      const suffix = pat.includes('*') ? pat.split('*').pop() : '';
+      const found = entries.find(
+        (name) => name.toLowerCase().startsWith(prefix.toLowerCase()) && (!suffix || name.toLowerCase().endsWith(suffix.toLowerCase()))
+      );
+      if (found) return path.join(dir, found);
+    }
   }
-  throw new Error(`Missing source file in ${DOWNLOADS}: ${patterns.join(', ')}`);
+  throw new Error(`Missing source file in ${DOWNLOADS} or ${os.homedir()}: ${patterns.join(', ')}`);
 }
 
 // 1. Ensure 320kbps MP3 masters with clean ID3v2 tags exist
@@ -67,6 +70,13 @@ const TRACKS = [
     out: '04-semi-settle-in-the-block.mp3',
     title: 'Settle In The Block',
     track: '4/9',
+    comment: 'From Local Current (The West Nashville Sessions) · https://semi.colonhyphenbracket.pink',
+  },
+  {
+    inputs: ['Salt In The Rain.m4a', 'Salt in the rain.m4a'],
+    out: '05-semi-salt-in-the-rain.mp3',
+    title: 'Salt In The Rain',
+    track: '5/9',
     comment: 'From Local Current (The West Nashville Sessions) · https://semi.colonhyphenbracket.pink',
   },
 ];

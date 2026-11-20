@@ -140,7 +140,7 @@ test.describe('Semi (; - ]) Multi-Page Interactive JTBD Suite', () => {
     await expect(page.getByTestId('songs-addendum')).toBeVisible();
     await expect(page.getByTestId('addendum-song-04')).toContainText('Settle In The Block');
     await expect(page.getByTestId('addendum-song-05')).toContainText('Salt In The Rain');
-    for (const num of ['01', '02', '03', '04']) {
+    for (const num of ['01', '02', '03', '04', '05']) {
       const link = page.getByTestId(`download-mp3-${num}`);
       await expect(link).toHaveAttribute('download', /\.mp3$/);
       const href = await link.getAttribute('href');
