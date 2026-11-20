@@ -2,7 +2,7 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { Download, Pause, Play, SkipBack, SkipForward, X } from 'lucide-react';
+import { Download, Pause, Play, SkipBack, SkipForward, Volume1, Volume2, VolumeX, X } from 'lucide-react';
 import { useAudioPlayer } from '@/context/AudioPlayerContext';
 
 function formatTime(seconds: number): string {
@@ -20,16 +20,22 @@ export default function PersistentAudioDock() {
     playAllActive,
     currentTime,
     duration,
+    volume,
+    isMuted,
     togglePlay,
     nextTrack,
     prevTrack,
     seek,
+    setVolume,
+    toggleMute,
     dismissDock,
   } = useAudioPlayer();
 
   if (!hasStarted) return null;
 
   const maxDuration = duration > 0 ? duration : 180;
+  const effectiveVolume = isMuted ? 0 : volume;
+  const VolumeIcon = effectiveVolume === 0 ? VolumeX : effectiveVolume < 0.5 ? Volume1 : Volume2;
 
   return (
     <aside
@@ -40,8 +46,8 @@ export default function PersistentAudioDock() {
     >
       <div className="pointer-events-auto mx-auto max-w-[1160px] rounded-2xl border border-[var(--a-rule)] bg-[var(--a-well)]/96 backdrop-blur-md px-3.5 py-2.5 sm:px-4 sm:py-3 shadow-[0_20px_50px_-15px_rgba(17,24,39,0.28)]">
         {/* Desktop: single stable horizontal bar. Mobile: fixed 2-row compact layout with zero reflow */}
-        <div className="grid grid-cols-1 gap-1.5 md:grid-cols-[minmax(0,1fr)_minmax(220px,360px)_auto] md:items-center md:gap-4">
-          {/* Row 1 on mobile / Left on desktop: Track title + mobile MP3/Close actions */}
+        <div className="grid grid-cols-1 gap-1.5 md:grid-cols-[minmax(0,1fr)_minmax(200px,340px)_auto] md:items-center md:gap-4">
+          {/* Row 1 on mobile / Left on desktop: Track title + mobile Mute/MP3/Close actions */}
           <div className="flex items-center justify-between gap-2 min-w-0">
             <div className="hidden md:flex items-center gap-1 shrink-0">
               <button
@@ -89,15 +95,27 @@ export default function PersistentAudioDock() {
             </div>
 
             {/* Mobile-only right utility buttons so the dock stays compact (2 rows max) */}
-            <div className="flex md:hidden items-center gap-1 shrink-0">
-              <a
-                href={currentTrack.mp3Src}
-                download={currentTrack.downloadName}
-                aria-label={`Download ${currentTrack.title} MP3`}
-                className="inline-flex min-h-[44px] min-w-[44px] items-center justify-center rounded-full text-[var(--a-accent-text)] hover:bg-[var(--a-surface)] transition-colors"
+            <div className="flex md:hidden items-center gap-0.5 shrink-0">
+              <button
+                type="button"
+                onClick={toggleMute}
+                aria-label={effectiveVolume === 0 ? 'Unmute audio' : 'Mute audio'}
+                aria-pressed={effectiveVolume === 0}
+                data-testid="dock-mute-mobile"
+                className="inline-flex min-h-[44px] min-w-[44px] items-center justify-center rounded-full text-[var(--a-ink)] hover:bg-[var(--a-surface)] transition-colors"
               >
-                <Download className="h-4 w-4" aria-hidden="true" />
-              </a>
+                <VolumeIcon className="h-4 w-4" aria-hidden="true" />
+              </button>
+              {currentTrack.mp3Src && (
+                <a
+                  href={currentTrack.mp3Src}
+                  download={currentTrack.downloadName}
+                  aria-label={`Download ${currentTrack.title} MP3`}
+                  className="inline-flex min-h-[44px] min-w-[44px] items-center justify-center rounded-full text-[var(--a-accent-text)] hover:bg-[var(--a-surface)] transition-colors"
+                >
+                  <Download className="h-4 w-4" aria-hidden="true" />
+                </a>
+              )}
               <button
                 type="button"
                 onClick={dismissDock}
@@ -161,16 +179,42 @@ export default function PersistentAudioDock() {
             </span>
           </div>
 
-          {/* Desktop-only right utility buttons */}
+          {/* Desktop-only right utility buttons: Volume + MP3 + Close */}
           <div className="hidden md:flex items-center justify-end gap-2 shrink-0">
-            <a
-              href={currentTrack.mp3Src}
-              download={currentTrack.downloadName}
-              className="min-h-[44px] inline-flex items-center gap-1.5 rounded-full border border-[var(--a-rule)] bg-[var(--a-surface)] px-4 text-[14px] font-semibold text-[var(--a-accent-text)] no-underline hover:border-[var(--a-accent-text)] transition-colors"
-            >
-              <Download className="h-4 w-4" aria-hidden="true" />
-              <span>MP3</span>
-            </a>
+            <div className="flex items-center gap-1.5 mr-1">
+              <button
+                type="button"
+                onClick={toggleMute}
+                aria-label={effectiveVolume === 0 ? 'Unmute audio' : 'Mute audio'}
+                aria-pressed={effectiveVolume === 0}
+                data-testid="dock-mute-toggle"
+                className="inline-flex min-h-[44px] min-w-[44px] items-center justify-center rounded-full text-[var(--a-ink)] hover:bg-[var(--a-surface)] transition-colors"
+              >
+                <VolumeIcon className="h-4 w-4" aria-hidden="true" />
+              </button>
+              <input
+                type="range"
+                min={0}
+                max={1}
+                step={0.01}
+                value={effectiveVolume}
+                onChange={(e) => setVolume(Number(e.target.value))}
+                aria-label="Volume"
+                data-testid="dock-volume-slider"
+                className="semi-range w-20 min-h-[44px]"
+              />
+            </div>
+
+            {currentTrack.mp3Src && (
+              <a
+                href={currentTrack.mp3Src}
+                download={currentTrack.downloadName}
+                className="min-h-[44px] inline-flex items-center gap-1.5 rounded-full border border-[var(--a-rule)] bg-[var(--a-surface)] px-4 text-[14px] font-semibold text-[var(--a-accent-text)] no-underline hover:border-[var(--a-accent-text)] transition-colors"
+              >
+                <Download className="h-4 w-4" aria-hidden="true" />
+                <span>MP3</span>
+              </a>
+            )}
 
             <button
               type="button"

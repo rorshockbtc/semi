@@ -44,11 +44,26 @@ test.describe('Semi (; - ]) Multi-Page Interactive JTBD Suite', () => {
     await expect(dock).toContainText('Old Oak Tree');
     await expect(dock).toContainText('Playing all');
 
+    // Adjust volume slider & toggle mute/unmute
+    const volumeSlider = page.getByTestId('dock-volume-slider');
+    await expect(volumeSlider).toBeVisible();
+    await volumeSlider.fill('0.42');
+    await volumeSlider.dispatchEvent('change');
+    const savedVol = await page.evaluate(() => window.localStorage.getItem('semi_player_volume'));
+    expect(savedVol).toBe('0.42');
+
+    const muteBtn = page.getByTestId('dock-mute-toggle');
+    await muteBtn.click();
+    await expect(muteBtn).toHaveAttribute('aria-pressed', 'true');
+    await muteBtn.click();
+    await expect(muteBtn).toHaveAttribute('aria-pressed', 'false');
+
     await page.getByTestId('story-link-01').click();
     await expect(page).toHaveURL(/\/songs\/old-oak-tree$/);
 
-    // Persistent audio dock stays mounted across client navigation
+    // Persistent audio dock & volume preference stay mounted across client navigation
     await expect(page.getByTestId('persistent-audio-dock')).toBeVisible();
+    await expect(page.getByTestId('dock-volume-slider')).toHaveValue('0.42');
 
     const edition = page.getByTestId('song-edition-old-oak-tree');
     await expect(edition).toContainText('Dario Amodei');
@@ -63,6 +78,14 @@ test.describe('Semi (; - ]) Multi-Page Interactive JTBD Suite', () => {
       .evaluate((el) => getComputedStyle(el).columnCount);
     expect(['auto', '1']).toContain(columnCount);
 
+    // Toggle Show Chords on & verify key/capo bar + inline chords + zero horizontal overflow
+    const chordsToggle = page.getByTestId('toggle-show-chords');
+    await expect(chordsToggle).toHaveAttribute('aria-pressed', 'false');
+    await chordsToggle.click();
+    await expect(chordsToggle).toHaveAttribute('aria-pressed', 'true');
+    await expect(page.getByTestId('chords-meta-bar')).toContainText('D Major');
+    await expect(page.getByTestId('lyric-chord-line').first()).toBeVisible();
+
     const weightsNote = page.getByTestId('lyric-note-old-oak-tree-0');
     await weightsNote.locator('summary').click();
     await expect(weightsNote).toHaveAttribute('open', '');
@@ -71,6 +94,8 @@ test.describe('Semi (; - ]) Multi-Page Interactive JTBD Suite', () => {
       () => document.documentElement.scrollWidth <= window.innerWidth
     );
     expect(lyricsOverflow).toBe(true);
+    await chordsToggle.click();
+    await expect(chordsToggle).toHaveAttribute('aria-pressed', 'false');
 
     await expect(page.getByTestId('edition-youtube-iframe')).toHaveAttribute(
       'src',
@@ -133,6 +158,20 @@ test.describe('Semi (; - ]) Multi-Page Interactive JTBD Suite', () => {
     await rainNote.locator('summary').click();
     await expect(rainNote).toHaveAttribute('open', '');
 
+    // Verify Alternate Studio Take playback in persistent dock + MP3 download
+    await expect(page.getByTestId('alternate-take-card')).toContainText('Salt In The Rain (Alternate Take)');
+    await page.getByTestId('play-alternate-take').click();
+    await expect(page.getByTestId('persistent-audio-dock')).toContainText('05b · Salt In The Rain (Alternate Take)');
+    const altHref = await page.getByTestId('download-alternate-take').getAttribute('href');
+    const altRes = await page.request.get(altHref!);
+    expect(altRes.status()).toBe(200);
+    expect(altRes.headers()['content-type'] || '').toContain('audio/mpeg');
+    expect((await altRes.body()).length).toBeGreaterThan(1_000_000);
+
+    // Verify Show Chords on Salt In The Rain (Capo 4)
+    await page.getByTestId('toggle-show-chords').click();
+    await expect(page.getByTestId('chords-meta-bar')).toContainText('Capo 4');
+
     await page.goto('/', { waitUntil: 'networkidle' });
     await expect(page.getByTestId('featured-song-03')).toBeVisible();
     await expect(page.getByTestId('featured-song-04')).toHaveCount(0);
@@ -149,6 +188,12 @@ test.describe('Semi (; - ]) Multi-Page Interactive JTBD Suite', () => {
       expect(res.headers()['content-type'] || '').toContain('audio/mpeg');
       expect((await res.body()).length).toBeGreaterThan(1_000_000);
     }
+
+    // Verify 10-15 song album milestone badge & interactive mailing list signup
+    await expect(page.getByTestId('album-milestone-badge')).toContainText('5 of 10–15 songs out');
+    await page.getByTestId('song-notify-input').fill('listener@semi.test');
+    await page.getByTestId('song-notify-submit').click();
+    await expect(page.getByTestId('song-notify-success')).toBeVisible();
   });
 
   test('JTBD 4: Home video screening, top-layer Photo Lightbox, /about Ask Semi, internal link crawl & goBack()', async ({

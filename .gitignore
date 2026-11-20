@@ -61,3 +61,8 @@ chats/
 /blob-report/
 /playwright/.cache/
 tests/screenshots/
+
+# Cloudflare OpenNext & local subscriber store
+/.open-next/
+/.wrangler/
+/.data/

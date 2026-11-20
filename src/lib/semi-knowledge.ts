@@ -41,10 +41,15 @@ export function buildSemiSystemInstruction(): string {
         ].join('\n')
       : '';
 
+    const altTakeText = track.alternateTake
+      ? `Bonus Audio on /songs/${track.slug}: "${track.alternateTake.title}" (${track.alternateTake.duration}, audio-only MP3, no video) — ${track.alternateTake.note}`
+      : '';
+
     return [
       `TRACK ${track.number}: "${track.title}" (Album chapter: ${track.subtitle}, Duration: ${track.duration})`,
       `Summary: ${track.shortSummary}`,
       `Semi's liner note: ${track.linerNote}`,
+      ...(altTakeText ? [altTakeText] : []),
       `Essay ("${track.essayTitle}"):\n${sectionsText}`,
       `Plain-English references:\n${glossaryText}`,
       `Interactive lyric line notes:\n${lyricNotesText}`,

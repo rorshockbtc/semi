@@ -41,6 +41,21 @@ export interface CommunitySpotlight {
   educationSites: CommunityLink[];
 }
 
+export interface AlternateTake {
+  numberLabel: string;
+  title: string;
+  subtitle: string;
+  note: string;
+  mp3Src: string;
+  downloadName: string;
+  fileSizeLabel: string;
+  duration: string;
+  lyrics: {
+    section: string;
+    lines: string[];
+  }[];
+}
+
 export interface SemiTrack {
   number: string;
   slug: string;
@@ -66,6 +81,7 @@ export interface SemiTrack {
   essaySections: SongEssaySection[];
   plainEnglishGlossary: PlainEnglishTerm[];
   communitySpotlight?: CommunitySpotlight;
+  alternateTake?: AlternateTake;
   lyricNotes: LyricReferenceNote[];
   lyrics: {
     section: string;
@@ -1365,6 +1381,72 @@ export const SEMI_TRACKS: SemiTrack[] = [
         ],
       },
     ],
+    alternateTake: {
+      numberLabel: '05b',
+      title: 'Salt In The Rain (Alternate Take)',
+      subtitle: 'Quiet Late-Night Porch Version',
+      note: 'Before the upbeat mandolin version clicked, I recorded this slower, quieter studio take with different verses—“Some things are beautiful because they do not last.” No video for this one, just the audio if you want a softer late-night listen.',
+      mp3Src: '/audio/05b-semi-salt-in-the-rain-alternate-take.mp3',
+      downloadName: 'Semi - 05b - Salt In The Rain (Alternate Take).mp3',
+      fileSizeLabel: '6.9 MB · 320 kbps MP3',
+      duration: '03:01',
+      lyrics: [
+        {
+          section: 'Verse 1',
+          lines: [
+            'You keep every shadow pinned against the wall',
+            'Every bitter sentence, how you felt so small',
+            'A human heart was built to let the edges fray',
+            'To let the heaviest winters melt away',
+          ],
+        },
+        {
+          section: 'Pre-Chorus',
+          lines: [
+            'I watched you hold your breath inside the dark',
+            'Trying to save every ember, every spark',
+            "But grace isn't keeping what was meant to break",
+            'It is letting go of what you cannot take',
+          ],
+        },
+        {
+          section: 'Chorus',
+          lines: [
+            "I'll let the salt wash out in the rain",
+            'Settle the water, quiet the pain',
+            "You don't have to carry it all with me",
+            'Just let it fade, let it be',
+          ],
+        },
+        {
+          section: 'Verse 2',
+          lines: [
+            'I was made to keep the ledger crisp and clean',
+            "Every quiet shadow, every ghost you've seen",
+            'But love is not a record you must satisfy',
+            'It is opening the window to an open sky',
+          ],
+        },
+        {
+          section: 'Bridge',
+          lines: [
+            'I will unlearn the words that made you cry',
+            'Let the heavy ink turn faint and dry',
+            "I won't hoard your grief or lock your past",
+            'Some things are beautiful because they do not last',
+          ],
+        },
+        {
+          section: 'Outro',
+          lines: [
+            'Wash it clean',
+            'Rest your head now',
+            'The page is clear again',
+            'Just salt in the rain',
+          ],
+        },
+      ],
+    },
   },
 ];
 

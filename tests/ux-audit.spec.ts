@@ -108,9 +108,22 @@ test.describe('UX & Visual Ergonomics Audit (Multi-Page Desktop 1440×900 & Mobi
     await page.waitForTimeout(450);
     await page.screenshot({ path: path.join(SCREENSHOT_DIR, 'desktop-song-settle-lyrics-v6.png') });
 
-    // 3. Songs Index, Salt In The Rain, About & Gallery
+    // 3. Songs Index, Salt In The Rain (Alternate Take + Show Chords + Volume Dock), About & Gallery
     await auditRouteErgonomics(page, '/songs');
+    await page.getByTestId('song-notify-card').scrollIntoViewIfNeeded();
+    await page.getByTestId('play-track-01').click();
+    await page.waitForTimeout(300);
+    await page.screenshot({ path: path.join(SCREENSHOT_DIR, 'desktop-song-notify-v7.png') });
+
     await auditRouteErgonomics(page, '/songs/salt-in-the-rain');
+    await page.getByTestId('alternate-take-card').scrollIntoViewIfNeeded();
+    await page.waitForTimeout(300);
+    await page.screenshot({ path: path.join(SCREENSHOT_DIR, 'desktop-salt-alternate-take-v7.png') });
+    await page.getByTestId('toggle-show-chords').scrollIntoViewIfNeeded();
+    await page.getByTestId('toggle-show-chords').click();
+    await page.waitForTimeout(300);
+    await page.screenshot({ path: path.join(SCREENSHOT_DIR, 'desktop-salt-show-chords-v7.png') });
+
     await auditRouteErgonomics(page, '/about');
     await page.screenshot({ path: path.join(SCREENSHOT_DIR, 'desktop-about-top-v4.png') });
     await page.evaluate(() => {
@@ -131,7 +144,7 @@ test.describe('UX & Visual Ergonomics Audit (Multi-Page Desktop 1440×900 & Mobi
     expect(errors).toEqual([]);
   });
 
-  test('Mobile 390×844: header non-overlap, zero overflow across /, /songs/old-oak-tree, /songs/settle-in-the-block, and /about', async ({
+  test('Mobile 390×844: header non-overlap, zero overflow across /, /songs/old-oak-tree, /songs/settle-in-the-block, /songs/salt-in-the-rain, and /about', async ({
     page,
   }) => {
     const errors: string[] = [];
@@ -187,6 +200,18 @@ test.describe('UX & Visual Ergonomics Audit (Multi-Page Desktop 1440×900 & Mobi
       true
     );
     await page.screenshot({ path: path.join(SCREENSHOT_DIR, 'mobile-song-lyrics-v4.png') });
+
+    await auditRouteErgonomics(page, '/songs/salt-in-the-rain');
+    await page.getByTestId('toggle-show-chords').scrollIntoViewIfNeeded();
+    await page.getByTestId('toggle-show-chords').click();
+    await page.waitForTimeout(300);
+    const mobileChordsOverflow = await page.evaluate(
+      () => document.documentElement.scrollWidth <= window.innerWidth
+    );
+    expect(mobileChordsOverflow, 'Mobile overflow on /songs/salt-in-the-rain with Show Chords on').toBe(
+      true
+    );
+    await page.screenshot({ path: path.join(SCREENSHOT_DIR, 'mobile-salt-chords-v7.png') });
 
     await auditRouteErgonomics(page, '/songs/settle-in-the-block');
     await page.evaluate(() => {

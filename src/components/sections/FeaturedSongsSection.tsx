@@ -6,6 +6,7 @@ import { ArrowUpRight, Download, Pause, Play, X } from 'lucide-react';
 import { VinylDisc } from '@/art/themes';
 import AmbientLoopVideo from '@/components/AmbientLoopVideo';
 import YouTubePlayer from '@/components/YouTubePlayer';
+import SongNotifyCard from '@/components/sections/SongNotifyCard';
 import { useAudioPlayer } from '@/context/AudioPlayerContext';
 import { SEMI_TRACKS, type SemiTrack } from '@/data/semi-songs';
 
@@ -304,6 +305,8 @@ export default function FeaturedSongsSection({
             </ul>
           </aside>
         )}
+
+        <SongNotifyCard />
       </div>
     </section>
   );

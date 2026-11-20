@@ -1,12 +1,13 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
-import { ArrowLeft, ArrowRight, ArrowUpRight, Download, Info, Pause, Play } from 'lucide-react';
+import { ArrowLeft, ArrowRight, ArrowUpRight, Download, Info, Music, Pause, Play } from 'lucide-react';
 import { BlockPulse, FilmGrain, LanternGlow, LeafDapple, Typewriter } from '@/art/themes';
 import YouTubePlayer from '@/components/YouTubePlayer';
 import { SemiMark } from '@/components/brand/SemiMark';
 import { useAudioPlayer } from '@/context/AudioPlayerContext';
+import { SEMI_CHORD_SHEETS, getChordForStanzaLine } from '@/data/semi-chords';
 import type { LyricReferenceNote, SemiTrack } from '@/data/semi-songs';
 
 function normalizeLine(value: string): string {
@@ -35,8 +36,11 @@ function themeFor(slug: string): Theme {
 }
 
 export default function SongEditionClient({ track, prevTrack, nextTrack }: SongEditionClientProps) {
-  const { currentTrack, isPlaying, playTrack } = useAudioPlayer();
-  const playingThis = currentTrack.slug === track.slug && isPlaying;
+  const { currentTrack, isAlternateActive, isPlaying, playTrack, playAlternateTake } = useAudioPlayer();
+  const [showChords, setShowChords] = useState(false);
+  const chordSheet = SEMI_CHORD_SHEETS[track.slug];
+  const playingThis = currentTrack.slug === track.slug && !isAlternateActive && isPlaying;
+  const playingAlt = currentTrack.slug === track.slug && isAlternateActive && isPlaying;
   const theme = themeFor(track.slug);
   const isInk = track.slug === 'marks-on-the-screen-ink-on-the-page';
 
@@ -138,6 +142,82 @@ export default function SongEditionClient({ track, prevTrack, nextTrack }: SongE
           </p>
         </div>
       </header>
+
+      {/* Optional Alternate Studio Take (audio-only bonus session) */}
+      {track.alternateTake && (
+        <section
+          aria-labelledby="alternate-take-heading"
+          data-testid="alternate-take-card"
+          className="border-b border-[var(--a-rule)] bg-[var(--a-surface)] py-10 sm:py-12"
+        >
+          <div className="mx-auto max-w-[1400px] px-5 sm:px-8 lg:px-12">
+            <div className="grid gap-6 lg:grid-cols-12 lg:items-center">
+              <div className="lg:col-span-7 space-y-2.5">
+                <p className="font-code text-[13px] font-semibold uppercase tracking-[0.18em] text-[var(--a-accent-text)]">
+                  Bonus Audio · Track {track.alternateTake.numberLabel} · {track.alternateTake.duration} · Audio only
+                </p>
+                <h2
+                  id="alternate-take-heading"
+                  className="font-display text-2xl sm:text-3xl font-bold text-[var(--a-ink)]"
+                >
+                  {track.alternateTake.title}
+                </h2>
+                <p className="max-w-[62ch] text-[16px] leading-relaxed text-[var(--a-muted)]">
+                  {track.alternateTake.note}
+                </p>
+              </div>
+
+              <div className="lg:col-span-5 flex flex-wrap items-center gap-3 lg:justify-end">
+                <button
+                  type="button"
+                  onClick={() => playAlternateTake(track.slug)}
+                  data-testid="play-alternate-take"
+                  className="inline-flex min-h-[52px] items-center gap-3 rounded-full bg-[var(--a-ink)] pl-2 pr-6 text-[15px] font-semibold text-[#F3EFE9] transition-colors hover:bg-[var(--a-accent-fill)] hover:text-white"
+                >
+                  <span className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-white/15">
+                    {playingAlt ? (
+                      <Pause className="h-4 w-4" aria-hidden="true" fill="currentColor" />
+                    ) : (
+                      <Play className="h-4 w-4 translate-x-[1px]" aria-hidden="true" fill="currentColor" />
+                    )}
+                  </span>
+                  <span>{playingAlt ? 'Pause alternate take' : 'Listen to alternate take'}</span>
+                </button>
+
+                <a
+                  href={track.alternateTake.mp3Src}
+                  download={track.alternateTake.downloadName}
+                  data-testid="download-alternate-take"
+                  className="inline-flex min-h-[52px] items-center gap-2 rounded-full border border-[var(--a-ink)]/25 bg-[var(--a-well)] px-5 text-[14px] font-semibold text-[var(--a-ink)] no-underline transition-colors hover:border-[var(--a-ink)]"
+                >
+                  <Download className="h-4 w-4" aria-hidden="true" />
+                  <span>Alternate MP3</span>
+                </a>
+              </div>
+            </div>
+
+            <details className="semi-note group mt-6 max-w-[64ch]">
+              <summary className="inline-flex min-h-[44px] items-center gap-2 rounded-full border border-[var(--a-rule)] bg-[var(--a-well)] px-4 py-1.5 font-sans text-[14px] font-semibold text-[var(--a-ink)] hover:border-[var(--a-ink)]">
+                <span>Read the alternate-take lyrics</span>
+              </summary>
+              <div className="mt-5 grid gap-6 sm:grid-cols-2 rounded-2xl border border-[var(--a-rule)] bg-[var(--a-well)] p-6">
+                {track.alternateTake.lyrics.map((stanza, idx) => (
+                  <div key={`${stanza.section}-${idx}`}>
+                    <h3 className="font-code text-[13px] uppercase tracking-[0.16em] text-[var(--a-accent-text)]">
+                      {stanza.section}
+                    </h3>
+                    <div className="mt-2 space-y-1 font-serif text-[17px] leading-relaxed text-[var(--a-ink)]">
+                      {stanza.lines.map((l, lIdx) => (
+                        <p key={lIdx}>{l}</p>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </details>
+          </div>
+        </section>
+      )}
 
       {/* Essay + decoder */}
       <section className="mx-auto grid max-w-[1400px] gap-14 px-5 sm:px-8 lg:px-12 py-20 sm:py-28 lg:grid-cols-12">
@@ -337,7 +417,7 @@ export default function SongEditionClient({ track, prevTrack, nextTrack }: SongE
         </section>
       )}
 
-      {/* Lyrics (single unambiguous reading column with interactive reference notes) */}
+      {/* Lyrics (single unambiguous reading column with interactive reference notes + optional guitar chords) */}
       <section
         id="lyrics"
         aria-labelledby="lyrics-heading"
@@ -358,6 +438,53 @@ export default function SongEditionClient({ track, prevTrack, nextTrack }: SongE
             Tap any Note mark beside a lyric line to see what it references.
           </p>
 
+          {chordSheet && (
+            <div className="mt-6 flex flex-col items-center gap-4">
+              <button
+                type="button"
+                onClick={() => setShowChords((prev) => !prev)}
+                aria-pressed={showChords}
+                data-testid="toggle-show-chords"
+                className={`inline-flex min-h-[44px] items-center gap-2 rounded-full border px-5 text-[14px] font-semibold transition-colors ${
+                  showChords
+                    ? 'border-[#FE299E] bg-[#FE299E] text-white'
+                    : theme.dark
+                      ? 'border-white/25 bg-white/5 text-[#F3EFE9] hover:border-white/50'
+                      : 'border-[var(--a-ink)]/25 bg-[var(--a-well)] text-[var(--a-ink)] hover:border-[var(--a-ink)]'
+                }`}
+              >
+                <Music className="h-4 w-4" aria-hidden="true" />
+                <span>{showChords ? 'Hide Chords' : 'Show Chords'}</span>
+              </button>
+
+              {showChords && (
+                <div
+                  data-testid="chords-meta-bar"
+                  className={`w-full max-w-[620px] rounded-2xl border px-5 py-4 text-left font-sans text-[14px] leading-relaxed ${
+                    theme.dark
+                      ? 'border-white/15 bg-white/5 text-[#F3EFE9]/90'
+                      : 'border-[var(--a-rule)] bg-[var(--a-well)] text-[var(--a-ink)]'
+                  }`}
+                >
+                  <div className="flex flex-wrap gap-x-6 gap-y-1.5">
+                    <span>
+                      <strong className="font-semibold">Key:</strong> {chordSheet.key}
+                    </span>
+                    <span>
+                      <strong className="font-semibold">Capo:</strong> {chordSheet.capo}
+                    </span>
+                    <span>
+                      <strong className="font-semibold">Tuning:</strong> {chordSheet.tuning}
+                    </span>
+                  </div>
+                  <p className={`mt-1.5 text-[13px] ${theme.dark ? 'text-[#F3EFE9]/70' : 'text-[var(--a-muted)]'}`}>
+                    <strong className="font-semibold">Feel:</strong> {chordSheet.strumming}
+                  </p>
+                </div>
+              )}
+            </div>
+          )}
+
           <div data-testid="edition-lyrics-grid" className="mx-auto mt-14 max-w-[620px] space-y-12">
             {track.lyrics.map((stanza, idx) => (
               <div
@@ -369,63 +496,80 @@ export default function SongEditionClient({ track, prevTrack, nextTrack }: SongE
                 </h3>
                 <div className="mt-4 space-y-1 font-serif text-[22px] sm:text-[24px] leading-[1.55]">
                   {stanza.lines.map((line, lIdx) => {
+                    const chordLine = showChords
+                      ? getChordForStanzaLine(track.slug, stanza.section, lIdx, line)
+                      : null;
+                    const chordNode = chordLine ? (
+                      <span
+                        data-testid="lyric-chord-line"
+                        className={`mt-3 block overflow-x-auto whitespace-pre font-code text-[14px] font-semibold leading-snug tracking-wide ${
+                          theme.dark ? 'text-[#FFB8DA]' : 'text-[var(--a-accent-text)]'
+                        }`}
+                      >
+                        {chordLine}
+                      </span>
+                    ) : null;
+
                     const normalized = normalizeLine(line);
                     const matched = !seenNoteLines.has(normalized) ? noteByNormalizedLine.get(normalized) : undefined;
                     if (!matched) {
                       return (
-                        <p key={lIdx} className="py-0.5">
-                          {line}
-                        </p>
+                        <div key={lIdx} className="py-0.5">
+                          {chordNode}
+                          <p>{line}</p>
+                        </div>
                       );
                     }
                     seenNoteLines.add(normalized);
                     const { note, idx: noteIdx } = matched;
                     return (
-                      <details
-                        key={lIdx}
-                        data-testid={`lyric-note-${track.slug}-${noteIdx}`}
-                        className="semi-note group my-1"
-                      >
-                        <summary
-                          className={`flex min-h-[44px] items-center justify-between gap-3 rounded-[6px] py-1.5 -mx-2 px-2 transition-colors ${
-                            theme.dark ? 'hover:bg-white/5' : 'hover:bg-black/5'
-                          }`}
+                      <div key={lIdx} className="my-1">
+                        {chordNode}
+                        <details
+                          data-testid={`lyric-note-${track.slug}-${noteIdx}`}
+                          className="semi-note group"
                         >
-                          <span
-                            className={`underline decoration-dotted underline-offset-[6px] ${
-                              theme.dark ? 'decoration-[#FFB8DA]/70' : 'decoration-[var(--a-accent-text)]/60'
+                          <summary
+                            className={`flex min-h-[44px] items-center justify-between gap-3 rounded-[6px] py-1.5 -mx-2 px-2 transition-colors ${
+                              theme.dark ? 'hover:bg-white/5' : 'hover:bg-black/5'
                             }`}
                           >
-                            {line}
-                          </span>
-                          <span
-                            className={`inline-flex shrink-0 items-center gap-1.5 rounded-full border px-2.5 py-1 font-sans text-[13px] font-semibold transition-colors ${
-                              theme.dark
-                                ? 'border-[#FFB8DA]/45 text-[#FFB8DA] group-open:border-[#FE299E] group-open:bg-[#FE299E] group-open:text-white'
-                                : 'border-[var(--a-accent-text)]/40 text-[var(--a-accent-text)] group-open:border-[var(--a-accent-fill)] group-open:bg-[var(--a-accent-fill)] group-open:text-white'
-                            }`}
-                          >
-                            <Info className="h-3.5 w-3.5" aria-hidden="true" />
-                            <span>Note</span>
-                          </span>
-                        </summary>
-                        <div className="mt-2 mb-4 border-l-2 border-[#FE299E] pl-4 py-1.5 font-sans">
-                          <p
-                            className={`text-[13px] font-semibold uppercase tracking-[0.16em] ${
-                              theme.dark ? 'text-[#FFB8DA]' : 'text-[var(--a-accent-text)]'
-                            }`}
-                          >
-                            {note.topic}
-                          </p>
-                          <p
-                            className={`mt-1 text-[15px] leading-relaxed ${
-                              theme.dark ? 'text-[#F3EFE9]/90' : 'text-[var(--a-ink)]/90'
-                            }`}
-                          >
-                            {note.explanation}
-                          </p>
-                        </div>
-                      </details>
+                            <span
+                              className={`underline decoration-dotted underline-offset-[6px] ${
+                                theme.dark ? 'decoration-[#FFB8DA]/70' : 'decoration-[var(--a-accent-text)]/60'
+                              }`}
+                            >
+                              {line}
+                            </span>
+                            <span
+                              className={`inline-flex shrink-0 items-center gap-1.5 rounded-full border px-2.5 py-1 font-sans text-[13px] font-semibold transition-colors ${
+                                theme.dark
+                                  ? 'border-[#FFB8DA]/45 text-[#FFB8DA] group-open:border-[#FE299E] group-open:bg-[#FE299E] group-open:text-white'
+                                  : 'border-[var(--a-accent-text)]/40 text-[var(--a-accent-text)] group-open:border-[var(--a-accent-fill)] group-open:bg-[var(--a-accent-fill)] group-open:text-white'
+                              }`}
+                            >
+                              <Info className="h-3.5 w-3.5" aria-hidden="true" />
+                              <span>Note</span>
+                            </span>
+                          </summary>
+                          <div className="mt-2 mb-4 border-l-2 border-[#FE299E] pl-4 py-1.5 font-sans">
+                            <p
+                              className={`text-[13px] font-semibold uppercase tracking-[0.16em] ${
+                                theme.dark ? 'text-[#FFB8DA]' : 'text-[var(--a-accent-text)]'
+                              }`}
+                            >
+                              {note.topic}
+                            </p>
+                            <p
+                              className={`mt-1 text-[15px] leading-relaxed ${
+                                theme.dark ? 'text-[#F3EFE9]/90' : 'text-[var(--a-ink)]/90'
+                              }`}
+                            >
+                              {note.explanation}
+                            </p>
+                          </div>
+                        </details>
+                      </div>
                     );
                   })}
                 </div>

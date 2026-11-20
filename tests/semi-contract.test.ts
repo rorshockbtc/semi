@@ -42,6 +42,7 @@ test('MP3 audio masters exist, exceed 1MB, and contain valid ID3/MPEG headers', 
     '03-semi-marks-on-the-screen-ink-on-the-page.mp3',
     '04-semi-settle-in-the-block.mp3',
     '05-semi-salt-in-the-rain.mp3',
+    '05b-semi-salt-in-the-rain-alternate-take.mp3',
   ];
   for (const file of expected) {
     const full = path.join(ROOT, 'public', 'audio', file);
@@ -228,4 +229,36 @@ test('Semi is never described as open source in site copy (only the website is)'
   for (const file of files) {
     assert.equal(bad.test(fs.readFileSync(file, 'utf8')), false, `Open-source claim about Semi in ${path.relative(ROOT, file)}`);
   }
+});
+
+test('Chord sheets exist for all 5 tracks, welcome postcard email is human & warm, and Cloudflare config is ready', async () => {
+  const { SEMI_TRACKS } = await import('../src/data/semi-songs.ts');
+  const { SEMI_CHORD_SHEETS, getChordForStanzaLine } = await import('../src/data/semi-chords.ts');
+  const { buildSemiWelcomeEmailHtml, buildSemiWelcomeEmailText } = await import('../src/lib/mailer.ts');
+
+  for (const track of SEMI_TRACKS) {
+    const sheet = SEMI_CHORD_SHEETS[track.slug];
+    assert.ok(sheet, `Missing chord sheet for ${track.slug}`);
+    assert.ok(sheet.key.length > 0);
+    assert.ok(sheet.capo.length > 0);
+    const sampleChord = getChordForStanzaLine(
+      track.slug,
+      track.lyrics[0].section,
+      0,
+      track.lyrics[0].lines[0]
+    );
+    assert.ok(sampleChord && sampleChord.length > 0, `Expected chord line for ${track.slug}`);
+  }
+
+  const html = buildSemiWelcomeEmailHtml('tok_test_123');
+  const text = buildSemiWelcomeEmailText('tok_test_123');
+  assert.match(html, /semi-smiling-portrait\.jpg/);
+  assert.match(html, /cubby@colonhyphenbracket\.pink/);
+  assert.match(html, /tok_test_123/);
+  assert.match(text, /Local Current/);
+
+  const wranglerRaw = fs.readFileSync(path.join(ROOT, 'wrangler.jsonc'), 'utf8');
+  assert.match(wranglerRaw, /nodejs_compat/);
+  assert.match(wranglerRaw, /semi-mailing-list/);
+  assert.ok(fs.existsSync(path.join(ROOT, 'open-next.config.ts')));
 });

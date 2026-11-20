@@ -79,6 +79,13 @@ const TRACKS = [
     track: '5/9',
     comment: 'From Local Current (The West Nashville Sessions) · https://semi.colonhyphenbracket.pink',
   },
+  {
+    inputs: ['Salt in the Rain (Alternate Take).m4a'],
+    out: '05b-semi-salt-in-the-rain-alternate-take.mp3',
+    title: 'Salt In The Rain (Alternate Take)',
+    track: '5/9',
+    comment: 'Alternate Studio Take · Local Current (The West Nashville Sessions) · https://semi.colonhyphenbracket.pink',
+  },
 ];
 
 for (const t of TRACKS) {
