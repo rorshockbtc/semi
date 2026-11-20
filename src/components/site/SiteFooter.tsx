@@ -1,12 +1,15 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
 import { Smile } from 'accent-ui';
 import { SemiMark } from '@/components/brand/SemiMark';
+import ContactInquiryDialog, { INQUIRY_REASONS } from '@/components/modals/ContactInquiryDialog';
 import { SEMI_TRACKS } from '@/data/semi-songs';
 
 export default function SiteFooter() {
+  const [contactOpen, setContactOpen] = useState(false);
+
   return (
     <footer className="bg-[#0d0b0a] text-[#F3EFE9]">
       <div className="mx-auto max-w-[1400px] pl-[max(1.25rem,env(safe-area-inset-left,0px))] pr-[max(1.25rem,env(safe-area-inset-right,0px))] sm:px-8 lg:px-12 pt-16 sm:pt-20 pb-[calc(13.5rem+env(safe-area-inset-bottom,0px))] md:pb-28">
@@ -88,8 +91,35 @@ export default function SiteFooter() {
           </div>
         </div>
 
+        {/* Book Semi & Studio Commissions */}
+        <div className="flex flex-col gap-4 border-b border-white/10 py-8 sm:flex-row sm:items-center sm:justify-between">
+          <p className="max-w-[58ch] text-[15px] leading-relaxed text-[#F3EFE9]/80">
+            Book Semi for product promotions and brand campaigns—or reach out to collaborate on a website, custom song, or video.
+          </p>
+          <button
+            type="button"
+            onClick={() => setContactOpen(true)}
+            data-testid="footer-book-semi"
+            className="inline-flex min-h-[48px] w-full sm:w-auto shrink-0 items-center justify-center rounded-full border border-[#FE299E]/70 bg-[#FE299E]/15 px-6 text-[15px] font-semibold text-white transition-colors hover:bg-[#FE299E]"
+          >
+            Book Semi
+          </button>
+        </div>
+
         <div className="flex flex-col gap-3 pt-6 sm:pt-8 text-[13px] text-[#F3EFE9]/60 sm:flex-row sm:items-center sm:justify-between">
-          <span>© 2026 Colon Hyphen Bracket, LLC · West Nashville</span>
+          <span>
+            © 2026 · Site made by{' '}
+            <a
+              href="https://colonhyphenbracket.pink"
+              target="_blank"
+              rel="noopener noreferrer"
+              data-testid="footer-chb-link"
+              className="text-[#F3EFE9]/85 underline underline-offset-4 hover:text-white"
+            >
+              colonhyphenbracket
+            </a>{' '}
+            · West Nashville
+          </span>
           <span>
             Site code open source on{' '}
             <a
@@ -104,6 +134,12 @@ export default function SiteFooter() {
           </span>
         </div>
       </div>
+
+      <ContactInquiryDialog
+        open={contactOpen}
+        initialReason={INQUIRY_REASONS[0]}
+        onClose={() => setContactOpen(false)}
+      />
     </footer>
   );
 }

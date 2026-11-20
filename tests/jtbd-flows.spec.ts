@@ -377,5 +377,23 @@ test.describe('Semi (; - ]) Multi-Page Interactive JTBD Suite', () => {
     const manifestRes = await page.request.get('/manifest.webmanifest');
     expect(manifestRes.status()).toBe(200);
     expect(await manifestRes.text()).toContain('#E8E2D5');
+
+    // Verify footer colonhyphenbracket link & Book Semi inquiry dialog
+    await page.goto('/', { waitUntil: 'networkidle' });
+    const chbLink = page.getByTestId('footer-chb-link');
+    await chbLink.scrollIntoViewIfNeeded();
+    await expect(chbLink).toHaveAttribute('href', 'https://colonhyphenbracket.pink');
+
+    await page.getByTestId('footer-book-semi').click();
+    const contactDialog = page.getByTestId('contact-inquiry-dialog');
+    await expect(contactDialog).toBeVisible();
+    const reasonSelect = page.getByTestId('contact-reason-select');
+    await expect(reasonSelect).toHaveValue('Book Semi — product promotions & brand campaigns');
+    await reasonSelect.selectOption('Help build a website or app');
+    await expect(reasonSelect).toHaveValue('Help build a website or app');
+    await reasonSelect.selectOption('Write a song');
+    await reasonSelect.selectOption('Produce a video for me');
+    await page.getByRole('button', { name: 'Close contact form' }).click();
+    await expect(contactDialog).not.toBeVisible();
   });
 });
