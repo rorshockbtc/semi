@@ -327,9 +327,15 @@ export function AudioPlayerProvider({ children }: { children: React.ReactNode })
   }, [activeIndex, isPlaying]);
 
   const seek = useCallback((seconds: number) => {
+    if (!Number.isFinite(seconds) || seconds < 0) return;
     setCurrentTime(seconds);
-    if (audioRef.current) {
-      audioRef.current.currentTime = seconds;
+    const el = audioRef.current;
+    if (el) {
+      try {
+        el.currentTime = seconds;
+      } catch (err) {
+        console.warn('[AudioPlayer] Seek failed:', err);
+      }
     }
   }, []);
 

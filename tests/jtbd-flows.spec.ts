@@ -58,6 +58,15 @@ test.describe('Semi (; - ]) Multi-Page Interactive JTBD Suite', () => {
     await muteBtn.click();
     await expect(muteBtn).toHaveAttribute('aria-pressed', 'false');
 
+    // Verify time scrubber seeks smoothly without resetting to 0:00
+    const timeScrubber = page.locator('input[aria-label="Seek track progress"]');
+    await expect(timeScrubber).toBeVisible();
+    await timeScrubber.fill('35');
+    await timeScrubber.dispatchEvent('change');
+    await page.waitForTimeout(500);
+    const scrubVal = Number(await timeScrubber.getAttribute('value'));
+    expect(scrubVal).toBeGreaterThanOrEqual(30);
+
     await page.getByTestId('story-link-01').click();
     await expect(page).toHaveURL(/\/songs\/old-oak-tree$/);
 

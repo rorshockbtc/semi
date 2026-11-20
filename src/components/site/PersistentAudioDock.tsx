@@ -31,9 +31,13 @@ export default function PersistentAudioDock() {
     dismissDock,
   } = useAudioPlayer();
 
+  const [isScrubbing, setIsScrubbing] = React.useState(false);
+  const [scrubValue, setScrubValue] = React.useState(0);
+
   if (!hasStarted) return null;
 
   const maxDuration = duration > 0 ? duration : 180;
+  const displayTime = isScrubbing ? scrubValue : currentTime;
   const effectiveVolume = isMuted ? 0 : volume;
   const VolumeIcon = effectiveVolume === 0 ? VolumeX : effectiveVolume < 0.5 ? Volume1 : Volume2;
 
@@ -162,15 +166,46 @@ export default function PersistentAudioDock() {
             </div>
 
             <span className="w-[2.75rem] shrink-0 text-right font-code text-[13px] tabular-nums text-[var(--a-muted)]">
-              {formatTime(currentTime)}
+              {formatTime(displayTime)}
             </span>
             <input
               type="range"
               min={0}
               max={maxDuration}
               step={0.5}
-              value={Math.min(currentTime, maxDuration)}
-              onChange={(e) => seek(Number(e.target.value))}
+              value={Math.min(displayTime, maxDuration)}
+              onPointerDown={(e) => {
+                setIsScrubbing(true);
+                setScrubValue(currentTime);
+                try {
+                  e.currentTarget.setPointerCapture(e.pointerId);
+                } catch {
+                  // Pointer capture not supported on this device
+                }
+              }}
+              onChange={(e) => {
+                const val = Number(e.target.value);
+                setScrubValue(val);
+                if (!isScrubbing) {
+                  seek(val);
+                }
+              }}
+              onPointerUp={(e) => {
+                try {
+                  e.currentTarget.releasePointerCapture(e.pointerId);
+                } catch {
+                  // Ignore
+                }
+                seek(scrubValue);
+                setIsScrubbing(false);
+              }}
+              onKeyDown={(e) => {
+                if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
+                  const step = e.key === 'ArrowLeft' ? -5 : 5;
+                  const target = Math.max(0, Math.min(maxDuration, currentTime + step));
+                  seek(target);
+                }
+              }}
               aria-label="Seek track progress"
               className="semi-range min-w-0 flex-1 min-h-[44px]"
             />

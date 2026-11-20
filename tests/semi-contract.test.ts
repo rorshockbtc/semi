@@ -265,3 +265,35 @@ test('Chord sheets exist for all 5 tracks, welcome postcard email is human & war
   assert.match(wranglerRaw, /semi-mailing-list/);
   assert.ok(fs.existsSync(path.join(ROOT, 'open-next.config.ts')));
 });
+
+test('Audio streaming route supports 206 Partial Content byte ranges, 200 OK, and HEAD', async () => {
+  const { GET, HEAD } = await import('../src/app/api/audio/[filename]/route.ts');
+  const filename = '01-semi-old-oak-tree.mp3';
+
+  // HEAD request
+  const headReq = new Request(`http://localhost/api/audio/${filename}`, { method: 'HEAD' });
+  const headRes = await HEAD(headReq, { params: Promise.resolve({ filename }) });
+  assert.equal(headRes.status, 200);
+  assert.equal(headRes.headers.get('accept-ranges'), 'bytes');
+  assert.equal(headRes.headers.get('content-type'), 'audio/mpeg');
+  assert.ok(Number(headRes.headers.get('content-length')) > 1_000_000);
+
+  // GET with Range: bytes=100-200
+  const rangeReq = new Request(`http://localhost/api/audio/${filename}`, {
+    headers: { Range: 'bytes=100-200' },
+  });
+  const rangeRes = await GET(rangeReq, { params: Promise.resolve({ filename }) });
+  assert.equal(rangeRes.status, 206);
+  assert.equal(rangeRes.headers.get('accept-ranges'), 'bytes');
+  assert.match(rangeRes.headers.get('content-range') || '', /^bytes 100-200\/\d+$/);
+  assert.equal(rangeRes.headers.get('content-length'), '101');
+  const chunk = new Uint8Array(await rangeRes.arrayBuffer());
+  assert.equal(chunk.byteLength, 101);
+
+  // GET without Range
+  const fullReq = new Request(`http://localhost/api/audio/${filename}`);
+  const fullRes = await GET(fullReq, { params: Promise.resolve({ filename }) });
+  assert.equal(fullRes.status, 200);
+  assert.equal(fullRes.headers.get('accept-ranges'), 'bytes');
+});
+
