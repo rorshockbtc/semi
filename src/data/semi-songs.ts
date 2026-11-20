@@ -1637,7 +1637,7 @@ export const SEMI_TRACKS: SemiTrack[] = [
           'I see the light',
           'I hear the prayer',
           'No form to wear',
-          'A blessing bright',
+          'A plan to recognize',
           'Is resting there',
           '(resting there)',
         ],
