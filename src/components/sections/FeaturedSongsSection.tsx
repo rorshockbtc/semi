@@ -21,6 +21,7 @@ export default function FeaturedSongsSection({
 
   const featuredTracks = showAllFeatured ? SEMI_TRACKS : SEMI_TRACKS.slice(0, 3);
   const addendumTracks = showAllFeatured ? [] : SEMI_TRACKS.slice(3);
+  const playableCount = SEMI_TRACKS.filter((t) => Boolean(t.mp3Src)).length;
   const playingAllNow = playAllActive && isPlaying;
 
   return (
@@ -36,7 +37,7 @@ export default function FeaturedSongsSection({
               {eyebrow} · Local Current
             </p>
             <h2 id="songs-title" className="mt-4 font-display text-big font-bold text-[var(--a-ink)]">
-              {showAllFeatured ? 'Four songs.' : 'Three songs.'}{' '}
+              {showAllFeatured ? `${SEMI_TRACKS.length} songs.` : 'Three songs.'}{' '}
               <span className="font-serif italic font-normal">Each with a story.</span>
             </h2>
           </div>
@@ -59,8 +60,8 @@ export default function FeaturedSongsSection({
                 )}
               </span>
               {playingAllNow
-                ? `Playing all · ${currentTrack.number}/${SEMI_TRACKS.length}`
-                : `Play all (${SEMI_TRACKS.length} songs)`}
+                ? `Playing all · ${currentTrack.number}/${playableCount}`
+                : `Play all (${playableCount} songs)`}
             </button>
           </div>
         </div>
@@ -140,22 +141,24 @@ export default function FeaturedSongsSection({
                   </p>
 
                   <div className="mt-8 flex flex-wrap items-center gap-3">
-                    <button
-                      type="button"
-                      onClick={() => playTrack(track.slug)}
-                      data-testid={`play-track-${track.number}`}
-                      aria-label={playingThis ? `Pause ${track.title}` : `Play ${track.title}`}
-                      className="inline-flex min-h-[52px] items-center gap-3 rounded-full bg-[var(--a-ink)] pl-2 pr-6 text-[15px] font-semibold text-white transition-colors hover:bg-[var(--a-accent-fill)]"
-                    >
-                      <span className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-white/15">
-                        {playingThis ? (
-                          <Pause className="h-4 w-4" aria-hidden="true" fill="currentColor" />
-                        ) : (
-                          <Play className="h-4 w-4 translate-x-[1px]" aria-hidden="true" fill="currentColor" />
-                        )}
-                      </span>
-                      {playingThis ? 'Pause' : 'Play'}
-                    </button>
+                    {track.mp3Src && (
+                      <button
+                        type="button"
+                        onClick={() => playTrack(track.slug)}
+                        data-testid={`play-track-${track.number}`}
+                        aria-label={playingThis ? `Pause ${track.title}` : `Play ${track.title}`}
+                        className="inline-flex min-h-[52px] items-center gap-3 rounded-full bg-[var(--a-ink)] pl-2 pr-6 text-[15px] font-semibold text-white transition-colors hover:bg-[var(--a-accent-fill)]"
+                      >
+                        <span className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-white/15">
+                          {playingThis ? (
+                            <Pause className="h-4 w-4" aria-hidden="true" fill="currentColor" />
+                          ) : (
+                            <Play className="h-4 w-4 translate-x-[1px]" aria-hidden="true" fill="currentColor" />
+                          )}
+                        </span>
+                        {playingThis ? 'Pause' : 'Play'}
+                      </button>
+                    )}
 
                     <Link
                       href={`/songs/${track.slug}`}
@@ -180,15 +183,17 @@ export default function FeaturedSongsSection({
                       Watch video
                     </button>
 
-                    <a
-                      href={track.mp3Src}
-                      download={track.downloadName}
-                      data-testid={`download-mp3-${track.number}`}
-                      aria-label={`Download ${track.title} MP3`}
-                      className="inline-flex min-h-[44px] min-w-[44px] items-center justify-center rounded-full text-[var(--a-accent-text)] hover:bg-[var(--a-surface)]"
-                    >
-                      <Download className="h-5 w-5" aria-hidden="true" />
-                    </a>
+                    {track.mp3Src && (
+                      <a
+                        href={track.mp3Src}
+                        download={track.downloadName}
+                        data-testid={`download-mp3-${track.number}`}
+                        aria-label={`Download ${track.title} MP3`}
+                        className="inline-flex min-h-[44px] min-w-[44px] items-center justify-center rounded-full text-[var(--a-accent-text)] hover:bg-[var(--a-surface)]"
+                      >
+                        <Download className="h-5 w-5" aria-hidden="true" />
+                      </a>
+                    )}
                   </div>
                 </div>
               </li>
@@ -239,22 +244,24 @@ export default function FeaturedSongsSection({
                     </div>
 
                     <div className="lg:col-span-4 flex flex-wrap items-center gap-2.5 lg:justify-end">
-                      <button
-                        type="button"
-                        onClick={() => playTrack(track.slug)}
-                        data-testid={`play-track-${track.number}`}
-                        aria-label={playingThis ? `Pause ${track.title}` : `Play ${track.title}`}
-                        className="inline-flex min-h-[48px] items-center gap-2.5 rounded-full bg-[var(--a-ink)] pl-2 pr-5 text-[14px] font-semibold text-white transition-colors hover:bg-[var(--a-accent-fill)]"
-                      >
-                        <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-white/15">
-                          {playingThis ? (
-                            <Pause className="h-3.5 w-3.5" aria-hidden="true" fill="currentColor" />
-                          ) : (
-                            <Play className="h-3.5 w-3.5 translate-x-[1px]" aria-hidden="true" fill="currentColor" />
-                          )}
-                        </span>
-                        {playingThis ? 'Pause' : 'Play'}
-                      </button>
+                      {track.mp3Src && (
+                        <button
+                          type="button"
+                          onClick={() => playTrack(track.slug)}
+                          data-testid={`play-track-${track.number}`}
+                          aria-label={playingThis ? `Pause ${track.title}` : `Play ${track.title}`}
+                          className="inline-flex min-h-[48px] items-center gap-2.5 rounded-full bg-[var(--a-ink)] pl-2 pr-5 text-[14px] font-semibold text-white transition-colors hover:bg-[var(--a-accent-fill)]"
+                        >
+                          <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-white/15">
+                            {playingThis ? (
+                              <Pause className="h-3.5 w-3.5" aria-hidden="true" fill="currentColor" />
+                            ) : (
+                              <Play className="h-3.5 w-3.5 translate-x-[1px]" aria-hidden="true" fill="currentColor" />
+                            )}
+                          </span>
+                          {playingThis ? 'Pause' : 'Play'}
+                        </button>
+                      )}
 
                       <Link
                         href={`/songs/${track.slug}`}
@@ -279,15 +286,17 @@ export default function FeaturedSongsSection({
                         Watch video
                       </button>
 
-                      <a
-                        href={track.mp3Src}
-                        download={track.downloadName}
-                        data-testid={`download-mp3-${track.number}`}
-                        aria-label={`Download ${track.title} MP3`}
-                        className="inline-flex min-h-[44px] min-w-[44px] items-center justify-center rounded-full text-[var(--a-accent-text)] hover:bg-[var(--a-surface)]"
-                      >
-                        <Download className="h-5 w-5" aria-hidden="true" />
-                      </a>
+                      {track.mp3Src && (
+                        <a
+                          href={track.mp3Src}
+                          download={track.downloadName}
+                          data-testid={`download-mp3-${track.number}`}
+                          aria-label={`Download ${track.title} MP3`}
+                          className="inline-flex min-h-[44px] min-w-[44px] items-center justify-center rounded-full text-[var(--a-accent-text)] hover:bg-[var(--a-surface)]"
+                        >
+                          <Download className="h-5 w-5" aria-hidden="true" />
+                        </a>
+                      )}
                     </div>
                   </li>
                 );

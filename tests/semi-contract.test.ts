@@ -61,6 +61,7 @@ test('All living loops, distinct photo stills, OG image, and icon exist', () => 
     'public/loops/song-02-firelight.mp4',
     'public/loops/song-03-fountain-pen.mp4',
     'public/loops/song-04-keys.mp4',
+    'public/loops/song-05-rain.mp4',
     'public/loops/about-lantern-river.mp4',
     'public/photos/gallery-meadow-spin.jpg',
     'public/photos/gallery-vintage-mic.jpg',
@@ -82,6 +83,10 @@ test('All living loops, distinct photo stills, OG image, and icon exist', () => 
     'public/photos/song-04-obsidian.jpg',
     'public/photos/song-04-anchor.jpg',
     'public/photos/song-04-ring.jpg',
+    'public/photos/song-05-poster.jpg',
+    'public/photos/song-05-ink-basin.jpg',
+    'public/photos/song-05-mirror.jpg',
+    'public/photos/song-05-fire.jpg',
     'public/photos/semi-studio-wide.jpg',
     'public/photos/semi-closeup-eyes.jpg',
     'public/photos/semi-smiling-portrait.jpg',
@@ -114,7 +119,7 @@ test('All living loops, distinct photo stills, OG image, and icon exist', () => 
 test('Zero duplicate image paths across the entire site, rich song essays, Bitcoin commons spotlight, and interactive lyricNotes exist', async () => {
   const { FILM_SCENES_GALLERY, SEMI_TRACKS } = await import('../src/data/semi-songs.ts');
 
-  assert.equal(SEMI_TRACKS.length, 4);
+  assert.equal(SEMI_TRACKS.length, 5);
   assert.equal(FILM_SCENES_GALLERY.length, 12);
 
   const usedImages: string[] = [
@@ -177,6 +182,8 @@ test('Gemini chat endpoint and knowledge builder cover Semi persona, closed-sour
   assert.match(prompt, /Warm Unknown/);
   assert.match(prompt, /Marks On The Screen, Ink On The Page/);
   assert.match(prompt, /Settle In The Block/);
+  assert.match(prompt, /Salt In The Rain/);
+  assert.match(prompt, /aO-1E1Z9uQk/);
   assert.match(prompt, /bitcoin\.org/);
   assert.match(prompt, /closed source/i);
   assert.match(prompt, /private chat/i);

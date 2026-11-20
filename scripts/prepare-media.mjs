@@ -144,6 +144,7 @@ const SINGLE_LOOPS = [
   { pattern: ['Woman_smiling_in_firelight_06574390_1080p.mp4'], out: 'song-02-firelight.mp4' },
   { pattern: ['Woman_writing_with_fountain_pen_fbe7f328_1080p.mp4'], out: 'song-03-fountain-pen.mp4' },
   { pattern: ['Woman_reveals_antique_brass_keys_d230c62d.mp4'], out: 'song-04-keys.mp4' },
+  { pattern: ['Woman_singing_in_sunlit_rain_47a45420.mp4'], out: 'song-05-rain.mp4' },
   { pattern: ['Woman_walking_with_lantern_river*1080p.mp4'], out: 'about-lantern-river.mp4' },
 ];
 
@@ -194,6 +195,11 @@ const VIDEO_STILLS = [
   { pattern: ['Woman_holding_obsidian_stone_in_c8c3b1f5.mp4'], ts: '00:00:03', out: 'song-04-obsidian.jpg' },
   { pattern: ['Woman_standing_beside_harbor_lan*e1a3dd6f.mp4'], ts: '00:00:03', out: 'song-04-anchor.jpg' },
   { pattern: ['Woman_holding_gold_ring_beside_90914460.mp4'], ts: '00:00:03', out: 'song-04-ring.jpg' },
+  // Song 05 (Salt In The Rain)
+  { pattern: ['Woman_singing_in_sunlit_rain_47a45420.mp4'], ts: '00:00:03', out: 'song-05-poster.jpg' },
+  { pattern: ['Woman_washing_ink_in_basin_ab97a032.mp4'], ts: '00:00:03', out: 'song-05-ink-basin.jpg' },
+  { pattern: ['Woman_cleaning_mirror_at_vanity_992a60f4.mp4'], ts: '00:00:03', out: 'song-05-mirror.jpg' },
+  { pattern: ['Woman_tossing_leaves_into_fire_0c935d5c.mp4'], ts: '00:00:03', out: 'song-05-fire.jpg' },
 ];
 
 for (const st of VIDEO_STILLS) {

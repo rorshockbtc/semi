@@ -126,11 +126,20 @@ test.describe('Semi (; - ]) Multi-Page Interactive JTBD Suite', () => {
     await expect(settleNote).toHaveAttribute('open', '');
     await expect(settleNote).toContainText(/riverbed|purchasing power|money supply/i);
 
+    await page.goto('/songs/salt-in-the-rain', { waitUntil: 'networkidle' });
+    await expect(page.locator('iframe[src*="aO-1E1Z9uQk"]')).toBeVisible();
+    await expect(page.locator('#lyrics')).toContainText(/salt in the rain/i);
+    const rainNote = page.getByTestId('lyric-note-salt-in-the-rain-0');
+    await rainNote.locator('summary').click();
+    await expect(rainNote).toHaveAttribute('open', '');
+
     await page.goto('/', { waitUntil: 'networkidle' });
     await expect(page.getByTestId('featured-song-03')).toBeVisible();
     await expect(page.getByTestId('featured-song-04')).toHaveCount(0);
+    await expect(page.getByTestId('featured-song-05')).toHaveCount(0);
     await expect(page.getByTestId('songs-addendum')).toBeVisible();
     await expect(page.getByTestId('addendum-song-04')).toContainText('Settle In The Block');
+    await expect(page.getByTestId('addendum-song-05')).toContainText('Salt In The Rain');
     for (const num of ['01', '02', '03', '04']) {
       const link = page.getByTestId(`download-mp3-${num}`);
       await expect(link).toHaveAttribute('download', /\.mp3$/);

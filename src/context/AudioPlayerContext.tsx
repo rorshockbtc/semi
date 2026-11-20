@@ -30,6 +30,8 @@ interface AudioPlayerContextValue {
 
 const AudioPlayerContext = createContext<AudioPlayerContextValue | null>(null);
 
+const PLAYABLE_TRACKS = SEMI_TRACKS.filter((t) => Boolean(t.mp3Src));
+
 export function AudioPlayerProvider({ children }: { children: React.ReactNode }) {
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const [activeIndex, setActiveIndex] = useState(0);
@@ -50,23 +52,23 @@ export function AudioPlayerProvider({ children }: { children: React.ReactNode })
     playAllRef.current = playAllActive;
   }, [playAllActive]);
 
-  const currentTrack = SEMI_TRACKS[activeIndex];
+  const currentTrack = PLAYABLE_TRACKS[activeIndex] ?? PLAYABLE_TRACKS[0];
 
   useEffect(() => {
-    const el = new Audio(SEMI_TRACKS[0].mp3Src);
+    const el = new Audio(PLAYABLE_TRACKS[0].mp3Src!);
     el.preload = 'metadata';
     audioRef.current = el;
 
     const onTimeUpdate = () => setCurrentTime(el.currentTime);
     const onLoadedMetadata = () => setDuration(el.duration || 0);
     const onEnded = () => {
-      if (playAllRef.current && activeIndexRef.current < SEMI_TRACKS.length - 1) {
+      if (playAllRef.current && activeIndexRef.current < PLAYABLE_TRACKS.length - 1) {
         const nextIdx = activeIndexRef.current + 1;
         activeIndexRef.current = nextIdx;
         setActiveIndex(nextIdx);
         setCurrentTime(0);
         setDuration(0);
-        el.src = SEMI_TRACKS[nextIdx].mp3Src;
+        el.src = PLAYABLE_TRACKS[nextIdx].mp3Src!;
         el.load();
         const p = el.play();
         if (p) p.catch(() => setIsPlaying(false));
@@ -97,9 +99,9 @@ export function AudioPlayerProvider({ children }: { children: React.ReactNode })
 
   const resolveIndex = useCallback((slugOrIndex: string | number): number => {
     if (typeof slugOrIndex === 'number') {
-      return (slugOrIndex + SEMI_TRACKS.length) % SEMI_TRACKS.length;
+      return (slugOrIndex + PLAYABLE_TRACKS.length) % PLAYABLE_TRACKS.length;
     }
-    const found = SEMI_TRACKS.findIndex((t) => t.slug === slugOrIndex || t.number === slugOrIndex);
+    const found = PLAYABLE_TRACKS.findIndex((t) => t.slug === slugOrIndex || t.number === slugOrIndex);
     return found >= 0 ? found : 0;
   }, []);
 
@@ -110,7 +112,7 @@ export function AudioPlayerProvider({ children }: { children: React.ReactNode })
       if (!el) return;
       if (idx !== activeIndex) {
         el.pause();
-        el.src = SEMI_TRACKS[idx].mp3Src;
+        el.src = PLAYABLE_TRACKS[idx].mp3Src!;
         el.load();
         setCurrentTime(0);
         setDuration(0);
@@ -130,7 +132,7 @@ export function AudioPlayerProvider({ children }: { children: React.ReactNode })
 
       if (idx !== activeIndex) {
         el.pause();
-        el.src = SEMI_TRACKS[idx].mp3Src;
+        el.src = PLAYABLE_TRACKS[idx].mp3Src!;
         el.load();
         setCurrentTime(0);
         setDuration(0);
@@ -166,7 +168,7 @@ export function AudioPlayerProvider({ children }: { children: React.ReactNode })
 
     if (activeIndex !== 0) {
       el.pause();
-      el.src = SEMI_TRACKS[0].mp3Src;
+      el.src = PLAYABLE_TRACKS[0].mp3Src!;
       el.load();
       setCurrentTime(0);
       setDuration(0);
@@ -197,14 +199,14 @@ export function AudioPlayerProvider({ children }: { children: React.ReactNode })
   }, []);
 
   const nextTrack = useCallback(() => {
-    const nextIdx = (activeIndex + 1) % SEMI_TRACKS.length;
+    const nextIdx = (activeIndex + 1) % PLAYABLE_TRACKS.length;
     const el = audioRef.current;
     const wasPlaying = isPlaying;
     setActiveIndex(nextIdx);
     setHasStarted(true);
     if (!el) return;
     el.pause();
-    el.src = SEMI_TRACKS[nextIdx].mp3Src;
+    el.src = PLAYABLE_TRACKS[nextIdx].mp3Src!;
     el.load();
     setCurrentTime(0);
     setDuration(0);
@@ -215,14 +217,14 @@ export function AudioPlayerProvider({ children }: { children: React.ReactNode })
   }, [activeIndex, isPlaying]);
 
   const prevTrack = useCallback(() => {
-    const prevIdx = (activeIndex - 1 + SEMI_TRACKS.length) % SEMI_TRACKS.length;
+    const prevIdx = (activeIndex - 1 + PLAYABLE_TRACKS.length) % PLAYABLE_TRACKS.length;
     const el = audioRef.current;
     const wasPlaying = isPlaying;
     setActiveIndex(prevIdx);
     setHasStarted(true);
     if (!el) return;
     el.pause();
-    el.src = SEMI_TRACKS[prevIdx].mp3Src;
+    el.src = PLAYABLE_TRACKS[prevIdx].mp3Src!;
     el.load();
     setCurrentTime(0);
     setDuration(0);

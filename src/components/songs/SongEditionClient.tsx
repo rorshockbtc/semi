@@ -77,33 +77,37 @@ export default function SongEditionClient({ track, prevTrack, nextTrack }: SongE
               </p>
 
               <div className="mt-9 flex flex-wrap items-center gap-3">
-                <button
-                  type="button"
-                  onClick={() => playTrack(track.slug)}
-                  data-testid="edition-play-mp3"
-                  className="inline-flex min-h-[56px] items-center gap-3 rounded-full bg-[var(--a-accent-fill)] pl-2 pr-6 text-[16px] font-semibold text-white transition-colors hover:bg-[#111827]"
-                >
-                  <span className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-white/20">
-                    {playingThis ? (
-                      <Pause className="h-4 w-4" aria-hidden="true" fill="currentColor" />
-                    ) : (
-                      <Play className="h-4 w-4 translate-x-[1px]" aria-hidden="true" fill="currentColor" />
-                    )}
-                  </span>
-                  {playingThis ? 'Pause' : 'Play the song'}
-                </button>
-                <a
-                  href={track.mp3Src}
-                  download={track.downloadName}
-                  data-testid="edition-download-mp3"
-                  className={`inline-flex min-h-[56px] items-center gap-2 rounded-full border px-6 text-[15px] font-semibold no-underline transition-colors ${
-                    theme.dark
-                      ? 'border-white/30 text-white hover:bg-white/10'
-                      : 'border-[var(--a-ink)]/20 text-[var(--a-ink)] hover:border-[var(--a-ink)]'
-                  }`}
-                >
-                  <Download className="h-4 w-4" aria-hidden="true" /> Download MP3
-                </a>
+                {track.mp3Src && (
+                  <>
+                    <button
+                      type="button"
+                      onClick={() => playTrack(track.slug)}
+                      data-testid="edition-play-mp3"
+                      className="inline-flex min-h-[56px] items-center gap-3 rounded-full bg-[var(--a-accent-fill)] pl-2 pr-6 text-[16px] font-semibold text-white transition-colors hover:bg-[#111827]"
+                    >
+                      <span className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-white/20">
+                        {playingThis ? (
+                          <Pause className="h-4 w-4" aria-hidden="true" fill="currentColor" />
+                        ) : (
+                          <Play className="h-4 w-4 translate-x-[1px]" aria-hidden="true" fill="currentColor" />
+                        )}
+                      </span>
+                      {playingThis ? 'Pause' : 'Play the song'}
+                    </button>
+                    <a
+                      href={track.mp3Src}
+                      download={track.downloadName}
+                      data-testid="edition-download-mp3"
+                      className={`inline-flex min-h-[56px] items-center gap-2 rounded-full border px-6 text-[15px] font-semibold no-underline transition-colors ${
+                        theme.dark
+                          ? 'border-white/30 text-white hover:bg-white/10'
+                          : 'border-[var(--a-ink)]/20 text-[var(--a-ink)] hover:border-[var(--a-ink)]'
+                      }`}
+                    >
+                      <Download className="h-4 w-4" aria-hidden="true" /> Download MP3
+                    </a>
+                  </>
+                )}
                 <a
                   href="#lyrics"
                   data-testid="edition-jump-lyrics"

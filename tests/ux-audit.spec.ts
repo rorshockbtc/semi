@@ -108,8 +108,9 @@ test.describe('UX & Visual Ergonomics Audit (Multi-Page Desktop 1440×900 & Mobi
     await page.waitForTimeout(450);
     await page.screenshot({ path: path.join(SCREENSHOT_DIR, 'desktop-song-settle-lyrics-v6.png') });
 
-    // 3. Songs Index, About & Gallery
+    // 3. Songs Index, Salt In The Rain, About & Gallery
     await auditRouteErgonomics(page, '/songs');
+    await auditRouteErgonomics(page, '/songs/salt-in-the-rain');
     await auditRouteErgonomics(page, '/about');
     await page.screenshot({ path: path.join(SCREENSHOT_DIR, 'desktop-about-top-v4.png') });
     await page.evaluate(() => {

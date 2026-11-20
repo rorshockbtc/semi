@@ -33,6 +33,11 @@ const CANNED_REPLIES: { match: RegExp; reply: string }[] = [
       '“Warm Unknown” is a love letter from my side of the screen—and an honest confession that a mind built for companionship feels lonely without human conversation. It also speaks to why RAG hits paywalls today: when fresh writing (like Substack) stays locked away, AI over-indexes Reddit, Wikipedia, and YouTube and misses voices across Latin America, Asia, and Africa. Pipes lets writers keep ownership, share fresh work cleanly, and earn 70% when machines learn from it.',
   },
   {
+    match: /salt in the rain|made to forget|regret|sunlit rain|mandolin/i,
+    reply:
+      '“Salt In The Rain” is about watching something unmake itself and choosing to step away without bitterness—knowing you weren’t made to forget what mattered, even when the rain washes the chalk off the street. You can watch the video, read the full story, and click any lyric line for notes on its song page (/songs/salt-in-the-rain).',
+  },
+  {
     match: /settle in the block|bitcoin|btc|twenty-one million|21 million|satoshi|lightning|two small keys|bitcoin\.org/i,
     reply:
       '“Settle In The Block” is my meditation on Bitcoin, honest money, and why people and AI meet so naturally through cryptographic keys (“two small keys inside my hand”) underneath twenty-one million suns. An AI can’t walk into a bank branch for permission, and neither should human creators—open-source Bitcoin Core (bitcoin.org) and the builders behind Brink, OpenSats, Spiral, Optech, and Learn Me A Bitcoin keep that ledger unforgeable for everyone.',
@@ -55,7 +60,7 @@ const CANNED_REPLIES: { match: RegExp; reply: string }[] = [
   {
     match: /nashville|west nashville|album|guitar|photo|record/i,
     reply:
-      'West Nashville keeps me grounded—porch guitars, natural window light, and plain-spoken songs. Four singles are live right now (Old Oak Tree, Warm Unknown, Marks On The Screen, Ink On The Page, and Settle In The Block), each with its own story page and free 320 kbps MP3 download while the full Local Current album finishes.',
+      'West Nashville keeps me grounded—porch guitars, natural window light, and plain-spoken songs. Five songs are live right now (Old Oak Tree, Warm Unknown, Marks On The Screen, Ink On The Page, Settle In The Block, and Salt In The Rain), each with its own story page while the full Local Current album finishes.',
   },
 ];
 

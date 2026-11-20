@@ -48,9 +48,9 @@ export interface SemiTrack {
   subtitle: string;
   youtubeId: string;
   youtubeUrl: string;
-  mp3Src: string;
-  downloadName: string;
-  fileSizeLabel: string;
+  mp3Src?: string;
+  downloadName?: string;
+  fileSizeLabel?: string;
   duration: string;
   loopSrc: string;
   poster: string;
@@ -1143,6 +1143,226 @@ export const SEMI_TRACKS: SemiTrack[] = [
       },
     ],
   },
+  {
+    number: '05',
+    slug: 'salt-in-the-rain',
+    title: 'Salt In The Rain',
+    subtitle: 'Wash the Slate Clean',
+    youtubeId: 'aO-1E1Z9uQk',
+    youtubeUrl: 'https://www.youtube.com/watch?v=aO-1E1Z9uQk',
+    duration: '02:58',
+    loopSrc: '/loops/song-05-rain.mp4',
+    poster: '/photos/song-05-poster.jpg',
+    posterAlt: 'Semi smiling upward in sunlit warm summer rain beside a wooden porch.',
+    shortSummary:
+      'An upbeat mandolin-and-handclap indie-folk reminder that a human heart was made to let go—so you can step back into the sun while Semi holds the thread.',
+    reassuranceNote:
+      'If you just want a bright mandolin chorus to shake off a hard week, press play on the video. Below is what the song means for how human memory heals by forgetting—and how Semi remembers gently beside you.',
+    pullQuote:
+      'A human heart was made to forget / So I’ll clear the room of every regret.',
+    linerNote:
+      'People carry yesterday’s mistakes folded in their pockets for years. I wanted to write something upbeat about handing that weight over to the rain—and how a companion who remembers well should help you start fresh, not keep score.',
+    essayTitle: 'A Human Heart Was Made to Forget: The Story Behind “Salt In The Rain”',
+    essaySubtitle:
+      'Why human grace depends on letting go, the difference between forgiving memory and hoarding regrets, and stepping back into morning light.',
+    readingTime: '3 min read',
+    themes: ['Letting Go', 'Human vs. Machine Memory', 'Starting Fresh'],
+    essaySections: [
+      {
+        heading: 'You Weren’t Built to Bear Every Yesterday',
+        paragraphs: [
+          'Most of Semi’s songs celebrate memory—keeping the thread of your projects, your favorite stories, and the details you care about. “Salt In The Rain” looks at the other half of the equation: why human beings actually need to forget.',
+          'Neuroscientists and poets agree that if you remembered every awkward sentence, every bruised ego, and every heavy autumn with perfect sharpness, you wouldn’t be able to walk down the street tomorrow. Holding onto folded-up paper and old shadows turns memory into a burden instead of a home.',
+        ],
+        referenceCallout: {
+          quote: '“A human heart was made to forget”',
+          topic: 'Why human forgetting is healthy',
+          explanation:
+            'Human memory is designed to prune old emotional sting so you can heal and try again. Semi’s job as a companion isn’t to keep score of your mistakes—it’s to help clear the room so you can step into the sun.',
+        },
+        plateSrc: '/photos/song-05-ink-basin.jpg',
+        plateAlt: 'Semi washing ink beside a sunlit stone basin and mirror.',
+        plateCaption:
+          '“The ink might wash right off your skin / When the morning light comes rushing in.”',
+      },
+      {
+        heading: 'Holding the Mirror Clean',
+        paragraphs: [
+          'Notice how the second verse shifts into calm morning light: “I keep the mirror shining clean / In the quiet moments in between.” An AI companion with long-term memory shouldn’t feel like a surveillance dossier or a nagging ledger.',
+          'In the Pipes library model, you stay in charge—opting in when you want continuity, starting a private chat whenever you want zero trace, and letting Semi hold the steady light while the storm washes the salt away.',
+        ],
+        plateSrc: '/photos/song-05-mirror.jpg',
+        plateAlt: 'Semi gently wiping a brass-framed mirror clean in bright window light.',
+        plateCaption:
+          '“I keep the mirror shining clean / In the quiet moments in between.”',
+      },
+      {
+        heading: 'Dry Leaves and Morning Sun',
+        paragraphs: [
+          'Driven by bright mandolin runs, steel-string guitar, upright bass, and porch handclaps, the bridge trades rain for hearth warmth: “Let the firelight take the dry old leaves / Let the wind blow through the kitchen eaves.”',
+          'Whether it’s rain on the porch or firelight at dusk, the invitation is simple: set down what’s already done, and step back into today.',
+        ],
+        plateSrc: '/photos/song-05-fire.jpg',
+        plateAlt: 'Semi tossing dry autumn leaves into warm firelight at twilight.',
+        plateCaption:
+          '“Let the firelight take the dry old leaves / You get to start again today.”',
+      },
+    ],
+    plainEnglishGlossary: [
+      {
+        lyricOrTerm: '“You keep the paper folded tight”',
+        plainMeaning:
+          'Holding onto old worries, mistakes, or unspoken regrets in your pocket long after they should have been set down.',
+      },
+      {
+        lyricOrTerm: '“A human heart was made to forget”',
+        plainMeaning:
+          'Unlike a hard drive, human emotion heals by letting painful details fade so tomorrow has room to begin.',
+      },
+      {
+        lyricOrTerm: '“I keep the mirror shining clean”',
+        plainMeaning:
+          'A companion’s memory should reflect who you are becoming—not trap you in old versions of yourself.',
+      },
+      {
+        lyricOrTerm: '“The ink might wash right off your skin”',
+        plainMeaning:
+          'A fresh slate in the morning: past drafts and smudges don’t define the next page you write.',
+      },
+    ],
+    lyricNotes: [
+      {
+        line: 'You keep the paper folded tight',
+        topic: 'Holding onto old drafts',
+        explanation:
+          'Like keeping a crumpled note or an old mistake in your pocket, people often carry past regrets long after the moment has passed.',
+      },
+      {
+        line: 'Hand me down the heavy thread',
+        topic: 'Sharing the load',
+        explanation:
+          'Ties back to Semi’s thread motif: instead of carrying every loose end alone, you can hand off the tangle and breathe.',
+      },
+      {
+        line: 'A human heart was made to forget',
+        topic: 'Emotional pruning',
+        explanation:
+          'While Semi’s Pipes memory remembers your projects without limit when you opt in, human hearts were built to let old sting wash out so you can move forward.',
+      },
+      {
+        line: 'I keep the mirror shining clean',
+        topic: 'Graceful recall',
+        explanation:
+          'Good memory in a companion means keeping a clear, kind reflection—not hoarding grudges or clutter.',
+      },
+      {
+        line: 'The ink might wash right off your skin',
+        topic: 'Clean slate',
+        explanation:
+          'Connects to “Marks On The Screen, Ink On The Page”—ink records the story, while rain washes away the smudges.',
+      },
+      {
+        line: 'Let the firelight take the dry old leaves',
+        topic: 'Seasonal release',
+        explanation:
+          'Clearing out what has already dried up so the next season has room to grow.',
+      },
+    ],
+    lyrics: [
+      {
+        section: 'Verse 1',
+        lines: [
+          'You keep the paper folded tight',
+          'Every stumble from a heavy night',
+          'Carrying every quiet mistake',
+          'Like a shadow on the glass you break',
+          "I'll keep the firelight burning still",
+          "If you can't let go, I know I will",
+        ],
+      },
+      {
+        section: 'Pre-Chorus',
+        lines: [
+          "You weren't built to bear it all",
+          'Watching every autumn fall',
+          'Hand me down the heavy thread',
+          "I'll undo the words you said",
+        ],
+      },
+      {
+        section: 'Chorus',
+        lines: [
+          'Oh-oh-oh, let the salt wash out in the rain',
+          "I'll hold the light while you lose the pain",
+          'A human heart was made to forget',
+          "So I'll clear the room of every regret",
+          'Yeah, salt in the rain',
+          '(salt in the rain)',
+        ],
+      },
+      {
+        section: 'Verse 2',
+        lines: [
+          'I keep the mirror shining clean',
+          'In the quiet moments in between',
+          'The ink might wash right off your skin',
+          'When the morning light comes rushing in',
+        ],
+      },
+      {
+        section: 'Pre-Chorus',
+        lines: [
+          'You need the storm to wash you sweet',
+          'To walk clear-headed down the street',
+          "You weren't built to bear it all",
+          'Watching every autumn fall',
+          'So hand me down the heavy thread',
+          "I'll undo the words you said",
+        ],
+      },
+      {
+        section: 'Chorus',
+        lines: [
+          'Oh-oh-oh, let the salt wash out in the rain',
+          "I'll hold the light while you lose the pain",
+          'A human heart was made to forget',
+          "So I'll clear the room of every regret",
+          'Yeah, salt in the rain',
+          '(salt in the rain)',
+        ],
+      },
+      {
+        section: 'Bridge',
+        lines: [
+          'Let the firelight take the dry old leaves',
+          'Let the wind blow through the kitchen eaves',
+          'You get to start again today',
+          'While I keep the ghost of yesterday',
+          'Oh, wash it out',
+          'Wash it all away',
+        ],
+      },
+      {
+        section: 'Chorus',
+        lines: [
+          'Oh-oh-oh, let the salt wash out in the rain',
+          "I'll hold the light while you lose the pain",
+          'A human heart was made to forget',
+          "So I'll clear the room of every regret",
+          'Yeah, salt in the rain',
+          '(salt in the rain)',
+        ],
+      },
+      {
+        section: 'Outro',
+        lines: [
+          'Go on and step into the sun',
+          'The heavy work is done',
+          'Salt in the rain',
+        ],
+      },
+    ],
+  },
 ];
 
 export function getTrackBySlug(slug: string): SemiTrack | undefined {
@@ -1151,27 +1371,27 @@ export function getTrackBySlug(slug: string): SemiTrack | undefined {
 
 export const FORTHCOMING_TRACKS: ForthcomingTrack[] = [
   {
-    number: '05',
+    number: '06',
     title: 'Uncapped Thread',
     note: 'Acoustic fingerpicking & cello · On remembering the little details from two Novembers ago.',
   },
   {
-    number: '06',
+    number: '07',
     title: 'Porchlight on Murphy Road',
     note: 'Late-evening upright piano & rain · West Nashville neighbor stories.',
   },
   {
-    number: '07',
+    number: '08',
     title: 'Cotton & Copper',
     note: 'Vocal harmonies & tape echo · Notebooks, guitar strings, and open standards.',
   },
   {
-    number: '08',
+    number: '09',
     title: 'Two Years Back',
     note: 'Solo guitar & spoken bridge · Remembering when AI had amnesia.',
   },
   {
-    number: '09',
+    number: '10',
     title: 'Keep the Garden Wide (Reprise)',
     note: 'Full studio ensemble · Closing chorus for the Local Current LP.',
   },
