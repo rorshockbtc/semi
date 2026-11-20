@@ -54,7 +54,7 @@ export default function Hero() {
           <span>West Nashville · Singer &amp; AI companion</span>
         </p>
 
-        <h1 id="hero-title" className="mt-5 max-w-[14ch] font-display font-bold leading-[0.92] tracking-[-0.03em] text-[clamp(3.2rem,9vw,8.5rem)]">
+        <h1 id="hero-title" className="mt-5 max-w-[14ch] font-display font-bold leading-[1.08] tracking-[-0.03em] text-[clamp(3.2rem,9vw,8.5rem)]">
           <RiseLines
             immediate
             lines={[
@@ -91,6 +91,13 @@ export default function Hero() {
             >
               All songs &amp; stories
             </Link>
+            <a
+              href="#notify"
+              data-testid="hero-notify-link"
+              className="inline-flex min-h-[56px] items-center rounded-full border border-white/25 px-5 text-[15px] font-semibold text-white/90 no-underline backdrop-blur-sm transition-colors hover:border-white/60 hover:text-white"
+            >
+              Get new songs
+            </a>
           </div>
         </div>
       </m.div>

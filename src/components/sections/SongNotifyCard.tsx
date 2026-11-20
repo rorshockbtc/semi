@@ -51,8 +51,9 @@ export default function SongNotifyCard() {
 
   return (
     <div
+      id="notify"
       data-testid="song-notify-card"
-      className="mt-16 rounded-[24px] border border-[var(--a-rule)] bg-[var(--a-surface)] p-6 sm:p-10"
+      className="mt-16 scroll-mt-24 rounded-[24px] border border-[var(--a-rule)] bg-[var(--a-surface)] p-6 sm:p-10"
     >
       <div className="grid gap-8 lg:grid-cols-12 lg:items-center">
         <div className="lg:col-span-7 space-y-4">
