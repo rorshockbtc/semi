@@ -73,7 +73,7 @@ const TRACKS = [
     comment: 'From Local Current (The West Nashville Sessions) · https://semi.colonhyphenbracket.pink',
   },
   {
-    inputs: ['Salt In The Rain.m4a', 'Salt in the rain.m4a'],
+    inputs: ['Salt In The Rain (Audio Fixed).m4a', 'Salt In The Rain.m4a', 'Salt in the rain.m4a'],
     out: '05-semi-salt-in-the-rain.mp3',
     title: 'Salt In The Rain',
     track: '5/9',
