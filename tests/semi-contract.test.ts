@@ -309,3 +309,54 @@ test('Audio streaming route supports 206 Partial Content byte ranges, 200 OK, an
   assert.equal(fullRes.headers.get('accept-ranges'), 'bytes');
 });
 
+test('SEO sitemap, robots, manifest, and Schema.org JSON-LD structured data cover all 11 routes', async () => {
+  const { SEMI_TRACKS } = await import('../src/data/semi-songs.ts');
+  const {
+    SITE_URL,
+    durationToIso8601,
+    buildHomeJsonLd,
+    buildSongsIndexJsonLd,
+    buildSongJsonLd,
+    buildAboutJsonLd,
+    buildGalleryJsonLd,
+  } = await import('../src/lib/seo.ts');
+  const sitemapMod = await import('../src/app/sitemap.ts');
+  const robotsMod = await import('../src/app/robots.ts');
+  const manifestMod = await import('../src/app/manifest.ts');
+
+  assert.equal(durationToIso8601('02:33'), 'PT2M33S');
+
+  const entries = sitemapMod.default();
+  assert.equal(entries.length, 4 + SEMI_TRACKS.length);
+  for (const track of SEMI_TRACKS) {
+    assert.ok(
+      entries.some((e) => e.url === `${SITE_URL}/songs/${track.slug}`),
+      `Missing ${track.slug} in sitemap.xml`
+    );
+    const songLd = buildSongJsonLd(track);
+    const types = songLd['@graph'].map((n) => n['@type']);
+    assert.ok(types.includes('BreadcrumbList'));
+    assert.ok(types.includes('MusicRecording'));
+    assert.ok(types.includes('Article'));
+    if (track.youtubeId) {
+      assert.ok(types.includes('VideoObject'), `Missing VideoObject JSON-LD for ${track.slug}`);
+    }
+  }
+
+  const robots = robotsMod.default();
+  assert.equal(robots.sitemap, `${SITE_URL}/sitemap.xml`);
+
+  const manifest = manifestMod.default();
+  assert.equal(manifest.background_color, '#E8E2D5');
+  assert.equal(manifest.theme_color, '#E8E2D5');
+
+  const homeTypes = buildHomeJsonLd()['@graph'].map((n) => n['@type']);
+  assert.ok(homeTypes.includes('WebSite'));
+  assert.ok(homeTypes.includes('MusicGroup'));
+  assert.ok(homeTypes.includes('MusicAlbum'));
+  assert.ok(buildSongsIndexJsonLd()['@graph'].length >= 2);
+  assert.ok(buildAboutJsonLd()['@graph'].length >= 2);
+  assert.ok(buildGalleryJsonLd()['@graph'].length >= 2);
+});
+
+

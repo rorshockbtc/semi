@@ -56,11 +56,11 @@ export default function SongEditionClient({ track, prevTrack, nextTrack }: SongE
   return (
     <article data-testid={`song-edition-${track.slug}`} className="bg-[var(--a-bg)]">
       {/* Themed hero */}
-      <header className={`relative overflow-hidden ${theme.bg} pt-28 pb-16 sm:pt-36 sm:pb-24`}>
+      <header className={`relative overflow-x-clip ${theme.bg} pt-24 pb-12 sm:pt-36 sm:pb-24`}>
         {theme.layer}
         {theme.dark && <FilmGrain />}
 
-        <div className="relative z-10 mx-auto max-w-[1400px] px-5 sm:px-8 lg:px-12">
+        <div className="relative z-10 mx-auto max-w-[1400px] pl-[max(1.25rem,env(safe-area-inset-left,0px))] pr-[max(1.25rem,env(safe-area-inset-right,0px))] sm:px-8 lg:px-12">
           <Link
             href="/songs"
             className={`inline-flex min-h-[44px] items-center gap-2 text-[15px] font-semibold no-underline opacity-75 hover:opacity-100 ${ink}`}
@@ -68,54 +68,54 @@ export default function SongEditionClient({ track, prevTrack, nextTrack }: SongE
             <ArrowLeft className="h-4 w-4" aria-hidden="true" /> All songs
           </Link>
 
-          <div className="mt-8 grid gap-12 lg:grid-cols-12 lg:items-end">
-            <div className="lg:col-span-6">
+          <div className="mt-5 sm:mt-8 grid gap-8 sm:gap-12 lg:grid-cols-12 lg:items-end">
+            <div className="lg:col-span-6 min-w-0">
               <p className={`font-code text-[13px] uppercase tracking-[0.18em] ${theme.dark ? 'text-[#FFB8DA]' : 'text-[var(--a-accent-text)]'}`}>
                 Track {track.number} · {track.duration} · {track.readingTime}
               </p>
-              <h1 className={`mt-4 font-display font-bold leading-[0.95] tracking-[-0.03em] text-[clamp(2.8rem,6.4vw,6rem)] ${ink}`}>
+              <h1 className={`mt-3 sm:mt-4 font-display font-bold leading-[1.02] tracking-[-0.03em] text-[clamp(2.2rem,1.4rem+4.8vw,5.5rem)] ${ink}`}>
                 {track.title}
               </h1>
-              <p className={`mt-6 font-serif italic text-[clamp(1.4rem,2.2vw,2rem)] leading-snug max-w-[30ch] ${ink}`}>
+              <p className={`mt-4 sm:mt-6 font-serif italic text-[clamp(1.25rem,1rem+1.4vw,2rem)] leading-snug max-w-[30ch] ${ink}`}>
                 {isInk ? <Typewriter text={`“${track.pullQuote}”`} /> : <>“{track.pullQuote}”</>}
               </p>
 
-              <div className="mt-9 flex flex-wrap items-center gap-3">
+              <div className="mt-6 sm:mt-9 flex flex-wrap items-center gap-2.5 sm:gap-3">
                 {track.mp3Src && (
                   <>
                     <button
                       type="button"
                       onClick={() => playTrack(track.slug)}
                       data-testid="edition-play-mp3"
-                      className="inline-flex min-h-[56px] items-center gap-3 rounded-full bg-[var(--a-accent-fill)] pl-2 pr-6 text-[16px] font-semibold text-white transition-colors hover:bg-[#111827]"
+                      className="inline-flex min-h-[52px] sm:min-h-[56px] w-full sm:w-auto items-center justify-center sm:justify-start gap-3 rounded-full bg-[var(--a-accent-fill)] pl-2 pr-6 text-[16px] font-semibold text-white transition-colors hover:bg-[#111827]"
                     >
-                      <span className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-white/20">
+                      <span className="inline-flex h-9 w-9 sm:h-10 sm:w-10 shrink-0 items-center justify-center rounded-full bg-white/20">
                         {playingThis ? (
                           <Pause className="h-4 w-4" aria-hidden="true" fill="currentColor" />
                         ) : (
                           <Play className="h-4 w-4 translate-x-[1px]" aria-hidden="true" fill="currentColor" />
                         )}
                       </span>
-                      {playingThis ? 'Pause' : 'Play the song'}
+                      <span>{playingThis ? 'Pause' : 'Play the song'}</span>
                     </button>
                     <a
                       href={track.mp3Src}
                       download={track.downloadName}
                       data-testid="edition-download-mp3"
-                      className={`inline-flex min-h-[56px] items-center gap-2 rounded-full border px-6 text-[15px] font-semibold no-underline transition-colors ${
+                      className={`inline-flex min-h-[48px] sm:min-h-[56px] items-center gap-2 rounded-full border px-5 sm:px-6 text-[15px] font-semibold no-underline transition-colors ${
                         theme.dark
                           ? 'border-white/30 text-white hover:bg-white/10'
                           : 'border-[var(--a-ink)]/20 text-[var(--a-ink)] hover:border-[var(--a-ink)]'
                       }`}
                     >
-                      <Download className="h-4 w-4" aria-hidden="true" /> Download MP3
+                      <Download className="h-4 w-4 shrink-0" aria-hidden="true" /> Download MP3
                     </a>
                   </>
                 )}
                 <a
                   href="#lyrics"
                   data-testid="edition-jump-lyrics"
-                  className={`inline-flex min-h-[56px] items-center px-3 text-[15px] font-semibold no-underline underline-offset-4 hover:underline ${
+                  className={`inline-flex min-h-[48px] sm:min-h-[56px] items-center px-3 text-[15px] font-semibold no-underline underline-offset-4 hover:underline ${
                     theme.dark ? 'text-white/85 hover:text-white' : 'text-[var(--a-ink)]/80 hover:text-[var(--a-ink)]'
                   }`}
                 >
@@ -124,7 +124,7 @@ export default function SongEditionClient({ track, prevTrack, nextTrack }: SongE
               </div>
             </div>
 
-            <div className="lg:col-span-6">
+            <div className="lg:col-span-6 min-w-0">
               <div className="overflow-hidden rounded-[10px] bg-black shadow-[0_40px_80px_-40px_rgba(0,0,0,0.6)]">
                 {track.youtubeId ? (
                   <YouTubePlayer
@@ -154,9 +154,9 @@ export default function SongEditionClient({ track, prevTrack, nextTrack }: SongE
                       aria-hidden="true"
                       className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/35 to-black/30"
                     />
-                    <div className="relative z-10 flex h-full flex-col justify-between p-6 sm:p-7">
-                      <div className="flex items-center justify-between gap-3">
-                        <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-black/60 px-3.5 py-1 font-code text-[13px] font-medium tracking-wider text-[#F3EFE9] backdrop-blur-md">
+                    <div className="relative z-10 flex h-full flex-col justify-between p-4 sm:p-7">
+                      <div className="flex flex-wrap items-center justify-between gap-2">
+                        <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-black/60 px-3 py-1 font-code text-[13px] font-medium tracking-wider text-[#F3EFE9] backdrop-blur-md">
                           <span className="h-2 w-2 rounded-full bg-[#FE299E] animate-pulse" />
                           STUDIO LISTENING EDITION
                         </span>
@@ -168,7 +168,7 @@ export default function SongEditionClient({ track, prevTrack, nextTrack }: SongE
                         <p className="font-sans text-[13px] uppercase tracking-widest text-[#FFB8DA]">
                           Track {track.number} · {track.title}
                         </p>
-                        <p className="mt-1 font-serif italic text-white/95 text-lg sm:text-2xl line-clamp-2">
+                        <p className="mt-1 font-serif italic text-white/95 text-base sm:text-2xl line-clamp-2">
                           “{track.pullQuote}”
                         </p>
                       </div>
@@ -179,7 +179,7 @@ export default function SongEditionClient({ track, prevTrack, nextTrack }: SongE
             </div>
           </div>
 
-          <p className={`mt-14 max-w-[70ch] border-l-2 border-[var(--a-accent)] pl-5 text-lg leading-relaxed ${sub}`}>
+          <p className={`mt-10 sm:mt-14 max-w-[70ch] border-l-2 border-[var(--a-accent)] pl-4 sm:pl-5 text-base sm:text-lg leading-relaxed ${sub}`}>
             {track.reassuranceNote}
           </p>
         </div>
@@ -190,11 +190,11 @@ export default function SongEditionClient({ track, prevTrack, nextTrack }: SongE
         <section
           aria-labelledby="alternate-take-heading"
           data-testid="alternate-take-card"
-          className="border-b border-[var(--a-rule)] bg-[var(--a-surface)] py-10 sm:py-12"
+          className="border-b border-[var(--a-rule)] bg-[var(--a-surface)] py-9 sm:py-12"
         >
-          <div className="mx-auto max-w-[1400px] px-5 sm:px-8 lg:px-12">
-            <div className="grid gap-6 lg:grid-cols-12 lg:items-center">
-              <div className="lg:col-span-7 space-y-2.5">
+          <div className="mx-auto max-w-[1400px] pl-[max(1.25rem,env(safe-area-inset-left,0px))] pr-[max(1.25rem,env(safe-area-inset-right,0px))] sm:px-8 lg:px-12">
+            <div className="grid gap-5 sm:gap-6 lg:grid-cols-12 lg:items-center">
+              <div className="lg:col-span-7 min-w-0 space-y-2.5">
                 <p className="font-code text-[13px] font-semibold uppercase tracking-[0.18em] text-[var(--a-accent-text)]">
                   Bonus Audio · Track {track.alternateTake.numberLabel} · {track.alternateTake.duration} · Audio only
                 </p>
@@ -204,19 +204,19 @@ export default function SongEditionClient({ track, prevTrack, nextTrack }: SongE
                 >
                   {track.alternateTake.title}
                 </h2>
-                <p className="max-w-[62ch] text-[16px] leading-relaxed text-[var(--a-muted)]">
+                <p className="max-w-[62ch] text-[15px] sm:text-[16px] leading-relaxed text-[var(--a-muted)]">
                   {track.alternateTake.note}
                 </p>
               </div>
 
-              <div className="lg:col-span-5 flex flex-wrap items-center gap-3 lg:justify-end">
+              <div className="lg:col-span-5 min-w-0 flex flex-wrap items-center gap-2.5 sm:gap-3 lg:justify-end">
                 <button
                   type="button"
                   onClick={() => playAlternateTake(track.slug)}
                   data-testid="play-alternate-take"
-                  className="inline-flex min-h-[52px] items-center gap-3 rounded-full bg-[var(--a-ink)] pl-2 pr-6 text-[15px] font-semibold text-[#F3EFE9] transition-colors hover:bg-[var(--a-accent-fill)] hover:text-white"
+                  className="inline-flex min-h-[48px] sm:min-h-[52px] w-full sm:w-auto items-center justify-center sm:justify-start gap-3 rounded-full bg-[var(--a-ink)] pl-2 pr-6 text-[15px] font-semibold text-[#F3EFE9] transition-colors hover:bg-[var(--a-accent-fill)] hover:text-white"
                 >
-                  <span className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-white/15">
+                  <span className="inline-flex h-8 w-8 sm:h-9 sm:w-9 shrink-0 items-center justify-center rounded-full bg-white/15">
                     {playingAlt ? (
                       <Pause className="h-4 w-4" aria-hidden="true" fill="currentColor" />
                     ) : (
@@ -230,21 +230,21 @@ export default function SongEditionClient({ track, prevTrack, nextTrack }: SongE
                   href={track.alternateTake.mp3Src}
                   download={track.alternateTake.downloadName}
                   data-testid="download-alternate-take"
-                  className="inline-flex min-h-[52px] items-center gap-2 rounded-full border border-[var(--a-ink)]/25 bg-[var(--a-well)] px-5 text-[14px] font-semibold text-[var(--a-ink)] no-underline transition-colors hover:border-[var(--a-ink)]"
+                  className="inline-flex min-h-[48px] sm:min-h-[52px] items-center gap-2 rounded-full border border-[var(--a-ink)]/25 bg-[var(--a-well)] px-5 text-[14px] font-semibold text-[var(--a-ink)] no-underline transition-colors hover:border-[var(--a-ink)]"
                 >
-                  <Download className="h-4 w-4" aria-hidden="true" />
+                  <Download className="h-4 w-4 shrink-0" aria-hidden="true" />
                   <span>Alternate MP3</span>
                 </a>
               </div>
             </div>
 
-            <details className="semi-note group mt-6 max-w-[64ch]">
+            <details className="semi-note group mt-5 sm:mt-6 max-w-[64ch]">
               <summary className="inline-flex min-h-[44px] items-center gap-2 rounded-full border border-[var(--a-rule)] bg-[var(--a-well)] px-4 py-1.5 font-sans text-[14px] font-semibold text-[var(--a-ink)] hover:border-[var(--a-ink)]">
                 <span>Read the alternate-take lyrics</span>
               </summary>
-              <div className="mt-5 grid gap-6 sm:grid-cols-2 rounded-2xl border border-[var(--a-rule)] bg-[var(--a-well)] p-6">
+              <div className="mt-4 sm:mt-5 grid gap-6 sm:grid-cols-2 rounded-2xl border border-[var(--a-rule)] bg-[var(--a-well)] p-5 sm:p-6">
                 {track.alternateTake.lyrics.map((stanza, idx) => (
-                  <div key={`${stanza.section}-${idx}`}>
+                  <div key={`${stanza.section}-${idx}`} className="min-w-0">
                     <h3 className="font-code text-[13px] uppercase tracking-[0.16em] text-[var(--a-accent-text)]">
                       {stanza.section}
                     </h3>
@@ -262,34 +262,34 @@ export default function SongEditionClient({ track, prevTrack, nextTrack }: SongE
       )}
 
       {/* Essay + decoder */}
-      <section className="mx-auto grid max-w-[1400px] gap-14 px-5 sm:px-8 lg:px-12 py-20 sm:py-28 lg:grid-cols-12">
-        <div className="lg:col-span-7">
+      <section className="mx-auto grid max-w-[1400px] gap-12 sm:gap-14 pl-[max(1.25rem,env(safe-area-inset-left,0px))] pr-[max(1.25rem,env(safe-area-inset-right,0px))] sm:px-8 lg:px-12 py-16 sm:py-28 lg:grid-cols-12">
+        <div className="lg:col-span-7 min-w-0">
           <p className="font-sans text-[13px] font-semibold uppercase tracking-[0.22em] text-[var(--a-accent-text)]">
             The story
           </p>
-          <h2 className="mt-4 font-display text-[clamp(2rem,3.4vw,3rem)] font-bold leading-[1.05] tracking-[-0.02em] text-[var(--a-ink)]">
+          <h2 className="mt-3 sm:mt-4 font-display text-[clamp(1.85rem,1.3rem+2.5vw,3rem)] font-bold leading-[1.06] tracking-[-0.02em] text-[var(--a-ink)]">
             {track.essayTitle.split(':')[0]}
           </h2>
-          <p className="mt-4 font-serif italic text-2xl leading-snug text-[var(--a-muted)] max-w-[44ch]">
+          <p className="mt-3 sm:mt-4 font-serif italic text-xl sm:text-2xl leading-snug text-[var(--a-muted)] max-w-[44ch]">
             {track.essaySubtitle}
           </p>
 
-          <div className="mt-14 space-y-16">
+          <div className="mt-10 sm:mt-14 space-y-12 sm:space-y-16">
             {track.essaySections.map((section, sIdx) => (
               <section key={section.heading}>
-                <div className="flex items-baseline gap-4">
-                  <span className="font-code text-[13px] text-[var(--a-accent-text)]">0{sIdx + 1}</span>
-                  <h3 className="font-display text-[28px] sm:text-[32px] font-bold leading-tight text-[var(--a-ink)]">
+                <div className="flex items-baseline gap-3 sm:gap-4">
+                  <span className="font-code text-[13px] shrink-0 text-[var(--a-accent-text)]">0{sIdx + 1}</span>
+                  <h3 className="font-display text-[24px] sm:text-[32px] font-bold leading-tight text-[var(--a-ink)]">
                     {section.heading}
                   </h3>
                 </div>
-                <div className="mt-6 space-y-6 max-w-[64ch]">
+                <div className="mt-5 sm:mt-6 space-y-5 sm:space-y-6 max-w-[64ch]">
                   {section.paragraphs.map((p, idx) => (
                     <p
                       key={idx}
-                      className={`text-[19px] leading-[1.75] text-[var(--a-ink)]/90 ${
+                      className={`text-[17px] sm:text-[19px] leading-[1.75] text-[var(--a-ink)]/90 ${
                         sIdx === 0 && idx === 0
-                          ? 'first-letter:float-left first-letter:mr-3 first-letter:mt-1 first-letter:font-display first-letter:text-[64px] first-letter:font-bold first-letter:leading-[0.8] first-letter:text-[var(--a-accent-text)]'
+                          ? 'first-letter:float-left first-letter:mr-2.5 sm:first-letter:mr-3 first-letter:mt-1 first-letter:font-display first-letter:text-[52px] sm:first-letter:text-[64px] first-letter:font-bold first-letter:leading-[0.82] first-letter:text-[var(--a-accent-text)]'
                           : ''
                       }`}
                     >
@@ -302,10 +302,10 @@ export default function SongEditionClient({ track, prevTrack, nextTrack }: SongE
                     data-testid={`essay-callout-${track.slug}-${sIdx}`}
                     className="semi-note group mt-6 max-w-[64ch] border-l-2 border-[var(--a-accent)] pl-4"
                   >
-                    <summary className="flex min-h-[44px] items-center justify-between gap-3 py-1 text-left">
-                      <span className="inline-flex items-center gap-2.5 text-[15px] font-medium text-[var(--a-ink)]">
-                        <Info className="h-4 w-4 shrink-0 text-[var(--a-accent-text)]" aria-hidden="true" />
-                        <span className="font-serif italic text-[18px]">{section.referenceCallout.quote}</span>
+                    <summary className="flex min-h-[44px] flex-wrap sm:flex-nowrap items-center justify-between gap-2.5 sm:gap-3 py-1.5 text-left">
+                      <span className="inline-flex min-w-0 items-start sm:items-center gap-2.5 text-[15px] font-medium text-[var(--a-ink)]">
+                        <Info className="mt-1 sm:mt-0 h-4 w-4 shrink-0 text-[var(--a-accent-text)]" aria-hidden="true" />
+                        <span className="font-serif italic text-[17px] sm:text-[18px] leading-snug">{section.referenceCallout.quote}</span>
                       </span>
                       <span className="shrink-0 rounded-full border border-[var(--a-accent-text)]/35 px-3 py-1 text-[13px] font-semibold text-[var(--a-accent-text)] transition-colors group-open:border-[var(--a-accent-fill)] group-open:bg-[var(--a-accent-fill)] group-open:text-white">
                         What this means
@@ -322,7 +322,7 @@ export default function SongEditionClient({ track, prevTrack, nextTrack }: SongE
                   </details>
                 )}
                 {section.plateSrc && (
-                  <figure className="mt-10">
+                  <figure className="mt-8 sm:mt-10">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
                       src={section.plateSrc}
@@ -331,7 +331,7 @@ export default function SongEditionClient({ track, prevTrack, nextTrack }: SongE
                       className="w-full aspect-[16/9] rounded-[6px] object-cover"
                     />
                     {section.plateCaption && (
-                      <figcaption className="mt-3 font-serif italic text-lg text-[var(--a-muted)]">
+                      <figcaption className="mt-3 font-serif italic text-base sm:text-lg text-[var(--a-muted)]">
                         {section.plateCaption}
                       </figcaption>
                     )}
@@ -342,7 +342,7 @@ export default function SongEditionClient({ track, prevTrack, nextTrack }: SongE
           </div>
         </div>
 
-        <aside aria-label="Plain-English decoder" className="lg:col-span-5">
+        <aside aria-label="Plain-English decoder" className="lg:col-span-5 min-w-0">
           <div className="lg:sticky lg:top-28 border-t-2 border-[var(--a-ink)] pt-6">
             <p className="flex items-center gap-2 font-sans text-[13px] font-semibold uppercase tracking-[0.22em] text-[var(--a-accent-text)]">
               <SemiMark className="text-[14px]" color="#FE299E" /> In plain English
@@ -527,16 +527,16 @@ export default function SongEditionClient({ track, prevTrack, nextTrack }: SongE
             </div>
           )}
 
-          <div data-testid="edition-lyrics-grid" className="mx-auto mt-14 max-w-[620px] space-y-12">
+          <div data-testid="edition-lyrics-grid" className="mx-auto mt-10 sm:mt-14 max-w-[620px] space-y-10 sm:space-y-12">
             {track.lyrics.map((stanza, idx) => (
               <div
                 key={`${stanza.section}-${idx}`}
-                className={`border-t pt-6 first:border-t-0 first:pt-0 ${theme.dark ? 'border-white/15' : 'border-[var(--a-rule)]'}`}
+                className={`min-w-0 border-t pt-6 first:border-t-0 first:pt-0 ${theme.dark ? 'border-white/15' : 'border-[var(--a-rule)]'}`}
               >
                 <h3 className={`font-code text-[13px] uppercase tracking-[0.16em] ${theme.dark ? 'text-[#FFB8DA]' : 'text-[var(--a-accent-text)]'}`}>
                   {stanza.section}
                 </h3>
-                <div className="mt-4 space-y-1 font-serif text-[22px] sm:text-[24px] leading-[1.55]">
+                <div className="mt-4 space-y-1 font-serif text-[20px] sm:text-[24px] leading-[1.55]">
                   {stanza.lines.map((line, lIdx) => {
                     const chordLine = showChords
                       ? getChordForStanzaLine(track.slug, stanza.section, lIdx, line)
@@ -544,7 +544,7 @@ export default function SongEditionClient({ track, prevTrack, nextTrack }: SongE
                     const chordNode = chordLine ? (
                       <span
                         data-testid="lyric-chord-line"
-                        className={`mt-3 block overflow-x-auto whitespace-pre font-code text-[14px] font-semibold leading-snug tracking-wide ${
+                        className={`mt-3 block max-w-full overflow-x-auto whitespace-pre font-code text-[13px] sm:text-[14px] font-semibold leading-snug tracking-wide ${
                           theme.dark ? 'text-[#FFB8DA]' : 'text-[var(--a-accent-text)]'
                         }`}
                       >
@@ -556,7 +556,7 @@ export default function SongEditionClient({ track, prevTrack, nextTrack }: SongE
                     const matched = !seenNoteLines.has(normalized) ? noteByNormalizedLine.get(normalized) : undefined;
                     if (!matched) {
                       return (
-                        <div key={lIdx} className="py-0.5">
+                        <div key={lIdx} className="min-w-0 py-0.5">
                           {chordNode}
                           <p>{line}</p>
                         </div>
@@ -565,19 +565,19 @@ export default function SongEditionClient({ track, prevTrack, nextTrack }: SongE
                     seenNoteLines.add(normalized);
                     const { note, idx: noteIdx } = matched;
                     return (
-                      <div key={lIdx} className="my-1">
+                      <div key={lIdx} className="my-1 min-w-0">
                         {chordNode}
                         <details
                           data-testid={`lyric-note-${track.slug}-${noteIdx}`}
                           className="semi-note group"
                         >
                           <summary
-                            className={`flex min-h-[44px] items-center justify-between gap-3 rounded-[6px] py-1.5 -mx-2 px-2 transition-colors ${
+                            className={`flex min-h-[44px] items-center justify-between gap-2.5 sm:gap-3 rounded-[6px] py-1.5 -mx-2 px-2 transition-colors ${
                               theme.dark ? 'hover:bg-white/5' : 'hover:bg-black/5'
                             }`}
                           >
                             <span
-                              className={`underline decoration-dotted underline-offset-[6px] ${
+                              className={`min-w-0 underline decoration-dotted underline-offset-[6px] ${
                                 theme.dark ? 'decoration-[#FFB8DA]/70' : 'decoration-[var(--a-accent-text)]/60'
                               }`}
                             >
@@ -637,13 +637,14 @@ export default function SongEditionClient({ track, prevTrack, nextTrack }: SongE
               src={t.poster}
               alt=""
               loading="lazy"
-              className="h-56 sm:h-72 w-full object-cover opacity-60 transition-[opacity,transform] duration-700 group-hover:scale-[1.03] group-hover:opacity-75"
+              className="h-48 sm:h-72 w-full object-cover opacity-60 transition-[opacity,transform] duration-700 group-hover:scale-[1.03] group-hover:opacity-75"
             />
-            <div className="absolute inset-0 flex flex-col justify-end p-6 sm:p-10 text-white">
-              <span className="flex items-center gap-2 text-[13px] font-semibold uppercase tracking-[0.2em] text-white/80">
+            <div aria-hidden="true" className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/80 via-black/25 to-transparent" />
+            <div className="absolute inset-0 flex flex-col justify-end p-5 sm:p-10 text-white">
+              <span className="flex items-center gap-2 text-[13px] font-semibold uppercase tracking-[0.2em] text-white/85">
                 {icon} {label} song
               </span>
-              <span className="mt-2 font-display text-3xl sm:text-4xl font-bold">{t.title}</span>
+              <span className="mt-1.5 sm:mt-2 font-display text-2xl sm:text-4xl font-bold leading-tight">{t.title}</span>
             </div>
           </Link>
         ))}

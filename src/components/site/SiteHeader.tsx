@@ -3,7 +3,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Menu, Pause, Play, X } from 'lucide-react';
+import { Menu, MessageCircle, Pause, Play, X } from 'lucide-react';
 import { SemiMark } from '@/components/brand/SemiMark';
 import { useAmbientMotion } from '@/context/AmbientMotionContext';
 
@@ -42,20 +42,20 @@ export default function SiteHeader() {
 
   return (
     <header
-      className={`fixed inset-x-0 top-0 z-50 transition-[background-color,border-color,color] duration-500 ${
+      className={`fixed inset-x-0 top-0 z-50 pt-[env(safe-area-inset-top,0px)] transition-[background-color,border-color,color] duration-500 ${
         onDark
-          ? 'border-b border-transparent bg-gradient-to-b from-black/45 to-transparent'
-          : 'border-b border-[var(--a-rule)] bg-[var(--a-bg)]/88 backdrop-blur-md'
+          ? 'border-b border-transparent bg-gradient-to-b from-black/65 via-black/30 to-transparent'
+          : 'border-b border-[var(--a-rule)] bg-[var(--a-bg)]/95 backdrop-blur-md'
       }`}
     >
-      <div className="mx-auto flex h-16 sm:h-[72px] max-w-[1400px] items-center justify-between gap-3 px-4 sm:px-8 lg:px-12">
+      <div className="mx-auto flex h-16 sm:h-[72px] max-w-[1400px] items-center justify-between gap-2 sm:gap-3 pl-[max(0.875rem,env(safe-area-inset-left,0px))] pr-[max(0.875rem,env(safe-area-inset-right,0px))] sm:px-8 lg:px-12">
         <Link
           href="/"
           data-testid="brand-logo"
-          className={`inline-flex min-h-[44px] shrink-0 items-center gap-2.5 no-underline ${ink}`}
+          className={`inline-flex min-h-[44px] shrink-0 items-center gap-2 sm:gap-2.5 no-underline ${ink}`}
         >
-          <span className="font-display text-[24px] font-bold tracking-[-0.02em]">Semi</span>
-          <SemiMark className="text-[19px]" color="#FE299E" />
+          <span className="font-display text-[22px] sm:text-[24px] font-bold tracking-[-0.02em]">Semi</span>
+          <SemiMark className="text-[17px] sm:text-[19px]" color="#FE299E" />
         </Link>
 
         <nav aria-label="Primary navigation" className="hidden md:flex items-center gap-1">
@@ -79,14 +79,14 @@ export default function SiteHeader() {
           })}
         </nav>
 
-        <div className="flex items-center gap-2">
+        <div className="flex shrink-0 items-center gap-1 sm:gap-2">
           {/* WCAG 2.2.2 pause control for looping film & ambient motion; label swaps, no aria-pressed */}
           <button
             type="button"
             onClick={togglePause}
             data-testid="motion-toggle"
             aria-label={motionActive ? 'Pause motion' : 'Play motion'}
-            className={`inline-flex min-h-[44px] min-w-[44px] items-center justify-center rounded-full transition-colors ${
+            className={`inline-flex min-h-[44px] min-w-[44px] shrink-0 items-center justify-center rounded-full transition-colors ${
               onDark ? 'text-white hover:bg-white/15' : 'text-[var(--a-ink)] hover:bg-[var(--a-surface)]'
             }`}
           >
@@ -96,7 +96,7 @@ export default function SiteHeader() {
           <Link
             href="/songs"
             data-testid="header-listen-cta"
-            className="inline-flex min-h-[44px] shrink-0 items-center rounded-full bg-[var(--a-accent-fill)] px-5 text-[15px] font-semibold text-white no-underline transition-colors hover:bg-[var(--a-ink)]"
+            className="inline-flex min-h-[44px] shrink-0 items-center justify-center rounded-full bg-[var(--a-accent-fill)] px-4 sm:px-5 text-[14px] sm:text-[15px] font-semibold text-white no-underline transition-colors hover:bg-[var(--a-ink)]"
           >
             Listen
           </Link>
@@ -107,7 +107,7 @@ export default function SiteHeader() {
             aria-expanded={open}
             aria-controls="mobile-nav"
             aria-label={open ? 'Close menu' : 'Open menu'}
-            className={`md:hidden inline-flex min-h-[44px] min-w-[44px] items-center justify-center rounded-full ${ink}`}
+            className={`md:hidden inline-flex min-h-[44px] min-w-[44px] shrink-0 items-center justify-center rounded-full ${ink}`}
           >
             {open ? <X className="h-5 w-5" aria-hidden="true" /> : <Menu className="h-5 w-5" aria-hidden="true" />}
           </button>
@@ -115,18 +115,55 @@ export default function SiteHeader() {
       </div>
 
       {open && (
-        <div id="mobile-nav" ref={panelRef} className="md:hidden border-t border-[var(--a-rule)] bg-[var(--a-bg)]">
-          <nav aria-label="Mobile navigation" className="mx-auto flex max-w-[1400px] flex-col px-4 py-3">
-            {[{ href: '/', label: 'Home' }, ...NAV_ITEMS].map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                onClick={() => setOpen(false)}
-                className="min-h-[52px] flex items-center border-b border-[var(--a-rule)] last:border-b-0 font-display text-2xl font-bold text-[var(--a-ink)] no-underline"
+        <div
+          id="mobile-nav"
+          ref={panelRef}
+          className="md:hidden max-h-[calc(100dvh-4rem-env(safe-area-inset-top,0px))] overflow-y-auto border-t border-[var(--a-rule)] bg-[var(--a-bg)] shadow-xl"
+        >
+          <nav
+            aria-label="Mobile navigation"
+            className="mx-auto flex max-w-[1400px] flex-col pl-[max(1rem,env(safe-area-inset-left,0px))] pr-[max(1rem,env(safe-area-inset-right,0px))] pt-2 pb-5"
+          >
+            {[{ href: '/', label: 'Home', match: (p: string) => p === '/' }, ...NAV_ITEMS].map((item) => {
+              const active = item.match(pathname);
+              return (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  aria-current={active ? 'page' : undefined}
+                  onClick={() => setOpen(false)}
+                  className="min-h-[52px] flex items-center justify-between border-b border-[var(--a-rule)] font-display text-2xl font-bold text-[var(--a-ink)] no-underline"
+                >
+                  <span>{item.label}</span>
+                  {active && (
+                    <span className="h-2.5 w-2.5 rounded-full bg-[var(--a-accent-fill)]" aria-hidden="true" />
+                  )}
+                </Link>
+              );
+            })}
+
+            <div className="mt-4 grid grid-cols-1 gap-2.5 sm:grid-cols-2">
+              <button
+                type="button"
+                onClick={() => {
+                  setOpen(false);
+                  window.dispatchEvent(new CustomEvent('semi:open-chat'));
+                }}
+                className="inline-flex min-h-[48px] w-full items-center justify-center gap-2 rounded-full bg-[var(--a-ink)] px-5 text-[15px] font-semibold text-[#F3EFE9] transition-colors hover:bg-[var(--a-accent-fill)]"
               >
-                {item.label}
-              </Link>
-            ))}
+                <MessageCircle className="h-4 w-4 text-[#FE299E]" aria-hidden="true" />
+                <span>Ask Semi a question</span>
+              </button>
+              <a
+                href="https://pipes.pink/semi"
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => setOpen(false)}
+                className="inline-flex min-h-[48px] w-full items-center justify-center rounded-full border border-[var(--a-ink)]/25 bg-[var(--a-surface)] px-5 text-[15px] font-semibold text-[var(--a-ink)] no-underline transition-colors hover:border-[var(--a-ink)]"
+              >
+                Chat with Semi on Pipes ↗
+              </a>
+            </div>
           </nav>
         </div>
       )}

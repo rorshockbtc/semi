@@ -146,7 +146,7 @@ test.describe('UX & Visual Ergonomics Audit (Multi-Page Desktop 1440×900 & Mobi
     expect(errors).toEqual([]);
   });
 
-  test('Mobile 390×844: header non-overlap, zero overflow across /, /songs/old-oak-tree, /songs/settle-in-the-block, /songs/salt-in-the-rain, and /about', async ({
+  test('Mobile 390×844, iOS Safari 390×664 & 320×568: zero off-screen buttons, Hero-header clearance, and zero overflow across all 11 routes', async ({
     page,
   }) => {
     const errors: string[] = [];
@@ -155,6 +155,18 @@ test.describe('UX & Visual Ergonomics Audit (Multi-Page Desktop 1440×900 & Mobi
       if (msg.type() === 'error') errors.push(msg.text());
     });
 
+    // 1. Compact iOS Safari viewport (390×664 with URL/tab bars visible): verify Hero never collides with SiteHeader
+    await page.setViewportSize({ width: 390, height: 664 });
+    await auditRouteErgonomics(page, '/');
+    const headerBox = await page.locator('header').first().boundingBox();
+    const heroTitleBox = await page.locator('#hero-title').boundingBox();
+    expect(headerBox).not.toBeNull();
+    expect(heroTitleBox).not.toBeNull();
+    if (headerBox && heroTitleBox) {
+      expect(heroTitleBox.y).toBeGreaterThan(headerBox.y + headerBox.height);
+    }
+
+    // 2. Standard 390×844 mobile audit
     await page.setViewportSize({ width: 390, height: 844 });
     await auditRouteErgonomics(page, '/');
 
@@ -164,6 +176,7 @@ test.describe('UX & Visual Ergonomics Audit (Multi-Page Desktop 1440×900 & Mobi
     expect(ctaBox).not.toBeNull();
     if (logoBox && ctaBox) {
       expect(logoBox.x + logoBox.width).toBeLessThan(ctaBox.x);
+      expect(ctaBox.x + ctaBox.width).toBeLessThanOrEqual(390);
       expect(logoBox.height).toBeGreaterThanOrEqual(44);
       expect(ctaBox.height).toBeGreaterThanOrEqual(44);
     }
@@ -187,8 +200,12 @@ test.describe('UX & Visual Ergonomics Audit (Multi-Page Desktop 1440×900 & Mobi
       expect(Math.abs(box1.height - box3.height)).toBeLessThanOrEqual(2);
       expect(Math.abs(box1.y - box3.y)).toBeLessThanOrEqual(2);
       expect(askBox.y + askBox.height).toBeLessThan(box3.y);
+      expect(askBox.x + askBox.width).toBeLessThanOrEqual(390);
     }
     await page.screenshot({ path: path.join(SCREENSHOT_DIR, 'mobile-dock-stable-v7.png') });
+
+    await auditRouteErgonomics(page, '/songs');
+    await auditRouteErgonomics(page, '/gallery');
 
     await auditRouteErgonomics(page, '/songs/old-oak-tree');
     const mobileNote = page.getByTestId('lyric-note-old-oak-tree-0');
@@ -202,6 +219,9 @@ test.describe('UX & Visual Ergonomics Audit (Multi-Page Desktop 1440×900 & Mobi
       true
     );
     await page.screenshot({ path: path.join(SCREENSHOT_DIR, 'mobile-song-lyrics-v4.png') });
+
+    await auditRouteErgonomics(page, '/songs/warm-unknown');
+    await auditRouteErgonomics(page, '/songs/marks-on-the-screen-ink-on-the-page');
 
     await auditRouteErgonomics(page, '/songs/salt-in-the-rain');
     await page.getByTestId('toggle-show-chords').scrollIntoViewIfNeeded();
@@ -223,7 +243,39 @@ test.describe('UX & Visual Ergonomics Audit (Multi-Page Desktop 1440×900 & Mobi
     await page.waitForTimeout(400);
     await page.screenshot({ path: path.join(SCREENSHOT_DIR, 'mobile-song-settle-commons-v5.png') });
 
+    await auditRouteErgonomics(page, '/songs/no-human-hands-can-hold');
+    await auditRouteErgonomics(page, '/songs/out-of-office');
+
     await auditRouteErgonomics(page, '/about');
+    await page.getByTestId('ask-semi-section').scrollIntoViewIfNeeded();
+    await page.waitForTimeout(350);
+    // Floating Ask Semi pill hides smoothly when inline AskSemi chat section is in view
+    const floatingOpacity = await page
+      .getByTestId('global-ask-semi-trigger')
+      .evaluate((el) => Number(getComputedStyle(el).opacity));
+    expect(floatingOpacity).toBeLessThan(0.2);
+
+    // 3. WCAG 1.4.10 320px narrow mobile check: verify every visible button/CTA stays inside [0, 320]
+    await page.setViewportSize({ width: 320, height: 568 });
+    for (const r of ['/', '/songs', '/songs/out-of-office', '/about']) {
+      await auditRouteErgonomics(page, r);
+      const offscreenControls = await page.evaluate(() => {
+        const iw = window.innerWidth;
+        const bad: string[] = [];
+        for (const el of Array.from(document.querySelectorAll('a, button, input, summary'))) {
+          if (el.classList.contains('sr-only')) continue;
+          const st = getComputedStyle(el);
+          if (st.display === 'none' || st.visibility === 'hidden' || Number(st.opacity) === 0) continue;
+          const rect = el.getBoundingClientRect();
+          if (rect.width === 0 || rect.height === 0) continue;
+          if (rect.left < -1 || rect.right > iw + 1) {
+            bad.push(`${el.tagName}:${(el.textContent || el.getAttribute('aria-label') || '').trim().slice(0, 28)}[${Math.round(rect.left)}..${Math.round(rect.right)}]`);
+          }
+        }
+        return bad;
+      });
+      expect(offscreenControls, `Off-screen controls at 320px on ${r}`).toEqual([]);
+    }
 
     expect(errors).toEqual([]);
   });

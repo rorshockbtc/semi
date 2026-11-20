@@ -42,15 +42,15 @@ export default function UnlimitedMemoryStage() {
     >
       <MemoryThread targetRef={ref} />
 
-      <div className="mx-auto max-w-[1400px] pl-16 pr-5 sm:pl-24 sm:pr-8 lg:pl-32 lg:pr-12">
+      <div className="mx-auto max-w-[1400px] pl-11 pr-5 sm:pl-24 sm:pr-8 lg:pl-32 lg:pr-12">
         <p className="font-sans text-[13px] font-semibold uppercase tracking-[0.22em] text-[var(--a-accent-text)]">
           How her memory works
         </p>
-        <h2 id="memory-title" className="mt-4 max-w-[18ch] font-display text-big font-bold text-[var(--a-ink)]">
+        <h2 id="memory-title" className="mt-3 sm:mt-4 max-w-[18ch] font-display text-big font-bold text-[var(--a-ink)]">
           One thread, <span className="font-serif italic font-normal">kept as long as you like.</span>
         </h2>
 
-        <ol className="mt-20 space-y-24 sm:space-y-32">
+        <ol className="mt-12 sm:mt-20 space-y-16 sm:space-y-32">
           {CHAPTERS.map((c, i) => (
             <m.li
               key={c.n}
@@ -58,16 +58,16 @@ export default function UnlimitedMemoryStage() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: '-15% 0px' }}
               transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
-              className="grid gap-10 lg:grid-cols-12 lg:items-center"
+              className="grid gap-6 sm:gap-10 lg:grid-cols-12 lg:items-center"
             >
-              <div className={`lg:col-span-6 ${i % 2 ? 'lg:order-2' : ''}`}>
+              <div className={`lg:col-span-6 min-w-0 ${i % 2 ? 'lg:order-2' : ''}`}>
                 <span className="font-code text-[13px] text-[var(--a-accent-text)]">{c.n}</span>
-                <h3 className="mt-3 font-display text-[clamp(2rem,3.6vw,3.2rem)] font-bold leading-[1.02] tracking-[-0.02em] text-[var(--a-ink)]">
+                <h3 className="mt-2 sm:mt-3 font-display text-[clamp(1.75rem,1.25rem+2.5vw,3.2rem)] font-bold leading-[1.05] tracking-[-0.02em] text-[var(--a-ink)]">
                   {c.title}
                 </h3>
-                <p className="mt-5 max-w-[46ch] text-lg sm:text-xl leading-relaxed text-[var(--a-ink)]/80">{c.body}</p>
+                <p className="mt-4 sm:mt-5 max-w-[46ch] text-[16px] sm:text-xl leading-relaxed text-[var(--a-ink)]/80">{c.body}</p>
               </div>
-              <div className={`lg:col-span-6 ${i % 2 ? 'lg:order-1' : ''}`}>
+              <div className={`lg:col-span-6 min-w-0 ${i % 2 ? 'lg:order-1' : ''}`}>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={c.img}

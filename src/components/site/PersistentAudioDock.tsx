@@ -46,11 +46,11 @@ export default function PersistentAudioDock() {
       aria-label="Persistent music player"
       data-testid="persistent-audio-dock"
       data-play-all={playAllActive ? 'true' : 'false'}
-      className="fixed inset-x-0 bottom-3 z-40 px-3 sm:px-6 pointer-events-none"
+      className="fixed inset-x-0 bottom-[max(0.625rem,env(safe-area-inset-bottom,0px))] z-40 pl-[max(0.625rem,env(safe-area-inset-left,0px))] pr-[max(0.625rem,env(safe-area-inset-right,0px))] sm:px-6 pointer-events-none"
     >
-      <div className="pointer-events-auto mx-auto max-w-[1160px] rounded-2xl border border-[var(--a-rule)] bg-[var(--a-well)]/96 backdrop-blur-md px-3.5 py-2.5 sm:px-4 sm:py-3 shadow-[0_20px_50px_-15px_rgba(17,24,39,0.28)]">
+      <div className="pointer-events-auto mx-auto max-w-[1160px] rounded-2xl border border-[var(--a-rule)] bg-[var(--a-well)]/96 backdrop-blur-md px-3 py-2 sm:px-4 sm:py-3 shadow-[0_20px_50px_-15px_rgba(17,24,39,0.28)]">
         {/* Desktop: single stable horizontal bar. Mobile: fixed 2-row compact layout with zero reflow */}
-        <div className="grid grid-cols-1 gap-1.5 md:grid-cols-[minmax(0,1fr)_minmax(200px,340px)_auto] md:items-center md:gap-4">
+        <div className="grid grid-cols-1 gap-1 md:grid-cols-[minmax(0,1fr)_minmax(200px,340px)_auto] md:items-center md:gap-4">
           {/* Row 1 on mobile / Left on desktop: Track title + mobile Mute/MP3/Close actions */}
           <div className="flex items-center justify-between gap-2 min-w-0">
             <div className="hidden md:flex items-center gap-1 shrink-0">

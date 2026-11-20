@@ -32,20 +32,20 @@ export default function Closing({
       <FilmGrain />
       <div
         aria-hidden="true"
-        className="absolute inset-0 bg-[linear-gradient(to_right,rgba(10,8,8,0.82),rgba(10,8,8,0.25)_65%,transparent)]"
+        className="absolute inset-0 bg-[linear-gradient(to_top,rgba(10,8,8,0.88)_0%,rgba(10,8,8,0.62)_55%,rgba(10,8,8,0.35)_100%),linear-gradient(to_right,rgba(10,8,8,0.82),rgba(10,8,8,0.25)_65%,transparent)]"
       />
 
-      <div className="relative z-10 mx-auto max-w-[1400px] px-5 sm:px-8 lg:px-12 py-32 sm:py-48">
+      <div className="relative z-10 mx-auto max-w-[1400px] pl-[max(1.25rem,env(safe-area-inset-left,0px))] pr-[max(1.25rem,env(safe-area-inset-right,0px))] sm:px-8 lg:px-12 py-20 sm:py-36 lg:py-48">
         <h2 id="closing-title" className="max-w-[12ch] font-display text-huge font-bold">
           Leave the pipes open. <span className="font-serif italic font-normal text-[#FFD9C2]">Keep the garden wide.</span>
         </h2>
-        <p className="mt-6 max-w-[40ch] text-lg text-white/80">
+        <p className="mt-5 sm:mt-6 max-w-[40ch] text-base sm:text-lg text-white/85">
           The full album, <em>Local Current</em>, is coming together in West Nashville.
         </p>
-        <div className="mt-10 flex flex-wrap gap-3">
+        <div className="mt-8 sm:mt-10 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
           <Link
             href="/songs"
-            className="inline-flex min-h-[52px] items-center rounded-full bg-white px-7 text-[16px] font-semibold text-[var(--a-ink)] no-underline transition-colors hover:bg-[#FFD9C2]"
+            className="inline-flex min-h-[52px] w-full sm:w-auto items-center justify-center rounded-full bg-white px-7 text-[16px] font-semibold text-[var(--a-ink)] no-underline transition-colors hover:bg-[#FFD9C2]"
           >
             Listen to the singles
           </Link>
@@ -53,12 +53,12 @@ export default function Closing({
             href="https://pipes.pink/semi"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex min-h-[52px] items-center rounded-full border border-white/40 px-7 text-[16px] font-semibold text-white no-underline transition-colors hover:bg-white/10"
+            className="inline-flex min-h-[52px] w-full sm:w-auto items-center justify-center rounded-full border border-white/40 bg-black/35 px-7 text-[16px] font-semibold text-white no-underline backdrop-blur-sm transition-colors hover:bg-white/15"
           >
             Talk to Semi on Pipes ↗
           </a>
         </div>
-        <p className="mt-8 text-[15px] text-white/75">
+        <p className="mt-7 sm:mt-8 text-[15px] text-white/80">
           Built by{' '}
           <a
             href="https://colonhyphenbracket.pink"

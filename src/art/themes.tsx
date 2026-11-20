@@ -187,7 +187,7 @@ export function MemoryThread({ targetRef }: { targetRef: React.RefObject<HTMLEle
   return (
     <svg
       aria-hidden="true"
-      className="pointer-events-none absolute left-4 sm:left-8 lg:left-12 top-0 h-full w-10"
+      className="pointer-events-none absolute left-2 sm:left-8 lg:left-12 top-0 h-full w-7 sm:w-10"
       viewBox="0 0 40 1000"
       preserveAspectRatio="none"
     >

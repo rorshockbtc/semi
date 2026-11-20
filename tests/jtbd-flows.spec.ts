@@ -313,4 +313,69 @@ test.describe('Semi (; - ]) Multi-Page Interactive JTBD Suite', () => {
     const bgColor = await page.evaluate(() => getComputedStyle(document.body).backgroundColor);
     expect(bgColor).toBe('rgb(232, 226, 213)');
   });
+
+  test('JTBD 5: Mobile navigation drawer, Ask Semi modal geometry on 375×667, and SEO crawlability (sitemap, robots, canonical, JSON-LD)', async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 375, height: 667 });
+    await page.goto('/', { waitUntil: 'networkidle' });
+
+    // Open mobile menu drawer & launch Ask Semi dialog directly from mobile nav
+    const menuBtn = page.getByRole('button', { name: 'Open menu' });
+    await expect(menuBtn).toBeVisible();
+    await menuBtn.click();
+    const mobileNav = page.locator('#mobile-nav');
+    await expect(mobileNav).toBeVisible();
+    await expect(mobileNav.getByRole('link', { name: 'Home' })).toHaveAttribute('aria-current', 'page');
+
+    await mobileNav.getByRole('button', { name: /ask semi a question/i }).click();
+    await expect(mobileNav).not.toBeVisible();
+    const askDialog = page.getByTestId('global-ask-semi-dialog');
+    await expect(askDialog).toBeVisible();
+    const dialogBox = await askDialog.boundingBox();
+    expect(dialogBox).not.toBeNull();
+    if (dialogBox) {
+      expect(dialogBox.width).toBeGreaterThanOrEqual(320);
+      expect(dialogBox.x).toBeGreaterThanOrEqual(0);
+      expect(dialogBox.x + dialogBox.width).toBeLessThanOrEqual(375);
+    }
+    await page.getByRole('button', { name: 'Close Ask Semi' }).click();
+    await expect(askDialog).not.toBeVisible();
+
+    // Verify canonical link, viewport-fit=cover, and JSON-LD structured data on Home & Song Edition
+    const homeCanonical = await page.locator('link[rel="canonical"]').getAttribute('href');
+    expect(homeCanonical).toContain('semi.colonhyphenbracket.pink');
+    const viewportContent = await page.locator('meta[name="viewport"]').getAttribute('content');
+    expect(viewportContent).toContain('viewport-fit=cover');
+
+    const homeJsonLdRaw = await page.locator('script[type="application/ld+json"]').first().textContent();
+    expect(homeJsonLdRaw).toBeTruthy();
+    const homeJsonLd = JSON.parse(homeJsonLdRaw!);
+    expect(JSON.stringify(homeJsonLd)).toContain('MusicGroup');
+    expect(JSON.stringify(homeJsonLd)).toContain('MusicAlbum');
+
+    await page.goto('/songs/out-of-office', { waitUntil: 'networkidle' });
+    const songCanonical = await page.locator('link[rel="canonical"]').getAttribute('href');
+    expect(songCanonical).toContain('/songs/out-of-office');
+    const songJsonLdRaw = await page.locator('script[type="application/ld+json"]').first().textContent();
+    const songJsonLd = JSON.parse(songJsonLdRaw!);
+    expect(JSON.stringify(songJsonLd)).toContain('MusicRecording');
+    expect(JSON.stringify(songJsonLd)).toContain('VideoObject');
+    expect(JSON.stringify(songJsonLd)).toContain('1184pyA25Uw');
+
+    // Verify sitemap.xml, robots.txt, and manifest.webmanifest HTTP endpoints
+    const sitemapRes = await page.request.get('/sitemap.xml');
+    expect(sitemapRes.status()).toBe(200);
+    const sitemapXml = await sitemapRes.text();
+    expect(sitemapXml).toContain('/songs/out-of-office');
+    expect(sitemapXml).toContain('/songs/old-oak-tree');
+
+    const robotsRes = await page.request.get('/robots.txt');
+    expect(robotsRes.status()).toBe(200);
+    expect(await robotsRes.text()).toContain('sitemap.xml');
+
+    const manifestRes = await page.request.get('/manifest.webmanifest');
+    expect(manifestRes.status()).toBe(200);
+    expect(await manifestRes.text()).toContain('#E8E2D5');
+  });
 });

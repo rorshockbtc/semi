@@ -63,25 +63,31 @@ export default function PhotoLightboxDialog({
               />
             </figure>
 
-            <div className="flex items-center justify-between gap-4 border-t border-[var(--a-rule)] pt-4">
+            <div className="flex items-center justify-between gap-2 sm:gap-4 border-t border-[var(--a-rule)] pt-4">
               <button
                 type="button"
                 onClick={() => onSelectPhoto(prevPhoto)}
-                className="min-h-[44px] inline-flex items-center gap-2 rounded-full border border-[var(--a-rule)] px-4 text-[14px] font-medium text-[var(--a-ink)] hover:border-[var(--a-ink)]"
+                aria-label="Previous plate"
+                className="min-h-[44px] inline-flex items-center gap-1.5 sm:gap-2 whitespace-nowrap rounded-full border border-[var(--a-rule)] px-3.5 sm:px-4 text-[14px] font-medium text-[var(--a-ink)] hover:border-[var(--a-ink)]"
               >
-                <ChevronLeft className="h-4 w-4" aria-hidden="true" />
-                <span>Previous plate</span>
+                <ChevronLeft className="h-4 w-4 shrink-0" aria-hidden="true" />
+                <span>
+                  Previous<span className="hidden sm:inline"> plate</span>
+                </span>
               </button>
-              <span className="font-code text-[13px] text-[var(--a-muted)]">
+              <span className="shrink-0 font-code text-[13px] tabular-nums text-[var(--a-muted)]">
                 {currentIndex + 1} / {photos.length}
               </span>
               <button
                 type="button"
                 onClick={() => onSelectPhoto(nextPhoto)}
-                className="min-h-[44px] inline-flex items-center gap-2 rounded-full border border-[var(--a-rule)] px-4 text-[14px] font-medium text-[var(--a-ink)] hover:border-[var(--a-ink)]"
+                aria-label="Next plate"
+                className="min-h-[44px] inline-flex items-center gap-1.5 sm:gap-2 whitespace-nowrap rounded-full border border-[var(--a-rule)] px-3.5 sm:px-4 text-[14px] font-medium text-[var(--a-ink)] hover:border-[var(--a-ink)]"
               >
-                <span>Next plate</span>
-                <ChevronRight className="h-4 w-4" aria-hidden="true" />
+                <span>
+                  Next<span className="hidden sm:inline"> plate</span>
+                </span>
+                <ChevronRight className="h-4 w-4 shrink-0" aria-hidden="true" />
               </button>
             </div>
           </div>

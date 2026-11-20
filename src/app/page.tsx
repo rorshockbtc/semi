@@ -6,16 +6,17 @@ import FeaturedSongsSection from '@/components/sections/FeaturedSongsSection';
 import SemicolonExplainer from '@/components/sections/SemicolonExplainer';
 import FilmScenesGallery from '@/components/sections/FilmScenesGallery';
 import Closing from '@/components/sections/Closing';
+import { buildHomeJsonLd } from '@/lib/seo';
 
 export default function HomePage() {
+  const jsonLd = buildHomeJsonLd();
+
   return (
     <>
-      <a
-        href="#main"
-        className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[70] focus:rounded-full focus:bg-[var(--a-ink)] focus:px-5 focus:py-3 focus:text-[var(--a-bg)]"
-      >
-        Skip to content
-      </a>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <SiteHeader />
       <main id="main" className="flex-1">
         <Hero />

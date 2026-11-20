@@ -45,7 +45,8 @@
 
 @layer base {
   html {
-    scroll-padding-top: 5.5rem;
+    scroll-padding-top: calc(5rem + env(safe-area-inset-top, 0px));
+    scroll-padding-bottom: calc(9.5rem + env(safe-area-inset-bottom, 0px));
     background-color: var(--a-bg);
     color: var(--a-ink);
   }
@@ -122,16 +123,16 @@
   letter-spacing: 0;
 }
 
-/* Editorial Display Scales */
+/* Editorial Display Scales (WCAG 1.4.4 zoom-safe <=2.5x clamp + descender clearance) */
 .text-huge {
-  font-size: clamp(2.85rem, 6.6vw, 6.5rem);
-  line-height: 0.94;
+  font-size: clamp(2.25rem, 1.35rem + 4.8vw, 5.5rem);
+  line-height: 1.03;
   letter-spacing: -0.03em;
 }
 
 .text-big {
-  font-size: clamp(2.1rem, 4.4vw, 4.1rem);
-  line-height: 0.99;
+  font-size: clamp(1.875rem, 1.25rem + 3.2vw, 4.1rem);
+  line-height: 1.05;
   letter-spacing: -0.025em;
 }
 
@@ -216,9 +217,9 @@
 /* Native top-layer <dialog> entry/exit & backdrop containment */
 dialog.semi-dialog {
   margin: auto;
-  max-width: min(92vw, 52rem);
+  max-width: min(calc(100dvw - 1.5rem), 52rem);
   width: 100%;
-  max-height: 88dvh;
+  max-height: calc(100dvh - 1.5rem - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px));
   border: 1px solid var(--a-rule);
   border-radius: 1.25rem;
   background: var(--a-well);

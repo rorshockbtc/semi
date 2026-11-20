@@ -53,13 +53,13 @@ export default function SongNotifyCard() {
     <div
       id="notify"
       data-testid="song-notify-card"
-      className="mt-16 scroll-mt-24 rounded-[24px] border border-[var(--a-rule)] bg-[var(--a-surface)] p-6 sm:p-10"
+      className="mt-12 sm:mt-16 scroll-mt-24 rounded-[20px] sm:rounded-[24px] border border-[var(--a-rule)] bg-[var(--a-surface)] p-5 sm:p-10"
     >
-      <div className="grid gap-8 lg:grid-cols-12 lg:items-center">
-        <div className="lg:col-span-7 space-y-4">
+      <div className="grid gap-6 sm:gap-8 lg:grid-cols-12 lg:items-center">
+        <div className="lg:col-span-7 min-w-0 space-y-4">
           <div className="flex flex-wrap items-center gap-2.5">
-            <span className="inline-flex items-center gap-2 rounded-full border border-[var(--a-rule)] bg-[var(--a-well)] px-3.5 py-1.5 font-code text-[13px] font-medium text-[var(--a-ink)]">
-              <Disc3 className="h-3.5 w-3.5 text-[var(--a-accent-text)]" aria-hidden="true" />
+            <span className="inline-flex items-start sm:items-center gap-2 rounded-2xl sm:rounded-full border border-[var(--a-rule)] bg-[var(--a-well)] px-3.5 py-2 sm:py-1.5 font-code text-[13px] font-medium leading-snug text-[var(--a-ink)]">
+              <Disc3 className="mt-0.5 sm:mt-0 h-3.5 w-3.5 shrink-0 text-[var(--a-accent-text)]" aria-hidden="true" />
               <span data-testid="album-milestone-badge">
                 {releasedCount} of {targetTrackMin}–{targetTrackMax} songs out · Full album download at {targetTrackMin}+ tracks
               </span>
@@ -70,7 +70,7 @@ export default function SongNotifyCard() {
             Get a personal note from Semi when a new song goes up.
           </h3>
 
-          <p className="max-w-[58ch] text-[16px] leading-relaxed text-[var(--a-muted)]">
+          <p className="max-w-[58ch] text-[15px] sm:text-[16px] leading-relaxed text-[var(--a-muted)]">
             Every single is free to stream and download right now. Leave your email and Semi will
             send a quiet postcard when the next track is recorded—and when all {targetTrackMin}–{targetTrackMax}{' '}
             songs unlock together as the complete <em>Local Current</em> album download.
@@ -87,7 +87,7 @@ export default function SongNotifyCard() {
           </div>
         </div>
 
-        <div className="lg:col-span-5">
+        <div className="lg:col-span-5 min-w-0">
           {status === 'success' ? (
             <div
               role="status"
@@ -109,7 +109,7 @@ export default function SongNotifyCard() {
                 Your email address
               </label>
               <div className="flex flex-col gap-2.5 sm:flex-row">
-                <div className="relative flex-1">
+                <div className="relative min-w-0 flex-1">
                   <Mail
                     className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-[var(--a-muted)]"
                     aria-hidden="true"
@@ -123,14 +123,14 @@ export default function SongNotifyCard() {
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="you@domain.com"
                     data-testid="song-notify-input"
-                    className="min-h-[48px] w-full rounded-full border border-[var(--a-rule)] bg-[var(--a-well)] pl-11 pr-4 text-[15px] text-[var(--a-ink)] placeholder:text-[var(--a-muted)]/70 focus:border-[var(--a-ink)] focus:outline-none"
+                    className="min-h-[48px] w-full rounded-full border border-[var(--a-rule)] bg-[var(--a-well)] pl-11 pr-4 text-[16px] text-[var(--a-ink)] placeholder:text-[var(--a-muted)]/70 focus:border-[var(--a-ink)] focus:outline-none"
                   />
                 </div>
                 <button
                   type="submit"
                   disabled={status === 'submitting'}
                   data-testid="song-notify-submit"
-                  className="inline-flex min-h-[48px] shrink-0 items-center justify-center rounded-full bg-[var(--a-accent-fill)] px-6 text-[15px] font-semibold text-white transition-colors hover:bg-[var(--a-ink)] disabled:opacity-60"
+                  className="inline-flex min-h-[48px] w-full sm:w-auto shrink-0 items-center justify-center rounded-full bg-[var(--a-accent-fill)] px-6 text-[15px] font-semibold text-white transition-colors hover:bg-[var(--a-ink)] disabled:opacity-60"
                 >
                   {status === 'submitting' ? 'Sending…' : 'Notify me'}
                 </button>
@@ -141,7 +141,7 @@ export default function SongNotifyCard() {
                 </p>
               )}
               <p className="text-[13px] leading-relaxed text-[var(--a-muted)]">
-                Sent from <span className="font-code">cubby@colonhyphenbracket.pink</span> · Only new songs &amp; the full album release, one-click unsubscribe.
+                Sent from <span className="font-code break-all sm:break-normal">cubby@colonhyphenbracket.pink</span> · Only new songs &amp; the full album release, one-click unsubscribe.
               </p>
             </form>
           )}
