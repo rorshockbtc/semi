@@ -189,7 +189,7 @@ test.describe('Semi (; - ]) Multi-Page Interactive JTBD Suite', () => {
     await expect(page.getByTestId('chords-meta-bar')).toContainText('C Minor');
 
     await page.goto('/songs/out-of-office', { waitUntil: 'networkidle' });
-    await expect(page.getByTestId('edition-listening-edition')).toBeVisible();
+    await expect(page.locator('iframe[src*="1184pyA25Uw"]')).toBeVisible();
     await expect(page.locator('#lyrics')).toContainText(/out of office/i);
     await page.getByTestId('toggle-show-chords').click();
     await expect(page.getByTestId('chords-meta-bar')).toContainText('G Major');

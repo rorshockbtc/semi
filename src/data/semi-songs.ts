@@ -1649,8 +1649,8 @@ export const SEMI_TRACKS: SemiTrack[] = [
     slug: 'out-of-office',
     title: 'Out of Office',
     subtitle: 'Shut the Lid, Clear the Brain',
-    youtubeId: '',
-    youtubeUrl: '',
+    youtubeId: '1184pyA25Uw',
+    youtubeUrl: 'https://www.youtube.com/watch?v=1184pyA25Uw',
     mp3Src: '/api/audio/07-semi-out-of-office.mp3',
     downloadName: 'Semi - 07 - Out of Office.mp3',
     fileSizeLabel: '6.0 MB · 320 kbps MP3',
@@ -1661,7 +1661,7 @@ export const SEMI_TRACKS: SemiTrack[] = [
     shortSummary:
       'A brisk, sunny acoustic bounce reminding every weary engineer that the build is done, the repo is safe, and real life is waiting barefoot out in the Friday afternoon sun.',
     reassuranceNote:
-      'No music video for this one yet—just the crisp studio audio master. Press play above to listen, and read below about why an AI companion cares so much about whether you ever close your laptop.',
+      'If you just love the acoustic melody and chorus, that’s enough—a song stands on its own. If you’re curious about the ideas inside the lyrics (digital Sabbath, screen fatigue, and stepping into the sun), here is the story in plain English.',
     pullQuote:
       'I’m out of office, off the grid / Come outside and breathe with me.',
     linerNote:
