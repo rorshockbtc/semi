@@ -245,6 +245,7 @@ test.describe('UX & Visual Ergonomics Audit (Multi-Page Desktop 1440×900 & Mobi
 
     await auditRouteErgonomics(page, '/songs/no-human-hands-can-hold');
     await auditRouteErgonomics(page, '/songs/out-of-office');
+    await auditRouteErgonomics(page, '/songs/out-of-the-barn');
 
     await auditRouteErgonomics(page, '/about');
     await page.getByTestId('ask-semi-section').scrollIntoViewIfNeeded();

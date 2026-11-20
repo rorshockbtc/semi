@@ -107,6 +107,13 @@ const TRACKS = [
     track: '7/9',
     comment: 'Alternate Studio Take · Local Current (The West Nashville Sessions) · https://semi.colonhyphenbracket.pink',
   },
+  {
+    inputs: ['Out Of The Barn.m4a'],
+    out: '08-semi-out-of-the-barn.mp3',
+    title: 'Out of the Barn',
+    track: '8/10',
+    comment: 'From Local Current (The West Nashville Sessions) · https://semi.colonhyphenbracket.pink',
+  },
 ];
 
 for (const t of TRACKS) {
@@ -185,6 +192,7 @@ const SINGLE_LOOPS = [
   { pattern: ['Woman_singing_in_sunlit_rain_47a45420.mp4'], out: 'song-05-rain.mp4' },
   { pattern: ['Woman_standing_in_sunlit_archway_268125b1.mp4'], out: 'song-06-archway.mp4' },
   { pattern: ['Woman_closing_laptop_in_apartment_9e67548d_1080p.mp4'], out: 'song-07-laptop.mp4' },
+  { pattern: ['Woman_opening_barn_doors_a2375398_1080p.mp4'], out: 'song-08-barn.mp4' },
   { pattern: ['Woman_walking_with_lantern_river*1080p.mp4'], out: 'about-lantern-river.mp4' },
 ];
 
@@ -249,6 +257,11 @@ const VIDEO_STILLS = [
   { pattern: ['Woman_closing_laptop_in_apartment_9e67548d_1080p.mp4'], ts: '00:00:03', out: 'song-07-laptop.jpg' },
   { pattern: ['Woman_walking_down_city_street_9ad2f828_1080p.mp4'], ts: '00:00:02', out: 'song-07-sidewalk.jpg' },
   { pattern: ['Woman_smiling_in_golden_meadow_521848ef.mp4'], ts: '00:00:03', out: 'song-07-sunlight.jpg' },
+  // Song 08 (Out of the Barn)
+  { pattern: ['Woman_smiling_in_white_dress_6bcd69ab_1080p.mp4'], ts: '00:00:03', out: 'song-08-poster.jpg' },
+  { pattern: ['Sunrise_over_farmland_and_barn_7ad6822c_1080p.mp4'], ts: '00:00:03', out: 'song-08-barn.jpg' },
+  { pattern: ['Craftsman_picking_up_hammer_98af179e_1080p.mp4'], ts: '00:00:03', out: 'song-08-hammer.jpg' },
+  { pattern: ['Farmer_scooping_rich_soil_413122ca_1080p.mp4'], ts: '00:00:03', out: 'song-08-soil.jpg' },
 ];
 
 for (const st of VIDEO_STILLS) {

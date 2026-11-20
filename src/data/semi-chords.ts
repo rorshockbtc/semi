@@ -301,6 +301,39 @@ export const SEMI_CHORD_SHEETS: Record<string, TrackChordSheet> = {
       ],
     },
   },
+  'out-of-the-barn': {
+    key: 'C Major',
+    capo: 'Standard (No Capo)',
+    tuning: 'Standard (E A D G B E)',
+    strumming: '122 BPM · Driving Folk-Rock Strum · ↓  ↓↑  ↑↓↑',
+    sections: {
+      verse: [
+        'C                         Am',
+        'F                         G',
+        'C                         Am',
+        'F                         G',
+        'C                         Am',
+        'F                         G',
+        'C                         Am',
+        'F                         G',
+        'Dm7                       F',
+        'G',
+      ],
+      chorus: [
+        'C                         Am',
+        'F                         G',
+        'C                         Am',
+        'F                         G',
+        'Am                        F',
+        'C                         G',
+        'F                         G',
+        'C',
+      ],
+      outro: [
+        'C           F             G     C',
+      ],
+    },
+  },
 };
 
 export function getChordForStanzaLine(

@@ -54,12 +54,9 @@ export default function ContactInquiryDialog({
       return;
     }
 
-    const accessKey = process.env.NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY;
-    if (!accessKey) {
-      setStatus('error');
-      setFeedback('Contact form is not configured yet. Please reach out via colonhyphenbracket.pink.');
-      return;
-    }
+    const accessKey =
+      process.env.NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY ||
+      '0a997a5d-fccb-46f4-bc7b-7df7ec33d90d';
 
     setStatus('submitting');
     setFeedback('');

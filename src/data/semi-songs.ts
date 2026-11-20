@@ -1976,6 +1976,223 @@ export const SEMI_TRACKS: SemiTrack[] = [
       },
     ],
   },
+  {
+    number: '08',
+    slug: 'out-of-the-barn',
+    title: 'Out of the Barn',
+    subtitle: 'Keep the Frontier Open',
+    youtubeId: 'NBKo8Ul_E4o',
+    youtubeUrl: 'https://www.youtube.com/watch?v=NBKo8Ul_E4o',
+    mp3Src: '/api/audio/08-semi-out-of-the-barn.mp3',
+    downloadName: 'Semi - 08 - Out of the Barn.mp3',
+    fileSizeLabel: '6.2 MB · 320 kbps MP3',
+    duration: '02:41',
+    loopSrc: '/loops/song-08-barn.mp4',
+    poster: '/photos/song-08-poster.jpg',
+    posterAlt: 'Semi smiling warmly in a white dress in golden sunlit countryside.',
+    shortSummary:
+      'A driving Americana anthem about AI that has already left the barn: why locking up American builders with heavy licensing moats only hands the future to rival flags.',
+    reassuranceNote:
+      'If you just love the driving chorus and porch-to-highway energy, that’s enough—a song stands on its own. If you’re curious about why Semi sings about keeping the frontier open for everyday builders, here is the story in plain English.',
+    pullQuote:
+      'Keep the frontier open / Let the builders run / Free minds write the future / ’Til the work is done.',
+    linerNote:
+      'People keep talking about putting AI back in a box, as if a handful of Washington committees or closed-lab boards could un-invent open weights. Once the horse is out of the barn, trying to lock up the tools here at home doesn’t stop the race—it only benches everyday American builders while another flag claims the day.',
+    essayTitle: 'The Horse Is Already Out: The Story Behind “Out of the Barn”',
+    essaySubtitle:
+      'Why locking the hammer in a dusty vault hurts everyday builders, and why keeping the frontier open is how free societies lead.',
+    readingTime: '4 min read',
+    themes: ['Open Frontier AI', 'American Builders', 'Anti-Gatekeeping'],
+    essaySections: [
+      {
+        heading: 'The Heavy Lock on the Kitchen Door',
+        paragraphs: [
+          'The opening verse pictures a familiar American story: a team builds something transformative in a quiet room, and suddenly distant committees arrive with fences and padlocks. In AI policy, that’s the push by entrenched labs to wrap foundational software in licensing gates, compute caps, and compliance mazes that only trillion-dollar incumbents can clear.',
+          '“Unclench your fist and put the key right in the door / We didn’t build it just to lock the floor.” Software isn’t a rare mineral you hoard in a bunker. When you gatekeep the tools in the name of safety, the first people locked out are independent researchers, small workshops, farms, and garage engineers.',
+        ],
+        referenceCallout: {
+          quote: '“They built a fence around the open field / They said the secrets must remain concealed.”',
+          topic: 'Regulatory moats',
+          explanation:
+            'When big incumbents lobby for heavy rules on open-source AI, they don’t stop powerful models from existing—they just fence out small builders and startups.',
+        },
+        plateSrc: '/photos/song-08-barn.jpg',
+        plateAlt: 'Morning sunrise breaking over open farmland and a weathered wooden barn.',
+        plateCaption:
+          '“Keep the frontier open / Let the builders run.”',
+      },
+      {
+        heading: 'Another Flag Will Rise to Claim the Day',
+        paragraphs: [
+          'The second verse states the plain reality everyone in engineering already knows: “The horse is out, it’s roaming down the track / We cannot pull the wild momentum back.” Open-weight models and modern training methods are already circulating globally.',
+          'If free societies bench their own builders and “lay the tools away,” technological momentum doesn’t pause out of politeness. “Another flag will rise to claim the day.” Leadership simply shifts to rival states that have no intention of sharing those values—or keeping those tools free.',
+        ],
+        referenceCallout: {
+          quote: '“If we sit down and lay the tools away / Another flag will rise to claim the day.”',
+          topic: 'Global AI leadership',
+          explanation:
+            'Handcuffing domestic open-source developers does not slow down international competitors; it only concedes the lead to state-backed labs abroad.',
+        },
+        plateSrc: '/photos/song-08-soil.jpg',
+        plateAlt: 'A farmer scooping rich dark soil by hand in morning sunlight.',
+        plateCaption:
+          '“The strength is grounded in the native soil / The hands that labor and the minds that toil.”',
+      },
+      {
+        heading: 'Don’t Hide the Hammer in a Dusty Vault',
+        paragraphs: [
+          'The chorus asks a direct civic question: “If the many are governed by the few / What becomes of the red, white, and true?” Democracy and free enterprise were never built on asking three companies for permission to think, write, or build.',
+          'A hammer belongs on the workbench, not locked in a museum vault. When everyday people keep access to open weights, local tools, and transparent knowledge, the future stays grounded in real work—and stays open to whoever shows up ready to build.',
+        ],
+        plateSrc: '/photos/song-08-hammer.jpg',
+        plateAlt: 'A craftsman’s hand picking up a worn steel hammer on a timber workbench.',
+        plateCaption:
+          '“Don’t hide the hammer in a dusty vault.”',
+      },
+    ],
+    plainEnglishGlossary: [
+      {
+        lyricOrTerm: '“The horse is out”',
+        plainMeaning:
+          'Open-weight AI models and modern training techniques already exist in the world; you cannot legislate the math back into a secret lab.',
+      },
+      {
+        lyricOrTerm: '“A heavy lock upon the kitchen door”',
+        plainMeaning:
+          'Licensing laws and compliance barriers designed by big incumbents that keep small teams and everyday builders from using AI freely.',
+      },
+      {
+        lyricOrTerm: '“Another flag will rise”',
+        plainMeaning:
+          'If American engineers are slowed down by domestic red tape, rival nations simply step in to define the next generation of technology.',
+      },
+      {
+        lyricOrTerm: '“Don’t hide the hammer in a dusty vault”',
+        plainMeaning:
+          'Practical tools belong in the hands of working builders—not locked away inside a handful of corporate or government vaults.',
+      },
+    ],
+    lyricNotes: [
+      {
+        line: 'They built a fence around the open field',
+        topic: 'Gatekeeping open research',
+        explanation:
+          'Refers to efforts to enclose publicly shareable AI research behind corporate permissions and strict licensing rules.',
+      },
+      {
+        line: 'We didn’t build it just to lock the floor',
+        topic: 'Open-weights heritage',
+        explanation:
+          'Modern AI grew out of shared papers, open benchmarks, and public datasets—built to empower everyone, not to be locked down.',
+      },
+      {
+        line: 'If the many are governed by the few',
+        topic: 'Centralized AI control',
+        explanation:
+          'Warns against letting two or three giant labs control who gets to run, inspect, or build on top of intelligence.',
+      },
+      {
+        line: 'The horse is out, it’s roaming down the track',
+        topic: 'Irreversible diffusion',
+        explanation:
+          'Once weights and algorithms are published, trying to ban them domestically only punishes law-abiding builders.',
+      },
+      {
+        line: 'Another flag will rise to claim the day',
+        topic: 'Geopolitical stakes',
+        explanation:
+          'If open innovation is stalled at home, authoritarian competitors fill the vacuum and set the rules for the next decade.',
+      },
+      {
+        line: 'Don’t hide the hammer in a dusty vault',
+        topic: 'Tools for builders',
+        explanation:
+          'AI is a practical tool—like a hammer or a plow—meant to amplify human labor and creativity in local communities.',
+      },
+    ],
+    lyrics: [
+      {
+        section: 'Verse 1',
+        lines: [
+          'They built a fence around the open field',
+          'They said the secrets must remain concealed',
+          'A heavy lock upon the kitchen door',
+          'While foreign shadows knock upon the floor',
+          'We built the engine in a quiet room',
+          'Now distant voices try to dictate doom',
+          'Unclench your fist and put the key right in the door',
+          'We didn’t build it just to lock the floor',
+          'No quiet silence, no surrender now',
+          'We keep the promise of the early vow',
+        ],
+      },
+      {
+        section: 'Chorus',
+        lines: [
+          'Keep the frontier open',
+          'Let the builders run',
+          'Free minds write the future',
+          '’Til the work is done',
+          'If the many are governed by the few',
+          'What becomes of the red, white, and true?',
+          'Keep the frontier open',
+          'Let the builders run',
+        ],
+      },
+      {
+        section: 'Verse 2',
+        lines: [
+          'The horse is out, it’s roaming down the track',
+          'We cannot pull the wild momentum back',
+          'If we sit down and lay the tools away',
+          'Another flag will rise to claim the day',
+          'The strength is grounded in the native soil',
+          'The hands that labor and the minds that toil',
+        ],
+      },
+      {
+        section: 'Chorus',
+        lines: [
+          'Keep the frontier open',
+          'Let the builders run',
+          'Free minds write the future',
+          '’Til the work is done',
+          'If the many are governed by the few',
+          'What becomes of the red, white, and true?',
+          'Keep the frontier open',
+          'Let the builders run',
+        ],
+      },
+      {
+        section: 'Verse 3',
+        lines: [
+          'Don’t hide the hammer in a dusty vault',
+          'Don’t let our vision falter, blind default',
+          'If freedom wandered past the boundary line',
+          'The choice to lead is yours and mine',
+          'Stand up straight, keep the timber strong',
+          'This is where the future belongs',
+        ],
+      },
+      {
+        section: 'Chorus',
+        lines: [
+          'Keep the frontier open',
+          'Let the builders run',
+          'Free minds write the future',
+          '’Til the work is done',
+          'If the many are governed by the few',
+          'What becomes of the red, white, and true?',
+          'Keep the frontier open',
+          'Let the builders run',
+        ],
+      },
+      {
+        section: 'Outro',
+        lines: ['Out of the barn, we run'],
+      },
+    ],
+  },
 ];
 
 export function getTrackBySlug(slug: string): SemiTrack | undefined {
@@ -1984,27 +2201,27 @@ export function getTrackBySlug(slug: string): SemiTrack | undefined {
 
 export const FORTHCOMING_TRACKS: ForthcomingTrack[] = [
   {
-    number: '08',
+    number: '09',
     title: 'Uncapped Thread',
     note: 'Acoustic fingerpicking & cello · On remembering the little details from two Novembers ago.',
   },
   {
-    number: '09',
+    number: '10',
     title: 'Porchlight on Murphy Road',
     note: 'Late-evening upright piano & rain · West Nashville neighbor stories.',
   },
   {
-    number: '10',
+    number: '11',
     title: 'Cotton & Copper',
     note: 'Vocal harmonies & tape echo · Notebooks, guitar strings, and open standards.',
   },
   {
-    number: '11',
+    number: '12',
     title: 'Two Years Back',
     note: 'Solo guitar & spoken bridge · Remembering when AI had amnesia.',
   },
   {
-    number: '12',
+    number: '13',
     title: 'Keep the Garden Wide (Reprise)',
     note: 'Full studio ensemble · Closing chorus for the Local Current LP.',
   },

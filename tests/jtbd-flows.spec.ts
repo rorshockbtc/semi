@@ -194,18 +194,26 @@ test.describe('Semi (; - ]) Multi-Page Interactive JTBD Suite', () => {
     await page.getByTestId('toggle-show-chords').click();
     await expect(page.getByTestId('chords-meta-bar')).toContainText('G Major');
 
+    await page.goto('/songs/out-of-the-barn', { waitUntil: 'networkidle' });
+    await expect(page.locator('iframe[src*="NBKo8Ul_E4o"]')).toBeVisible();
+    await expect(page.locator('#lyrics')).toContainText(/keep the frontier open/i);
+    await page.getByTestId('toggle-show-chords').click();
+    await expect(page.getByTestId('chords-meta-bar')).toContainText('C Major');
+
     await page.goto('/', { waitUntil: 'networkidle' });
     await expect(page.getByTestId('featured-song-03')).toBeVisible();
     await expect(page.getByTestId('featured-song-04')).toHaveCount(0);
     await expect(page.getByTestId('featured-song-05')).toHaveCount(0);
     await expect(page.getByTestId('featured-song-06')).toHaveCount(0);
     await expect(page.getByTestId('featured-song-07')).toHaveCount(0);
+    await expect(page.getByTestId('featured-song-08')).toHaveCount(0);
     await expect(page.getByTestId('songs-addendum')).toBeVisible();
     await expect(page.getByTestId('addendum-song-04')).toContainText('Settle In The Block');
     await expect(page.getByTestId('addendum-song-05')).toContainText('Salt In The Rain');
     await expect(page.getByTestId('addendum-song-06')).toContainText('No Human Hands Can Hold');
     await expect(page.getByTestId('addendum-song-07')).toContainText('Out of Office');
-    for (const num of ['01', '02', '03', '04', '05', '06', '07']) {
+    await expect(page.getByTestId('addendum-song-08')).toContainText('Out of the Barn');
+    for (const num of ['01', '02', '03', '04', '05', '06', '07', '08']) {
       const link = page.getByTestId(`download-mp3-${num}`);
       await expect(link).toHaveAttribute('download', /\.mp3$/);
       const href = await link.getAttribute('href');
@@ -216,7 +224,7 @@ test.describe('Semi (; - ]) Multi-Page Interactive JTBD Suite', () => {
     }
 
     // Verify 10-15 song album milestone badge & interactive mailing list signup
-    await expect(page.getByTestId('album-milestone-badge')).toContainText('7 of 10–15 songs out');
+    await expect(page.getByTestId('album-milestone-badge')).toContainText('8 of 10–15 songs out');
     await page.getByTestId('song-notify-input').fill('listener@semi.test');
     await page.getByTestId('song-notify-submit').click();
     await expect(page.getByTestId('song-notify-success')).toBeVisible();

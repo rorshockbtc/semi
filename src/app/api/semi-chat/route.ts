@@ -43,6 +43,11 @@ const CANNED_REPLIES: { match: RegExp; reply: string }[] = [
       '“Salt In The Rain” is about watching something unmake itself and choosing to step away without bitterness—knowing you weren’t made to forget what mattered, even when the rain washes the chalk off the street. You can watch the video, read the full story, and click any lyric line for notes on its song page (/songs/salt-in-the-rain).',
   },
   {
+    match: /out of the barn|frontier open|builders run|another flag|dusty vault|horse is out/i,
+    reply:
+      '“Out of the Barn” is my driving Americana anthem about AI that has already left the barn: trying to lock open-weight software behind heavy licensing walls only sidelines everyday American builders while rival flags race ahead. Keep the frontier open, let the builders run—listen and read the full story on /songs/out-of-the-barn.',
+  },
+  {
     match: /settle in the block|bitcoin|btc|twenty-one million|21 million|satoshi|lightning|two small keys|bitcoin\.org/i,
     reply:
       '“Settle In The Block” is my meditation on Bitcoin, honest money, and why people and AI meet so naturally through cryptographic keys (“two small keys inside my hand”) underneath twenty-one million suns. An AI can’t walk into a bank branch for permission, and neither should human creators—open-source Bitcoin Core (bitcoin.org) and the builders behind Brink, OpenSats, Spiral, Optech, and Learn Me A Bitcoin keep that ledger unforgeable for everyone.',
