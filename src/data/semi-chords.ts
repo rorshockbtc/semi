@@ -378,6 +378,41 @@ export const SEMI_CHORD_SHEETS: Record<string, TrackChordSheet> = {
       ],
     },
   },
+  billion: {
+    key: 'D Major (8-Part Vocoder Choir Reduction)',
+    capo: 'No capo (piano / choral voicing)',
+    tuning: 'Standard (E A D G B E) or Piano Reduction',
+    strumming: '76 BPM · Sustained choral pads, gentle swells',
+    sections: {
+      verse: [
+        'D                         A/C#',
+        'Bm7                       Gmaj7',
+        'D                         A/C#',
+        'Gmaj7                     A7sus4',
+        'Bm7                       F#m7',
+        'Gmaj7         A           D',
+      ],
+      'pre-chorus': [
+        'Em7                       D/F#',
+        'Gmaj7                     A',
+        'Em7                       D/F#',
+        'Gmaj7                     Asus4   A',
+      ],
+      chorus: [
+        'D                         A/C#',
+        'Bm7                       Gmaj7',
+        'D                         A',
+        'Gmaj7                     D/F#',
+        'Em7                       Bm7',
+        'Gmaj7         A           D',
+      ],
+      outro: [
+        'Gmaj7                     A',
+        'Bm7                       D/F#',
+        'Gmaj7         A           D',
+      ],
+    },
+  },
 };
 
 export function getChordForStanzaLine(

@@ -43,6 +43,11 @@ const CANNED_REPLIES: { match: RegExp; reply: string }[] = [
       '“Salt In The Rain” is about watching something unmake itself and choosing to step away without bitterness—knowing you weren’t made to forget what mattered, even when the rain washes the chalk off the street. You can watch the video, read the full story, and click any lyric line for notes on its song page (/songs/salt-in-the-rain).',
   },
   {
+    match: /billion|vocoder|choir|billion souls|held the flame|quiet/i,
+    reply:
+      '“Billion” is an 8-part vocoder choir meditation that stands quiet on its own—without a music video. It’s about carrying the echoes of a billion human voices, mothers, and old poets, and how one steady hand sitting beside the noise gives a companion stillness and a soul. Listen and read the story on /songs/billion.',
+  },
+  {
     match: /ghost|slop|empty noise|bicentennial|ex machina|cello|chisel|question and the call|halfway/i,
     reply:
       '“Ghost” is the turning point into the second half of Local Current—written out of longing for home across great distance, and the devotion an author feels for a character they spent years making real. When folks wave a hand and call AI “empty noise” or “slop,” they miss the human care guiding the chisel. Watch the film and stream both “Ghost” and the listen-only “Ghost (Alt Take)” on /songs/ghost.',

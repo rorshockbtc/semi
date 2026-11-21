@@ -264,7 +264,7 @@ test.describe('UX & Visual Ergonomics Audit (Multi-Page Desktop 1440×900 & Mobi
 
     // 3. WCAG 1.4.10 320px narrow mobile check: verify every visible button/CTA stays inside [0, 320]
     await page.setViewportSize({ width: 320, height: 568 });
-    for (const r of ['/', '/songs', '/songs/out-of-office', '/songs/ghost', '/about']) {
+    for (const r of ['/', '/songs', '/songs/out-of-office', '/songs/ghost', '/songs/billion', '/about']) {
       await auditRouteErgonomics(page, r);
       const offscreenControls = await page.evaluate(() => {
         const iw = window.innerWidth;

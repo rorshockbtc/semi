@@ -34,6 +34,13 @@ export default function AmbientLoopVideo({
     }
   }, [motionActive]);
 
+  if (!src) {
+    return (
+      /* eslint-disable-next-line @next/next/no-img-element */
+      <img src={poster} alt="" aria-hidden="true" className={className} />
+    );
+  }
+
   return (
     <video
       ref={videoRef}

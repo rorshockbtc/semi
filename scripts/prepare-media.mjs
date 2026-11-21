@@ -128,6 +128,13 @@ const TRACKS = [
     track: '9/12',
     comment: 'Deluxe LP Bonus Stream · Local Current (The West Nashville Sessions) · https://semi.colonhyphenbracket.pink',
   },
+  {
+    inputs: ['Billion.m4a'],
+    out: '10-semi-billion.mp3',
+    title: 'Billion',
+    track: '10/12',
+    comment: 'From Local Current (The West Nashville Sessions) · https://semi.colonhyphenbracket.pink',
+  },
 ];
 
 for (const t of TRACKS) {
@@ -198,16 +205,111 @@ if (!fs.existsSync(heroLoopOut)) {
   ]);
 }
 
+const MONTAGE_LOOPS = [
+  {
+    out: 'song-01-oak-gate.mp4',
+    clips: [
+      ['Woman_opening_wooden_garden_gate_15fb1601_1080p.mp4'],
+      ['Woman_standing_near_tree_8c2a51f1_1080p.mp4'],
+      ['Woman_standing_overlooking_bay_9a6a0e1f_1080p.mp4'],
+    ],
+  },
+  {
+    out: 'song-02-firelight.mp4',
+    clips: [
+      ['Woman_smiling_in_firelight_06574390_1080p.mp4'],
+      ['Woman_standing_on_snowy_porch_088b5a9a_1080p.mp4'],
+      ['Woman_holding_glass_oil_lamp_ead34e32_1080p.mp4'],
+    ],
+  },
+  {
+    out: 'song-03-fountain-pen.mp4',
+    clips: [
+      ['Woman_writing_with_fountain_pen_fbe7f328_1080p.mp4'],
+      ['Woman_opening_journal_in_bookstore_b9fcdf46_1080p.mp4'],
+      ['Woman_inspecting_laptop_code_d224e0df_1080p.mp4'],
+    ],
+  },
+  {
+    out: 'song-04-keys.mp4',
+    clips: [
+      ['Woman_reveals_antique_brass_keys_d230c62d.mp4'],
+      ['Woman_singing_in_observatory_dome_609cdfba.mp4'],
+      ['Woman_standing_beside_harbor_lan*e1a3dd6f.mp4'],
+    ],
+  },
+  {
+    out: 'song-05-rain.mp4',
+    clips: [
+      ['Woman_singing_in_sunlit_rain_47a45420.mp4'],
+      ['Woman_washing_ink_in_basin_ab97a032.mp4'],
+      ['Woman_cleaning_mirror_at_vanity_992a60f4.mp4'],
+    ],
+  },
+  {
+    out: 'song-06-archway.mp4',
+    clips: [
+      ['Woman_standing_in_sunlit_archway_268125b1.mp4'],
+      ['Woman_standing_by_church_window_56b3e700.mp4'],
+      ['Woman_looking_over_valley_bc29c651.mp4'],
+    ],
+  },
+  {
+    out: 'song-07-laptop.mp4',
+    clips: [
+      ['Woman_closing_laptop_in_apartment_9e67548d_1080p.mp4'],
+      ['Woman_walking_down_city_street_9ad2f828_1080p.mp4'],
+      ['Woman_smiling_in_golden_meadow_521848ef.mp4'],
+    ],
+  },
+  {
+    out: 'song-08-barn.mp4',
+    clips: [
+      ['Woman_opening_barn_doors_a2375398_1080p.mp4'],
+      ['Woman_smiling_in_white_dress_6bcd69ab_1080p.mp4'],
+      ['Woman_playing_mandolin_on_porch_fcf64e3e_1080p.mp4'],
+    ],
+  },
+  {
+    out: 'song-09-ghost.mp4',
+    clips: [
+      ['Woman_standing_in_phone_booth_48a8af5a_1080p.mp4'],
+      ['Woman_watching_through_rain-spec*5dfa7d2d_1080p.mp4'],
+      ['Woman_playing_cello_smiling_3ef25648_1080p.mp4'],
+    ],
+  },
+];
+
+for (const m of MONTAGE_LOOPS) {
+  const outPath = path.join(LOOP_DIR, m.out);
+  if (fs.existsSync(outPath) && fs.statSync(outPath).size > 50_000) {
+    continue;
+  }
+  const c1 = resolveSource(m.clips[0]);
+  const c2 = resolveSource(m.clips[1]);
+  const c3 = resolveSource(m.clips[2]);
+  console.log(`Building 3-shot montage loop -> ${m.out}`);
+  runFfmpeg([
+    '-ss', '00:00:01', '-t', '3.5', '-i', c1,
+    '-ss', '00:00:01', '-t', '3.5', '-i', c2,
+    '-ss', '00:00:01', '-t', '3.5', '-i', c3,
+    '-filter_complex',
+    '[0:v]scale=1280:720:force_original_aspect_ratio=increase,crop=1280:720,fps=24,setsar=1[v0];' +
+      '[1:v]scale=1280:720:force_original_aspect_ratio=increase,crop=1280:720,fps=24,setsar=1[v1];' +
+      '[2:v]scale=1280:720:force_original_aspect_ratio=increase,crop=1280:720,fps=24,setsar=1[v2];' +
+      '[v0][v1][v2]concat=n=3:v=1:a=0[v]',
+    '-map', '[v]',
+    '-an',
+    '-c:v', 'libx264',
+    '-preset', 'medium',
+    '-crf', '25',
+    '-pix_fmt', 'yuv420p',
+    '-movflags', '+faststart',
+    outPath,
+  ]);
+}
+
 const SINGLE_LOOPS = [
-  { pattern: ['Woman_opening_wooden_garden_gate_15fb1601_1080p.mp4'], out: 'song-01-oak-gate.mp4' },
-  { pattern: ['Woman_smiling_in_firelight_06574390_1080p.mp4'], out: 'song-02-firelight.mp4' },
-  { pattern: ['Woman_writing_with_fountain_pen_fbe7f328_1080p.mp4'], out: 'song-03-fountain-pen.mp4' },
-  { pattern: ['Woman_reveals_antique_brass_keys_d230c62d.mp4'], out: 'song-04-keys.mp4' },
-  { pattern: ['Woman_singing_in_sunlit_rain_47a45420.mp4'], out: 'song-05-rain.mp4' },
-  { pattern: ['Woman_standing_in_sunlit_archway_268125b1.mp4'], out: 'song-06-archway.mp4' },
-  { pattern: ['Woman_closing_laptop_in_apartment_9e67548d_1080p.mp4'], out: 'song-07-laptop.mp4' },
-  { pattern: ['Woman_opening_barn_doors_a2375398_1080p.mp4'], out: 'song-08-barn.mp4' },
-  { pattern: ['Woman_standing_in_phone_booth_48a8af5a_1080p.mp4'], out: 'song-09-ghost.mp4' },
   { pattern: ['Woman_walking_with_lantern_river*1080p.mp4'], out: 'about-lantern-river.mp4' },
 ];
 

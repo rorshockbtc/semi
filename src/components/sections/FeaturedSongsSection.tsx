@@ -188,7 +188,7 @@ export default function FeaturedSongsSection({
                       </button>
                     ) : (
                       <span className="inline-flex items-center min-h-[44px] px-3 font-code text-[13px] text-[var(--a-muted)]">
-                        Video coming soon
+                        {track.loopSrc ? 'Video coming soon' : 'Quiet listening edition'}
                       </span>
                     )}
 
@@ -297,7 +297,7 @@ export default function FeaturedSongsSection({
                         </button>
                       ) : (
                         <span className="inline-flex items-center min-h-[44px] px-2.5 font-code text-[13px] text-[var(--a-muted)]">
-                          Video coming soon
+                          {track.loopSrc ? 'Video coming soon' : 'Quiet listening edition'}
                         </span>
                       )}
 

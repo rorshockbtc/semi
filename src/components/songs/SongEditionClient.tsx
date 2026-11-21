@@ -23,6 +23,9 @@ interface SongEditionClientProps {
 type Theme = { dark: boolean; layer: React.ReactNode; bg: string };
 
 function themeFor(slug: string): Theme {
+  if (slug === 'billion') {
+    return { dark: true, bg: 'bg-[#0c1513]', layer: <LanternGlow /> };
+  }
   if (slug === 'ghost') {
     return { dark: true, bg: 'bg-[#0e131a]', layer: <GlassThresholdGlow /> };
   }
@@ -142,17 +145,26 @@ export default function SongEditionClient({ track, prevTrack, nextTrack }: SongE
                     data-testid="edition-listening-edition"
                     className="relative aspect-video w-full overflow-hidden bg-[#14110f]"
                   >
-                    <video
-                      autoPlay
-                      loop
-                      muted
-                      playsInline
-                      poster={track.poster}
-                      aria-label={`${track.title} living visual ambient loop`}
-                      className="absolute inset-0 h-full w-full object-cover"
-                    >
-                      <source src={track.loopSrc} type="video/mp4" />
-                    </video>
+                    {track.loopSrc ? (
+                      <video
+                        autoPlay
+                        loop
+                        muted
+                        playsInline
+                        poster={track.poster}
+                        aria-label={`${track.title} living visual ambient loop`}
+                        className="absolute inset-0 h-full w-full object-cover"
+                      >
+                        <source src={track.loopSrc} type="video/mp4" />
+                      </video>
+                    ) : (
+                      /* eslint-disable-next-line @next/next/no-img-element */
+                      <img
+                        src={track.poster}
+                        alt={track.posterAlt}
+                        className="absolute inset-0 h-full w-full object-cover"
+                      />
+                    )}
                     <div
                       aria-hidden="true"
                       className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/35 to-black/30"
@@ -164,7 +176,7 @@ export default function SongEditionClient({ track, prevTrack, nextTrack }: SongE
                           STUDIO LISTENING EDITION
                         </span>
                         <span className="rounded-full bg-white/10 px-3 py-1 font-code text-[13px] text-white/80 backdrop-blur-sm">
-                          Music video in production
+                          {track.loopSrc ? 'Music video in production' : 'Quiet audio-only edition'}
                         </span>
                       </div>
                       <div>

@@ -218,6 +218,16 @@ test.describe('Semi (; - ]) Multi-Page Interactive JTBD Suite', () => {
     await ghostNote.locator('summary').click();
     await expect(ghostNote).toHaveAttribute('open', '');
 
+    // Verify Track 10: Billion (quiet audio-only edition without video)
+    await page.goto('/songs/billion', { waitUntil: 'networkidle' });
+    const billion = page.getByTestId('song-edition-billion');
+    await expect(billion).toContainText(/8-part vocoder choir/i);
+    await expect(page.getByTestId('edition-listening-edition')).toContainText(/Quiet audio-only edition/i);
+    await expect(page.getByTestId('edition-listening-edition').locator('video')).toHaveCount(0);
+    await expect(page.locator('#lyrics')).toContainText(/gathered from a billion souls/i);
+    await page.getByTestId('edition-play-mp3').click();
+    await expect(page.getByTestId('persistent-audio-dock')).toContainText('10 · Billion');
+
     await page.goto('/', { waitUntil: 'networkidle' });
     await expect(page.getByTestId('featured-song-03')).toBeVisible();
     await expect(page.getByTestId('featured-song-04')).toHaveCount(0);
@@ -244,7 +254,7 @@ test.describe('Semi (; - ]) Multi-Page Interactive JTBD Suite', () => {
     }
 
     // Verify 10-15 song album milestone badge & interactive mailing list signup
-    await expect(page.getByTestId('album-milestone-badge')).toContainText('9 of 10–15 songs out');
+    await expect(page.getByTestId('album-milestone-badge')).toContainText('10 of 10–15 songs out');
     await page.getByTestId('song-notify-input').fill('listener@semi.test');
     await page.getByTestId('song-notify-submit').click();
     await expect(page.getByTestId('song-notify-success')).toBeVisible();

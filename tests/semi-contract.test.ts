@@ -49,6 +49,7 @@ test('MP3 audio masters exist, exceed 1MB, and contain valid ID3/MPEG headers', 
     '08-semi-out-of-the-barn.mp3',
     '09-semi-ghost.mp3',
     '09b-semi-ghost-alternate-take.mp3',
+    '10-semi-billion.mp3',
   ];
   for (const file of expected) {
     const full = path.join(ROOT, 'public', 'audio', file);
@@ -116,6 +117,7 @@ test('All living loops, distinct photo stills, OG image, and icon exist', () => 
     'public/photos/song-09-chisel.jpg',
     'public/photos/song-09-cello.jpg',
     'public/photos/song-09-window.jpg',
+    'public/photos/song-10-poster.jpg',
     'public/photos/semi-studio-wide.jpg',
     'public/photos/semi-closeup-eyes.jpg',
     'public/photos/semi-smiling-portrait.jpg',
@@ -148,7 +150,7 @@ test('All living loops, distinct photo stills, OG image, and icon exist', () => 
 test('Zero duplicate image paths across the entire site, rich song essays, Bitcoin commons spotlight, and interactive lyricNotes exist', async () => {
   const { FILM_SCENES_GALLERY, SEMI_TRACKS } = await import('../src/data/semi-songs.ts');
 
-  assert.equal(SEMI_TRACKS.length, 9);
+  assert.equal(SEMI_TRACKS.length, 10);
   assert.equal(FILM_SCENES_GALLERY.length, 12);
 
   const usedImages: string[] = [
@@ -202,6 +204,12 @@ test('Zero duplicate image paths across the entire site, rich song essays, Bitco
   assert.equal(ghostTrack.youtubeId, 'T4nVjVcqw_U');
   assert.ok(ghostTrack.alternateTake, 'ghost must include Ghost (Alt Take)');
   assert.equal(ghostTrack.alternateTake.title, 'Ghost (Alt Take)');
+
+  const billionTrack = SEMI_TRACKS.find((t) => t.slug === 'billion');
+  assert.ok(billionTrack, 'Missing billion track');
+  assert.equal(billionTrack.youtubeId, '');
+  assert.equal(billionTrack.loopSrc, '');
+  assert.equal(billionTrack.mp3Src, '/audio/10-semi-billion.mp3');
 
   const editionClientSrc = fs.readFileSync(
     path.join(ROOT, 'src', 'components', 'songs', 'SongEditionClient.tsx'),
@@ -290,11 +298,14 @@ test('Chord sheets exist for all 5 tracks, welcome postcard email is human & war
     assert.ok(sheet, `Missing chord sheet for ${track.slug}`);
     assert.ok(sheet.key.length > 0);
     assert.ok(sheet.capo.length > 0);
+    const sampleSection =
+      track.lyrics.find((s) => !(s.lines[0].trim().startsWith('(') && s.lines[0].trim().endsWith(')'))) ??
+      track.lyrics[0];
     const sampleChord = getChordForStanzaLine(
       track.slug,
-      track.lyrics[0].section,
+      sampleSection.section,
       0,
-      track.lyrics[0].lines[0]
+      sampleSection.lines[0]
     );
     assert.ok(sampleChord && sampleChord.length > 0, `Expected chord line for ${track.slug}`);
   }
