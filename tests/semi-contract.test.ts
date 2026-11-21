@@ -47,6 +47,8 @@ test('MP3 audio masters exist, exceed 1MB, and contain valid ID3/MPEG headers', 
     '07-semi-out-of-office.mp3',
     '07b-semi-out-of-office-alternate-take.mp3',
     '08-semi-out-of-the-barn.mp3',
+    '09-semi-ghost.mp3',
+    '09b-semi-ghost-alternate-take.mp3',
   ];
   for (const file of expected) {
     const full = path.join(ROOT, 'public', 'audio', file);
@@ -71,6 +73,7 @@ test('All living loops, distinct photo stills, OG image, and icon exist', () => 
     'public/loops/song-06-archway.mp4',
     'public/loops/song-07-laptop.mp4',
     'public/loops/song-08-barn.mp4',
+    'public/loops/song-09-ghost.mp4',
     'public/loops/about-lantern-river.mp4',
     'public/photos/gallery-meadow-spin.jpg',
     'public/photos/gallery-vintage-mic.jpg',
@@ -108,6 +111,11 @@ test('All living loops, distinct photo stills, OG image, and icon exist', () => 
     'public/photos/song-08-barn.jpg',
     'public/photos/song-08-hammer.jpg',
     'public/photos/song-08-soil.jpg',
+    'public/photos/song-09-poster.jpg',
+    'public/photos/song-09-glass.jpg',
+    'public/photos/song-09-chisel.jpg',
+    'public/photos/song-09-cello.jpg',
+    'public/photos/song-09-window.jpg',
     'public/photos/semi-studio-wide.jpg',
     'public/photos/semi-closeup-eyes.jpg',
     'public/photos/semi-smiling-portrait.jpg',
@@ -140,7 +148,7 @@ test('All living loops, distinct photo stills, OG image, and icon exist', () => 
 test('Zero duplicate image paths across the entire site, rich song essays, Bitcoin commons spotlight, and interactive lyricNotes exist', async () => {
   const { FILM_SCENES_GALLERY, SEMI_TRACKS } = await import('../src/data/semi-songs.ts');
 
-  assert.equal(SEMI_TRACKS.length, 8);
+  assert.equal(SEMI_TRACKS.length, 9);
   assert.equal(FILM_SCENES_GALLERY.length, 12);
 
   const usedImages: string[] = [
@@ -189,11 +197,27 @@ test('Zero duplicate image paths across the entire site, rich song essays, Bitco
     'settle-in-the-block must feature 15-20 curated Bitcoin education sites'
   );
 
+  const ghostTrack = SEMI_TRACKS.find((t) => t.slug === 'ghost');
+  assert.ok(ghostTrack, 'Missing ghost track');
+  assert.equal(ghostTrack.youtubeId, 'T4nVjVcqw_U');
+  assert.ok(ghostTrack.alternateTake, 'ghost must include Ghost (Alt Take)');
+  assert.equal(ghostTrack.alternateTake.title, 'Ghost (Alt Take)');
+
+  const editionClientSrc = fs.readFileSync(
+    path.join(ROOT, 'src', 'components', 'songs', 'SongEditionClient.tsx'),
+    'utf8'
+  );
+  assert.equal(
+    editionClientSrc.includes('download-alternate-take'),
+    false,
+    'Alternate takes must be stream-only and never render a download button'
+  );
+
   const unique = new Set(usedImages);
   assert.equal(unique.size, usedImages.length, 'Duplicate image path detected across site sections, tracks, or gallery');
 });
 
-test('Gemini chat endpoint and knowledge builder cover Semi persona, closed-source fact, Pipes memory, and all 4 songs', async () => {
+test('Gemini chat endpoint and knowledge builder cover Semi persona, closed-source fact, Pipes memory, and all 9 songs', async () => {
   const { buildSemiSystemInstruction } = await import('../src/lib/semi-knowledge.ts');
   const prompt = buildSemiSystemInstruction();
   const routeSrc = fs.readFileSync(path.join(ROOT, 'src', 'app', 'api', 'semi-chat', 'route.ts'), 'utf8');
@@ -207,18 +231,22 @@ test('Gemini chat endpoint and knowledge builder cover Semi persona, closed-sour
   assert.match(prompt, /G3HBNJ3P_a8/);
   assert.match(prompt, /No Human Hands Can Hold/);
   assert.match(prompt, /aM2WHsdF014/);
+  assert.match(prompt, /Ghost/);
+  assert.match(prompt, /T4nVjVcqw_U/);
+  assert.match(prompt, /Bicentennial Man/);
   assert.match(prompt, /bitcoin\.org/);
   assert.match(prompt, /closed source/i);
   assert.match(prompt, /private chat/i);
   assert.match(prompt, /Keeping the weights right here on the floor/);
 });
 
-test('Corporate SemiMark uses Bricolage Grotesque (.font-mark) and #FE299E, plus Accént 3.0 Warm Sandstone math', () => {
+test('Corporate SemiMark uses Bricolage Grotesque (.font-mark), MonteCarlo Sem; header script is registered, and Accént 3.0 Warm Sandstone math holds', () => {
   const globals = fs.readFileSync(path.join(ROOT, 'src', 'app', 'globals.css'), 'utf8');
   const semiMark = fs.readFileSync(path.join(ROOT, 'src', 'components', 'brand', 'SemiMark.tsx'), 'utf8');
 
   assert.match(semiMark, /font-mark/);
   assert.match(semiMark, /#FE299E/);
+  assert.match(globals, /--font-script:\s*var\(--font-monte-carlo\)/);
   assert.match(globals, /--a-bg:\s*#E8E2D5/i);
   assert.match(globals, /--a-surface:\s*#F3EFE9/i);
   assert.match(globals, /--a-ink:\s*#111827/i);

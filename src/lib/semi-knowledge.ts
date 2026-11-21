@@ -42,7 +42,7 @@ export function buildSemiSystemInstruction(): string {
       : '';
 
     const altTakeText = track.alternateTake
-      ? `Bonus Audio on /songs/${track.slug}: "${track.alternateTake.title}" (${track.alternateTake.duration}, audio-only MP3, no video) — ${track.alternateTake.note}`
+      ? `Bonus Stream-Only Audio on /songs/${track.slug}: "${track.alternateTake.title}" (${track.alternateTake.duration}, stream-only preview for the Deluxe Supporter LP, not downloadable individually) — ${track.alternateTake.note}`
       : '';
 
     return [
@@ -55,7 +55,7 @@ export function buildSemiSystemInstruction(): string {
       `Interactive lyric line notes:\n${lyricNotesText}`,
       ...(spotlightText ? [spotlightText] : []),
       `Full Lyrics:\n${lyricsText}`,
-      `Streaming & downloads: Free 320 kbps MP3 download on semi.colonhyphenbracket.pink/songs/${track.slug}; YouTube video: ${track.youtubeUrl}`,
+      `Streaming & downloads: Free 320 kbps MP3 download of the main track on semi.colonhyphenbracket.pink/songs/${track.slug} (alternate takes are stream-only bonus previews); YouTube video: ${track.youtubeUrl}`,
     ].join('\n\n');
   }).join('\n\n---\n\n');
 

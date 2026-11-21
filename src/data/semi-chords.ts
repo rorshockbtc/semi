@@ -334,6 +334,50 @@ export const SEMI_CHORD_SHEETS: Record<string, TrackChordSheet> = {
       ],
     },
   },
+  ghost: {
+    key: 'E Minor → G Major (Modal Suspension Lift)',
+    capo: 'No capo (open modal voicings)',
+    tuning: 'Standard (E A D G B E)',
+    strumming: '82 BPM · Sparse fingerpicking + sustained solo cello counterpoint',
+    sections: {
+      verse: [
+        'Em9                       Cmaj7#11',
+        'Am9                       B7sus4   B7',
+        'Em9                       Cmaj7#11',
+        'Am7                       Dadd4/F#',
+        'Em9                       Cmaj7',
+        'Am9                       Bm7',
+        'Cmaj7                     Am9',
+        'B7sus4                    Em',
+      ],
+      'pre-chorus': [
+        'Cmaj7                     D6',
+        'Bm7                       Em9',
+      ],
+      chorus: [
+        'G                         D/F#',
+        'Em7                       Cmaj9',
+        'G                         D/F#',
+        'Am7                       D',
+        'Em7                       Bm7     Cmaj7',
+        'Am7           D           G',
+      ],
+      bridge: [
+        'Am9                       Em7',
+        'Cmaj7                     G',
+        'Am9                       Bm7',
+        'Cmaj7                     Dsus4   D',
+      ],
+      outro: [
+        'G                         Cmaj7',
+        'G/B                       Cadd9',
+        'Em7                       D6',
+        'Cmaj7                     G/B',
+        'Am7                       Dsus4   D',
+        'Cadd9         D           G',
+      ],
+    },
+  },
 };
 
 export function getChordForStanzaLine(

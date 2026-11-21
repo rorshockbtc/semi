@@ -2,8 +2,8 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { ArrowLeft, ArrowRight, ArrowUpRight, Download, Info, Music, Pause, Play } from 'lucide-react';
-import { BlockPulse, FilmGrain, LanternGlow, LeafDapple, Typewriter } from '@/art/themes';
+import { ArrowLeft, ArrowRight, ArrowUpRight, Disc3, Download, Info, Music, Pause, Play } from 'lucide-react';
+import { BlockPulse, FilmGrain, GlassThresholdGlow, LanternGlow, LeafDapple, Typewriter } from '@/art/themes';
 import YouTubePlayer from '@/components/YouTubePlayer';
 import { SemiMark } from '@/components/brand/SemiMark';
 import { useAudioPlayer } from '@/context/AudioPlayerContext';
@@ -23,6 +23,9 @@ interface SongEditionClientProps {
 type Theme = { dark: boolean; layer: React.ReactNode; bg: string };
 
 function themeFor(slug: string): Theme {
+  if (slug === 'ghost') {
+    return { dark: true, bg: 'bg-[#0e131a]', layer: <GlassThresholdGlow /> };
+  }
   if (slug === 'settle-in-the-block') {
     return { dark: true, bg: 'bg-[#12100d]', layer: <BlockPulse /> };
   }
@@ -196,7 +199,7 @@ export default function SongEditionClient({ track, prevTrack, nextTrack }: SongE
             <div className="grid gap-5 sm:gap-6 lg:grid-cols-12 lg:items-center">
               <div className="lg:col-span-7 min-w-0 space-y-2.5">
                 <p className="font-code text-[13px] font-semibold uppercase tracking-[0.18em] text-[var(--a-accent-text)]">
-                  Bonus Audio · Track {track.alternateTake.numberLabel} · {track.alternateTake.duration} · Audio only
+                  Bonus Track · Track {track.alternateTake.numberLabel} · {track.alternateTake.duration} · Stream only
                 </p>
                 <h2
                   id="alternate-take-heading"
@@ -223,18 +226,16 @@ export default function SongEditionClient({ track, prevTrack, nextTrack }: SongE
                       <Play className="h-4 w-4 translate-x-[1px]" aria-hidden="true" fill="currentColor" />
                     )}
                   </span>
-                  <span>{playingAlt ? 'Pause alternate take' : 'Listen to alternate take'}</span>
+                  <span>{playingAlt ? 'Pause bonus take' : 'Listen to bonus take'}</span>
                 </button>
 
-                <a
-                  href={track.alternateTake.mp3Src}
-                  download={track.alternateTake.downloadName}
-                  data-testid="download-alternate-take"
-                  className="inline-flex min-h-[48px] sm:min-h-[52px] items-center gap-2 rounded-full border border-[var(--a-ink)]/25 bg-[var(--a-well)] px-5 text-[14px] font-semibold text-[var(--a-ink)] no-underline transition-colors hover:border-[var(--a-ink)]"
+                <span
+                  data-testid="alternate-take-stream-only"
+                  className="inline-flex min-h-[44px] sm:min-h-[52px] items-center gap-2 rounded-full border border-[var(--a-rule)] bg-[var(--a-well)] px-4 sm:px-5 font-code text-[13px] font-medium text-[var(--a-muted)]"
                 >
-                  <Download className="h-4 w-4 shrink-0" aria-hidden="true" />
-                  <span>Alternate MP3</span>
-                </a>
+                  <Disc3 className="h-4 w-4 shrink-0 text-[var(--a-accent-text)]" aria-hidden="true" />
+                  <span>Listen only · Deluxe LP bonus</span>
+                </span>
               </div>
             </div>
 

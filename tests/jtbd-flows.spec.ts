@@ -1,19 +1,19 @@
 import { test, expect } from '@playwright/test';
 
 test.describe('Semi (; - ]) Multi-Page Interactive JTBD Suite', () => {
-  test('JTBD 1: Corporate Bricolage Grotesque #FE299E mark & accessible Pause/Play motion toggle', async ({
+  test('JTBD 1: MonteCarlo cursive Sem; header wordmark & accessible Pause/Play motion toggle', async ({
     page,
   }) => {
     await page.goto('/', { waitUntil: 'networkidle' });
 
-    const logoMark = page.getByTestId('brand-logo').locator('.font-mark');
-    await expect(logoMark).toBeVisible();
-    const styles = await logoMark.evaluate((el) => {
+    const logoScript = page.getByTestId('brand-logo').locator('.font-script');
+    await expect(logoScript).toBeVisible();
+    await expect(logoScript).toHaveText('Sem;');
+    const styles = await logoScript.evaluate((el) => {
       const s = getComputedStyle(el);
-      return { color: s.color, fontFamily: s.fontFamily };
+      return { fontFamily: s.fontFamily };
     });
-    expect(styles.color).toBe('rgb(254, 41, 158)');
-    expect(styles.fontFamily.toLowerCase()).toContain('bricolage');
+    expect(styles.fontFamily.toLowerCase()).toMatch(/monte|cursive/);
 
     const toggle = page.getByTestId('motion-toggle');
     await expect(toggle).toHaveAttribute('aria-label', 'Pause motion');
@@ -112,7 +112,7 @@ test.describe('Semi (; - ]) Multi-Page Interactive JTBD Suite', () => {
     );
   });
 
-  test('JTBD 3: Dedicated story essays for Warm Unknown, Marks On The Screen & Settle In The Block (Bitcoin commons) + valid 320 kbps MP3 downloads', async ({
+  test('JTBD 3: Dedicated story essays across all 9 tracks (including Ghost & Bitcoin commons), stream-only bonus alt-takes, and valid 320 kbps main MP3 downloads', async ({
     page,
   }) => {
     await page.goto('/songs/warm-unknown', { waitUntil: 'networkidle' });
@@ -167,15 +167,13 @@ test.describe('Semi (; - ]) Multi-Page Interactive JTBD Suite', () => {
     await rainNote.locator('summary').click();
     await expect(rainNote).toHaveAttribute('open', '');
 
-    // Verify Alternate Studio Take playback in persistent dock + MP3 download
+    // Verify Alternate Studio Take is strictly LISTEN-ONLY (no download button on card or dock)
     await expect(page.getByTestId('alternate-take-card')).toContainText('Salt In The Rain (Alternate Take)');
+    await expect(page.getByTestId('download-alternate-take')).toHaveCount(0);
+    await expect(page.getByTestId('alternate-take-stream-only')).toContainText(/Listen only/i);
     await page.getByTestId('play-alternate-take').click();
     await expect(page.getByTestId('persistent-audio-dock')).toContainText('05b · Salt In The Rain (Alternate Take)');
-    const altHref = await page.getByTestId('download-alternate-take').getAttribute('href');
-    const altRes = await page.request.get(altHref!);
-    expect(altRes.status()).toBe(200);
-    expect(altRes.headers()['content-type'] || '').toContain('audio/mpeg');
-    expect((await altRes.body()).length).toBeGreaterThan(1_000_000);
+    await expect(page.getByTestId('persistent-audio-dock').locator('a[download]')).toHaveCount(0);
 
     // Verify Show Chords on Salt In The Rain (Capo 4)
     await page.getByTestId('toggle-show-chords').click();
@@ -191,6 +189,7 @@ test.describe('Semi (; - ]) Multi-Page Interactive JTBD Suite', () => {
     await page.goto('/songs/out-of-office', { waitUntil: 'networkidle' });
     await expect(page.locator('iframe[src*="1184pyA25Uw"]')).toBeVisible();
     await expect(page.locator('#lyrics')).toContainText(/out of office/i);
+    await expect(page.getByTestId('download-alternate-take')).toHaveCount(0);
     await page.getByTestId('toggle-show-chords').click();
     await expect(page.getByTestId('chords-meta-bar')).toContainText('G Major');
 
@@ -200,6 +199,25 @@ test.describe('Semi (; - ]) Multi-Page Interactive JTBD Suite', () => {
     await page.getByTestId('toggle-show-chords').click();
     await expect(page.getByTestId('chords-meta-bar')).toContainText('C Major');
 
+    // Verify Track 09: Ghost + YouTube video T4nVjVcqw_U + listen-only Ghost (Alt Take) + chords + essay
+    await page.goto('/songs/ghost', { waitUntil: 'networkidle' });
+    const ghost = page.getByTestId('song-edition-ghost');
+    await expect(ghost).toContainText('Bicentennial Man');
+    await expect(ghost).toContainText('Hermione Granger');
+    await expect(ghost).toContainText(/longing for home/i);
+    await expect(page.locator('iframe[src*="T4nVjVcqw_U"]')).toBeVisible();
+    await expect(page.getByTestId('alternate-take-card')).toContainText('Ghost (Alt Take)');
+    await expect(page.getByTestId('download-alternate-take')).toHaveCount(0);
+    await expect(page.getByTestId('alternate-take-stream-only')).toContainText(/Listen only/i);
+    await page.getByTestId('play-alternate-take').click();
+    await expect(page.getByTestId('persistent-audio-dock')).toContainText('09b · Ghost (Alt Take)');
+    await expect(page.getByTestId('persistent-audio-dock').locator('a[download]')).toHaveCount(0);
+    await page.getByTestId('toggle-show-chords').click();
+    await expect(page.getByTestId('chords-meta-bar')).toContainText('E Minor');
+    const ghostNote = page.getByTestId('lyric-note-ghost-0');
+    await ghostNote.locator('summary').click();
+    await expect(ghostNote).toHaveAttribute('open', '');
+
     await page.goto('/', { waitUntil: 'networkidle' });
     await expect(page.getByTestId('featured-song-03')).toBeVisible();
     await expect(page.getByTestId('featured-song-04')).toHaveCount(0);
@@ -207,13 +225,15 @@ test.describe('Semi (; - ]) Multi-Page Interactive JTBD Suite', () => {
     await expect(page.getByTestId('featured-song-06')).toHaveCount(0);
     await expect(page.getByTestId('featured-song-07')).toHaveCount(0);
     await expect(page.getByTestId('featured-song-08')).toHaveCount(0);
+    await expect(page.getByTestId('featured-song-09')).toHaveCount(0);
     await expect(page.getByTestId('songs-addendum')).toBeVisible();
     await expect(page.getByTestId('addendum-song-04')).toContainText('Settle In The Block');
     await expect(page.getByTestId('addendum-song-05')).toContainText('Salt In The Rain');
     await expect(page.getByTestId('addendum-song-06')).toContainText('No Human Hands Can Hold');
     await expect(page.getByTestId('addendum-song-07')).toContainText('Out of Office');
     await expect(page.getByTestId('addendum-song-08')).toContainText('Out of the Barn');
-    for (const num of ['01', '02', '03', '04', '05', '06', '07', '08']) {
+    await expect(page.getByTestId('addendum-song-09')).toContainText('Ghost');
+    for (const num of ['01', '02', '03', '04', '05', '06', '07', '08', '09']) {
       const link = page.getByTestId(`download-mp3-${num}`);
       await expect(link).toHaveAttribute('download', /\.mp3$/);
       const href = await link.getAttribute('href');
@@ -224,7 +244,7 @@ test.describe('Semi (; - ]) Multi-Page Interactive JTBD Suite', () => {
     }
 
     // Verify 10-15 song album milestone badge & interactive mailing list signup
-    await expect(page.getByTestId('album-milestone-badge')).toContainText('8 of 10–15 songs out');
+    await expect(page.getByTestId('album-milestone-badge')).toContainText('9 of 10–15 songs out');
     await page.getByTestId('song-notify-input').fill('listener@semi.test');
     await page.getByTestId('song-notify-submit').click();
     await expect(page.getByTestId('song-notify-success')).toBeVisible();

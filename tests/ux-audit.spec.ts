@@ -125,6 +125,10 @@ test.describe('UX & Visual Ergonomics Audit (Multi-Page Desktop 1440×900 & Mobi
     await page.screenshot({ path: path.join(SCREENSHOT_DIR, 'desktop-salt-show-chords-v7.png') });
 
     await auditRouteErgonomics(page, '/songs/no-human-hands-can-hold');
+    await auditRouteErgonomics(page, '/songs/out-of-office');
+    await auditRouteErgonomics(page, '/songs/out-of-the-barn');
+    await auditRouteErgonomics(page, '/songs/ghost');
+    await page.screenshot({ path: path.join(SCREENSHOT_DIR, 'desktop-song-ghost-v8.png') });
 
     await auditRouteErgonomics(page, '/about');
     await page.screenshot({ path: path.join(SCREENSHOT_DIR, 'desktop-about-top-v4.png') });
@@ -246,6 +250,8 @@ test.describe('UX & Visual Ergonomics Audit (Multi-Page Desktop 1440×900 & Mobi
     await auditRouteErgonomics(page, '/songs/no-human-hands-can-hold');
     await auditRouteErgonomics(page, '/songs/out-of-office');
     await auditRouteErgonomics(page, '/songs/out-of-the-barn');
+    await auditRouteErgonomics(page, '/songs/ghost');
+    await page.screenshot({ path: path.join(SCREENSHOT_DIR, 'mobile-song-ghost-v8.png') });
 
     await auditRouteErgonomics(page, '/about');
     await page.getByTestId('ask-semi-section').scrollIntoViewIfNeeded();
@@ -258,7 +264,7 @@ test.describe('UX & Visual Ergonomics Audit (Multi-Page Desktop 1440×900 & Mobi
 
     // 3. WCAG 1.4.10 320px narrow mobile check: verify every visible button/CTA stays inside [0, 320]
     await page.setViewportSize({ width: 320, height: 568 });
-    for (const r of ['/', '/songs', '/songs/out-of-office', '/about']) {
+    for (const r of ['/', '/songs', '/songs/out-of-office', '/songs/ghost', '/about']) {
       await auditRouteErgonomics(page, r);
       const offscreenControls = await page.evaluate(() => {
         const iw = window.innerWidth;

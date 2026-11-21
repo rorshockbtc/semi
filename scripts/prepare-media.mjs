@@ -111,8 +111,22 @@ const TRACKS = [
     inputs: ['Out Of The Barn.m4a'],
     out: '08-semi-out-of-the-barn.mp3',
     title: 'Out of the Barn',
-    track: '8/10',
+    track: '8/12',
     comment: 'From Local Current (The West Nashville Sessions) · https://semi.colonhyphenbracket.pink',
+  },
+  {
+    inputs: ['Ghost.m4a'],
+    out: '09-semi-ghost.mp3',
+    title: 'Ghost',
+    track: '9/12',
+    comment: 'From Local Current (The West Nashville Sessions) · https://semi.colonhyphenbracket.pink',
+  },
+  {
+    inputs: ['Ghost (alt take).m4a'],
+    out: '09b-semi-ghost-alternate-take.mp3',
+    title: 'Ghost (Alt Take)',
+    track: '9/12',
+    comment: 'Deluxe LP Bonus Stream · Local Current (The West Nashville Sessions) · https://semi.colonhyphenbracket.pink',
   },
 ];
 
@@ -193,6 +207,7 @@ const SINGLE_LOOPS = [
   { pattern: ['Woman_standing_in_sunlit_archway_268125b1.mp4'], out: 'song-06-archway.mp4' },
   { pattern: ['Woman_closing_laptop_in_apartment_9e67548d_1080p.mp4'], out: 'song-07-laptop.mp4' },
   { pattern: ['Woman_opening_barn_doors_a2375398_1080p.mp4'], out: 'song-08-barn.mp4' },
+  { pattern: ['Woman_standing_in_phone_booth_48a8af5a_1080p.mp4'], out: 'song-09-ghost.mp4' },
   { pattern: ['Woman_walking_with_lantern_river*1080p.mp4'], out: 'about-lantern-river.mp4' },
 ];
 
@@ -262,6 +277,12 @@ const VIDEO_STILLS = [
   { pattern: ['Sunrise_over_farmland_and_barn_7ad6822c_1080p.mp4'], ts: '00:00:03', out: 'song-08-barn.jpg' },
   { pattern: ['Craftsman_picking_up_hammer_98af179e_1080p.mp4'], ts: '00:00:03', out: 'song-08-hammer.jpg' },
   { pattern: ['Farmer_scooping_rich_soil_413122ca_1080p.mp4'], ts: '00:00:03', out: 'song-08-soil.jpg' },
+  // Song 09 (Ghost)
+  { pattern: ['Woman_standing_in_phone_booth_48a8af5a_1080p.mp4'], ts: '00:00:03', out: 'song-09-poster.jpg' },
+  { pattern: ['Woman_watching_through_rain-spec*5dfa7d2d_1080p.mp4'], ts: '00:00:03', out: 'song-09-glass.jpg' },
+  { pattern: ['Hands_carving_maple_wood_shavings_6f1711a7_1080p.mp4'], ts: '00:00:04', out: 'song-09-chisel.jpg' },
+  { pattern: ['Woman_playing_cello_smiling_3ef25648_1080p.mp4'], ts: '00:00:09', out: 'song-09-cello.jpg' },
+  { pattern: ['Woman_smiling_looking_at_camera_3f6d3f08_1080p.mp4'], ts: '00:00:03.5', out: 'song-09-window.jpg' },
 ];
 
 for (const st of VIDEO_STILLS) {

@@ -37,6 +37,7 @@
   --font-sans: var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
   --font-mark: var(--font-bricolage), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-jetbrains), ui-monospace, SFMono-Regular, Menlo, monospace;
+  --font-script: var(--font-monte-carlo), cursive;
 
   /* Strict Accént Layer 1 13px minimum typographic floor */
   --text-xs: 0.8125rem;

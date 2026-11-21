@@ -3,12 +3,20 @@ import {
   Bricolage_Grotesque,
   Cormorant_Garamond,
   JetBrains_Mono,
+  MonteCarlo,
   Playfair_Display,
   Plus_Jakarta_Sans,
 } from 'next/font/google';
 import AccentClientShell from '@/components/AccentClientShell';
 import { SITE_URL } from '@/lib/seo';
 import './globals.css';
+
+const monteCarlo = MonteCarlo({
+  subsets: ['latin'],
+  weight: '400',
+  variable: '--font-monte-carlo',
+  display: 'swap',
+});
 
 const playfair = Playfair_Display({
   subsets: ['latin'],
@@ -135,7 +143,7 @@ export default function RootLayout({
     <html
       lang="en"
       data-scroll-behavior="smooth"
-      className={`${playfair.variable} ${cormorant.variable} ${jakarta.variable} ${bricolage.variable} ${jetbrainsMono.variable} h-full antialiased`}
+      className={`${monteCarlo.variable} ${playfair.variable} ${cormorant.variable} ${jakarta.variable} ${bricolage.variable} ${jetbrainsMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-[var(--a-bg)] text-[var(--a-ink)]">
         <a

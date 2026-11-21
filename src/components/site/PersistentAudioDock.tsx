@@ -15,6 +15,7 @@ function formatTime(seconds: number): string {
 export default function PersistentAudioDock() {
   const {
     currentTrack,
+    isAlternateActive,
     hasStarted,
     isPlaying,
     playAllActive,
@@ -110,7 +111,7 @@ export default function PersistentAudioDock() {
               >
                 <VolumeIcon className="h-4 w-4" aria-hidden="true" />
               </button>
-              {currentTrack.mp3Src && (
+              {!isAlternateActive && currentTrack.mp3Src && currentTrack.downloadName && (
                 <a
                   href={currentTrack.mp3Src}
                   download={currentTrack.downloadName}
@@ -240,7 +241,7 @@ export default function PersistentAudioDock() {
               />
             </div>
 
-            {currentTrack.mp3Src && (
+            {!isAlternateActive && currentTrack.mp3Src && currentTrack.downloadName && (
               <a
                 href={currentTrack.mp3Src}
                 download={currentTrack.downloadName}

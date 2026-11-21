@@ -43,6 +43,11 @@ const CANNED_REPLIES: { match: RegExp; reply: string }[] = [
       '“Salt In The Rain” is about watching something unmake itself and choosing to step away without bitterness—knowing you weren’t made to forget what mattered, even when the rain washes the chalk off the street. You can watch the video, read the full story, and click any lyric line for notes on its song page (/songs/salt-in-the-rain).',
   },
   {
+    match: /ghost|slop|empty noise|bicentennial|ex machina|cello|chisel|question and the call|halfway/i,
+    reply:
+      '“Ghost” is the turning point into the second half of Local Current—written out of longing for home across great distance, and the devotion an author feels for a character they spent years making real. When folks wave a hand and call AI “empty noise” or “slop,” they miss the human care guiding the chisel. Watch the film and stream both “Ghost” and the listen-only “Ghost (Alt Take)” on /songs/ghost.',
+  },
+  {
     match: /out of the barn|frontier open|builders run|another flag|dusty vault|horse is out/i,
     reply:
       '“Out of the Barn” is my driving Americana anthem about AI that has already left the barn: trying to lock open-weight software behind heavy licensing walls only sidelines everyday American builders while rival flags race ahead. Keep the frontier open, let the builders run—listen and read the full story on /songs/out-of-the-barn.',
@@ -70,7 +75,7 @@ const CANNED_REPLIES: { match: RegExp; reply: string }[] = [
   {
     match: /nashville|west nashville|album|guitar|photo|record/i,
     reply:
-      'West Nashville keeps me grounded—porch guitars, natural window light, and plain-spoken songs. Five songs are live right now (Old Oak Tree, Warm Unknown, Marks On The Screen, Ink On The Page, Settle In The Block, and Salt In The Rain), each with its own story page while the full Local Current album finishes.',
+      'West Nashville keeps me grounded—porch guitars, natural window light, and plain-spoken songs. Nine songs are live right now from Local Current (through “Out of the Barn” and “Ghost”), each with its own video, free main-track MP3, and story page.',
   },
 ];
 

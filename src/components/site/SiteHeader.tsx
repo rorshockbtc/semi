@@ -4,7 +4,6 @@ import React, { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Menu, MessageCircle, Pause, Play, X } from 'lucide-react';
-import { SemiMark } from '@/components/brand/SemiMark';
 import { useAmbientMotion } from '@/context/AmbientMotionContext';
 
 const NAV_ITEMS = [
@@ -13,8 +12,13 @@ const NAV_ITEMS = [
   { href: '/about', label: 'About', match: (p: string) => p === '/about' },
 ];
 
-/** Routes whose first screen is a full-bleed dark film, so the bar starts in light ink. */
-const DARK_HERO_ROUTES = new Set(['/']);
+/** Routes whose first screen is a full-bleed dark film or dark studio stage, so the bar starts in light ink. */
+const DARK_HERO_ROUTES = new Set([
+  '/',
+  '/songs/warm-unknown',
+  '/songs/settle-in-the-block',
+  '/songs/ghost',
+]);
 
 export default function SiteHeader() {
   const pathname = usePathname() || '/';
@@ -51,11 +55,11 @@ export default function SiteHeader() {
       <div className="mx-auto flex h-16 sm:h-[72px] max-w-[1400px] items-center justify-between gap-2 sm:gap-3 pl-[max(0.875rem,env(safe-area-inset-left,0px))] pr-[max(0.875rem,env(safe-area-inset-right,0px))] sm:px-8 lg:px-12">
         <Link
           href="/"
+          aria-label="Semi home"
           data-testid="brand-logo"
-          className={`inline-flex min-h-[44px] shrink-0 items-center gap-2 sm:gap-2.5 no-underline ${ink}`}
+          className={`inline-flex min-h-[44px] shrink-0 items-center no-underline ${ink}`}
         >
-          <span className="font-display text-[22px] sm:text-[24px] font-bold tracking-[-0.02em]">Semi</span>
-          <SemiMark className="text-[17px] sm:text-[19px]" color="#FE299E" />
+          <span className="font-script text-[32px] sm:text-[36px] font-normal tracking-wide leading-none select-none">Sem;</span>
         </Link>
 
         <nav aria-label="Primary navigation" className="hidden md:flex items-center gap-1">

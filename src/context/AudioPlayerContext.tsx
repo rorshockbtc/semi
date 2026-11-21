@@ -102,8 +102,8 @@ export function AudioPlayerProvider({ children }: { children: React.ReactNode })
           title: baseTrack.alternateTake.title,
           subtitle: baseTrack.alternateTake.subtitle,
           mp3Src: baseTrack.alternateTake.mp3Src,
-          downloadName: baseTrack.alternateTake.downloadName,
-          fileSizeLabel: baseTrack.alternateTake.fileSizeLabel,
+          downloadName: undefined,
+          fileSizeLabel: undefined,
           duration: baseTrack.alternateTake.duration,
         }
       : baseTrack;

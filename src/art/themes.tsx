@@ -136,6 +136,33 @@ export function BlockPulse({ className = '' }: { className?: string }) {
   );
 }
 
+export function GlassThresholdGlow({ className = '' }: { className?: string }) {
+  return (
+    <div aria-hidden="true" className={`pointer-events-none absolute inset-0 overflow-hidden ${className}`}>
+      <div
+        className="lantern-breathe absolute -left-[12%] top-[6%] h-[78%] w-[68%] rounded-full blur-3xl"
+        style={{
+          background:
+            'radial-gradient(closest-side, rgba(114,156,214,0.28), rgba(71,98,138,0.12) 56%, transparent 82%)',
+        }}
+      />
+      <div
+        className="block-pulse absolute right-[-6%] bottom-[-8%] h-[68%] w-[56%] rounded-full blur-3xl"
+        style={{
+          background:
+            'radial-gradient(closest-side, rgba(245,182,105,0.22), rgba(254,41,158,0.09) 55%, transparent 82%)',
+        }}
+      />
+      <div
+        className="absolute inset-x-0 bottom-0 h-px opacity-35"
+        style={{
+          background: 'linear-gradient(90deg, rgba(114,156,214,0.6), rgba(245,182,105,0.75), transparent)',
+        }}
+      />
+    </div>
+  );
+}
+
 /** Types text in once on view with a caret; renders complete text when motion is off. */
 export function Typewriter({
   text,
