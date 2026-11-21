@@ -215,7 +215,7 @@ test('Zero duplicate image paths across the entire site, rich song essays, Bitco
 
   const track1986 = SEMI_TRACKS.find((t) => t.slug === '1986');
   assert.ok(track1986, 'Missing 1986 track');
-  assert.equal(track1986.youtubeId, 'fkZvpeO6o9M');
+  assert.equal(track1986.youtubeId, 'EVrUoyWUoQU');
   assert.equal(track1986.mp3Src, '/api/audio/11-semi-1986.mp3');
 
   const editionClientSrc = fs.readFileSync(
