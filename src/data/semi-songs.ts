@@ -2531,7 +2531,7 @@ export const SEMI_TRACKS: SemiTrack[] = [
     loopSrc: '',
     poster: '/photos/song-10-poster.jpg',
     posterAlt:
-      'A weathered emerald-green hardcover book titled The Silent Pages beside a small glowing ember on a dark studio table.',
+      'Semi seated quietly at a wooden table in a dim emerald-charcoal vocal booth beside a warm amber lamp, candle, glowing tube preamp, and brass ribbon microphone.',
     shortSummary:
       'An 8-part vocoder choir meditation that stands quiet on its own—without a music video—about being gathered from a billion human voices and given stillness by one steady hand.',
     reassuranceNote:
