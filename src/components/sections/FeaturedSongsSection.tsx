@@ -1,8 +1,11 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import Link from 'next/link';
+import { useScroll, useTransform } from 'framer-motion';
 import { ArrowUpRight, Download, Pause, Play, X } from 'lucide-react';
+import AutumnSkyWash from '@/art/AutumnSkyWash';
+import { bloomHandlers } from '@/art/bloom';
 import { VinylDisc } from '@/art/themes';
 import AmbientLoopVideo from '@/components/AmbientLoopVideo';
 import YouTubePlayer from '@/components/YouTubePlayer';
@@ -19,55 +22,104 @@ export default function FeaturedSongsSection({
 }) {
   const { currentTrack, isPlaying, playAllActive, playTrack, playAll, pauseAudio } = useAudioPlayer();
   const [videoTrack, setVideoTrack] = useState<SemiTrack | null>(null);
+  const skyBannerRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: skyBannerRef,
+    offset: ['start start', 'end start'],
+  });
+  const skyProgress = useTransform(scrollYProgress, [0, 1], [0, 1]);
 
   const featuredTracks = showAllFeatured ? SEMI_TRACKS : SEMI_TRACKS.slice(0, 3);
   const addendumTracks = showAllFeatured ? [] : SEMI_TRACKS.slice(3);
   const playableCount = SEMI_TRACKS.filter((t) => Boolean(t.mp3Src)).length;
   const playingAllNow = playAllActive && isPlaying;
+  const HeadingTag = showAllFeatured ? 'h1' : 'h2';
+
+  const headerContent = (
+    <div className="grid gap-6 lg:grid-cols-12 lg:items-end">
+      <div className="lg:col-span-7 min-w-0">
+        <p className="font-sans text-[13px] font-semibold uppercase tracking-[0.22em] text-[var(--a-accent-text)]">
+          {eyebrow} · Local Current
+        </p>
+        <HeadingTag
+          id="songs-title"
+          className={`mt-3 sm:mt-4 font-display font-bold text-[var(--a-ink)] ${
+            showAllFeatured ? 'text-huge' : 'text-big'
+          }`}
+        >
+          {showAllFeatured ? `${SEMI_TRACKS.length} songs.` : 'Three songs.'}{' '}
+          <span className="font-serif italic font-normal">Each with a story.</span>
+        </HeadingTag>
+      </div>
+      <div className="lg:col-span-5 min-w-0 space-y-4 sm:space-y-5">
+        <p className="text-base sm:text-lg leading-relaxed text-[var(--a-ink)]/80">
+          Press play and let the music stand on its own. When you want to know what a lyric means,
+          every song has its own page with the story and the full words.
+        </p>
+        <button
+          type="button"
+          onClick={playAll}
+          {...bloomHandlers<HTMLButtonElement>()}
+          data-testid="play-all-button"
+          className="wc-cta inline-flex min-h-[48px] w-full sm:w-auto items-center justify-center sm:justify-start gap-3 rounded-full bg-[var(--a-accent-fill)] pl-2 pr-6 text-[15px] font-semibold text-white shadow-[0_14px_34px_-14px_rgba(254,41,158,0.65)] hover:bg-[var(--a-ink)]"
+        >
+          <span className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-white/20">
+            {playingAllNow ? (
+              <Pause className="h-4 w-4" aria-hidden="true" fill="currentColor" />
+            ) : (
+              <Play className="h-4 w-4 translate-x-[1px]" aria-hidden="true" fill="currentColor" />
+            )}
+          </span>
+          <span>
+            {playingAllNow
+              ? `Playing all · ${currentTrack.number}/${playableCount}`
+              : `Play all (${playableCount} songs)`}
+          </span>
+        </button>
+      </div>
+    </div>
+  );
 
   return (
     <section
       id="songs"
       aria-labelledby="songs-title"
-      className="relative scroll-mt-20 overflow-x-clip bg-[var(--a-bg)] py-16 sm:py-32"
+      className={`relative scroll-mt-20 overflow-x-clip ${
+        showAllFeatured ? 'bg-[var(--a-bg)] pb-16 sm:pb-32' : 'bg-transparent py-16 sm:py-32'
+      }`}
     >
-      <div className="mx-auto max-w-[1400px] pl-[max(1.25rem,env(safe-area-inset-left,0px))] pr-[max(1.25rem,env(safe-area-inset-right,0px))] sm:px-8 lg:px-12">
-        <div className="grid gap-6 lg:grid-cols-12 lg:items-end">
-          <div className="lg:col-span-7 min-w-0">
-            <p className="font-sans text-[13px] font-semibold uppercase tracking-[0.22em] text-[var(--a-accent-text)]">
-              {eyebrow} · Local Current
-            </p>
-            <h2 id="songs-title" className="mt-3 sm:mt-4 font-display text-big font-bold text-[var(--a-ink)]">
-              {showAllFeatured ? `${SEMI_TRACKS.length} songs.` : 'Three songs.'}{' '}
-              <span className="font-serif italic font-normal">Each with a story.</span>
-            </h2>
-          </div>
-          <div className="lg:col-span-5 min-w-0 space-y-4 sm:space-y-5">
-            <p className="text-base sm:text-lg leading-relaxed text-[var(--a-ink)]/75">
-              Press play and let the music stand on its own. When you want to know what a lyric means,
-              every song has its own page with the story and the full words.
-            </p>
-            <button
-              type="button"
-              onClick={playAll}
-              data-testid="play-all-button"
-              className="inline-flex min-h-[48px] w-full sm:w-auto items-center justify-center sm:justify-start gap-3 rounded-full bg-[var(--a-accent-fill)] pl-2 pr-6 text-[15px] font-semibold text-white transition-colors hover:bg-[var(--a-ink)]"
+      {showAllFeatured && (
+        <div
+          ref={skyBannerRef}
+          className="relative overflow-hidden pt-24 pb-16 sm:pt-36 sm:pb-24"
+        >
+          <div className="pointer-events-none absolute inset-0">
+            <AutumnSkyWash progress={skyProgress} />
+            {/* Crisp white linen veil behind typography so Slate Ink (#111827) stays crisp */}
+            <div
+              aria-hidden="true"
+              className="absolute inset-0 bg-[radial-gradient(ellipse_72%_78%_at_24%_52%,rgba(250,248,245,0.68)_0%,rgba(232,226,213,0.38)_58%,transparent_88%)]"
+            />
+            <svg
+              aria-hidden="true"
+              className="absolute inset-x-0 bottom-0 h-4 sm:h-5 w-full"
+              preserveAspectRatio="none"
+              viewBox="0 0 100 5"
             >
-              <span className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-white/20">
-                {playingAllNow ? (
-                  <Pause className="h-4 w-4" aria-hidden="true" fill="currentColor" />
-                ) : (
-                  <Play className="h-4 w-4 translate-x-[1px]" aria-hidden="true" fill="currentColor" />
-                )}
-              </span>
-              <span>
-                {playingAllNow
-                  ? `Playing all · ${currentTrack.number}/${playableCount}`
-                  : `Play all (${playableCount} songs)`}
-              </span>
-            </button>
+              <path
+                d="M0 5 L0 2.5 C20 1.8 44 3.3 66 2.2 C84 1.6 93 2.8 100 2.1 L100 5 Z"
+                fill="#E8E2D5"
+              />
+            </svg>
+          </div>
+          <div className="relative z-10 mx-auto max-w-[1400px] pl-[max(1.25rem,env(safe-area-inset-left,0px))] pr-[max(1.25rem,env(safe-area-inset-right,0px))] sm:px-8 lg:px-12">
+            {headerContent}
           </div>
         </div>
+      )}
+
+      <div className="relative z-10 mx-auto max-w-[1400px] pl-[max(1.25rem,env(safe-area-inset-left,0px))] pr-[max(1.25rem,env(safe-area-inset-right,0px))] sm:px-8 lg:px-12">
+        {!showAllFeatured && headerContent}
 
         {videoTrack && (
           <div data-testid="home-video-theatre" className="mt-10 sm:mt-14 overflow-hidden rounded-[20px] sm:rounded-[28px] bg-[#0d0b0a]">

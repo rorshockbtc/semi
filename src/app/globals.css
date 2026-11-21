@@ -18,11 +18,19 @@
   --a-accent-fg: #FFFFFF;
   --a-accent-text: #A3285C;
 
-  /* Sunlit West Nashville Prism & Sparkle Layer */
+  /* Sunlit West Nashville Prism & Autumn Watercolor Pigments */
   --semi-honey: #F4D7B4;
   --semi-rose: #F7B9C9;
   --semi-iris: #C9B9E8;
   --semi-sky: #A9D3EA;
+
+  --wc-ochre: #DD9933;
+  --wc-sienna: #D46234;
+  --wc-sumac: #C83E5B;
+  --wc-russet: #9E472A;
+  --wc-sage: #6E825E;
+  --wc-linen: #FAF8F5;
+  --wc-paper: #E8E2D5;
 
   --a-radius-cta: 9999px;
   --target-size: 44px;
@@ -142,7 +150,45 @@
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .08 0 0 0 0 .10 0 0 0 0 .16 0 0 0 .055 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
-/* Pigment bloom CTA */
+/* Cold-press watercolor paper mask for painted motifs (visually-texture-content) */
+.wc-textured-motif {
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='p'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.72' numOctaves='3' stitchTiles='stitch'/%3E%3CfeComponentTransfer%3E%3CfeFuncA type='linear' slope='1.18' intercept='-0.14'/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23p)' fill='%23000'/%3E%3C/svg%3E");
+  -webkit-mask-repeat: repeat;
+  -webkit-mask-size: 220px 220px;
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='p'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.72' numOctaves='3' stitchTiles='stitch'/%3E%3CfeComponentTransfer%3E%3CfeFuncA type='linear' slope='1.18' intercept='-0.14'/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23p)' fill='%23000'/%3E%3C/svg%3E");
+  mask-repeat: repeat;
+  mask-size: 220px 220px;
+}
+
+@supports (not (mask-image: url(x))) and (not (-webkit-mask-image: url(x))) {
+  .wc-textured-motif {
+    opacity: 0.9;
+  }
+}
+
+/* Painted layers on warm sandstone composite like glazes */
+.wc-glaze {
+  mix-blend-mode: multiply;
+}
+
+/* Cold-press cotton rag grain overlay */
+.wc-paper-grain::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.32;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.88' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .22 0 0 0 0 .14 0 0 0 0 .09 0 0 0 .08 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* Soft wet-edge reveal mask */
+.wc-wet-edge {
+  -webkit-mask-image: radial-gradient(120% 100% at 50% 50%, #000 62%, transparent 100%);
+  mask-image: radial-gradient(120% 100% at 50% 50%, #000 62%, transparent 100%);
+}
+
+/* Pigment bloom CTA (CHB pink + warm autumn sienna/ochre wash from pointer origin) */
 .wc-cta {
   position: relative;
   isolation: isolate;
@@ -150,7 +196,6 @@
   --bx: 50%;
   --by: 50%;
   transition:
-    transform 220ms var(--ease-editorial),
     background-color 220ms var(--ease-editorial),
     color 220ms var(--ease-editorial),
     box-shadow 220ms var(--ease-editorial);
@@ -168,11 +213,27 @@
   background: radial-gradient(
     closest-side,
     color-mix(in oklab, #111827 92%, transparent) 0%,
-    color-mix(in oklab, #2A2F45 84%, var(--a-accent)) 60%,
+    color-mix(in oklab, var(--wc-sienna) 78%, var(--a-accent)) 60%,
     transparent 74%
   );
   transform: translate(-50%, -50%) scale(0);
-  transition: transform 520ms var(--ease-editorial);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .wc-cta {
+    transition:
+      transform 220ms var(--ease-editorial),
+      background-color 220ms var(--ease-editorial),
+      color 220ms var(--ease-editorial),
+      box-shadow 220ms var(--ease-editorial);
+  }
+  .wc-cta::before {
+    transition: transform 540ms var(--ease-editorial);
+  }
+  .wc-cta:hover,
+  .wc-cta:focus-visible {
+    transform: translateY(-2px);
+  }
 }
 
 .wc-cta:hover::before,
@@ -180,35 +241,36 @@
   transform: translate(-50%, -50%) scale(1);
 }
 
-.wc-cta:hover,
-.wc-cta:focus-visible {
-  transform: translateY(-2px);
-}
-
 .wc-cta-light::before {
   background: radial-gradient(
     closest-side,
     color-mix(in oklab, var(--a-accent) 92%, transparent) 0%,
-    color-mix(in oklab, var(--a-accent) 78%, var(--semi-rose)) 60%,
+    color-mix(in oklab, var(--wc-sienna) 72%, var(--wc-ochre)) 60%,
     transparent 74%
   );
 }
 
-/* Clean editorial swipe underline (corporate standard) */
+/* Watercolor brush-stroke underline (Asterisk Folon brush style with CHB Pink → Autumn Sienna stroke) */
 .wc-link {
   text-decoration: none;
-  background-image: linear-gradient(var(--a-accent), var(--a-accent));
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 8' preserveAspectRatio='none'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='0'%3E%3Cstop offset='0%25' stop-color='%23FE299E'/%3E%3Cstop offset='55%25' stop-color='%23C83E5B'/%3E%3Cstop offset='100%25' stop-color='%23D46234'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpath d='M1 5.2c14-2.6 28 1.4 42-.6 15-2.1 29-2.3 44 .2 11 1.8 22 .9 32-1.4' fill='none' stroke='url(%23g)' stroke-width='2.6' stroke-linecap='round' opacity='.9'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: 0 100%;
-  background-size: 0% 2px;
-  padding-bottom: 0.16em;
-  transition: background-size 340ms var(--ease-editorial), color 180ms ease;
+  background-size: 0% 0.42em;
+  padding-bottom: 0.14em;
+  transition: color 180ms ease;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .wc-link {
+    transition: background-size 480ms var(--ease-editorial), color 180ms ease;
+  }
 }
 
 .wc-link:hover,
 .wc-link:focus-visible,
 .wc-link[data-active="true"] {
-  background-size: 100% 2px;
+  background-size: 100% 0.42em;
 }
 
 .wc-link[data-active="true"] {

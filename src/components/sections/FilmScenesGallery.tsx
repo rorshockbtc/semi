@@ -1,18 +1,20 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import Link from 'next/link';
 import { m } from 'framer-motion';
+import AutumnWetBrushCanvas from '@/art/AutumnWetBrushCanvas';
 import PhotoLightboxDialog from '@/components/modals/PhotoLightboxDialog';
 import { useAmbientMotion } from '@/context/AmbientMotionContext';
 import { FILM_SCENES_GALLERY, type FilmScenePhoto } from '@/data/semi-songs';
 
 /**
  * Gallery. `preview` renders a 4-up strip for the home page; the full page renders an
- * editorial masonry (CSS columns) with a native <dialog> lightbox. No clip-path or
- * horizontal transforms, so nothing can push the layout sideways.
+ * editorial masonry (CSS columns) over an interactive plein-air wet-brush autumn canvas
+ * with a native <dialog> lightbox.
  */
 export default function FilmScenesGallery({ preview = false }: { preview?: boolean }) {
+  const sectionRef = useRef<HTMLElement>(null);
   const [selected, setSelected] = useState<FilmScenePhoto | null>(null);
   const { motionActive } = useAmbientMotion();
 
@@ -23,11 +25,17 @@ export default function FilmScenesGallery({ preview = false }: { preview?: boole
 
   return (
     <section
+      ref={sectionRef}
       id="scenes"
       aria-labelledby="scenes-title"
-      className={`relative scroll-mt-20 bg-[var(--a-bg)] ${preview ? 'py-24 sm:py-32' : 'pt-32 pb-24 sm:pt-40'}`}
+      className={`relative scroll-mt-20 overflow-x-clip ${
+        preview
+          ? 'bg-transparent py-24 sm:py-32'
+          : 'bg-[var(--a-bg)] wc-paper-grain touch-pan-y pt-32 pb-24 sm:pt-40'
+      }`}
     >
-      <div className="mx-auto max-w-[1400px] px-5 sm:px-8 lg:px-12">
+      {!preview && <AutumnWetBrushCanvas containerRef={sectionRef} />}
+      <div className="relative z-10 mx-auto max-w-[1400px] px-5 sm:px-8 lg:px-12">
         <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
           <div>
             <p className="font-sans text-[13px] font-semibold uppercase tracking-[0.22em] text-[var(--a-accent-text)]">

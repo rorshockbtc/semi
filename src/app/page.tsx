@@ -1,4 +1,5 @@
 import React from 'react';
+import AutumnPaperCanvas from '@/art/AutumnPaperCanvas';
 import SiteHeader from '@/components/site/SiteHeader';
 import SiteFooter from '@/components/site/SiteFooter';
 import Hero from '@/components/sections/Hero';
@@ -17,8 +18,9 @@ export default function HomePage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
+      <AutumnPaperCanvas />
       <SiteHeader />
-      <main id="main" className="flex-1">
+      <main id="main" className="relative z-10 flex-1">
         <Hero />
         <FeaturedSongsSection />
         <SemicolonExplainer />

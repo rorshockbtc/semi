@@ -404,4 +404,46 @@ test('SEO sitemap, robots, manifest, and Schema.org JSON-LD structured data cove
   assert.ok(buildGalleryJsonLd()['@graph'].length >= 2);
 });
 
+test('Autumn watercolor art direction wires distinct engines per main page and leaves individual song pages untouched', () => {
+  const globals = fs.readFileSync(path.join(ROOT, 'src', 'app', 'globals.css'), 'utf8');
+  assert.match(globals, /--wc-ochre:\s*#DD9933/i);
+  assert.match(globals, /--wc-sienna:\s*#D46234/i);
+  assert.match(globals, /--wc-sumac:\s*#C83E5B/i);
+  assert.match(globals, /--wc-linen:\s*#FAF8F5/i);
+  assert.match(globals, /\.wc-glaze/);
+  assert.match(globals, /\.wc-textured-motif/);
+  assert.match(globals, /\.wc-paper-grain/);
+
+  const homeSrc = fs.readFileSync(path.join(ROOT, 'src', 'app', 'page.tsx'), 'utf8');
+  const heroSrc = fs.readFileSync(path.join(ROOT, 'src', 'components', 'sections', 'Hero.tsx'), 'utf8');
+  const songsSectionSrc = fs.readFileSync(
+    path.join(ROOT, 'src', 'components', 'sections', 'FeaturedSongsSection.tsx'),
+    'utf8'
+  );
+  const gallerySrc = fs.readFileSync(
+    path.join(ROOT, 'src', 'components', 'sections', 'FilmScenesGallery.tsx'),
+    'utf8'
+  );
+  const aboutSrc = fs.readFileSync(path.join(ROOT, 'src', 'app', 'about', 'page.tsx'), 'utf8');
+  const songEditionSrc = fs.readFileSync(
+    path.join(ROOT, 'src', 'components', 'songs', 'SongEditionClient.tsx'),
+    'utf8'
+  );
+
+  assert.match(homeSrc, /AutumnPaperCanvas/);
+  assert.match(heroSrc, /DriftingLeaves/);
+  assert.match(songsSectionSrc, /AutumnSkyWash/);
+  assert.match(gallerySrc, /AutumnWetBrushCanvas/);
+  assert.match(aboutSrc, /AutumnDripStage/);
+
+  assert.equal(
+    /(AutumnPaperCanvas|AutumnSkyWash|AutumnWetBrushCanvas|AutumnDripCanvas|DriftingLeaves)/.test(
+      songEditionSrc
+    ),
+    false,
+    'Individual song pages must not mount custom watercolor animations'
+  );
+});
+
+
 

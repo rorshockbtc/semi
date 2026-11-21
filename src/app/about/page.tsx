@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import SiteHeader from '@/components/site/SiteHeader';
 import SiteFooter from '@/components/site/SiteFooter';
+import AutumnDripStage from '@/components/sections/AutumnDripStage';
 import UnlimitedMemoryStage from '@/components/sections/UnlimitedMemoryStage';
 import AskSemi from '@/components/sections/AskSemi';
 import { SemiMark } from '@/components/brand/SemiMark';
@@ -42,7 +43,7 @@ export default function AboutPage() {
       <SiteHeader />
 
       <main id="main" className="flex-1 bg-[var(--a-bg)]">
-        <header className="pt-24 pb-14 sm:pt-40 sm:pb-28">
+        <AutumnDripStage as="header" className="pt-24 pb-14 sm:pt-40 sm:pb-28">
           <div className="mx-auto grid max-w-[1400px] gap-8 sm:gap-12 px-5 sm:px-8 lg:px-12 lg:grid-cols-12 lg:items-end">
             <div className="lg:col-span-7 min-w-0">
               <p className="flex items-center gap-3 font-sans text-[13px] font-semibold uppercase tracking-[0.22em] text-[var(--a-accent-text)]">
@@ -66,13 +67,13 @@ export default function AboutPage() {
               />
             </figure>
           </div>
-        </header>
+        </AutumnDripStage>
 
         <UnlimitedMemoryStage />
         <AskSemi />
 
         {/* About this site (formerly “Colophon”) */}
-        <section id="site" aria-labelledby="site-title" className="py-16 sm:py-32">
+        <AutumnDripStage as="section" id="site" ariaLabelledBy="site-title" className="py-16 sm:py-32">
           <div className="mx-auto grid max-w-[1400px] gap-8 sm:gap-12 px-5 sm:px-8 lg:px-12 lg:grid-cols-12">
             <div className="lg:col-span-4 min-w-0">
               <p className="font-sans text-[13px] font-semibold uppercase tracking-[0.22em] text-[var(--a-accent-text)]">
@@ -108,7 +109,7 @@ export default function AboutPage() {
               ))}
             </dl>
           </div>
-        </section>
+        </AutumnDripStage>
       </main>
 
       <SiteFooter />

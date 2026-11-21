@@ -31,14 +31,14 @@ export function LightLeaks({ className = '' }: { className?: string }) {
         className="leak-a absolute -left-[20%] top-[8%] h-[70%] w-[75%] rounded-[50%] blur-3xl"
         style={{
           background:
-            'radial-gradient(closest-side, rgba(255,170,90,0.55), rgba(254,41,158,0.22) 55%, transparent 75%)',
+            'radial-gradient(closest-side, rgba(221,153,51,0.52), rgba(212,98,52,0.30) 46%, rgba(254,41,158,0.20) 64%, transparent 78%)',
         }}
       />
       <div
         className="leak-b absolute right-[-15%] bottom-[-10%] h-[60%] w-[60%] rounded-[50%] blur-3xl"
         style={{
           background:
-            'radial-gradient(closest-side, rgba(255,214,150,0.45), rgba(201,120,255,0.18) 60%, transparent 78%)',
+            'radial-gradient(closest-side, rgba(250,248,245,0.40), rgba(200,62,91,0.24) 56%, transparent 78%)',
         }}
       />
     </div>
@@ -205,7 +205,7 @@ export function Typewriter({
   );
 }
 
-/** A single pink thread drawn down the page as the reader scrolls (About page). */
+/** A single watercolor brush thread drawn down the page as the reader scrolls (About page). */
 export function MemoryThread({ targetRef }: { targetRef: React.RefObject<HTMLElement | null> }) {
   const { motionActive } = useAmbientMotion();
   const { scrollYProgress } = useScroll({ target: targetRef, offset: ['start 70%', 'end 60%'] });
@@ -218,13 +218,27 @@ export function MemoryThread({ targetRef }: { targetRef: React.RefObject<HTMLEle
       viewBox="0 0 40 1000"
       preserveAspectRatio="none"
     >
-      <path d="M20 0 C 4 160, 36 320, 20 500 S 4 840, 20 1000" stroke="rgba(17,24,39,0.12)" strokeWidth="1.5" fill="none" />
+      <defs>
+        <linearGradient id="memory-thread-autumn" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="#FE299E" />
+          <stop offset="38%" stopColor="#C83E5B" />
+          <stop offset="72%" stopColor="#D46234" />
+          <stop offset="100%" stopColor="#DD9933" />
+        </linearGradient>
+      </defs>
+      <path
+        d="M20 0 C 4 160, 36 320, 20 500 S 4 840, 20 1000"
+        stroke="rgba(158,71,42,0.16)"
+        strokeWidth="1.75"
+        fill="none"
+      />
       <m.path
         d="M20 0 C 4 160, 36 320, 20 500 S 4 840, 20 1000"
-        stroke="#FE299E"
-        strokeWidth="2"
+        stroke="url(#memory-thread-autumn)"
+        strokeWidth="3.2"
         fill="none"
         strokeLinecap="round"
+        filter="url(#wc-edge)"
         style={{ pathLength }}
       />
     </svg>

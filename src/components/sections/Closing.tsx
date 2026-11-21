@@ -3,16 +3,19 @@
 import React, { useRef } from 'react';
 import Link from 'next/link';
 import { m, useScroll, useTransform } from 'framer-motion';
+import { bloomHandlers } from '@/art/bloom';
 import { FilmGrain } from '@/art/themes';
 import { useAmbientMotion } from '@/context/AmbientMotionContext';
 
-/** Full-bleed photographic sign-off with a slow parallax drift. */
+/** Full-bleed photographic sign-off with a slow parallax drift and hand-cut paper edge. */
 export default function Closing({
   image = '/photos/semi-studio-wide.jpg',
   alt = 'Semi seated in her sunlit West Nashville room with guitars and vinyl records.',
+  topFill = '#E8E2D5',
 }: {
   image?: string;
   alt?: string;
+  topFill?: string;
 }) {
   const ref = useRef<HTMLElement>(null);
   const { motionActive } = useAmbientMotion();
@@ -23,7 +26,7 @@ export default function Closing({
     <section
       ref={ref}
       aria-labelledby="closing-title"
-      className="relative overflow-hidden bg-[#0d0b0a] text-white"
+      className="relative z-10 overflow-hidden bg-[#0d0b0a] text-white"
     >
       <m.div style={{ y }} className="absolute -inset-y-[10%] inset-x-0">
         {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -35,6 +38,18 @@ export default function Closing({
         className="absolute inset-0 bg-[linear-gradient(to_top,rgba(10,8,8,0.88)_0%,rgba(10,8,8,0.62)_55%,rgba(10,8,8,0.35)_100%),linear-gradient(to_right,rgba(10,8,8,0.82),rgba(10,8,8,0.25)_65%,transparent)]"
       />
 
+      <svg
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-x-0 top-0 z-10 h-4 sm:h-5 w-full"
+        preserveAspectRatio="none"
+        viewBox="0 0 100 5"
+      >
+        <path
+          d="M0 0 L100 0 L100 2.4 C82 3.3 62 1.7 38 2.8 C18 3.4 8 2.1 0 2.7 Z"
+          fill={topFill}
+        />
+      </svg>
+
       <div className="relative z-10 mx-auto max-w-[1400px] pl-[max(1.25rem,env(safe-area-inset-left,0px))] pr-[max(1.25rem,env(safe-area-inset-right,0px))] sm:px-8 lg:px-12 py-20 sm:py-36 lg:py-48">
         <h2 id="closing-title" className="max-w-[12ch] font-display text-huge font-bold">
           Leave the pipes open. <span className="font-serif italic font-normal text-[#FFD9C2]">Keep the garden wide.</span>
@@ -45,7 +60,8 @@ export default function Closing({
         <div className="mt-8 sm:mt-10 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
           <Link
             href="/songs"
-            className="inline-flex min-h-[52px] w-full sm:w-auto items-center justify-center rounded-full bg-white px-7 text-[16px] font-semibold text-[var(--a-ink)] no-underline transition-colors hover:bg-[#FFD9C2]"
+            {...bloomHandlers<HTMLAnchorElement>()}
+            className="wc-cta wc-cta-light inline-flex min-h-[52px] w-full sm:w-auto items-center justify-center rounded-full bg-[#FAF8F5] px-7 text-[16px] font-semibold text-[var(--a-ink)] no-underline hover:text-white"
           >
             Listen to the singles
           </Link>

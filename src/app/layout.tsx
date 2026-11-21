@@ -7,6 +7,7 @@ import {
   Playfair_Display,
   Plus_Jakarta_Sans,
 } from 'next/font/google';
+import WatercolorDefs from '@/art/WatercolorDefs';
 import AccentClientShell from '@/components/AccentClientShell';
 import { SITE_URL } from '@/lib/seo';
 import './globals.css';
@@ -146,6 +147,7 @@ export default function RootLayout({
       className={`${monteCarlo.variable} ${playfair.variable} ${cormorant.variable} ${jakarta.variable} ${bricolage.variable} ${jetbrainsMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-[var(--a-bg)] text-[var(--a-ink)]">
+        <WatercolorDefs />
         <a
           href="#main"
           className="sr-only left-0 top-0 focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[70] focus:rounded-full focus:bg-[var(--a-ink)] focus:px-5 focus:py-3 focus:text-[var(--a-bg)]"

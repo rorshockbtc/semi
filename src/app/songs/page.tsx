@@ -32,7 +32,7 @@ export default function SongsIndexPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
       <SiteHeader />
-      <main id="main" className="flex-1 pt-8 sm:pt-10">
+      <main id="main" className="flex-1">
         <FeaturedSongsSection eyebrow="Songs" showAllFeatured />
 
         <section aria-labelledby="forthcoming-title" className="border-t border-[var(--a-rule)] bg-[var(--a-surface)] py-16 sm:py-28">
@@ -58,6 +58,7 @@ export default function SongsIndexPage() {
         <Closing
           image="/photos/gallery-brick-walk.jpg"
           alt="Semi walking down a tree-lined brick sidewalk carrying a notebook."
+          topFill="#F3EFE9"
         />
       </main>
       <SiteFooter />

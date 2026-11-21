@@ -21,14 +21,38 @@ test.describe('Semi (; - ]) Multi-Page Interactive JTBD Suite', () => {
 
     const html = page.locator('html');
     await expect(html).toHaveAttribute('data-motion', 'active');
+    await expect(page.getByTestId('hero-drifting-leaves')).toHaveAttribute('data-motion-state', 'active');
+    await expect(page.getByTestId('home-autumn-paper-canvas')).toBeAttached();
 
     await toggle.click();
     await expect(toggle).toHaveAttribute('aria-label', 'Play motion');
     await expect(html).toHaveAttribute('data-motion', 'paused');
+    await expect(page.getByTestId('hero-drifting-leaves')).toHaveAttribute('data-motion-state', 'paused');
 
     await toggle.click();
     await expect(toggle).toHaveAttribute('aria-label', 'Pause motion');
     await expect(html).toHaveAttribute('data-motion', 'active');
+    await expect(page.getByTestId('hero-drifting-leaves')).toHaveAttribute('data-motion-state', 'active');
+
+    // Verify each main page mounts its own differentiated autumn watercolor layer
+    await page.goto('/songs', { waitUntil: 'networkidle' });
+    await expect(page.getByTestId('songs-autumn-sky-wash')).toBeVisible();
+    await expect(page.getByTestId('home-autumn-paper-canvas')).toHaveCount(0);
+
+    await page.goto('/gallery', { waitUntil: 'networkidle' });
+    await expect(page.getByTestId('gallery-autumn-wet-brush')).toBeVisible();
+    await expect(page.getByTestId('songs-autumn-sky-wash')).toHaveCount(0);
+
+    await page.goto('/about', { waitUntil: 'networkidle' });
+    await expect(page.getByTestId('about-autumn-drip-canvas').first()).toBeVisible();
+    await expect(page.getByTestId('gallery-autumn-wet-brush')).toHaveCount(0);
+
+    // Individual song pages must NOT mount custom watercolor canvases
+    await page.goto('/songs/ghost', { waitUntil: 'networkidle' });
+    await expect(page.getByTestId('home-autumn-paper-canvas')).toHaveCount(0);
+    await expect(page.getByTestId('songs-autumn-sky-wash')).toHaveCount(0);
+    await expect(page.getByTestId('gallery-autumn-wet-brush')).toHaveCount(0);
+    await expect(page.getByTestId('about-autumn-drip-canvas')).toHaveCount(0);
   });
 
   test('JTBD 2: Play All & single MP3 on Home, persist audio dock across route navigation to /songs/old-oak-tree, verify essay & lyrics', async ({

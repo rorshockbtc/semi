@@ -1,11 +1,12 @@
 'use client';
 
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useAmbientMotion } from '@/context/AmbientMotionContext';
 
 /**
- * Muted decorative ambient film loop that immediately pauses when the user
- * pauses ambient motion or has `prefers-reduced-motion` active.
+ * Muted decorative ambient film loop that:
+ * - Lazy-plays via IntersectionObserver so 9 song loops on `/songs` don't saturate mobile bandwidth at once.
+ * - Immediately pauses when off-screen, when the user pauses ambient motion, or under `prefers-reduced-motion`.
  */
 export default function AmbientLoopVideo({
   src,
@@ -18,11 +19,25 @@ export default function AmbientLoopVideo({
 }) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const { motionActive } = useAmbientMotion();
+  const [inView, setInView] = useState(false);
 
   useEffect(() => {
     const el = videoRef.current;
-    if (!el) return;
-    if (motionActive) {
+    if (!el || !src) return;
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        setInView(entry.isIntersecting);
+      },
+      { rootMargin: '280px 0px' }
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, [src]);
+
+  useEffect(() => {
+    const el = videoRef.current;
+    if (!el || !src) return;
+    if (motionActive && inView) {
       const promise = el.play();
       if (promise) {
         promise.catch(() => {
@@ -32,7 +47,7 @@ export default function AmbientLoopVideo({
     } else {
       el.pause();
     }
-  }, [motionActive]);
+  }, [motionActive, inView, src]);
 
   if (!src) {
     return (
@@ -46,10 +61,10 @@ export default function AmbientLoopVideo({
       ref={videoRef}
       src={src}
       poster={poster}
+      preload="metadata"
       muted
       loop
       playsInline
-      autoPlay={motionActive}
       aria-hidden="true"
       className={className}
     />

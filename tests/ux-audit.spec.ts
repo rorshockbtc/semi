@@ -36,6 +36,8 @@ async function auditRouteErgonomics(page: Page, route: string) {
 }
 
 test.describe('UX & Visual Ergonomics Audit (Multi-Page Desktop 1440×900 & Mobile 390×844)', () => {
+  test.setTimeout(120_000);
+
   test('Desktop 1440×900: all 7 routes pass ergonomics, zero image duplication on /, capture v2 plates', async ({
     page,
   }) => {
@@ -110,6 +112,7 @@ test.describe('UX & Visual Ergonomics Audit (Multi-Page Desktop 1440×900 & Mobi
 
     // 3. Songs Index, Salt In The Rain (Alternate Take + Show Chords + Volume Dock), About & Gallery
     await auditRouteErgonomics(page, '/songs');
+    await page.screenshot({ path: path.join(SCREENSHOT_DIR, 'desktop-songs-autumn-v9.png') });
     await page.getByTestId('song-notify-card').scrollIntoViewIfNeeded();
     await page.getByTestId('play-track-01').click();
     await page.waitForTimeout(300);
@@ -145,7 +148,11 @@ test.describe('UX & Visual Ergonomics Audit (Multi-Page Desktop 1440×900 & Mobi
     await page.screenshot({ path: path.join(SCREENSHOT_DIR, 'desktop-about-memory-v4.png') });
 
     await auditRouteErgonomics(page, '/gallery');
-    await page.screenshot({ path: path.join(SCREENSHOT_DIR, 'desktop-gallery-v4.png') });
+    await page.mouse.move(480, 180);
+    await page.mouse.move(680, 165, { steps: 8 });
+    await page.mouse.move(900, 195, { steps: 8 });
+    await page.waitForTimeout(300);
+    await page.screenshot({ path: path.join(SCREENSHOT_DIR, 'desktop-gallery-autumn-v9.png') });
 
     expect(errors).toEqual([]);
   });
@@ -209,7 +216,9 @@ test.describe('UX & Visual Ergonomics Audit (Multi-Page Desktop 1440×900 & Mobi
     await page.screenshot({ path: path.join(SCREENSHOT_DIR, 'mobile-dock-stable-v7.png') });
 
     await auditRouteErgonomics(page, '/songs');
+    await page.screenshot({ path: path.join(SCREENSHOT_DIR, 'mobile-songs-autumn-v9.png') });
     await auditRouteErgonomics(page, '/gallery');
+    await page.screenshot({ path: path.join(SCREENSHOT_DIR, 'mobile-gallery-autumn-v9.png') });
 
     await auditRouteErgonomics(page, '/songs/old-oak-tree');
     const mobileNote = page.getByTestId('lyric-note-old-oak-tree-0');

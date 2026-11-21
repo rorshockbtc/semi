@@ -5,6 +5,8 @@ import Link from 'next/link';
 import { m, useScroll, useTransform } from 'framer-motion';
 import { MessageCircle, Play } from 'lucide-react';
 import { RiseLines } from 'accent-ui';
+import DriftingLeaves from '@/art/DriftingLeaves';
+import { bloomHandlers } from '@/art/bloom';
 import { FilmGrain, LightLeaks } from '@/art/themes';
 import AmbientLoopVideo from '@/components/AmbientLoopVideo';
 import { SemiMark } from '@/components/brand/SemiMark';
@@ -38,7 +40,7 @@ export default function Hero() {
     <section
       ref={ref}
       aria-labelledby="hero-title"
-      className="relative flex min-h-[100svh] flex-col overflow-x-clip bg-[#0d0b0a] text-white"
+      className="relative z-10 flex min-h-[100svh] flex-col overflow-x-clip bg-[#0d0b0a] text-white"
     >
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
         <m.div style={{ scale: videoScale }} className="absolute inset-0">
@@ -50,6 +52,7 @@ export default function Hero() {
         </m.div>
 
         <LightLeaks />
+        <DriftingLeaves />
         <FilmGrain />
 
         {/* Legibility: deep ink from bottom-left, image stays luminous top-right */}
@@ -94,8 +97,9 @@ export default function Hero() {
             <button
               type="button"
               onClick={() => playTrack('old-oak-tree')}
+              {...bloomHandlers<HTMLButtonElement>()}
               data-testid="hero-play"
-              className="group inline-flex min-h-[52px] sm:min-h-[56px] w-full sm:w-auto items-center justify-center sm:justify-start gap-3 rounded-full bg-white pl-2 pr-6 text-[16px] font-semibold text-[var(--a-ink)] transition-transform hover:-translate-y-0.5"
+              className="wc-cta wc-cta-light group inline-flex min-h-[52px] sm:min-h-[56px] w-full sm:w-auto items-center justify-center sm:justify-start gap-3 rounded-full bg-[#FAF8F5] pl-2 pr-6 text-[16px] font-semibold text-[var(--a-ink)] hover:text-white"
             >
               <span className="inline-flex h-10 w-10 sm:h-11 sm:w-11 shrink-0 items-center justify-center rounded-full bg-[var(--a-accent-fill)] text-white transition-transform group-hover:scale-105">
                 <Play className="h-4 w-4 translate-x-[1px]" aria-hidden="true" fill="currentColor" />
@@ -136,6 +140,19 @@ export default function Hero() {
         aria-hidden="true"
         className="absolute bottom-6 left-1/2 hidden -translate-x-1/2 sm:block h-10 w-[1px] bg-gradient-to-b from-white/0 via-white/60 to-white/0"
       />
+
+      {/* Organic hand-cut watercolor paper horizon meeting Warm Sandstone (#E8E2D5) */}
+      <svg
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-4 sm:h-5 w-full"
+        preserveAspectRatio="none"
+        viewBox="0 0 100 5"
+      >
+        <path
+          d="M0 5 L0 2.7 C22 1.8 42 3.3 64 2.2 C82 1.6 92 2.9 100 2.1 L100 5 Z"
+          fill="#E8E2D5"
+        />
+      </svg>
     </section>
   );
 }
