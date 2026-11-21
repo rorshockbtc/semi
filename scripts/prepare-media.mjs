@@ -135,6 +135,13 @@ const TRACKS = [
     track: '10/12',
     comment: 'From Local Current (The West Nashville Sessions) · https://semi.colonhyphenbracket.pink',
   },
+  {
+    inputs: ["'86.m4a"],
+    out: '11-semi-1986.mp3',
+    title: '1986',
+    track: '11/12',
+    comment: 'From Local Current (The West Nashville Sessions) · https://semi.colonhyphenbracket.pink',
+  },
 ];
 
 for (const t of TRACKS) {
@@ -278,6 +285,14 @@ const MONTAGE_LOOPS = [
       ['Woman_playing_cello_smiling_3ef25648_1080p.mp4'],
     ],
   },
+  {
+    out: 'song-11-1986.mp4',
+    clips: [
+      ['Three_kids_drop_BMX_bikes_cca9b91d_1080p.mp4'],
+      ['Woman_walking_in_neighborhood_lane_3b623a5e_1080p.mp4'],
+      ['Woman_smiling_at_camera_ee45d458_1080p.mp4'],
+    ],
+  },
 ];
 
 for (const m of MONTAGE_LOOPS) {
@@ -385,6 +400,11 @@ const VIDEO_STILLS = [
   { pattern: ['Hands_carving_maple_wood_shavings_6f1711a7_1080p.mp4'], ts: '00:00:04', out: 'song-09-chisel.jpg' },
   { pattern: ['Woman_playing_cello_smiling_3ef25648_1080p.mp4'], ts: '00:00:09', out: 'song-09-cello.jpg' },
   { pattern: ['Woman_smiling_looking_at_camera_3f6d3f08_1080p.mp4'], ts: '00:00:03.5', out: 'song-09-window.jpg' },
+  // Song 11 (1986)
+  { pattern: ['Woman_smiling_at_camera_ee45d458_1080p.mp4'], ts: '00:00:02.5', out: 'song-11-poster.jpg' },
+  { pattern: ['Three_kids_drop_BMX_bikes_cca9b91d_1080p.mp4'], ts: '00:00:03', out: 'song-11-bikes.jpg' },
+  { pattern: ['Classic_bicycle_leaning_on_porch_c7985ee6_1080p.mp4'], ts: '00:00:03', out: 'song-11-porch.jpg' },
+  { pattern: ['Finger_pressing_cassette_play_bu*1080p.mp4'], ts: '00:00:02', out: 'song-11-cassette.jpg' },
 ];
 
 for (const st of VIDEO_STILLS) {

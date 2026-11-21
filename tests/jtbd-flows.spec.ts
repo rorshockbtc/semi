@@ -278,7 +278,7 @@ test.describe('Semi (; - ]) Multi-Page Interactive JTBD Suite', () => {
     }
 
     // Verify 10-15 song album milestone badge & interactive mailing list signup
-    await expect(page.getByTestId('album-milestone-badge')).toContainText('10 of 10–15 songs out');
+    await expect(page.getByTestId('album-milestone-badge')).toContainText('11 of 10–15 songs out');
     await page.getByTestId('song-notify-input').fill('listener@semi.test');
     await page.getByTestId('song-notify-submit').click();
     await expect(page.getByTestId('song-notify-success')).toBeVisible();
@@ -330,7 +330,7 @@ test.describe('Semi (; - ]) Multi-Page Interactive JTBD Suite', () => {
     expect(unique).toContain('/gallery');
     for (const h of unique) {
       const resp = await page.request.get(h);
-      expect(resp.status()).toBeLessThan(400);
+      expect(resp.status(), `Failed link: ${h}`).toBeLessThan(400);
     }
 
     // Visit /about, verify unique photos load cleanly, & test Ask Semi

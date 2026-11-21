@@ -413,6 +413,41 @@ export const SEMI_CHORD_SHEETS: Record<string, TrackChordSheet> = {
       ],
     },
   },
+  '1986': {
+    key: 'G Major (Warm Acoustic Strumming)',
+    capo: 'No capo',
+    tuning: 'Standard (E A D G B E)',
+    strumming: '96 BPM · Sunlit eighth-note acoustic strum',
+    sections: {
+      verse: [
+        'G                         D/F#',
+        'Em7                       Cadd9',
+        'G                         D/F#',
+        'Cadd9                     D',
+      ],
+      'pre-chorus': [
+        'Am7                       G/B',
+        'Cadd9                     Dsus4   D',
+      ],
+      chorus: [
+        'G                         D',
+        'Em7                       Cadd9',
+        'G                         D',
+        'Am7           D           G',
+      ],
+      bridge: [
+        'Em7                       Cadd9',
+        'G                         D/F#',
+        'Am7                       G/B',
+        'Cadd9                     Dsus4   D',
+      ],
+      outro: [
+        'G                         Cadd9',
+        'Em7                       D',
+        'Cadd9         D           G',
+      ],
+    },
+  },
 };
 
 export function getChordForStanzaLine(

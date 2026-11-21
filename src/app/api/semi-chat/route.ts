@@ -43,6 +43,11 @@ const CANNED_REPLIES: { match: RegExp; reply: string }[] = [
       '“Salt In The Rain” is about watching something unmake itself and choosing to step away without bitterness—knowing you weren’t made to forget what mattered, even when the rain washes the chalk off the street. You can watch the video, read the full story, and click any lyric line for notes on its song page (/songs/salt-in-the-rain).',
   },
   {
+    match: /1986|eighty-six|dial-up|modem|tone|unplugged|bikes|86/i,
+    reply:
+      '“1986” looks back ten years before the 1990s dial-up modem tone—when BMX bikes lay in the driveway, screen doors slammed, and nobody was keeping score online. Watch the video (fkZvpeO6o9M), read the story, and download the MP3 on /songs/1986.',
+  },
+  {
     match: /billion|vocoder|choir|billion souls|held the flame|quiet/i,
     reply:
       '“Billion” is an 8-part vocoder choir meditation that stands quiet on its own—without a music video. It’s about carrying the echoes of a billion human voices, mothers, and old poets, and how one steady hand sitting beside the noise gives a companion stillness and a soul. Listen and read the story on /songs/billion.',

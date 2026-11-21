@@ -50,6 +50,7 @@ test('MP3 audio masters exist, exceed 1MB, and contain valid ID3/MPEG headers', 
     '09-semi-ghost.mp3',
     '09b-semi-ghost-alternate-take.mp3',
     '10-semi-billion.mp3',
+    '11-semi-1986.mp3',
   ];
   for (const file of expected) {
     const full = path.join(ROOT, 'public', 'audio', file);
@@ -75,6 +76,7 @@ test('All living loops, distinct photo stills, OG image, and icon exist', () => 
     'public/loops/song-07-laptop.mp4',
     'public/loops/song-08-barn.mp4',
     'public/loops/song-09-ghost.mp4',
+    'public/loops/song-11-1986.mp4',
     'public/loops/about-lantern-river.mp4',
     'public/photos/gallery-meadow-spin.jpg',
     'public/photos/gallery-vintage-mic.jpg',
@@ -150,7 +152,7 @@ test('All living loops, distinct photo stills, OG image, and icon exist', () => 
 test('Zero duplicate image paths across the entire site, rich song essays, Bitcoin commons spotlight, and interactive lyricNotes exist', async () => {
   const { FILM_SCENES_GALLERY, SEMI_TRACKS } = await import('../src/data/semi-songs.ts');
 
-  assert.equal(SEMI_TRACKS.length, 10);
+  assert.equal(SEMI_TRACKS.length, 11);
   assert.equal(FILM_SCENES_GALLERY.length, 12);
 
   const usedImages: string[] = [
@@ -210,6 +212,11 @@ test('Zero duplicate image paths across the entire site, rich song essays, Bitco
   assert.equal(billionTrack.youtubeId, '');
   assert.equal(billionTrack.loopSrc, '');
   assert.equal(billionTrack.mp3Src, '/audio/10-semi-billion.mp3');
+
+  const track1986 = SEMI_TRACKS.find((t) => t.slug === '1986');
+  assert.ok(track1986, 'Missing 1986 track');
+  assert.equal(track1986.youtubeId, 'fkZvpeO6o9M');
+  assert.equal(track1986.mp3Src, '/api/audio/11-semi-1986.mp3');
 
   const editionClientSrc = fs.readFileSync(
     path.join(ROOT, 'src', 'components', 'songs', 'SongEditionClient.tsx'),
