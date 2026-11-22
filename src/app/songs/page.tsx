@@ -3,6 +3,7 @@ import SiteHeader from '@/components/site/SiteHeader';
 import SiteFooter from '@/components/site/SiteFooter';
 import FeaturedSongsSection from '@/components/sections/FeaturedSongsSection';
 import Closing from '@/components/sections/Closing';
+import SongsVinylWash from '@/art/SongsVinylWash';
 import { FORTHCOMING_TRACKS, SEMI_TRACKS } from '@/data/semi-songs';
 import { buildSongsIndexJsonLd, SITE_URL } from '@/lib/seo';
 
@@ -31,8 +32,9 @@ export default function SongsIndexPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
+      <SongsVinylWash />
       <SiteHeader />
-      <main id="main" className="flex-1">
+      <main id="main" className="relative z-10 flex-1">
         <FeaturedSongsSection eyebrow="Songs" showAllFeatured />
 
         <section aria-labelledby="forthcoming-title" className="border-t border-[var(--a-rule)] bg-[var(--a-surface)] py-16 sm:py-28">

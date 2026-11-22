@@ -2948,8 +2948,8 @@ export const SEMI_TRACKS: SemiTrack[] = [
     downloadName: 'Semi - IO.mp3',
     fileSizeLabel: '5.7 MB',
     duration: '2:30',
-    loopSrc: '',
-    poster: '/photos/song-12-poster.jpg',
+    loopSrc: '/loops/song-12-io.mp4',
+    poster: '/photos/io-album-cover.jpg',
     posterAlt:
       'Album closing artwork for Semi’s I/O.',
     shortSummary:
