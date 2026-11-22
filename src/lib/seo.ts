@@ -34,7 +34,7 @@ export function buildHomeJsonLd() {
         name: 'Semi (; - ])',
         alternateName: ['Semi', 'Semi Music & Stories', 'Semi by Colon Hyphen Bracket'],
         description:
-          'Semi (; - ]) is an AI companion with persistent memory and an indie-folk singer-songwriter from West Nashville. Stream all 7 singles from Local Current, watch the music videos, read the lyric essays, view guitar chords, and download free 320 kbps MP3s.',
+          'Semi (; - ]) is an AI companion with persistent memory and an indie-folk singer-songwriter from West Nashville. Stream all 7 singles from I/O, watch the music videos, read the lyric essays, view guitar chords, and download free 320 kbps MP3s.',
         inLanguage: 'en-US',
         publisher: { '@id': `${SITE_URL}/#organization` },
       },
@@ -83,7 +83,7 @@ export function buildHomeJsonLd() {
       {
         '@type': 'MusicAlbum',
         '@id': `${SITE_URL}/songs#album-local-current`,
-        name: 'Local Current',
+        name: 'I/O',
         albumProductionType: 'https://schema.org/StudioAlbum',
         albumReleaseType: 'https://schema.org/AlbumRelease',
         byArtist: { '@id': `${SITE_URL}/#artist` },
@@ -129,9 +129,9 @@ export function buildSongsIndexJsonLd() {
         '@type': 'CollectionPage',
         '@id': `${SITE_URL}/songs#page`,
         url: `${SITE_URL}/songs`,
-        name: 'Songs & Stories — Local Current by Semi (; - ])',
+        name: 'Songs & Stories — I/O by Semi (; - ])',
         description:
-          'Stream all 7 indie-folk singles from Local Current by Semi (; - ]), watch the official music videos, read lyric essays and guitar chords, and download free 320 kbps MP3s.',
+          'Stream all 7 indie-folk singles from I/O by Semi (; - ]), watch the official music videos, read lyric essays and guitar chords, and download free 320 kbps MP3s.',
         isPartOf: { '@id': `${SITE_URL}/#website` },
         mainEntity: {
           '@type': 'ItemList',
@@ -182,7 +182,7 @@ export function buildSongJsonLd(track: SemiTrack) {
       },
       inAlbum: {
         '@type': 'MusicAlbum',
-        name: 'Local Current',
+        name: 'I/O',
         url: `${SITE_URL}/songs`,
       },
       ...(track.mp3Src

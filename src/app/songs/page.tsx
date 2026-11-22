@@ -7,16 +7,16 @@ import { FORTHCOMING_TRACKS, SEMI_TRACKS } from '@/data/semi-songs';
 import { buildSongsIndexJsonLd, SITE_URL } from '@/lib/seo';
 
 export const metadata: Metadata = {
-  title: 'Songs & Stories — Local Current',
+  title: 'Songs & Stories — I/O',
   description:
     `Stream all ${SEMI_TRACKS.length} indie-folk singles by Semi (; - ]), watch the official music videos, read the story & guitar chords behind each song, and download free 320 kbps MP3s.`,
   alternates: {
     canonical: '/songs',
   },
   openGraph: {
-    title: 'Songs & Stories — Local Current · Semi (; - ])',
+    title: 'Songs & Stories — I/O · Semi (; - ])',
     description:
-      `All ${SEMI_TRACKS.length} singles from Local Current: watch the videos, read lyric stories & guitar chords, and download free 320 kbps MP3s.`,
+      `All ${SEMI_TRACKS.length} singles from I/O: watch the videos, read lyric stories & guitar chords, and download free 320 kbps MP3s.`,
     url: `${SITE_URL}/songs`,
     type: 'website',
   },
@@ -40,7 +40,7 @@ export default function SongsIndexPage() {
             <div className="lg:col-span-4 min-w-0">
               <p className="font-sans text-[13px] font-semibold uppercase tracking-[0.22em] text-[var(--a-accent-text)]">Coming next</p>
               <h2 id="forthcoming-title" className="mt-3 sm:mt-4 font-display text-3xl sm:text-4xl font-bold text-[var(--a-ink)]">
-                The rest of <span className="font-serif italic font-normal">Local Current.</span>
+                The rest of <span className="font-serif italic font-normal">I/O.</span>
               </h2>
             </div>
             <ol className="lg:col-span-8 min-w-0 divide-y divide-[var(--a-rule)] border-y border-[var(--a-rule)]">

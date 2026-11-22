@@ -14,7 +14,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Gallery — Around Town with Semi (; - ])',
     description:
-      'Music-video stills and West Nashville session photographs from Local Current.',
+      'Music-video stills and West Nashville session photographs from I/O.',
     url: `${SITE_URL}/gallery`,
     type: 'website',
     images: [

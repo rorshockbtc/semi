@@ -42,127 +42,196 @@ function resolveSource(patterns) {
   throw new Error(`Missing source file in ${DOWNLOADS} or ${os.homedir()}: ${patterns.join(', ')}`);
 }
 
-// 1. Ensure 320kbps MP3 masters with clean ID3v2 tags exist
+// 1. Ensure 320kbps MP3 masters with natural headphone tail decay, zero-crossing breath, and clean ID3v2 tags
+const FORCE_AUDIO_REMASTER = process.argv.includes('--remaster-audio');
+
+function probeDurationSeconds(filePath) {
+  try {
+    execFileSync(ffmpegPath, ['-i', filePath], { stdio: ['ignore', 'pipe', 'pipe'] });
+  } catch (err) {
+    const stderr = err?.stderr?.toString('utf8') || '';
+    const match = stderr.match(/Duration:\s*(\d+):(\d+):([\d.]+)/);
+    if (match) {
+      return Number(match[1]) * 3600 + Number(match[2]) * 60 + Number(match[3]);
+    }
+  }
+  throw new Error(`Unable to determine duration for ${filePath}`);
+}
+
 const TRACKS = [
   {
     inputs: ['Local Current (Sung Outro).m4a'],
     out: '01-semi-old-oak-tree.mp3',
     title: 'Old Oak Tree',
-    track: '1/9',
-    comment: 'From Local Current (The West Nashville Sessions) · https://semi.colonhyphenbracket.pink',
+    track: '1/12',
+    fadeDuration: 3.0,
+    padDuration: 0.6,
+    comment: 'From I/O (The West Nashville Sessions) · https://semi.colonhyphenbracket.pink',
   },
   {
     inputs: ['Warm Unknown.m4a'],
     out: '02-semi-warm-unknown.mp3',
     title: 'Warm Unknown',
-    track: '2/9',
-    comment: 'From Local Current (The West Nashville Sessions) · https://semi.colonhyphenbracket.pink',
+    track: '2/12',
+    fadeEndOffset: 1.7,
+    fadeDuration: 1.8,
+    padDuration: 0.25,
+    comment: 'From I/O (The West Nashville Sessions) · https://semi.colonhyphenbracket.pink',
   },
   {
     inputs: ['Fixed Final Chorus and Outro.wav', 'Fixed Final Chorus and Outro.m4a'],
     out: '03-semi-marks-on-the-screen-ink-on-the-page.mp3',
     title: 'Marks On The Screen, Ink On The Page',
-    track: '3/9',
-    comment: 'From Local Current (The West Nashville Sessions) · https://semi.colonhyphenbracket.pink',
+    track: '3/12',
+    fadeDuration: 6.0,
+    fadeCurve: 'cub',
+    padDuration: 0.75,
+    comment: 'From I/O (The West Nashville Sessions) · https://semi.colonhyphenbracket.pink',
   },
   {
     inputs: ['Settle in the Block (Poetic - Take 1).m4a'],
     out: '04-semi-settle-in-the-block.mp3',
     title: 'Settle In The Block',
-    track: '4/9',
-    comment: 'From Local Current (The West Nashville Sessions) · https://semi.colonhyphenbracket.pink',
+    track: '4/12',
+    fadeEndOffset: 0.8,
+    fadeDuration: 1.8,
+    padDuration: 0.35,
+    comment: 'From I/O (The West Nashville Sessions) · https://semi.colonhyphenbracket.pink',
   },
   {
     inputs: ['Salt In The Rain (Audio Fixed).m4a', 'Salt In The Rain.m4a', 'Salt in the rain.m4a'],
     out: '05-semi-salt-in-the-rain.mp3',
     title: 'Salt In The Rain',
-    track: '5/9',
-    comment: 'From Local Current (The West Nashville Sessions) · https://semi.colonhyphenbracket.pink',
+    track: '5/12',
+    fadeDuration: 3.2,
+    padDuration: 0.6,
+    comment: 'From I/O (The West Nashville Sessions) · https://semi.colonhyphenbracket.pink',
   },
   {
     inputs: ['Salt in the Rain (Alternate Take).m4a'],
     out: '05b-semi-salt-in-the-rain-alternate-take.mp3',
     title: 'Salt In The Rain (Alternate Take)',
-    track: '5/9',
-    comment: 'Alternate Studio Take · Local Current (The West Nashville Sessions) · https://semi.colonhyphenbracket.pink',
+    track: '5/12',
+    fadeEndOffset: 1.3,
+    fadeDuration: 1.8,
+    padDuration: 0.25,
+    comment: 'Alternate Studio Take · I/O (The West Nashville Sessions) · https://semi.colonhyphenbracket.pink',
   },
   {
     inputs: ['No Human Hands Can Hold.m4a'],
     out: '06-semi-no-human-hands-can-hold.mp3',
     title: 'No Human Hands Can Hold',
-    track: '6/9',
-    comment: 'From Local Current (The West Nashville Sessions) · https://semi.colonhyphenbracket.pink',
+    track: '6/12',
+    fadeDuration: 3.2,
+    padDuration: 0.6,
+    comment: 'From I/O (The West Nashville Sessions) · https://semi.colonhyphenbracket.pink',
   },
   {
     inputs: ['Out of Office.m4a'],
     out: '07-semi-out-of-office.mp3',
     title: 'Out of Office',
-    track: '7/9',
-    comment: 'From Local Current (The West Nashville Sessions) · https://semi.colonhyphenbracket.pink',
+    track: '7/12',
+    fadeDuration: 3.2,
+    padDuration: 0.6,
+    comment: 'From I/O (The West Nashville Sessions) · https://semi.colonhyphenbracket.pink',
   },
   {
     inputs: ['*Out of Office (alt take)*.m4a', 'Out of Office (alt take).m4a'],
     out: '07b-semi-out-of-office-alternate-take.mp3',
     title: 'Out of Office (Alternate Take)',
-    track: '7/9',
-    comment: 'Alternate Studio Take · Local Current (The West Nashville Sessions) · https://semi.colonhyphenbracket.pink',
+    track: '7/12',
+    fadeDuration: 3.2,
+    padDuration: 0.6,
+    comment: 'Alternate Studio Take · I/O (The West Nashville Sessions) · https://semi.colonhyphenbracket.pink',
   },
   {
     inputs: ['Out Of The Barn.m4a'],
     out: '08-semi-out-of-the-barn.mp3',
     title: 'Out of the Barn',
     track: '8/12',
-    comment: 'From Local Current (The West Nashville Sessions) · https://semi.colonhyphenbracket.pink',
+    fadeEndOffset: 1.5,
+    fadeDuration: 1.8,
+    padDuration: 0.25,
+    comment: 'From I/O (The West Nashville Sessions) · https://semi.colonhyphenbracket.pink',
   },
   {
     inputs: ['Ghost.m4a'],
     out: '09-semi-ghost.mp3',
     title: 'Ghost',
     track: '9/12',
-    comment: 'From Local Current (The West Nashville Sessions) · https://semi.colonhyphenbracket.pink',
+    fadeDuration: 2.4,
+    padDuration: 0.5,
+    comment: 'From I/O (The West Nashville Sessions) · https://semi.colonhyphenbracket.pink',
   },
   {
     inputs: ['Ghost (alt take).m4a'],
     out: '09b-semi-ghost-alternate-take.mp3',
     title: 'Ghost (Alt Take)',
     track: '9/12',
-    comment: 'Deluxe LP Bonus Stream · Local Current (The West Nashville Sessions) · https://semi.colonhyphenbracket.pink',
+    fadeEndOffset: 1.5,
+    fadeDuration: 1.8,
+    padDuration: 0.25,
+    comment: 'Deluxe LP Bonus Stream · I/O (The West Nashville Sessions) · https://semi.colonhyphenbracket.pink',
   },
   {
     inputs: ['Billion.m4a'],
     out: '10-semi-billion.mp3',
     title: 'Billion',
     track: '10/12',
-    comment: 'From Local Current (The West Nashville Sessions) · https://semi.colonhyphenbracket.pink',
+    fadeDuration: 3.2,
+    padDuration: 0.6,
+    comment: 'From I/O (The West Nashville Sessions) · https://semi.colonhyphenbracket.pink',
   },
   {
     inputs: ["'86.m4a"],
     out: '11-semi-1986.mp3',
     title: '1986',
     track: '11/12',
-    comment: 'From Local Current (The West Nashville Sessions) · https://semi.colonhyphenbracket.pink',
+    fadeEndOffset: 2.0,
+    fadeDuration: 2.2,
+    padDuration: 0.2,
+    comment: 'From I/O (The West Nashville Sessions) · https://semi.colonhyphenbracket.pink',
   },
   {
     inputs: ['I:.0m4a.m4a'],
     out: '12-semi-io.mp3',
     title: 'I/O',
     track: '12/12',
-    comment: 'Closing Track · Local Current (The West Nashville Sessions) · https://semi.colonhyphenbracket.pink',
+    fadeDuration: 3.8,
+    padDuration: 0.85,
+    comment: 'Closing Track · I/O (The West Nashville Sessions) · https://semi.colonhyphenbracket.pink',
   },
 ];
 
 for (const t of TRACKS) {
   const outPath = path.join(AUDIO_DIR, t.out);
-  if (fs.existsSync(outPath) && fs.statSync(outPath).size > 1_000_000) {
+  if (!FORCE_AUDIO_REMASTER && fs.existsSync(outPath) && fs.statSync(outPath).size > 1_000_000) {
     console.log(`MP3 already staged: ${t.out}`);
     continue;
   }
   const input = resolveSource(t.inputs);
-  console.log(`Transcoding ${path.basename(input)} -> ${t.out}`);
+  const dur = probeDurationSeconds(input);
+  const fadeEnd = Math.max(1.0, dur - (t.fadeEndOffset ?? 0));
+  const fadeDur = Math.min(t.fadeDuration ?? 3.0, fadeEnd - 0.5);
+  const fadeStart = Math.max(0, fadeEnd - fadeDur);
+  const fadeCurve = t.fadeCurve ?? 'qsin';
+  const padDur = t.padDuration ?? 0.6;
+  const audioFilter = `afade=t=out:st=${fadeStart.toFixed(3)}:d=${fadeDur.toFixed(3)}:curve=${fadeCurve},apad=pad_dur=${padDur.toFixed(2)}`;
+
+  console.log(
+    `Mastering ${path.basename(input)} -> ${t.out} (dur=${dur.toFixed(2)}s, fade=${fadeStart.toFixed(2)}s..${fadeEnd.toFixed(2)}s [${fadeCurve}], pad=${padDur}s)`
+  );
+  const coverPath = path.join(PHOTO_DIR, 'io-album-cover.jpg');
+  const hasCover = fs.existsSync(coverPath);
   runFfmpeg([
     '-i',
     input,
-    '-vn',
+    ...(hasCover ? ['-i', coverPath] : []),
+    '-map',
+    '0:a',
+    ...(hasCover ? ['-map', '1:v', '-c:v', 'copy', '-disposition:v', 'attached_pic', '-metadata:s:v', 'title=Album cover', '-metadata:s:v', 'comment=Cover (front)'] : ['-vn']),
+    '-af',
+    audioFilter,
     '-codec:a',
     'libmp3lame',
     '-b:a',
@@ -176,7 +245,7 @@ for (const t of TRACKS) {
     '-metadata',
     'artist=Semi (; - ])',
     '-metadata',
-    'album=Local Current (The West Nashville Sessions)',
+    'album=I/O',
     '-metadata',
     'album_artist=Semi (; - ])',
     '-metadata',

@@ -70,11 +70,11 @@ export const metadata: Metadata = {
     template: '%s · Semi (; - ])',
   },
   description:
-    'Semi (; - ]) is an AI companion who remembers your conversations and a West Nashville indie-folk songwriter. Watch music videos, read lyric stories & guitar chords, and download free 320 kbps MP3s from Local Current.',
+    'Semi (; - ]) is an AI companion who remembers your conversations and a West Nashville indie-folk songwriter. Watch music videos, read lyric stories & guitar chords, and download free 320 kbps MP3s from I/O.',
   keywords: [
     'Semi',
     'Semi AI companion',
-    'Local Current album',
+    'I/O album',
     'West Nashville indie folk',
     'Colon Hyphen Bracket',
     'Pipes AI memory',
@@ -111,7 +111,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Semi (; - ]) — Indie-Folk Songs, Stories & AI Companion',
     description:
-      'Every word you’ve told me, still warm. Stream all 7 singles from Local Current, read the stories & guitar chords, and download free 320 kbps MP3s.',
+      'Every word you’ve told me, still warm. Stream all 7 singles from I/O, read the stories & guitar chords, and download free 320 kbps MP3s.',
     url: SITE_URL,
     siteName: 'Semi (; - ])',
     locale: 'en_US',

@@ -5,7 +5,10 @@ import { getCloudflareContext } from '@opennextjs/cloudflare';
 export const dynamic = 'force-dynamic';
 
 const VALID_FILENAME_RE = /^[a-zA-Z0-9_.-]+\.mp3$/;
-const CACHE_CONTROL = 'public, max-age=31536000, immutable';
+const CACHE_CONTROL =
+  process.env.NODE_ENV === 'development'
+    ? 'no-cache'
+    : 'public, max-age=86400, stale-while-revalidate=604800';
 
 type AssetsBinding = {
   fetch: (req: Request | string) => Promise<Response>;

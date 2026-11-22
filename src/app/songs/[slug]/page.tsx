@@ -29,7 +29,7 @@ export async function generateMetadata({
       `${track.title} guitar chords`,
       `${track.title} Semi`,
       ...track.themes,
-      'Local Current',
+      'I/O',
       'Semi (; - ])',
     ],
     alternates: {

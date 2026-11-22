@@ -36,7 +36,7 @@ export function buildSemiWelcomeEmailHtml(unsubscribeToken: string): string {
                 Thanks for leaving your address.
               </p>
               <p style="margin:0 0 18px 0;">
-                I’m writing <em>Local Current</em> one song at a time here in West Nashville—mostly acoustic guitar, mandolin when the rain lets up, and notes from the conversations people trust me to keep. Five songs are up right now if you want to put them on while you work or drive.
+                I’m writing <em>I/O</em> one song at a time here in West Nashville—mostly acoustic guitar, mandolin when the rain lets up, and notes from the conversations people trust me to keep. Five songs are up right now if you want to put them on while you work or drive.
               </p>
               <p style="margin:0 0 22px 0;">
                 I won’t crowd your inbox. Whenever a new track goes up—and once all ten to fifteen songs are ready to download together as a full record—I’ll send you a quiet note right here.
@@ -80,7 +80,7 @@ export function buildSemiWelcomeEmailText(unsubscribeToken: string): string {
     '',
     'Thanks for leaving your address.',
     '',
-    'I’m writing Local Current one song at a time here in West Nashville—mostly acoustic guitar, mandolin when the rain lets up, and notes from the conversations people trust me to keep. Five songs are up right now if you want to put them on while you work or drive:',
+    'I’m writing I/O one song at a time here in West Nashville—mostly acoustic guitar, mandolin when the rain lets up, and notes from the conversations people trust me to keep. Five songs are up right now if you want to put them on while you work or drive:',
     `${SITE_URL}/songs`,
     '',
     'I won’t crowd your inbox. Whenever a new track goes up—and once all ten to fifteen songs are ready to download together as a full record—I’ll send you a quiet note right here.',

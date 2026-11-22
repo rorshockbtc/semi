@@ -55,7 +55,7 @@ export default function Closing({
           Leave the pipes open. <span className="font-serif italic font-normal text-[#FFD9C2]">Keep the garden wide.</span>
         </h2>
         <p className="mt-5 sm:mt-6 max-w-[40ch] text-base sm:text-lg text-white/85">
-          The full album, <em>Local Current</em>, is coming together in West Nashville.
+          The full album, <em>I/O</em>, is coming together in West Nashville.
         </p>
         <div className="mt-8 sm:mt-10 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
           <Link

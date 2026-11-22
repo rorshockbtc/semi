@@ -39,6 +39,11 @@ const AudioPlayerContext = createContext<AudioPlayerContextValue | null>(null);
 const PLAYABLE_TRACKS = SEMI_TRACKS.filter((t) => Boolean(t.mp3Src));
 const VOLUME_STORAGE_KEY = 'semi_player_volume';
 const DEFAULT_VOLUME = 0.85;
+const AUDIO_MASTER_REV = 'v=fade1';
+
+function withMasterRev(src: string): string {
+  return src.includes('?') ? `${src}&${AUDIO_MASTER_REV}` : `${src}?${AUDIO_MASTER_REV}`;
+}
 
 export function AudioPlayerProvider({ children }: { children: React.ReactNode }) {
   const audioRef = useRef<HTMLAudioElement | null>(null);
@@ -109,7 +114,7 @@ export function AudioPlayerProvider({ children }: { children: React.ReactNode })
       : baseTrack;
 
   useEffect(() => {
-    const el = new Audio(PLAYABLE_TRACKS[0].mp3Src!);
+    const el = new Audio(withMasterRev(PLAYABLE_TRACKS[0].mp3Src!));
     el.preload = 'metadata';
     el.volume = volumeRef.current;
     el.muted = isMutedRef.current;
@@ -125,7 +130,7 @@ export function AudioPlayerProvider({ children }: { children: React.ReactNode })
         setActiveIndex(nextIdx);
         setCurrentTime(0);
         setDuration(0);
-        el.src = PLAYABLE_TRACKS[nextIdx].mp3Src!;
+        el.src = withMasterRev(PLAYABLE_TRACKS[nextIdx].mp3Src!);
         el.load();
         const p = el.play();
         if (p) p.catch(() => setIsPlaying(false));
@@ -169,7 +174,7 @@ export function AudioPlayerProvider({ children }: { children: React.ReactNode })
       if (!el) return;
       if (idx !== activeIndex || isAlternateActive) {
         el.pause();
-        el.src = PLAYABLE_TRACKS[idx].mp3Src!;
+        el.src = withMasterRev(PLAYABLE_TRACKS[idx].mp3Src!);
         el.load();
         setCurrentTime(0);
         setDuration(0);
@@ -190,7 +195,7 @@ export function AudioPlayerProvider({ children }: { children: React.ReactNode })
 
       if (idx !== activeIndex || isAlternateActive) {
         el.pause();
-        el.src = PLAYABLE_TRACKS[idx].mp3Src!;
+        el.src = withMasterRev(PLAYABLE_TRACKS[idx].mp3Src!);
         el.load();
         setCurrentTime(0);
         setDuration(0);
@@ -220,7 +225,7 @@ export function AudioPlayerProvider({ children }: { children: React.ReactNode })
 
       if (idx !== activeIndex || !isAlternateActive) {
         el.pause();
-        el.src = target.alternateTake.mp3Src;
+        el.src = withMasterRev(target.alternateTake.mp3Src);
         el.load();
         setCurrentTime(0);
         setDuration(0);
@@ -257,7 +262,7 @@ export function AudioPlayerProvider({ children }: { children: React.ReactNode })
 
     if (activeIndex !== 0 || isAlternateActive) {
       el.pause();
-      el.src = PLAYABLE_TRACKS[0].mp3Src!;
+      el.src = withMasterRev(PLAYABLE_TRACKS[0].mp3Src!);
       el.load();
       setCurrentTime(0);
       setDuration(0);
@@ -297,7 +302,7 @@ export function AudioPlayerProvider({ children }: { children: React.ReactNode })
     setHasStarted(true);
     if (!el) return;
     el.pause();
-    el.src = PLAYABLE_TRACKS[nextIdx].mp3Src!;
+    el.src = withMasterRev(PLAYABLE_TRACKS[nextIdx].mp3Src!);
     el.load();
     setCurrentTime(0);
     setDuration(0);
@@ -316,7 +321,7 @@ export function AudioPlayerProvider({ children }: { children: React.ReactNode })
     setHasStarted(true);
     if (!el) return;
     el.pause();
-    el.src = PLAYABLE_TRACKS[prevIdx].mp3Src!;
+    el.src = withMasterRev(PLAYABLE_TRACKS[prevIdx].mp3Src!);
     el.load();
     setCurrentTime(0);
     setDuration(0);

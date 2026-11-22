@@ -323,7 +323,7 @@ test('Chord sheets exist for all 5 tracks, welcome postcard email is human & war
   assert.match(html, /semi-smiling-portrait\.jpg/);
   assert.match(html, /cubby@colonhyphenbracket\.pink/);
   assert.match(html, /tok_test_123/);
-  assert.match(text, /Local Current/);
+  assert.match(text, /I\/O/);
 
   const wranglerRaw = fs.readFileSync(path.join(ROOT, 'wrangler.jsonc'), 'utf8');
   assert.match(wranglerRaw, /nodejs_compat/);

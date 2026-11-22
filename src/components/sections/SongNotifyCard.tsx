@@ -73,7 +73,7 @@ export default function SongNotifyCard() {
           <p className="max-w-[58ch] text-[15px] sm:text-[16px] leading-relaxed text-[var(--a-muted)]">
             Every single is free to stream and download right now. Leave your email and Semi will
             send a quiet postcard when the next track is recorded—and when all {targetTrackMin}–{targetTrackMax}{' '}
-            songs unlock together as the complete <em>Local Current</em> album download.
+            songs unlock together as the complete <em>I/O</em> album download.
           </p>
 
           {/* Subtle album completion bar */}

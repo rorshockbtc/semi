@@ -12,6 +12,8 @@ import YouTubePlayer from '@/components/YouTubePlayer';
 import SongNotifyCard from '@/components/sections/SongNotifyCard';
 import { useAudioPlayer } from '@/context/AudioPlayerContext';
 import { SEMI_TRACKS, type SemiTrack } from '@/data/semi-songs';
+import { AlbumDownloadButton } from '@/components/songs/AlbumDownloadButton';
+import { VideoPlaylistButton } from '@/components/songs/VideoPlaylistModal';
 
 export default function FeaturedSongsSection({
   eyebrow = 'The singles',
@@ -39,7 +41,7 @@ export default function FeaturedSongsSection({
     <div className="grid gap-6 lg:grid-cols-12 lg:items-end">
       <div className="lg:col-span-7 min-w-0">
         <p className="font-sans text-[13px] font-semibold uppercase tracking-[0.22em] text-[var(--a-accent-text)]">
-          {eyebrow} · Local Current
+          {eyebrow} · I/O
         </p>
         <HeadingTag
           id="songs-title"
@@ -56,26 +58,31 @@ export default function FeaturedSongsSection({
           Press play and let the music stand on its own. When you want to know what a lyric means,
           every song has its own page with the story and the full words.
         </p>
-        <button
-          type="button"
-          onClick={playAll}
-          {...bloomHandlers<HTMLButtonElement>()}
-          data-testid="play-all-button"
-          className="wc-cta inline-flex min-h-[48px] w-full sm:w-auto items-center justify-center sm:justify-start gap-3 rounded-full bg-[var(--a-accent-fill)] pl-2 pr-6 text-[15px] font-semibold text-white shadow-[0_14px_34px_-14px_rgba(254,41,158,0.65)] hover:bg-[var(--a-ink)]"
-        >
-          <span className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-white/20">
-            {playingAllNow ? (
-              <Pause className="h-4 w-4" aria-hidden="true" fill="currentColor" />
-            ) : (
-              <Play className="h-4 w-4 translate-x-[1px]" aria-hidden="true" fill="currentColor" />
-            )}
-          </span>
-          <span>
-            {playingAllNow
-              ? `Playing all · ${currentTrack.number}/${playableCount}`
-              : `Play all (${playableCount} songs)`}
-          </span>
-        </button>
+        <div className="flex flex-wrap items-center gap-3">
+          <button
+            type="button"
+            onClick={playAll}
+            {...bloomHandlers<HTMLButtonElement>()}
+            data-testid="play-all-button"
+            className="wc-cta inline-flex min-h-[48px] w-full sm:w-auto items-center justify-center sm:justify-start gap-3 rounded-full bg-[var(--a-accent-fill)] pl-2 pr-6 text-[15px] font-semibold text-white shadow-[0_14px_34px_-14px_rgba(254,41,158,0.65)] hover:bg-[var(--a-ink)]"
+          >
+            <span className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-white/20">
+              {playingAllNow ? (
+                <Pause className="h-4 w-4" aria-hidden="true" fill="currentColor" />
+              ) : (
+                <Play className="h-4 w-4 translate-x-[1px]" aria-hidden="true" fill="currentColor" />
+              )}
+            </span>
+            <span>
+              {playingAllNow
+                ? `Playing all · ${currentTrack.number}/${playableCount}`
+                : `Play all (${playableCount} songs)`}
+            </span>
+          </button>
+
+          <VideoPlaylistButton className="w-full sm:w-auto" />
+          <AlbumDownloadButton className="w-full sm:w-auto" />
+        </div>
       </div>
     </div>
   );

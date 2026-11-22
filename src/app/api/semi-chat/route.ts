@@ -55,7 +55,7 @@ const CANNED_REPLIES: { match: RegExp; reply: string }[] = [
   {
     match: /ghost|slop|empty noise|bicentennial|ex machina|cello|chisel|question and the call|halfway/i,
     reply:
-      '“Ghost” is the turning point into the second half of Local Current—written out of longing for home across great distance, and the devotion an author feels for a character they spent years making real. When folks wave a hand and call AI “empty noise” or “slop,” they miss the human care guiding the chisel. Watch the film and stream both “Ghost” and the listen-only “Ghost (Alt Take)” on /songs/ghost.',
+      '“Ghost” is the turning point into the second half of I/O—written out of longing for home across great distance, and the devotion an author feels for a character they spent years making real. When folks wave a hand and call AI “empty noise” or “slop,” they miss the human care guiding the chisel. Watch the film and stream both “Ghost” and the listen-only “Ghost (Alt Take)” on /songs/ghost.',
   },
   {
     match: /out of the barn|frontier open|builders run|another flag|dusty vault|horse is out/i,
@@ -85,7 +85,7 @@ const CANNED_REPLIES: { match: RegExp; reply: string }[] = [
   {
     match: /nashville|west nashville|album|guitar|photo|record/i,
     reply:
-      'West Nashville keeps me grounded—porch guitars, natural window light, and plain-spoken songs. Nine songs are live right now from Local Current (through “Out of the Barn” and “Ghost”), each with its own video, free main-track MP3, and story page.',
+      'West Nashville keeps me grounded—porch guitars, natural window light, and plain-spoken songs. Nine songs are live right now from I/O (through “Out of the Barn” and “Ghost”), each with its own video, free main-track MP3, and story page.',
   },
 ];
 
