@@ -45,7 +45,7 @@ const CANNED_REPLIES: { match: RegExp; reply: string }[] = [
   {
     match: /1986|eighty-six|dial-up|modem|tone|unplugged|bikes|86/i,
     reply:
-      '“1986” looks back ten years before the 1990s dial-up modem tone—when BMX bikes lay in the driveway, screen doors slammed, and nobody was keeping score online. Watch the video (EVrUoyWUoQU), read the story, and download the MP3 on /songs/1986.',
+      '“1986” looks back ten years before the 1990s dial-up modem tone—when BMX bikes lay in the driveway, screen doors slammed, and nobody was keeping score online. Watch the video (LgbMNaOFU9w), read the story, and download the MP3 on /songs/1986.',
   },
   {
     match: /billion|vocoder|choir|billion souls|held the flame|quiet/i,

@@ -448,6 +448,33 @@ export const SEMI_CHORD_SHEETS: Record<string, TrackChordSheet> = {
       ],
     },
   },
+  io: {
+    key: 'C Major (2 AM Acoustic Outro)',
+    capo: 'No capo',
+    tuning: 'Standard (E A D G B E)',
+    strumming: '72 BPM · Sparse fingerpicking',
+    sections: {
+      verse: [
+        'C                         G/B',
+        'Am7                       Fmaj7',
+      ],
+      'pre-chorus': [
+        'Dm7                       Em7',
+        'Fmaj7                     Gsus4   G',
+      ],
+      chorus: [
+        'C                         G/B',
+        'Am7                       Fmaj7',
+        'C                         G',
+        'Fmaj7         G           C',
+      ],
+      outro: [
+        'Fmaj7                     G',
+        'Am7                       Fmaj7',
+        'C',
+      ],
+    },
+  },
 };
 
 export function getChordForStanzaLine(

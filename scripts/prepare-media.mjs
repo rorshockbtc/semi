@@ -142,6 +142,13 @@ const TRACKS = [
     track: '11/12',
     comment: 'From Local Current (The West Nashville Sessions) · https://semi.colonhyphenbracket.pink',
   },
+  {
+    inputs: ['I:.0m4a.m4a'],
+    out: '12-semi-io.mp3',
+    title: 'I/O',
+    track: '12/12',
+    comment: 'Closing Track · Local Current (The West Nashville Sessions) · https://semi.colonhyphenbracket.pink',
+  },
 ];
 
 for (const t of TRACKS) {
