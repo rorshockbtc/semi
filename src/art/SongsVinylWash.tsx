@@ -103,10 +103,10 @@ export default function SongsVinylWash() {
       const cx = width * (0.22 + 0.56 * scrollProgress) + (pointer.x - 0.5) * 48;
       const cy = height * (0.24 + 0.48 * Math.sin(scrollProgress * Math.PI)) + (pointer.y - 0.5) * 36;
 
-      const grad1 = ctx.createRadialGradient(cx, cy, 20, cx, cy, Math.max(width, height) * 0.58);
-      grad1.addColorStop(0, 'rgba(254, 41, 158, 0.09)');
-      grad1.addColorStop(0.42, 'rgba(194, 92, 54, 0.08)');
-      grad1.addColorStop(0.75, 'rgba(217, 155, 67, 0.06)');
+      const grad1 = ctx.createRadialGradient(cx, cy, 20, cx, cy, Math.max(width, height) * 0.62);
+      grad1.addColorStop(0, 'rgba(254, 41, 158, 0.16)');
+      grad1.addColorStop(0.42, 'rgba(194, 92, 54, 0.13)');
+      grad1.addColorStop(0.75, 'rgba(217, 155, 67, 0.10)');
       grad1.addColorStop(1, 'rgba(232, 226, 213, 0)');
       ctx.fillStyle = grad1;
       ctx.fillRect(0, 0, width, height);
@@ -123,8 +123,8 @@ export default function SongsVinylWash() {
         ctx.beginPath();
         ctx.arc(0, 0, radius, 0.2 + i * 0.4, Math.PI * 1.35 + i * 0.4);
         ctx.strokeStyle =
-          i % 2 === 0 ? 'rgba(194, 92, 54, 0.09)' : 'rgba(254, 41, 158, 0.08)';
-        ctx.lineWidth = 1.5;
+          i % 2 === 0 ? 'rgba(194, 92, 54, 0.16)' : 'rgba(254, 41, 158, 0.15)';
+        ctx.lineWidth = 2;
         ctx.stroke();
       }
       ctx.restore();
@@ -133,9 +133,9 @@ export default function SongsVinylWash() {
       if (pointer.active) {
         const px = pointer.x * width;
         const py = pointer.y * height;
-        const pGrad = ctx.createRadialGradient(px, py, 8, px, py, 190 + pointer.energy * 70);
-        pGrad.addColorStop(0, `rgba(254, 41, 158, ${0.07 + pointer.energy * 0.07})`);
-        pGrad.addColorStop(0.55, 'rgba(217, 155, 67, 0.05)');
+        const pGrad = ctx.createRadialGradient(px, py, 8, px, py, 210 + pointer.energy * 80);
+        pGrad.addColorStop(0, `rgba(254, 41, 158, ${0.14 + pointer.energy * 0.12})`);
+        pGrad.addColorStop(0.55, 'rgba(217, 155, 67, 0.09)');
         pGrad.addColorStop(1, 'rgba(232, 226, 213, 0)');
         ctx.fillStyle = pGrad;
         ctx.fillRect(0, 0, width, height);
@@ -153,7 +153,7 @@ export default function SongsVinylWash() {
         ctx.arc(rp.x, rp.y, rp.r, 0, Math.PI * 2);
         ctx.strokeStyle = rp.hue;
         ctx.globalAlpha = rp.alpha;
-        ctx.lineWidth = 2;
+        ctx.lineWidth = 2.5;
         ctx.stroke();
         ctx.globalAlpha = 1;
       }
@@ -181,7 +181,7 @@ export default function SongsVinylWash() {
     <canvas
       ref={canvasRef}
       aria-hidden="true"
-      className="pointer-events-none fixed inset-0 z-0"
+      className="pointer-events-none fixed inset-0 z-[1]"
     />
   );
 }
