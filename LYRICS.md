@@ -51,8 +51,8 @@ Every small light gets a turn
 We hold the key in our own home
 Never forced to walk alone
 
-(keep the current open)
-(keep the garden wide)
+Keep the current open
+Keep the garden wide
 Warm copper humming in the dark
 Every small spark
 

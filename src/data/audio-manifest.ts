@@ -2,18 +2,18 @@
 export const AUDIO_MASTER_REV = 'io3';
 
 export const PUBLIC_AUDIO_BYTE_SIZES: Record<string, number> = {
-  "01-semi-old-oak-tree.mp3": 6446081,
-  "02-semi-warm-unknown.mp3": 6992244,
-  "03-semi-marks-on-the-screen-ink-on-the-page.mp3": 7395888,
-  "04-semi-settle-in-the-block.mp3": 7476824,
-  "05-semi-salt-in-the-rain.mp3": 7463896,
-  "06-semi-no-human-hands-can-hold.mp3": 5724552,
-  "07-semi-out-of-office.mp3": 6332712,
-  "08-semi-out-of-the-barn.mp3": 6770227,
-  "09-semi-ghost.mp3": 6880297,
-  "10-semi-billion.mp3": 6706169,
-  "11-semi-1986.mp3": 6702124,
-  "12-semi-io.mp3": 6343578
+  "01-semi-old-oak-tree.mp3": 6471783,
+  "02-semi-warm-unknown.mp3": 7017950,
+  "03-semi-marks-on-the-screen-ink-on-the-page.mp3": 7421594,
+  "04-semi-settle-in-the-block.mp3": 7502530,
+  "05-semi-salt-in-the-rain.mp3": 7489602,
+  "06-semi-no-human-hands-can-hold.mp3": 5750258,
+  "07-semi-out-of-office.mp3": 6358418,
+  "08-semi-out-of-the-barn.mp3": 6795933,
+  "09-semi-ghost.mp3": 6906003,
+  "10-semi-billion.mp3": 6731875,
+  "11-semi-1986.mp3": 6727830,
+  "12-semi-io.mp3": 6369284
 };
 
 export interface DeluxeBonusManifestEntry {
@@ -27,21 +27,21 @@ export interface DeluxeBonusManifestEntry {
 export const DELUXE_BONUS_MANIFEST: Record<string, DeluxeBonusManifestEntry> = {
   "13-salt-in-the-rain-alternate-take": {
     "vaultFile": "13-salt-in-the-rain-alt-c9f4e2a81b.mp3",
-    "size": 7569276,
+    "size": 7594982,
     "title": "Salt In The Rain (Alternate Take)",
     "trackNumber": "13",
     "downloadName": "13 - Salt In The Rain (Alternate Take).mp3"
   },
   "14-out-of-office-alternate-take": {
     "vaultFile": "14-out-of-office-alt-7a3d91e04c.mp3",
-    "size": 6158202,
+    "size": 6183908,
     "title": "Out of Office (Alternate Take)",
     "trackNumber": "14",
     "downloadName": "14 - Out of Office (Alternate Take).mp3"
   },
   "15-ghost-alternate-take": {
     "vaultFile": "15-ghost-alt-5e8b20f16d.mp3",
-    "size": 6944048,
+    "size": 6969754,
     "title": "Ghost (Alternate Take)",
     "trackNumber": "15",
     "downloadName": "15 - Ghost (Alternate Take).mp3"
