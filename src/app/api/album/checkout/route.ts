@@ -98,7 +98,7 @@ export async function POST(req: Request) {
 
     // 2. Paid $12.99 Stripe Checkout Session
     const stripeKey = process.env.STRIPE_SECRET_KEY?.trim();
-    if (!stripeKey || !stripeKey.startsWith('sk_')) {
+    if (!stripeKey || (!stripeKey.startsWith('sk_') && !stripeKey.startsWith('rk_'))) {
       return Response.json(
         {
           ok: false,
