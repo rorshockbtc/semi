@@ -504,13 +504,29 @@ function DeluxeModalDialog({
         setZipProgress({ current: mainTracks.length + j + 1, total });
       }
 
-      // 3. Cover art + M3U sequential playlist
-      const coverRes = await fetch('/photos/io-album-cover.jpg');
-      if (coverRes.ok) {
-        entries.push({
-          name: `${folder}/cover.jpg`,
-          data: new Uint8Array(await coverRes.arrayBuffer()),
-        });
+      // 3. Deluxe Booklet & Cover Art (9 high-res plates from semi_io_art) + M3U sequential playlist
+      const artFiles = [
+        'io_cover.jpg',
+        'io_01.jpg',
+        'io_02.jpg',
+        'io_03.jpg',
+        'io_05.jpg',
+        'io_06.jpg',
+        'io_07.jpg',
+        'io_08.jpg',
+        'io_09.jpg',
+      ];
+      for (const artName of artFiles) {
+        const artRes = await fetch(
+          `/api/album/art/${artName}?token=${encodeURIComponent(unlockedToken)}&v=${AUDIO_MASTER_REV}`
+        );
+        if (artRes.ok) {
+          const artBytes = new Uint8Array(await artRes.arrayBuffer());
+          entries.push({ name: `${folder}/Booklet & Art/${artName}`, data: artBytes });
+          if (artName === 'io_cover.jpg') {
+            entries.push({ name: `${folder}/cover.jpg`, data: artBytes });
+          }
+        }
       }
       entries.push({
         name: `${folder}/00 - Play I-O Deluxe (15 Tracks).m3u`,
