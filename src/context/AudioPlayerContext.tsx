@@ -168,9 +168,23 @@ export function AudioPlayerProvider({ children }: { children: React.ReactNode })
         setDuration(parseDurationFallback(next.duration));
         el.preload = 'auto';
         el.src = withMasterRev(next.mp3Src!);
+        el.load();
         syncMediaSession(next);
-        const p = el.play();
-        if (p) p.catch(() => setIsPlaying(false));
+
+        const tryPlay = () => {
+          const p = el.play();
+          if (p) {
+            p.catch(() => {
+              // On iOS Safari, play() right after src swap can reject before canplay; retry once buffered
+              const onCanPlay = () => {
+                el.removeEventListener('canplay', onCanPlay);
+                el.play().catch(() => setIsPlaying(false));
+              };
+              el.addEventListener('canplay', onCanPlay, { once: true });
+            });
+          }
+        };
+        tryPlay();
         return;
       }
       setPlayAllActive(false);
@@ -180,6 +194,9 @@ export function AudioPlayerProvider({ children }: { children: React.ReactNode })
 
     const onPlay = () => setIsPlaying(true);
     const onPause = () => setIsPlaying(false);
+    const onError = () => {
+      setIsPlaying(false);
+    };
 
     el.addEventListener('timeupdate', onTimeUpdate);
     el.addEventListener('loadedmetadata', onDurationUpdate);
@@ -187,6 +204,7 @@ export function AudioPlayerProvider({ children }: { children: React.ReactNode })
     el.addEventListener('ended', onEnded);
     el.addEventListener('play', onPlay);
     el.addEventListener('pause', onPause);
+    el.addEventListener('error', onError);
 
     return () => {
       el.pause();
@@ -196,6 +214,7 @@ export function AudioPlayerProvider({ children }: { children: React.ReactNode })
       el.removeEventListener('ended', onEnded);
       el.removeEventListener('play', onPlay);
       el.removeEventListener('pause', onPause);
+      el.removeEventListener('error', onError);
     };
   }, [syncMediaSession]);
 
