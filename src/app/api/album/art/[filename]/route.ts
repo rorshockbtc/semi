@@ -16,6 +16,7 @@ const VALID_ART_FILES = new Set([
   'io_07.jpg',
   'io_08.jpg',
   'io_09.jpg',
+  'io_10.jpg',
 ]);
 
 type AssetsBinding = {

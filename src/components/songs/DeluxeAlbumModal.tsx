@@ -520,6 +520,7 @@ function DeluxeModalDialog({
         'io_07.jpg',
         'io_08.jpg',
         'io_09.jpg',
+        'io_10.jpg',
       ];
       for (const artName of artFiles) {
         const artRes = await fetch(

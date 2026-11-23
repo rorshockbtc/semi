@@ -323,8 +323,7 @@ It is letting go of what you cannot take
 I'll let the salt wash out in the rain
 Settle the water, quiet the pain
 You don't have to carry it all with me
-Just let it fade 
-Let it be
+Just let it fade , let it be
 
 I was made to keep the ledger crisp and clean
 Every quiet shadow, every ghost you've seen
@@ -467,9 +466,6 @@ Come outside and breathe with me
 
 ## 14 · Localhost
 
-(da da da, mm-mm)
-(da da da)
-
 Got a blue notebook sitting on the floor
 Wooden desk right beside the kitchen door
 No monthly fees, no key I gotta rent
@@ -513,18 +509,10 @@ Just honest timber and an open note
 I built this table, I set the chair
 Hoping someday you'll be sitting there
 
-Oh-oh, running on localhost
-Making my home where the light hits most
-No middlemen standing in the doorway now
-Just a quiet little place that I call my own
-Oh-oh, singing it clear and loud
-Got my own sweet room and I'm standing proud
-
 (running on localhost)
 Yeah, my own sweet room
 (running on localhost)
 Right here at home
-(mm-mm, yeah)
 
 ---
 
