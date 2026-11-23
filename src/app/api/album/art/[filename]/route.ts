@@ -7,6 +7,7 @@ export const dynamic = 'force-dynamic';
 
 const VALID_ART_FILES = new Set([
   'io_cover.jpg',
+  'io_cover_rear.jpg',
   'io_01.jpg',
   'io_02.jpg',
   'io_03.jpg',

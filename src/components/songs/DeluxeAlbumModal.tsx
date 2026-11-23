@@ -507,6 +507,7 @@ function DeluxeModalDialog({
       // 3. Deluxe Booklet & Cover Art (9 high-res plates from semi_io_art) + M3U sequential playlist
       const artFiles = [
         'io_cover.jpg',
+        'io_cover_rear.jpg',
         'io_01.jpg',
         'io_02.jpg',
         'io_03.jpg',
