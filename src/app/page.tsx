@@ -3,6 +3,7 @@ import AutumnPaperCanvas from '@/art/AutumnPaperCanvas';
 import SiteHeader from '@/components/site/SiteHeader';
 import SiteFooter from '@/components/site/SiteFooter';
 import Hero from '@/components/sections/Hero';
+import AlbumReleaseCallout from '@/components/sections/AlbumReleaseCallout';
 import FeaturedSongsSection from '@/components/sections/FeaturedSongsSection';
 import SemicolonExplainer from '@/components/sections/SemicolonExplainer';
 import FilmScenesGallery from '@/components/sections/FilmScenesGallery';
@@ -22,6 +23,7 @@ export default function HomePage() {
       <SiteHeader />
       <main id="main" className="relative z-10 flex-1">
         <Hero />
+        <AlbumReleaseCallout />
         <FeaturedSongsSection />
         <SemicolonExplainer />
         <FilmScenesGallery preview />

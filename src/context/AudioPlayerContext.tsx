@@ -168,14 +168,12 @@ export function AudioPlayerProvider({ children }: { children: React.ReactNode })
         setDuration(parseDurationFallback(next.duration));
         el.preload = 'auto';
         el.src = withMasterRev(next.mp3Src!);
-        el.load();
         syncMediaSession(next);
 
         const tryPlay = () => {
           const p = el.play();
           if (p) {
             p.catch(() => {
-              // On iOS Safari, play() right after src swap can reject before canplay; retry once buffered
               const onCanPlay = () => {
                 el.removeEventListener('canplay', onCanPlay);
                 el.play().catch(() => setIsPlaying(false));
@@ -252,7 +250,8 @@ export function AudioPlayerProvider({ children }: { children: React.ReactNode })
       const idx = resolveIndex(slugOrIndex);
       const el = audioRef.current;
       setHasStarted(true);
-      setPlayAllActive(false);
+      setPlayAllActive(true);
+      playAllRef.current = true;
       if (!el) return;
 
       el.preload = 'auto';
