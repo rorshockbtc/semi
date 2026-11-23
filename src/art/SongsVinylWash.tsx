@@ -9,6 +9,7 @@ import {
   scheduleSoftEvaporate,
   smoothstep,
 } from '@/art/autumn-palette';
+import { isLowEndDevice } from '@/art/device-tier';
 
 interface WashBloom {
   x: number;
@@ -50,6 +51,7 @@ export default function SongsVinylWash() {
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
+    const lowEnd = isLowEndDevice();
     let width = 0;
     let height = 0;
     let dpr = 1;
@@ -62,7 +64,7 @@ export default function SongsVinylWash() {
     const blooms: WashBloom[] = [];
 
     const resize = () => {
-      dpr = Math.min(window.devicePixelRatio || 1, 2);
+      dpr = lowEnd ? 1 : Math.min(window.devicePixelRatio || 1, 2);
       width = Math.max(1, window.innerWidth);
       height = Math.max(1, window.innerHeight);
       canvas.width = Math.floor(width * dpr);
@@ -190,6 +192,9 @@ export default function SongsVinylWash() {
       return true;
     };
 
+    let lastDrawAt = 0;
+    const minFrameMs = lowEnd ? 34 : 0;
+
     const startLoop = () => {
       if (rafId) return;
       const tick = (now: number) => {
@@ -197,6 +202,11 @@ export default function SongsVinylWash() {
           rafId = 0;
           return;
         }
+        if (minFrameMs > 0 && now - lastDrawAt < minFrameMs) {
+          rafId = requestAnimationFrame(tick);
+          return;
+        }
+        lastDrawAt = now;
         ctx.clearRect(0, 0, width, height);
         ctx.globalCompositeOperation = 'multiply';
         for (let i = blooms.length - 1; i >= 0; i--) {
