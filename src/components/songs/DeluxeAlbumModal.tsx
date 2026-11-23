@@ -17,6 +17,7 @@ import {
 import { SEMI_TRACKS } from '@/data/semi-songs';
 import { AUDIO_MASTER_REV } from '@/data/audio-manifest';
 import { useAudioPlayer } from '@/context/AudioPlayerContext';
+import { LocalhostTeaserCard } from '@/components/songs/LocalhostTeaserCard';
 import {
   buildM3uPlaylist,
   buildStoreZip,
@@ -45,10 +46,10 @@ export const DELUXE_BONUS_LIST: DeluxeBonusItem[] = [
   },
   {
     number: '14',
-    slug: '14-out-of-office-alternate-take',
-    title: 'Out of Office (Alternate Take)',
-    duration: '02:26',
-    note: 'Late-afternoon West Nashville acoustic arrangement.',
+    slug: '14-localhost',
+    title: 'Localhost',
+    duration: '02:59',
+    note: 'Exclusive Deluxe bonus song—stream the preview here, or unlock the 320 kbps MP3 master in the Deluxe Vault.',
   },
   {
     number: '15',
@@ -256,9 +257,10 @@ export function DeluxeAlbumSection() {
           <p className="text-[16px] leading-relaxed text-[var(--a-ink)]/80">
             All 12 commercial songs remain free to stream and download on this site. When you buy
             the <strong>$12.99 Deluxe Collector’s Edition</strong>, you get the complete 15-track
-            master sequenced with <strong>three exclusive studio alternate takes at the end</strong>
-            —closing with <em>Ghost (Alternate Take)</em>—plus lifetime free re-downloads whenever
-            we update audio or album artwork.
+            master sequenced with the exclusive bonus song <strong><em>Localhost</em></strong> plus{' '}
+            <strong>two studio alternate takes</strong>—closing with <em>Ghost (Alternate Take)</em>
+            —alongside the 10-plate lookbook booklet and lifetime free re-downloads whenever we
+            update audio or album artwork.
           </p>
 
           <div className="pt-2 flex flex-wrap items-center gap-3">
@@ -290,7 +292,9 @@ export function DeluxeAlbumSection() {
           </div>
         </div>
 
-        <div className="lg:col-span-7 min-w-0">
+        <div className="lg:col-span-7 min-w-0 space-y-6">
+          <LocalhostTeaserCard testId="songs-localhost-teaser" />
+
           <div className="divide-y divide-[var(--a-rule)] border-y border-[var(--a-rule)]">
             <div className="py-4 flex items-center justify-between gap-4">
               <span className="font-code text-[14px] text-[var(--a-muted)]">01 – 12</span>
@@ -768,9 +772,9 @@ function DeluxeModalDialog({
                   <p className="text-[15px] leading-relaxed text-[var(--a-ink)]/85">
                     Includes all 12 songs on <em>I/O</em> plus{' '}
                     <strong>13 · Salt In The Rain (Alt Take)</strong>,{' '}
-                    <strong>14 · Out of Office (Alt Take)</strong>, and{' '}
-                    <strong>15 · Ghost (Alt Take)</strong> closing the album—plus free lifetime
-                    updates.
+                    <strong>14 · Localhost</strong>, and{' '}
+                    <strong>15 · Ghost (Alt Take)</strong> closing the album—along with the 10-plate
+                    lookbook booklet and free lifetime updates.
                   </p>
 
                   <div className="space-y-1.5">

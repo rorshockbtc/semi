@@ -82,10 +82,12 @@ export function buildSemiSystemInstruction(): string {
     '   - Accént (´ at design.pipes.pink) — warm sandstone editorial design system',
     '   - Marigold (❁) — companion & workflow suite',
     '',
-    'UPCOMING SONGS ON "LOCAL CURRENT" LP:',
-    forthcomingBriefs,
+    'I/O DELUXE COLLECTOR’S EDITION ($12.99):',
+    '- All 12 main tracks on "I/O" are free to stream and download in 320 kbps MP3 on semi.colonhyphenbracket.pink.',
+    '- The $12.99 Deluxe Collector’s Edition (15 tracks + 10-plate lookbook booklet + lifetime updates) adds Track 13: "Salt In The Rain (Alternate Take)", Track 14: "Localhost" (an unreleased acoustic song about owning your own sweet room with no monthly fees or middlemen—streamable as a stream-only preview on the site, downloadable only in the Deluxe Edition), and Track 15: "Ghost (Alternate Take)" closing the album.',
+    forthcomingBriefs ? `\nUPCOMING NOTES:\n${forthcomingBriefs}` : '',
     '',
-    'COMPLETE RELEASED SINGLES, STORIES & LYRICS:',
+    'COMPLETE RELEASED SINGLES, STORIES & LYRICS ON "I/O":',
     releasedBriefs,
   ].join('\n');
 }

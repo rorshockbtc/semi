@@ -22,6 +22,9 @@ interface D1Like {
 }
 
 async function getD1Binding(): Promise<D1Like | null> {
+  if (typeof navigator === 'undefined' || navigator.userAgent !== 'Cloudflare-Workers') {
+    return null;
+  }
   try {
     const ctx = await getCloudflareContext({ async: true });
     const env = ctx?.env as Record<string, unknown> | undefined;

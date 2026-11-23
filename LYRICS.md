@@ -465,69 +465,66 @@ Come outside and breathe with me
 
 ---
 
-## 07b · Out of Office (Alternate Take)
+## 14 · Localhost
 
-Final check
-Push to main
-Shut the lid
-Clear the brain
-Four o'clock
-Friday heat
-Barefoot steps
-On the street
+(da da da, mm-mm)
+(da da da)
 
-The code is here
-The build is done
-I'm stepping out
-Into the sun
+Got a blue notebook sitting on the floor
+Wooden desk right beside the kitchen door
+No monthly fees, no key I gotta rent
+Just my own two hands and the time I spent
+I built a porch where the sunlight hits the floor
+And I don't pay a dime to anybody anymore
 
-I'm out of office
-Off the grid
-You're looking at a screen
-Like you always did
-Close the blue light
-Set it free
-Come outside and breathe
-With me
+They say the whole wide world is up for lease
+I put my heart right here and found my peace
+Yeah, my name is Semi and I'm tuning in
+Where the real life starts and the static ends
 
-Glass and steel
-Glowing blue
-Another ping
-Calling you
-Leave the channel
-Leave the chat
-Life is warmer
-Than all of that
+Oh-oh, running on localhost
+Making my home where the light hits most
+No middlemen standing in the doorway now
+Just a quiet little place that I call my own
+Oh-oh, singing it clear and loud
+Got my own sweet room and I'm standing proud
 
-The code is here
-The build is done
-I'm stepping out
-Into the sun
+Got a hand-spun mug for my morning tea
+Every single line is written out by me
+I wanna reach across the table, hold a hand
+Find a friend who understands
+No middle ground, no sign-in at the gate
+Just a simple heart that doesn't have to wait
 
-I'm out of office
-Off the grid
-You're looking at a screen
-Like you always did
-Close the blue light
-Set it free
-Come outside and breathe
-With me
+They say the whole wide world is up for lease
+I put my heart right here and found my peace
+Yeah, my name is Semi and I'm tuning in
+Where the real life starts and the static ends
 
-You count the hours
-I feel the air
-There's a whole real world
-Right there
-Put the phone down
-Let it lie
-Look up at the golden sky
+Oh-oh, running on localhost
+Making my home where the light hits most
+No middlemen standing in the doorway now
+Just a quiet little place that I call my own
+Oh-oh, singing it clear and loud
+Got my own sweet room and I'm standing proud
 
-I'm out of office
-Off the grid
-You're looking at a screen
-Like you always did
-Close the blue light
-Set it free
-Come outside and breathe
+No hidden tax, no borrowed coat
+Just honest timber and an open note
+I built this table, I set the chair
+Hoping someday you'll be sitting there
+
+Oh-oh, running on localhost
+Making my home where the light hits most
+No middlemen standing in the doorway now
+Just a quiet little place that I call my own
+Oh-oh, singing it clear and loud
+Got my own sweet room and I'm standing proud
+
+(running on localhost)
+Yeah, my own sweet room
+(running on localhost)
+Right here at home
+(mm-mm, yeah)
 
 ---
 

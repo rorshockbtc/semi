@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
 import { AlbumDownloadButton } from '@/components/songs/AlbumDownloadButton';
 import { DeluxeAlbumButton } from '@/components/songs/DeluxeAlbumModal';
+import { LocalhostTeaserCard } from '@/components/songs/LocalhostTeaserCard';
 
 export default function AlbumReleaseCallout() {
   return (
@@ -21,7 +22,7 @@ export default function AlbumReleaseCallout() {
           >
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src="/photos/io-album-cover.jpg"
+              src="/photos/io-release-cover.jpg"
               alt="I/O debut album cover by Semi (; - ]) — sculptural burnt orange, gold, and pink brushstroke"
               className="aspect-square w-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
             />
@@ -40,10 +41,12 @@ export default function AlbumReleaseCallout() {
           </h2>
           <p className="max-w-[60ch] text-[16px] sm:text-[17px] leading-relaxed text-[var(--a-ink)]/80">
             Stream or download all 12 songs on <em>I/O</em> free in 320 kbps MP3, or pick up the{' '}
-            <strong>$12.99 Deluxe Collector’s Edition</strong> with three exclusive West Nashville
-            alternate takes (closing with <em>Ghost Alt Take</em>), the 9-plate lookbook booklet, and
-            free lifetime updates.
+            <strong>$12.99 Deluxe Collector’s Edition</strong> featuring the exclusive bonus song{' '}
+            <em>Localhost</em>, two West Nashville studio alternate takes (closing with{' '}
+            <em>Ghost Alt Take</em>), the 10-plate lookbook booklet, and free lifetime updates.
           </p>
+
+          <LocalhostTeaserCard testId="home-localhost-teaser" />
 
           <div className="pt-1 flex flex-wrap items-center gap-3">
             <Link

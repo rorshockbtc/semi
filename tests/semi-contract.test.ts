@@ -74,10 +74,15 @@ test('MP3 audio masters exist, exceed 1MB, contain valid ID3/MPEG headers, and i
     );
   }
 
-  // Protected Deluxe Vault bonus tracks (13, 14, and 15 closing with Ghost Alt Take)
+  // Protected Deluxe Vault bonus tracks (13, 14 Localhost, and 15 closing with Ghost Alt Take)
+  assert.equal(
+    fs.existsSync(path.join(ROOT, 'public', 'deluxe-vault', '14-out-of-office-alt-7a3d91e04c.mp3')),
+    false,
+    'Retired Out of Office Alt Take must not remain in deluxe-vault'
+  );
   const deluxeVault = [
     '13-salt-in-the-rain-alt-c9f4e2a81b.mp3',
-    '14-out-of-office-alt-7a3d91e04c.mp3',
+    '14-localhost-9d4e21b83f.mp3',
     '15-ghost-alt-5e8b20f16d.mp3',
   ];
   for (const file of deluxeVault) {
@@ -482,13 +487,47 @@ test('Autumn watercolor art direction wires distinct engines per main page and l
 
 
 
-test('Deluxe Edition promo code trypipesdotpink, 6-digit returning buyer login, and Track 15 Ghost Alt bonus gate work end-to-end', async () => {
+test('Deluxe Edition promo code trypipesdotpink, stream-only Localhost teaser, 6-digit returning buyer login, and Track 15 Ghost Alt bonus gate work end-to-end', async () => {
   const { POST: checkoutPost } = await import('../src/app/api/album/checkout/route.ts');
   const { GET: bonusGet } = await import('../src/app/api/album/bonus/[slug]/route.ts');
+  const { GET: teaserGet } = await import('../src/app/api/album/teaser/route.ts');
   const { createBuyerLoginCode, verifyBuyerLoginCode } = await import('../src/lib/album-purchases.ts');
   const { patchMp3TrackTotalTo15 } = await import('../src/lib/zip-album.ts');
 
-  // 1. Unauthenticated request to Track 15 (Ghost Alt Take) must return 401
+  // 0. Stream-only Localhost teaser supports 206 byte ranges inline, blocks direct document download, and exposes zero <a download> in UI
+  const teaserRangeRes = await teaserGet(
+    new Request('http://localhost/api/album/teaser', {
+      headers: { Range: 'bytes=0-511', 'Sec-Fetch-Dest': 'audio' },
+    })
+  );
+  assert.equal(teaserRangeRes.status, 206);
+  assert.equal(teaserRangeRes.headers.get('content-disposition'), 'inline');
+  assert.match(teaserRangeRes.headers.get('content-range') || '', /^bytes 0-511\/\d+$/);
+
+  const teaserDocRes = await teaserGet(
+    new Request('http://localhost/api/album/teaser', {
+      headers: { 'Sec-Fetch-Dest': 'document' },
+    })
+  );
+  assert.equal(teaserDocRes.status, 403);
+
+  const teaserCardSrc = fs.readFileSync(
+    path.join(ROOT, 'src', 'components', 'songs', 'LocalhostTeaserCard.tsx'),
+    'utf8'
+  );
+  assert.equal(
+    /<a\b[^>]*\bdownload\b/i.test(teaserCardSrc),
+    false,
+    'LocalhostTeaserCard must never render a download link'
+  );
+
+  // 1. Unauthenticated request to Track 14 (Localhost download) & Track 15 (Ghost Alt Take) must return 401
+  const unauthLocalhostRes = await bonusGet(
+    new Request('http://localhost/api/album/bonus/14-localhost'),
+    { params: Promise.resolve({ slug: '14-localhost' }) }
+  );
+  assert.equal(unauthLocalhostRes.status, 401);
+
   const unauthRes = await bonusGet(
     new Request('http://localhost/api/album/bonus/15-ghost-alternate-take'),
     { params: Promise.resolve({ slug: '15-ghost-alternate-take' }) }
@@ -509,7 +548,16 @@ test('Deluxe Edition promo code trypipesdotpink, 6-digit returning buyer login, 
   assert.equal(promoJson.unlocked, true);
   assert.ok(promoJson.token.length > 20);
 
-  // 3. Authenticated byte-range request to Track 15 (Ghost Alt Take) must return 206 Partial Content
+  // 3. Authenticated byte-range request to Track 14 (Localhost) & Track 15 (Ghost Alt Take) must return 206 Partial Content
+  const authLocalhostRes = await bonusGet(
+    new Request(
+      `http://localhost/api/album/bonus/14-localhost?token=${encodeURIComponent(promoJson.token)}`,
+      { headers: { Range: 'bytes=0-255' } }
+    ),
+    { params: Promise.resolve({ slug: '14-localhost' }) }
+  );
+  assert.equal(authLocalhostRes.status, 206);
+
   const authRes = await bonusGet(
     new Request(
       `http://localhost/api/album/bonus/15-ghost-alternate-take?token=${encodeURIComponent(promoJson.token)}`,

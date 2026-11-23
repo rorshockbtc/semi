@@ -12,6 +12,9 @@ type AssetsBinding = {
 };
 
 async function getAssetsBinding(): Promise<AssetsBinding | null> {
+  if (typeof navigator === 'undefined' || navigator.userAgent !== 'Cloudflare-Workers') {
+    return null;
+  }
   try {
     const ctx = await getCloudflareContext({ async: true });
     const env = ctx?.env as { ASSETS?: AssetsBinding } | undefined;

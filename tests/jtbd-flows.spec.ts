@@ -491,6 +491,29 @@ test.describe('Semi (; - ]) Multi-Page Interactive JTBD Suite', () => {
     await page.waitForTimeout(250);
     await expect(dock).toContainText('01:05');
 
+    // 2b. Verify stream-only Localhost Deluxe teaser card has zero download links and streams cleanly
+    const teaserCard = page.getByTestId('songs-localhost-teaser');
+    await teaserCard.evaluate((el) => el.scrollIntoView({ behavior: 'instant', block: 'center' }));
+    await expect(teaserCard).toBeVisible();
+    await expect(teaserCard).toContainText('14 · Localhost');
+    await expect(teaserCard.locator('a[download]')).toHaveCount(0);
+
+    const teaserStreamRes = await page.request.get('/api/album/teaser', {
+      headers: { Range: 'bytes=0-1023', 'Sec-Fetch-Dest': 'audio' },
+    });
+    expect(teaserStreamRes.status()).toBe(206);
+    expect(teaserStreamRes.headers()['content-disposition']).toBe('inline');
+
+    const teaserDocRes = await page.request.get('/api/album/teaser', {
+      headers: { 'Sec-Fetch-Dest': 'document' },
+    });
+    expect(teaserDocRes.status()).toBe(403);
+
+    await page.getByTestId('songs-localhost-teaser-play-btn').click();
+    await expect(teaserCard).toHaveAttribute('data-playing', 'true');
+    await page.getByTestId('songs-localhost-teaser-play-btn').click();
+    await expect(teaserCard).toHaveAttribute('data-playing', 'false');
+
     // 3. Open $12.99 Deluxe Edition modal & unlock free via "trypipesdotpink"
     await page.evaluate(() => window.scrollTo(0, 0));
     await page.waitForTimeout(150);
@@ -506,9 +529,10 @@ test.describe('Semi (; - ]) Multi-Page Interactive JTBD Suite', () => {
     await expect(page.getByTestId('deluxe-submit-btn')).toContainText(/Unlock Deluxe Album Free/i);
     await page.getByTestId('deluxe-submit-btn').click();
 
-    // Verify Collector's Vault unlocks with Track 15 (Ghost Alternate Take) as finale
+    // Verify Collector's Vault unlocks with Track 14 (Localhost) and Track 15 (Ghost Alternate Take) as finale
     const vault = page.getByTestId('deluxe-vault-unlocked');
     await expect(vault).toBeVisible();
+    await expect(vault).toContainText('14 · Localhost');
     await expect(vault).toContainText('15 · Ghost (Alternate Take) — Album Finale');
 
     // 4. Sign out & verify returning buyer 6-digit code update flow without paying twice
