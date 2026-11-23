@@ -368,6 +368,39 @@ function DeluxeModalDialog({
   // Private vault bonus preview player (only rendered inside unlocked buyer vault!)
   const [playingBonusSlug, setPlayingBonusSlug] = useState<string | null>(null);
 
+  // Bitcoin Lightning (Strike) invoice state
+  const [btcInvoice, setBtcInvoice] = useState<{
+    invoiceId: string;
+    lnInvoice: string;
+    btcAmount: string | null;
+    email: string;
+  } | null>(null);
+  const [btcCopied, setBtcCopied] = useState(false);
+
+  useEffect(() => {
+    if (!btcInvoice || unlockedToken) return;
+    let active = true;
+    const poll = async () => {
+      try {
+        const res = await fetch(
+          `/api/album/bitcoin/status?invoiceId=${encodeURIComponent(btcInvoice.invoiceId)}&email=${encodeURIComponent(btcInvoice.email)}`
+        );
+        const data = await res.json().catch(() => ({}));
+        if (active && data?.paid && data?.token) {
+          setBtcInvoice(null);
+          onUnlocked(data.token, data.email || btcInvoice.email);
+        }
+      } catch {
+        // Ignore transient poll errors
+      }
+    };
+    const id = window.setInterval(poll, 2500);
+    return () => {
+      active = false;
+      window.clearInterval(id);
+    };
+  }, [btcInvoice, unlockedToken, onUnlocked]);
+
   useEffect(() => {
     const dialog = dialogRef.current;
     if (dialog && !dialog.open) {
@@ -412,6 +445,39 @@ function DeluxeModalDialog({
       }
     } catch {
       setError('Network error connecting to checkout. Please try again.');
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  const handleBitcoinCheckout = async () => {
+    setError(null);
+    setInfo(null);
+    const cleanEmail = email.trim();
+    if (!cleanEmail || !cleanEmail.includes('@')) {
+      setError('Please enter your email address above first so we can send your receipt and lifetime updates.');
+      return;
+    }
+    setBusy(true);
+    try {
+      const res = await fetch('/api/album/bitcoin/invoice', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: cleanEmail }),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok || !data.ok || !data.lnInvoice) {
+        setError(data?.error || 'Could not create Bitcoin Lightning invoice.');
+        return;
+      }
+      setBtcInvoice({
+        invoiceId: data.invoiceId,
+        lnInvoice: data.lnInvoice,
+        btcAmount: data.btcAmount ?? null,
+        email: data.email || cleanEmail,
+      });
+    } catch {
+      setError('Network error creating Bitcoin invoice. Please try again.');
     } finally {
       setBusy(false);
     }
@@ -843,6 +909,56 @@ function DeluxeModalDialog({
                       <span>Continue to Stripe Checkout · $12.99</span>
                     )}
                   </button>
+
+                  {!isFreePromoTyped && (
+                    <button
+                      type="button"
+                      disabled={busy}
+                      onClick={handleBitcoinCheckout}
+                      data-testid="deluxe-bitcoin-btn"
+                      className="w-full min-h-[50px] inline-flex items-center justify-center gap-2 rounded-full border border-[var(--a-ink)] bg-[var(--a-surface)] hover:bg-[var(--a-ink)] hover:text-[#FAF8F5] px-6 text-[15px] font-semibold text-[var(--a-ink)] transition-colors disabled:opacity-70"
+                    >
+                      <span>Pay with Bitcoin (Lightning · $12.99)</span>
+                    </button>
+                  )}
+
+                  {btcInvoice && (
+                    <div
+                      data-testid="deluxe-bitcoin-invoice"
+                      className="rounded-xl border border-[var(--a-rule)] bg-[var(--a-surface)] p-4 space-y-3"
+                    >
+                      <div className="flex items-center justify-between gap-2">
+                        <p className="font-sans text-[14px] font-semibold text-[var(--a-ink)]">
+                          Lightning Invoice Ready {btcInvoice.btcAmount ? `(${btcInvoice.btcAmount} BTC)` : ''}
+                        </p>
+                        <span className="font-code text-[13px] text-[var(--a-accent-text)]">
+                          Waiting for payment…
+                        </span>
+                      </div>
+                      <p className="font-code text-[13px] break-all rounded-lg border border-[var(--a-rule)] bg-white p-2.5 text-[var(--a-ink)] select-all">
+                        {btcInvoice.lnInvoice}
+                      </p>
+                      <div className="flex flex-wrap gap-2">
+                        <button
+                          type="button"
+                          onClick={() => {
+                            navigator.clipboard?.writeText(btcInvoice.lnInvoice);
+                            setBtcCopied(true);
+                            setTimeout(() => setBtcCopied(false), 2500);
+                          }}
+                          className="inline-flex min-h-[44px] items-center justify-center rounded-full bg-[var(--a-ink)] px-4 text-[13px] font-semibold text-white"
+                        >
+                          {btcCopied ? 'Copied Invoice' : 'Copy Lightning Invoice'}
+                        </button>
+                        <a
+                          href={`lightning:${btcInvoice.lnInvoice}`}
+                          className="inline-flex min-h-[44px] items-center justify-center rounded-full border border-[var(--a-rule)] px-4 text-[13px] font-semibold text-[var(--a-ink)] no-underline"
+                        >
+                          Open in Wallet
+                        </a>
+                      </div>
+                    </div>
+                  )}
                 </form>
               ) : codeStep === 'email' ? (
                 <form onSubmit={handleSendCode} className="space-y-4">
