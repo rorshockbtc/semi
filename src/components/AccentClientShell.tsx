@@ -7,6 +7,7 @@ import { AmbientMotionProvider } from '@/context/AmbientMotionContext';
 import { AudioPlayerProvider } from '@/context/AudioPlayerContext';
 import PersistentAudioDock from '@/components/site/PersistentAudioDock';
 import GlobalAskSemi from '@/components/site/GlobalAskSemi';
+import { DeluxeModalHost } from '@/components/songs/DeluxeAlbumModal';
 
 /**
  * Client shell wrapping Accént's MotionProvider, Semi's ambient pause/play controller,
@@ -27,6 +28,7 @@ export default function AccentClientShell({ children }: { children: React.ReactN
       <AmbientMotionProvider>
         <AudioPlayerProvider>
           {children}
+          <DeluxeModalHost />
           <GlobalAskSemi />
           <PersistentAudioDock />
         </AudioPlayerProvider>

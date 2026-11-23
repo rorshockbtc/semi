@@ -7,6 +7,7 @@ import { BlockPulse, FilmGrain, GlassThresholdGlow, LanternGlow, LeafDapple, Typ
 import YouTubePlayer from '@/components/YouTubePlayer';
 import { SemiMark } from '@/components/brand/SemiMark';
 import { useAudioPlayer } from '@/context/AudioPlayerContext';
+import { DeluxeAlbumButton } from '@/components/songs/DeluxeAlbumModal';
 import { SEMI_CHORD_SHEETS, getChordForStanzaLine } from '@/data/semi-chords';
 import type { LyricReferenceNote, SemiTrack } from '@/data/semi-songs';
 
@@ -42,11 +43,10 @@ function themeFor(slug: string): Theme {
 }
 
 export default function SongEditionClient({ track, prevTrack, nextTrack }: SongEditionClientProps) {
-  const { currentTrack, isAlternateActive, isPlaying, playTrack, playAlternateTake } = useAudioPlayer();
+  const { currentTrack, isPlaying, playTrack } = useAudioPlayer();
   const [showChords, setShowChords] = useState(false);
   const chordSheet = SEMI_CHORD_SHEETS[track.slug];
-  const playingThis = currentTrack.slug === track.slug && !isAlternateActive && isPlaying;
-  const playingAlt = currentTrack.slug === track.slug && isAlternateActive && isPlaying;
+  const playingThis = currentTrack.slug === track.slug && isPlaying;
   const theme = themeFor(track.slug);
   const isInk = track.slug === 'marks-on-the-screen-ink-on-the-page';
 
@@ -200,7 +200,7 @@ export default function SongEditionClient({ track, prevTrack, nextTrack }: SongE
         </div>
       </header>
 
-      {/* Optional Alternate Studio Take (audio-only bonus session) */}
+      {/* Deluxe Collector's Edition Bonus Take Callout (no free public streaming) */}
       {track.alternateTake && (
         <section
           aria-labelledby="alternate-take-heading"
@@ -211,7 +211,7 @@ export default function SongEditionClient({ track, prevTrack, nextTrack }: SongE
             <div className="grid gap-5 sm:gap-6 lg:grid-cols-12 lg:items-center">
               <div className="lg:col-span-7 min-w-0 space-y-2.5">
                 <p className="font-code text-[13px] font-semibold uppercase tracking-[0.18em] text-[var(--a-accent-text)]">
-                  Bonus Track · Track {track.alternateTake.numberLabel} · {track.alternateTake.duration} · Stream only
+                  Deluxe Edition Bonus · Track {track.alternateTake.numberLabel} of 15 · {track.alternateTake.duration}
                 </p>
                 <h2
                   id="alternate-take-heading"
@@ -225,51 +225,20 @@ export default function SongEditionClient({ track, prevTrack, nextTrack }: SongE
               </div>
 
               <div className="lg:col-span-5 min-w-0 flex flex-wrap items-center gap-2.5 sm:gap-3 lg:justify-end">
-                <button
-                  type="button"
-                  onClick={() => playAlternateTake(track.slug)}
-                  data-testid="play-alternate-take"
-                  className="inline-flex min-h-[48px] sm:min-h-[52px] w-full sm:w-auto items-center justify-center sm:justify-start gap-3 rounded-full bg-[var(--a-ink)] pl-2 pr-6 text-[15px] font-semibold text-[#F3EFE9] transition-colors hover:bg-[var(--a-accent-fill)] hover:text-white"
-                >
-                  <span className="inline-flex h-8 w-8 sm:h-9 sm:w-9 shrink-0 items-center justify-center rounded-full bg-white/15">
-                    {playingAlt ? (
-                      <Pause className="h-4 w-4" aria-hidden="true" fill="currentColor" />
-                    ) : (
-                      <Play className="h-4 w-4 translate-x-[1px]" aria-hidden="true" fill="currentColor" />
-                    )}
-                  </span>
-                  <span>{playingAlt ? 'Pause bonus take' : 'Listen to bonus take'}</span>
-                </button>
+                <DeluxeAlbumButton
+                  label={`Unlock on Deluxe Album · $12.99`}
+                  className="w-full sm:w-auto"
+                />
 
                 <span
-                  data-testid="alternate-take-stream-only"
-                  className="inline-flex min-h-[44px] sm:min-h-[52px] items-center gap-2 rounded-full border border-[var(--a-rule)] bg-[var(--a-well)] px-4 sm:px-5 font-code text-[13px] font-medium text-[var(--a-muted)]"
+                  data-testid="alternate-take-deluxe-badge"
+                  className="inline-flex min-h-[44px] sm:min-h-[48px] items-center gap-2 rounded-full border border-[var(--a-rule)] bg-[var(--a-well)] px-4 sm:px-5 font-code text-[13px] font-medium text-[var(--a-muted)]"
                 >
                   <Disc3 className="h-4 w-4 shrink-0 text-[var(--a-accent-text)]" aria-hidden="true" />
-                  <span>Listen only · Deluxe LP bonus</span>
+                  <span>Exclusive to 15-track Deluxe LP</span>
                 </span>
               </div>
             </div>
-
-            <details className="semi-note group mt-5 sm:mt-6 max-w-[64ch]">
-              <summary className="inline-flex min-h-[44px] items-center gap-2 rounded-full border border-[var(--a-rule)] bg-[var(--a-well)] px-4 py-1.5 font-sans text-[14px] font-semibold text-[var(--a-ink)] hover:border-[var(--a-ink)]">
-                <span>Read the alternate-take lyrics</span>
-              </summary>
-              <div className="mt-4 sm:mt-5 grid gap-6 sm:grid-cols-2 rounded-2xl border border-[var(--a-rule)] bg-[var(--a-well)] p-5 sm:p-6">
-                {track.alternateTake.lyrics.map((stanza, idx) => (
-                  <div key={`${stanza.section}-${idx}`} className="min-w-0">
-                    <h3 className="font-code text-[13px] uppercase tracking-[0.16em] text-[var(--a-accent-text)]">
-                      {stanza.section}
-                    </h3>
-                    <div className="mt-2 space-y-1 font-serif text-[17px] leading-relaxed text-[var(--a-ink)]">
-                      {stanza.lines.map((l, lIdx) => (
-                        <p key={lIdx}>{l}</p>
-                      ))}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </details>
           </div>
         </section>
       )}

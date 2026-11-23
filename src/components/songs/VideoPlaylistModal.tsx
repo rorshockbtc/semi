@@ -47,7 +47,7 @@ export function VideoPlaylistButton({ className = '' }: VideoPlaylistButtonProps
         type="button"
         onClick={() => setOpen(true)}
         data-testid="watch-all-videos-btn"
-        className={`inline-flex items-center justify-center gap-2 rounded-full bg-ink hover:bg-ink/90 text-[#FAF8F5] px-5 py-2.5 text-[14px] font-medium transition-colors min-h-[44px] ${className}`}
+        className={`inline-flex items-center justify-center gap-2 rounded-full bg-[var(--a-ink)] hover:bg-[var(--a-accent-fill)] text-[#FAF8F5] px-5 py-2.5 text-[14px] font-semibold transition-colors min-h-[48px] ${className}`}
       >
         <Film className="w-4 h-4 text-semi-pink" aria-hidden="true" />
         <span>Watch All Videos ({VIDEO_TRACKS.length} in Order)</span>

@@ -12,10 +12,17 @@ function formatTime(seconds: number): string {
   return `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
 }
 
+function parseDurationFallback(label: string): number {
+  const parts = label.split(':').map((p) => Number(p));
+  if (parts.length === 2 && Number.isFinite(parts[0]) && Number.isFinite(parts[1])) {
+    return parts[0] * 60 + parts[1];
+  }
+  return 180;
+}
+
 export default function PersistentAudioDock() {
   const {
     currentTrack,
-    isAlternateActive,
     hasStarted,
     isPlaying,
     playAllActive,
@@ -37,7 +44,7 @@ export default function PersistentAudioDock() {
 
   if (!hasStarted) return null;
 
-  const maxDuration = duration > 0 ? duration : 180;
+  const maxDuration = duration > 0 ? duration : parseDurationFallback(currentTrack.duration);
   const displayTime = isScrubbing ? scrubValue : currentTime;
   const effectiveVolume = isMuted ? 0 : volume;
   const VolumeIcon = effectiveVolume === 0 ? VolumeX : effectiveVolume < 0.5 ? Volume1 : Volume2;
@@ -111,7 +118,7 @@ export default function PersistentAudioDock() {
               >
                 <VolumeIcon className="h-4 w-4" aria-hidden="true" />
               </button>
-              {!isAlternateActive && currentTrack.mp3Src && currentTrack.downloadName && (
+              {currentTrack.mp3Src && currentTrack.downloadName && (
                 <a
                   href={currentTrack.mp3Src}
                   download={currentTrack.downloadName}
@@ -173,45 +180,34 @@ export default function PersistentAudioDock() {
               type="range"
               min={0}
               max={maxDuration}
-              step={0.5}
+              step={0.1}
               value={Math.min(displayTime, maxDuration)}
-              onPointerDown={(e) => {
-                setIsScrubbing(true);
+              onPointerDown={() => {
                 setScrubValue(currentTime);
-                try {
-                  e.currentTarget.setPointerCapture(e.pointerId);
-                } catch {
-                  // Pointer capture not supported on this device
-                }
+                setIsScrubbing(true);
               }}
               onChange={(e) => {
                 const val = Number(e.target.value);
                 setScrubValue(val);
-                if (!isScrubbing) {
-                  seek(val);
-                }
+                seek(val);
               }}
-              onPointerUp={(e) => {
-                try {
-                  e.currentTarget.releasePointerCapture(e.pointerId);
-                } catch {
-                  // Ignore
-                }
-                seek(scrubValue);
-                setIsScrubbing(false);
-              }}
+              onPointerUp={() => setIsScrubbing(false)}
+              onPointerCancel={() => setIsScrubbing(false)}
+              onBlur={() => setIsScrubbing(false)}
               onKeyDown={(e) => {
                 if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
+                  e.preventDefault();
                   const step = e.key === 'ArrowLeft' ? -5 : 5;
                   const target = Math.max(0, Math.min(maxDuration, currentTime + step));
                   seek(target);
                 }
               }}
               aria-label="Seek track progress"
+              data-testid="dock-seek-slider"
               className="semi-range min-w-0 flex-1 min-h-[44px]"
             />
             <span className="w-[2.75rem] shrink-0 text-left font-code text-[13px] tabular-nums text-[var(--a-muted)]">
-              {duration > 0 ? formatTime(duration) : currentTrack.duration}
+              {formatTime(maxDuration)}
             </span>
           </div>
 
@@ -241,7 +237,7 @@ export default function PersistentAudioDock() {
               />
             </div>
 
-            {!isAlternateActive && currentTrack.mp3Src && currentTrack.downloadName && (
+            {currentTrack.mp3Src && currentTrack.downloadName && (
               <a
                 href={currentTrack.mp3Src}
                 download={currentTrack.downloadName}

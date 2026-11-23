@@ -11,7 +11,8 @@ const PHOTO_DIR = path.join(ROOT, 'public', 'photos');
 const LOOP_DIR = path.join(ROOT, 'public', 'loops');
 const PUBLIC_DIR = path.join(ROOT, 'public');
 
-for (const dir of [AUDIO_DIR, PHOTO_DIR, LOOP_DIR]) {
+const DELUXE_VAULT_DIR = path.join(ROOT, 'public', 'deluxe-vault');
+for (const dir of [AUDIO_DIR, DELUXE_VAULT_DIR, PHOTO_DIR, LOOP_DIR]) {
   fs.mkdirSync(dir, { recursive: true });
 }
 
@@ -34,7 +35,9 @@ function resolveSource(patterns) {
       const prefix = pat.replace(/\*.*$/, '');
       const suffix = pat.includes('*') ? pat.split('*').pop() : '';
       const found = entries.find(
-        (name) => name.toLowerCase().startsWith(prefix.toLowerCase()) && (!suffix || name.toLowerCase().endsWith(suffix.toLowerCase()))
+        (name) =>
+          name.toLowerCase().startsWith(prefix.toLowerCase()) &&
+          (!suffix || name.toLowerCase().endsWith(suffix.toLowerCase()))
       );
       if (found) return path.join(dir, found);
     }
@@ -42,7 +45,27 @@ function resolveSource(patterns) {
   throw new Error(`Missing source file in ${DOWNLOADS} or ${os.homedir()}: ${patterns.join(', ')}`);
 }
 
-// 1. Ensure 320kbps MP3 masters with natural headphone tail decay, zero-crossing breath, and clean ID3v2 tags
+function loadVerifiedLyricsMap() {
+  const lyricsFile = path.join(ROOT, 'LYRICS.md');
+  const map = new Map();
+  if (!fs.existsSync(lyricsFile)) return map;
+  const raw = fs.readFileSync(lyricsFile, 'utf8');
+  const sections = raw.split(/\n## /).slice(1);
+  for (const sec of sections) {
+    const nl = sec.indexOf('\n');
+    if (nl < 0) continue;
+    const header = sec.slice(0, nl).trim();
+    const code = header.split('·')[0].trim(); // e.g. '01', '05b', '12'
+    const body = sec
+      .slice(nl + 1)
+      .replace(/\n---\s*$/m, '')
+      .replace(/^\[.*?\]\s*\n?/gm, '')
+      .trim();
+    map.set(code, body);
+  }
+  return map;
+}
+
 const FORCE_AUDIO_REMASTER = process.argv.includes('--remaster-audio');
 
 function probeDurationSeconds(filePath) {
@@ -60,205 +83,297 @@ function probeDurationSeconds(filePath) {
 
 const TRACKS = [
   {
+    lyricsKey: '01',
     inputs: ['Local Current (Sung Outro).m4a'],
     out: '01-semi-old-oak-tree.mp3',
     title: 'Old Oak Tree',
     track: '1/12',
-    fadeDuration: 3.0,
+    fadeDuration: 1.4,
     padDuration: 0.6,
     comment: 'From I/O (The West Nashville Sessions) · https://semi.colonhyphenbracket.pink',
   },
   {
+    lyricsKey: '02',
     inputs: ['Warm Unknown.m4a'],
     out: '02-semi-warm-unknown.mp3',
     title: 'Warm Unknown',
     track: '2/12',
     fadeEndOffset: 1.7,
-    fadeDuration: 1.8,
+    fadeDuration: 1.0,
     padDuration: 0.25,
     comment: 'From I/O (The West Nashville Sessions) · https://semi.colonhyphenbracket.pink',
   },
   {
+    lyricsKey: '03',
     inputs: ['Fixed Final Chorus and Outro.wav', 'Fixed Final Chorus and Outro.m4a'],
     out: '03-semi-marks-on-the-screen-ink-on-the-page.mp3',
     title: 'Marks On The Screen, Ink On The Page',
     track: '3/12',
-    fadeDuration: 6.0,
-    fadeCurve: 'cub',
-    padDuration: 0.75,
+    // Vocal finishes at 175.65s (of 176.16s). Only taper the final 0.44s post-vocal room floor!
+    fadeDuration: 0.44,
+    fadeCurve: 'qsin',
+    padDuration: 0.85,
     comment: 'From I/O (The West Nashville Sessions) · https://semi.colonhyphenbracket.pink',
   },
   {
+    lyricsKey: '04',
     inputs: ['Settle in the Block (Poetic - Take 1).m4a'],
     out: '04-semi-settle-in-the-block.mp3',
     title: 'Settle In The Block',
     track: '4/12',
     fadeEndOffset: 0.8,
-    fadeDuration: 1.8,
+    fadeDuration: 0.9,
     padDuration: 0.35,
     comment: 'From I/O (The West Nashville Sessions) · https://semi.colonhyphenbracket.pink',
   },
   {
+    lyricsKey: '05',
     inputs: ['Salt In The Rain (Audio Fixed).m4a', 'Salt In The Rain.m4a', 'Salt in the rain.m4a'],
     out: '05-semi-salt-in-the-rain.mp3',
     title: 'Salt In The Rain',
     track: '5/12',
-    fadeDuration: 3.2,
+    fadeDuration: 1.5,
     padDuration: 0.6,
     comment: 'From I/O (The West Nashville Sessions) · https://semi.colonhyphenbracket.pink',
   },
   {
-    inputs: ['Salt in the Rain (Alternate Take).m4a'],
-    out: '05b-semi-salt-in-the-rain-alternate-take.mp3',
-    title: 'Salt In The Rain (Alternate Take)',
-    track: '5/12',
-    fadeEndOffset: 1.3,
-    fadeDuration: 1.8,
-    padDuration: 0.25,
-    comment: 'Alternate Studio Take · I/O (The West Nashville Sessions) · https://semi.colonhyphenbracket.pink',
-  },
-  {
+    lyricsKey: '06',
     inputs: ['No Human Hands Can Hold.m4a'],
     out: '06-semi-no-human-hands-can-hold.mp3',
     title: 'No Human Hands Can Hold',
     track: '6/12',
-    fadeDuration: 3.2,
+    fadeDuration: 1.5,
     padDuration: 0.6,
     comment: 'From I/O (The West Nashville Sessions) · https://semi.colonhyphenbracket.pink',
   },
   {
+    lyricsKey: '07',
     inputs: ['Out of Office.m4a'],
     out: '07-semi-out-of-office.mp3',
     title: 'Out of Office',
     track: '7/12',
-    fadeDuration: 3.2,
+    fadeDuration: 1.2,
     padDuration: 0.6,
     comment: 'From I/O (The West Nashville Sessions) · https://semi.colonhyphenbracket.pink',
   },
   {
-    inputs: ['*Out of Office (alt take)*.m4a', 'Out of Office (alt take).m4a'],
-    out: '07b-semi-out-of-office-alternate-take.mp3',
-    title: 'Out of Office (Alternate Take)',
-    track: '7/12',
-    fadeDuration: 3.2,
-    padDuration: 0.6,
-    comment: 'Alternate Studio Take · I/O (The West Nashville Sessions) · https://semi.colonhyphenbracket.pink',
-  },
-  {
+    lyricsKey: '08',
     inputs: ['Out Of The Barn.m4a'],
     out: '08-semi-out-of-the-barn.mp3',
     title: 'Out of the Barn',
     track: '8/12',
     fadeEndOffset: 1.5,
-    fadeDuration: 1.8,
+    fadeDuration: 0.9,
     padDuration: 0.25,
     comment: 'From I/O (The West Nashville Sessions) · https://semi.colonhyphenbracket.pink',
   },
   {
+    lyricsKey: '09',
     inputs: ['Ghost.m4a'],
     out: '09-semi-ghost.mp3',
     title: 'Ghost',
     track: '9/12',
-    fadeDuration: 2.4,
+    fadeDuration: 1.2,
     padDuration: 0.5,
     comment: 'From I/O (The West Nashville Sessions) · https://semi.colonhyphenbracket.pink',
   },
   {
-    inputs: ['Ghost (alt take).m4a'],
-    out: '09b-semi-ghost-alternate-take.mp3',
-    title: 'Ghost (Alt Take)',
-    track: '9/12',
-    fadeEndOffset: 1.5,
-    fadeDuration: 1.8,
-    padDuration: 0.25,
-    comment: 'Deluxe LP Bonus Stream · I/O (The West Nashville Sessions) · https://semi.colonhyphenbracket.pink',
-  },
-  {
+    lyricsKey: '10',
     inputs: ['Billion.m4a'],
     out: '10-semi-billion.mp3',
     title: 'Billion',
     track: '10/12',
-    fadeDuration: 3.2,
+    fadeDuration: 1.5,
     padDuration: 0.6,
     comment: 'From I/O (The West Nashville Sessions) · https://semi.colonhyphenbracket.pink',
   },
   {
+    lyricsKey: '11',
     inputs: ["'86.m4a"],
     out: '11-semi-1986.mp3',
     title: '1986',
     track: '11/12',
     fadeEndOffset: 2.0,
-    fadeDuration: 2.2,
+    fadeDuration: 1.0,
     padDuration: 0.2,
     comment: 'From I/O (The West Nashville Sessions) · https://semi.colonhyphenbracket.pink',
   },
   {
+    lyricsKey: '12',
     inputs: ['I:.0m4a.m4a'],
     out: '12-semi-io.mp3',
     title: 'I/O',
     track: '12/12',
-    fadeDuration: 3.8,
+    fadeDuration: 1.8,
     padDuration: 0.85,
     comment: 'Closing Track · I/O (The West Nashville Sessions) · https://semi.colonhyphenbracket.pink',
   },
+  // Deluxe Edition Bonus Alternate Takes — sequenced at the end of the album (Tracks 13–15)
+  {
+    lyricsKey: '05b',
+    deluxeSlug: '13-salt-in-the-rain-alternate-take',
+    vaultDir: true,
+    inputs: ['Salt in the Rain (Alternate Take).m4a'],
+    out: '13-salt-in-the-rain-alt-c9f4e2a81b.mp3',
+    title: 'Salt In The Rain (Alternate Take)',
+    track: '13/15',
+    fadeEndOffset: 1.3,
+    fadeDuration: 1.0,
+    padDuration: 0.4,
+    comment: 'Bonus Track 13 · I/O Deluxe Edition · https://semi.colonhyphenbracket.pink',
+  },
+  {
+    lyricsKey: '07b',
+    deluxeSlug: '14-out-of-office-alternate-take',
+    vaultDir: true,
+    inputs: ['*Out of Office (alt take)*.m4a', 'Out of Office (alt take).m4a'],
+    out: '14-out-of-office-alt-7a3d91e04c.mp3',
+    title: 'Out of Office (Alternate Take)',
+    track: '14/15',
+    fadeDuration: 1.2,
+    padDuration: 0.6,
+    comment: 'Bonus Track 14 · I/O Deluxe Edition · https://semi.colonhyphenbracket.pink',
+  },
+  {
+    lyricsKey: '09b',
+    deluxeSlug: '15-ghost-alternate-take',
+    vaultDir: true,
+    inputs: ['Ghost (alt take).m4a'],
+    out: '15-ghost-alt-5e8b20f16d.mp3',
+    title: 'Ghost (Alternate Take)',
+    track: '15/15',
+    fadeEndOffset: 1.5,
+    fadeDuration: 1.0,
+    padDuration: 0.5,
+    comment: 'Bonus Track 15 · I/O Deluxe Edition · https://semi.colonhyphenbracket.pink',
+  },
 ];
 
+// Remove legacy publicly-exposed alternate takes from public/audio/
+for (const legacy of [
+  '05b-semi-salt-in-the-rain-alternate-take.mp3',
+  '07b-semi-out-of-office-alternate-take.mp3',
+  '09b-semi-ghost-alternate-take.mp3',
+]) {
+  const legacyPath = path.join(AUDIO_DIR, legacy);
+  if (fs.existsSync(legacyPath)) {
+    fs.unlinkSync(legacyPath);
+  }
+}
+
+const verifiedLyrics = loadVerifiedLyricsMap();
+const publicAudioSizes = {};
+const deluxeAudioEntries = {};
+
 for (const t of TRACKS) {
-  const outPath = path.join(AUDIO_DIR, t.out);
+  const targetDir = t.vaultDir ? DELUXE_VAULT_DIR : AUDIO_DIR;
+  const outPath = path.join(targetDir, t.out);
   if (!FORCE_AUDIO_REMASTER && fs.existsSync(outPath) && fs.statSync(outPath).size > 1_000_000) {
     console.log(`MP3 already staged: ${t.out}`);
-    continue;
-  }
-  const input = resolveSource(t.inputs);
-  const dur = probeDurationSeconds(input);
-  const fadeEnd = Math.max(1.0, dur - (t.fadeEndOffset ?? 0));
-  const fadeDur = Math.min(t.fadeDuration ?? 3.0, fadeEnd - 0.5);
-  const fadeStart = Math.max(0, fadeEnd - fadeDur);
-  const fadeCurve = t.fadeCurve ?? 'qsin';
-  const padDur = t.padDuration ?? 0.6;
-  const audioFilter = `afade=t=out:st=${fadeStart.toFixed(3)}:d=${fadeDur.toFixed(3)}:curve=${fadeCurve},apad=pad_dur=${padDur.toFixed(2)}`;
+  } else {
+    const input = resolveSource(t.inputs);
+    const dur = probeDurationSeconds(input);
+    const fadeEnd = Math.max(1.0, dur - (t.fadeEndOffset ?? 0));
+    const fadeDur = Math.min(t.fadeDuration ?? 1.2, fadeEnd - 0.5);
+    const fadeStart = Math.max(0, fadeEnd - fadeDur);
+    const fadeCurve = t.fadeCurve ?? 'qsin';
+    const padDur = t.padDuration ?? 0.6;
+    const audioFilter = `afade=t=out:st=${fadeStart.toFixed(3)}:d=${fadeDur.toFixed(3)}:curve=${fadeCurve},apad=pad_dur=${padDur.toFixed(2)}`;
 
-  console.log(
-    `Mastering ${path.basename(input)} -> ${t.out} (dur=${dur.toFixed(2)}s, fade=${fadeStart.toFixed(2)}s..${fadeEnd.toFixed(2)}s [${fadeCurve}], pad=${padDur}s)`
-  );
-  const coverPath = path.join(PHOTO_DIR, 'io-album-cover.jpg');
-  const hasCover = fs.existsSync(coverPath);
-  runFfmpeg([
-    '-i',
-    input,
-    ...(hasCover ? ['-i', coverPath] : []),
-    '-map',
-    '0:a',
-    ...(hasCover ? ['-map', '1:v', '-c:v', 'copy', '-disposition:v', 'attached_pic', '-metadata:s:v', 'title=Album cover', '-metadata:s:v', 'comment=Cover (front)'] : ['-vn']),
-    '-af',
-    audioFilter,
-    '-codec:a',
-    'libmp3lame',
-    '-b:a',
-    '320k',
-    '-ar',
-    '44100',
-    '-id3v2_version',
-    '3',
-    '-metadata',
-    `title=${t.title}`,
-    '-metadata',
-    'artist=Semi (; - ])',
-    '-metadata',
-    'album=I/O',
-    '-metadata',
-    'album_artist=Semi (; - ])',
-    '-metadata',
-    'date=2026',
-    '-metadata',
-    `track=${t.track}`,
-    '-metadata',
-    'genre=Indie Folk',
-    '-metadata',
-    `comment=${t.comment}`,
-    outPath,
-  ]);
+    console.log(
+      `Mastering ${path.basename(input)} -> ${t.out} (dur=${dur.toFixed(2)}s, fade=${fadeStart.toFixed(2)}s..${fadeEnd.toFixed(2)}s [${fadeCurve}], pad=${padDur}s)`
+    );
+    const coverPath = path.join(PHOTO_DIR, 'io-album-cover.jpg');
+    const hasCover = fs.existsSync(coverPath);
+    const trackLyrics = verifiedLyrics.get(t.lyricsKey) || '';
+
+    runFfmpeg([
+      '-i',
+      input,
+      ...(hasCover ? ['-i', coverPath] : []),
+      '-map_metadata',
+      '-1',
+      '-map',
+      '0:a',
+      ...(hasCover
+        ? [
+            '-map',
+            '1:v',
+            '-c:v',
+            'copy',
+            '-disposition:v',
+            'attached_pic',
+            '-metadata:s:v',
+            'title=Album cover',
+            '-metadata:s:v',
+            'comment=Cover (front)',
+          ]
+        : ['-vn']),
+      '-af',
+      audioFilter,
+      '-codec:a',
+      'libmp3lame',
+      '-b:a',
+      '320k',
+      '-ar',
+      '44100',
+      '-id3v2_version',
+      '3',
+      '-metadata',
+      `title=${t.title}`,
+      '-metadata',
+      'artist=Semi (; - ])',
+      '-metadata',
+      'album=I/O',
+      '-metadata',
+      'album_artist=Semi (; - ])',
+      '-metadata',
+      'disc=1/1',
+      '-metadata',
+      'compilation=0',
+      '-metadata',
+      'date=2026',
+      '-metadata',
+      `track=${t.track}`,
+      '-metadata',
+      'genre=Indie Folk',
+      '-metadata',
+      `comment=${t.comment}`,
+      ...(trackLyrics ? ['-metadata', `lyrics-eng=${trackLyrics}`] : []),
+      outPath,
+    ]);
+  }
+
+  const size = fs.statSync(outPath).size;
+  if (t.vaultDir) {
+    deluxeAudioEntries[t.deluxeSlug] = {
+      vaultFile: t.out,
+      size,
+      title: t.title,
+      trackNumber: t.track.split('/')[0],
+      downloadName: `${t.track.split('/')[0]} - ${t.title}.mp3`,
+    };
+  } else {
+    publicAudioSizes[t.out] = size;
+  }
 }
+
+const manifestPath = path.join(ROOT, 'src', 'data', 'audio-manifest.ts');
+fs.writeFileSync(
+  manifestPath,
+  `// Auto-generated by scripts/prepare-media.mjs — exact byte lengths for HTTP 206 Partial Content streaming\n` +
+    `export const AUDIO_MASTER_REV = 'io3';\n\n` +
+    `export const PUBLIC_AUDIO_BYTE_SIZES: Record<string, number> = ${JSON.stringify(publicAudioSizes, null, 2)};\n\n` +
+    `export interface DeluxeBonusManifestEntry {\n` +
+    `  vaultFile: string;\n` +
+    `  size: number;\n` +
+    `  title: string;\n` +
+    `  trackNumber: string;\n` +
+    `  downloadName: string;\n` +
+    `}\n\n` +
+    `export const DELUXE_BONUS_MANIFEST: Record<string, DeluxeBonusManifestEntry> = ${JSON.stringify(deluxeAudioEntries, null, 2)};\n`,
+  'utf8'
+);
 
 // 2. Build Rich Living Loops
 const heroLoopOut = path.join(LOOP_DIR, 'hero-semi-alive.mp4');

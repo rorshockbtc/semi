@@ -1,10 +1,8 @@
 'use client';
 
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
-import { useScroll, useTransform } from 'framer-motion';
 import { ArrowUpRight, Download, Pause, Play, X } from 'lucide-react';
-import AutumnSkyWash from '@/art/AutumnSkyWash';
 import { bloomHandlers } from '@/art/bloom';
 import { VinylDisc } from '@/art/themes';
 import AmbientLoopVideo from '@/components/AmbientLoopVideo';
@@ -14,6 +12,7 @@ import { useAudioPlayer } from '@/context/AudioPlayerContext';
 import { SEMI_TRACKS, type SemiTrack } from '@/data/semi-songs';
 import { AlbumDownloadButton } from '@/components/songs/AlbumDownloadButton';
 import { VideoPlaylistButton } from '@/components/songs/VideoPlaylistModal';
+import { DeluxeAlbumButton } from '@/components/songs/DeluxeAlbumModal';
 
 export default function FeaturedSongsSection({
   eyebrow = 'The singles',
@@ -24,12 +23,6 @@ export default function FeaturedSongsSection({
 }) {
   const { currentTrack, isPlaying, playAllActive, playTrack, playAll, pauseAudio } = useAudioPlayer();
   const [videoTrack, setVideoTrack] = useState<SemiTrack | null>(null);
-  const skyBannerRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: skyBannerRef,
-    offset: ['start start', 'end start'],
-  });
-  const skyProgress = useTransform(scrollYProgress, [0, 1], [0, 1]);
 
   const featuredTracks = showAllFeatured ? SEMI_TRACKS : SEMI_TRACKS.slice(0, 3);
   const addendumTracks = showAllFeatured ? [] : SEMI_TRACKS.slice(3);
@@ -39,7 +32,7 @@ export default function FeaturedSongsSection({
 
   const headerContent = (
     <div className="grid gap-6 lg:grid-cols-12 lg:items-end">
-      <div className="lg:col-span-7 min-w-0">
+      <div className="lg:col-span-6 min-w-0">
         <p className="font-sans text-[13px] font-semibold uppercase tracking-[0.22em] text-[var(--a-accent-text)]">
           {eyebrow} · I/O
         </p>
@@ -53,12 +46,13 @@ export default function FeaturedSongsSection({
           <span className="font-serif italic font-normal">Each with a story.</span>
         </HeadingTag>
       </div>
-      <div className="lg:col-span-5 min-w-0 space-y-4 sm:space-y-5">
+      <div className="lg:col-span-6 min-w-0 space-y-4 sm:space-y-5">
         <p className="text-base sm:text-lg leading-relaxed text-[var(--a-ink)]/80">
-          Press play and let the music stand on its own. When you want to know what a lyric means,
-          every song has its own page with the story and the full words.
+          Press play and let the music stand on its own. Stream or download the 12-track{' '}
+          <em>I/O</em> album free, or pick up the 15-track Deluxe Edition with three bonus studio
+          takes at the end.
         </p>
-        <div className="flex flex-wrap items-center gap-3">
+        <div className="flex flex-wrap items-center gap-2.5">
           <button
             type="button"
             onClick={playAll}
@@ -82,6 +76,7 @@ export default function FeaturedSongsSection({
 
           <VideoPlaylistButton className="w-full sm:w-auto" />
           <AlbumDownloadButton className="w-full sm:w-auto" />
+          <DeluxeAlbumButton className="w-full sm:w-auto" />
         </div>
       </div>
     </div>
@@ -91,42 +86,12 @@ export default function FeaturedSongsSection({
     <section
       id="songs"
       aria-labelledby="songs-title"
-      className={`relative scroll-mt-20 overflow-x-clip ${
-        showAllFeatured ? 'bg-[var(--a-bg)] pb-16 sm:pb-32' : 'bg-transparent py-16 sm:py-32'
+      className={`relative scroll-mt-20 overflow-x-clip bg-transparent ${
+        showAllFeatured ? 'pt-28 pb-16 sm:pt-36 sm:pb-32' : 'py-16 sm:py-32'
       }`}
     >
-      {showAllFeatured && (
-        <div
-          ref={skyBannerRef}
-          className="relative overflow-hidden pt-24 pb-16 sm:pt-36 sm:pb-24"
-        >
-          <div className="pointer-events-none absolute inset-0">
-            <AutumnSkyWash progress={skyProgress} />
-            {/* Crisp white linen veil behind typography so Slate Ink (#111827) stays crisp */}
-            <div
-              aria-hidden="true"
-              className="absolute inset-0 bg-[radial-gradient(ellipse_72%_78%_at_24%_52%,rgba(250,248,245,0.68)_0%,rgba(232,226,213,0.38)_58%,transparent_88%)]"
-            />
-            <svg
-              aria-hidden="true"
-              className="absolute inset-x-0 bottom-0 h-4 sm:h-5 w-full"
-              preserveAspectRatio="none"
-              viewBox="0 0 100 5"
-            >
-              <path
-                d="M0 5 L0 2.5 C20 1.8 44 3.3 66 2.2 C84 1.6 93 2.8 100 2.1 L100 5 Z"
-                fill="#E8E2D5"
-              />
-            </svg>
-          </div>
-          <div className="relative z-10 mx-auto max-w-[1400px] pl-[max(1.25rem,env(safe-area-inset-left,0px))] pr-[max(1.25rem,env(safe-area-inset-right,0px))] sm:px-8 lg:px-12">
-            {headerContent}
-          </div>
-        </div>
-      )}
-
       <div className="relative z-10 mx-auto max-w-[1400px] pl-[max(1.25rem,env(safe-area-inset-left,0px))] pr-[max(1.25rem,env(safe-area-inset-right,0px))] sm:px-8 lg:px-12">
-        {!showAllFeatured && headerContent}
+        {headerContent}
 
         {videoTrack && (
           <div data-testid="home-video-theatre" className="mt-10 sm:mt-14 overflow-hidden rounded-[20px] sm:rounded-[28px] bg-[#0d0b0a]">

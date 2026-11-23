@@ -1,14 +1,16 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { getCloudflareContext } from '@opennextjs/cloudflare';
+import { PUBLIC_AUDIO_BYTE_SIZES } from '../../../../data/audio-manifest.ts';
 
 export const dynamic = 'force-dynamic';
 
-const VALID_FILENAME_RE = /^[a-zA-Z0-9_.-]+\.mp3$/;
+// Only serve the 12 commercial tracks publicly (01 through 12); bonus takes live in /api/album/bonus/[slug]
+const VALID_FILENAME_RE = /^(0[1-9]|1[0-2])-semi-[a-z0-9-]+\.mp3$/;
 const CACHE_CONTROL =
   process.env.NODE_ENV === 'development'
-    ? 'no-cache'
-    : 'public, max-age=86400, stale-while-revalidate=604800';
+    ? 'no-cache, no-transform'
+    : 'public, max-age=3600, stale-while-revalidate=86400, no-transform';
 
 type AssetsBinding = {
   fetch: (req: Request | string) => Promise<Response>;
@@ -36,7 +38,7 @@ function resolveLocalAudioPath(filename: string): string | null {
   return null;
 }
 
-function parseByteRange(
+export function parseByteRange(
   rangeHeader: string,
   totalSize: number
 ): { start: number; end: number } | 'invalid' {
@@ -57,12 +59,16 @@ function parseByteRange(
     end = totalSize - 1;
   }
 
-  start = Math.max(0, Math.min(start, totalSize - 1));
+  if (start >= totalSize) {
+    return 'invalid';
+  }
+
+  start = Math.max(0, start);
   end = Math.max(start, Math.min(end, totalSize - 1));
   return { start, end };
 }
 
-function sliceByteStream(
+export function sliceByteStream(
   body: ReadableStream<Uint8Array>,
   start: number,
   end: number
@@ -113,6 +119,7 @@ function rangeErrorResponse(totalSize: number): Response {
     headers: {
       'Content-Range': `bytes */${totalSize}`,
       'Accept-Ranges': 'bytes',
+      Vary: 'Range',
     },
   });
 }
@@ -131,30 +138,49 @@ export async function GET(
 
   if (assets) {
     const assetUrl = new URL(`/audio/${filename}`, request.url);
+    const upstreamHeaders: Record<string, string> = {
+      'Accept-Encoding': 'identity',
+    };
+    if (rangeHeader) {
+      upstreamHeaders.Range = rangeHeader;
+    }
+
     const res = await assets.fetch(
-      new Request(assetUrl.toString(), {
-        headers: rangeHeader ? { Range: rangeHeader } : undefined,
-      })
+      new Request(assetUrl.toString(), { headers: upstreamHeaders })
     );
 
     if (!res.ok && res.status !== 206) {
       return new Response('Audio file not found', { status: 404 });
     }
 
-    if (!rangeHeader || res.status === 206) {
-      const headers = new Headers(res.headers);
+    // If Cloudflare ASSETS natively returned a valid 206 with Content-Range, pass it through
+    if (rangeHeader && res.status === 206 && res.headers.get('content-range')) {
+      const headers = new Headers();
       headers.set('Content-Type', 'audio/mpeg');
       headers.set('Accept-Ranges', 'bytes');
+      headers.set('Content-Range', res.headers.get('content-range')!);
+      if (res.headers.get('content-length')) {
+        headers.set('Content-Length', res.headers.get('content-length')!);
+      }
       headers.set('Cache-Control', CACHE_CONTROL);
-      return new Response(res.body, { status: res.status, headers });
+      headers.set('Vary', 'Range');
+      return new Response(res.body, { status: 206, headers });
     }
 
-    const totalSize = Number(res.headers.get('content-length') ?? '0');
-    if (!totalSize || !res.body) {
-      const headers = new Headers(res.headers);
+    const totalSize =
+      Number(res.headers.get('content-length') ?? '0') ||
+      PUBLIC_AUDIO_BYTE_SIZES[filename] ||
+      0;
+
+    if (!rangeHeader || !totalSize || !res.body) {
+      const headers = new Headers();
       headers.set('Content-Type', 'audio/mpeg');
       headers.set('Accept-Ranges', 'bytes');
+      if (totalSize > 0) {
+        headers.set('Content-Length', String(totalSize));
+      }
       headers.set('Cache-Control', CACHE_CONTROL);
+      headers.set('Vary', 'Range');
       return new Response(res.body, { status: 200, headers });
     }
 
@@ -174,6 +200,7 @@ export async function GET(
         'Content-Range': `bytes ${start}-${end}/${totalSize}`,
         'Accept-Ranges': 'bytes',
         'Cache-Control': CACHE_CONTROL,
+        Vary: 'Range',
       },
     });
   }
@@ -186,14 +213,15 @@ export async function GET(
 
   const totalSize = fs.statSync(localPath).size;
   if (!rangeHeader) {
-    const fileBytes = fs.readFileSync(localPath);
-    return new Response(fileBytes, {
+    const stream = fs.createReadStream(localPath);
+    return new Response(stream as unknown as BodyInit, {
       status: 200,
       headers: {
         'Content-Type': 'audio/mpeg',
         'Content-Length': String(totalSize),
         'Accept-Ranges': 'bytes',
         'Cache-Control': CACHE_CONTROL,
+        Vary: 'Range',
       },
     });
   }
@@ -221,6 +249,7 @@ export async function GET(
       'Content-Range': `bytes ${start}-${end}/${totalSize}`,
       'Accept-Ranges': 'bytes',
       'Cache-Control': CACHE_CONTROL,
+      Vary: 'Range',
     },
   });
 }
@@ -237,14 +266,27 @@ export async function HEAD(
   const assets = await getAssetsBinding();
   if (assets) {
     const assetUrl = new URL(`/audio/${filename}`, request.url);
-    const res = await assets.fetch(new Request(assetUrl.toString(), { method: 'HEAD' }));
+    const res = await assets.fetch(
+      new Request(assetUrl.toString(), {
+        method: 'HEAD',
+        headers: { 'Accept-Encoding': 'identity' },
+      })
+    );
     if (!res.ok) {
       return new Response(null, { status: 404 });
     }
-    const headers = new Headers(res.headers);
+    const totalSize =
+      Number(res.headers.get('content-length') ?? '0') ||
+      PUBLIC_AUDIO_BYTE_SIZES[filename] ||
+      0;
+    const headers = new Headers();
     headers.set('Content-Type', 'audio/mpeg');
     headers.set('Accept-Ranges', 'bytes');
+    if (totalSize > 0) {
+      headers.set('Content-Length', String(totalSize));
+    }
     headers.set('Cache-Control', CACHE_CONTROL);
+    headers.set('Vary', 'Range');
     return new Response(null, { status: 200, headers });
   }
 
@@ -261,6 +303,7 @@ export async function HEAD(
       'Content-Length': String(totalSize),
       'Accept-Ranges': 'bytes',
       'Cache-Control': CACHE_CONTROL,
+      Vary: 'Range',
     },
   });
 }

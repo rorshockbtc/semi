@@ -35,33 +35,55 @@ function contrastRatio(hexA: string, hexB: string): number {
   return (light + 0.05) / (dark + 0.05);
 }
 
-test('MP3 audio masters exist, exceed 1MB, and contain valid ID3/MPEG headers', () => {
-  const expected = [
+test('MP3 audio masters exist, exceed 1MB, contain valid ID3/MPEG headers, and isolate bonus takes in deluxe-vault', () => {
+  const publicCommercial = [
     '01-semi-old-oak-tree.mp3',
     '02-semi-warm-unknown.mp3',
     '03-semi-marks-on-the-screen-ink-on-the-page.mp3',
     '04-semi-settle-in-the-block.mp3',
     '05-semi-salt-in-the-rain.mp3',
-    '05b-semi-salt-in-the-rain-alternate-take.mp3',
     '06-semi-no-human-hands-can-hold.mp3',
     '07-semi-out-of-office.mp3',
-    '07b-semi-out-of-office-alternate-take.mp3',
     '08-semi-out-of-the-barn.mp3',
     '09-semi-ghost.mp3',
-    '09b-semi-ghost-alternate-take.mp3',
     '10-semi-billion.mp3',
     '11-semi-1986.mp3',
     '12-semi-io.mp3',
   ];
-  for (const file of expected) {
+  for (const file of publicCommercial) {
     const full = path.join(ROOT, 'public', 'audio', file);
-    assert.ok(fs.existsSync(full), `Missing MP3: ${file}`);
+    assert.ok(fs.existsSync(full), `Missing commercial MP3: ${file}`);
     const stat = fs.statSync(full);
     assert.ok(stat.size > 1_000_000, `MP3 too small (${stat.size} bytes): ${file}`);
     const head = fs.readFileSync(full).subarray(0, 3);
     const isId3 = head.toString('ascii') === 'ID3';
     const isMpegFrame = head[0] === 0xff && (head[1] & 0xe0) === 0xe0;
     assert.ok(isId3 || isMpegFrame, `Invalid MP3 header in ${file}`);
+  }
+
+  // Legacy unauthenticated alternate takes must NOT remain in public/audio
+  for (const legacy of [
+    '05b-semi-salt-in-the-rain-alternate-take.mp3',
+    '07b-semi-out-of-office-alternate-take.mp3',
+    '09b-semi-ghost-alternate-take.mp3',
+  ]) {
+    assert.equal(
+      fs.existsSync(path.join(ROOT, 'public', 'audio', legacy)),
+      false,
+      `Bonus take must not be publicly exposed in public/audio: ${legacy}`
+    );
+  }
+
+  // Protected Deluxe Vault bonus tracks (13, 14, and 15 closing with Ghost Alt Take)
+  const deluxeVault = [
+    '13-salt-in-the-rain-alt-c9f4e2a81b.mp3',
+    '14-out-of-office-alt-7a3d91e04c.mp3',
+    '15-ghost-alt-5e8b20f16d.mp3',
+  ];
+  for (const file of deluxeVault) {
+    const full = path.join(ROOT, 'public', 'deluxe-vault', file);
+    assert.ok(fs.existsSync(full), `Missing Deluxe bonus MP3: ${file}`);
+    assert.ok(fs.statSync(full).size > 1_000_000, `Deluxe MP3 too small: ${file}`);
   }
 });
 
@@ -206,13 +228,13 @@ test('Zero duplicate image paths across the entire site, rich song essays, Bitco
   assert.ok(ghostTrack, 'Missing ghost track');
   assert.equal(ghostTrack.youtubeId, 'T4nVjVcqw_U');
   assert.ok(ghostTrack.alternateTake, 'ghost must include Ghost (Alt Take)');
-  assert.equal(ghostTrack.alternateTake.title, 'Ghost (Alt Take)');
+  assert.equal(ghostTrack.alternateTake.numberLabel, '15');
 
   const billionTrack = SEMI_TRACKS.find((t) => t.slug === 'billion');
   assert.ok(billionTrack, 'Missing billion track');
   assert.equal(billionTrack.youtubeId, '');
   assert.equal(billionTrack.loopSrc, '');
-  assert.equal(billionTrack.mp3Src, '/audio/10-semi-billion.mp3');
+  assert.equal(billionTrack.mp3Src, '/api/audio/10-semi-billion.mp3');
 
   const track1986 = SEMI_TRACKS.find((t) => t.slug === '1986');
   assert.ok(track1986, 'Missing 1986 track');
@@ -223,10 +245,14 @@ test('Zero duplicate image paths across the entire site, rich song essays, Bitco
     path.join(ROOT, 'src', 'components', 'songs', 'SongEditionClient.tsx'),
     'utf8'
   );
+  const playerCtxSrc = fs.readFileSync(
+    path.join(ROOT, 'src', 'context', 'AudioPlayerContext.tsx'),
+    'utf8'
+  );
   assert.equal(
-    editionClientSrc.includes('download-alternate-take'),
+    editionClientSrc.includes('playAlternateTake') || playerCtxSrc.includes('playAlternateTake'),
     false,
-    'Alternate takes must be stream-only and never render a download button'
+    'Bonus alternate takes must never be playable in the public site player'
   );
 
   const unique = new Set(usedImages);
@@ -424,8 +450,8 @@ test('Autumn watercolor art direction wires distinct engines per main page and l
 
   const homeSrc = fs.readFileSync(path.join(ROOT, 'src', 'app', 'page.tsx'), 'utf8');
   const heroSrc = fs.readFileSync(path.join(ROOT, 'src', 'components', 'sections', 'Hero.tsx'), 'utf8');
-  const songsSectionSrc = fs.readFileSync(
-    path.join(ROOT, 'src', 'components', 'sections', 'FeaturedSongsSection.tsx'),
+  const songsPageSrc = fs.readFileSync(
+    path.join(ROOT, 'src', 'app', 'songs', 'page.tsx'),
     'utf8'
   );
   const gallerySrc = fs.readFileSync(
@@ -440,12 +466,12 @@ test('Autumn watercolor art direction wires distinct engines per main page and l
 
   assert.match(homeSrc, /AutumnPaperCanvas/);
   assert.match(heroSrc, /DriftingLeaves/);
-  assert.match(songsSectionSrc, /AutumnSkyWash/);
+  assert.match(songsPageSrc, /SongsVinylWash/);
   assert.match(gallerySrc, /AutumnWetBrushCanvas/);
   assert.match(aboutSrc, /AutumnDripStage/);
 
   assert.equal(
-    /(AutumnPaperCanvas|AutumnSkyWash|AutumnWetBrushCanvas|AutumnDripCanvas|DriftingLeaves)/.test(
+    /(AutumnPaperCanvas|AutumnSkyWash|SongsVinylWash|AutumnWetBrushCanvas|AutumnDripCanvas|DriftingLeaves)/.test(
       songEditionSrc
     ),
     false,
@@ -455,3 +481,59 @@ test('Autumn watercolor art direction wires distinct engines per main page and l
 
 
 
+
+test('Deluxe Edition promo code trypipesdotpink, 6-digit returning buyer login, and Track 15 Ghost Alt bonus gate work end-to-end', async () => {
+  const { POST: checkoutPost } = await import('../src/app/api/album/checkout/route.ts');
+  const { GET: bonusGet } = await import('../src/app/api/album/bonus/[slug]/route.ts');
+  const { createBuyerLoginCode, verifyBuyerLoginCode } = await import('../src/lib/album-purchases.ts');
+  const { patchMp3TrackTotalTo15 } = await import('../src/lib/zip-album.ts');
+
+  // 1. Unauthenticated request to Track 15 (Ghost Alt Take) must return 401
+  const unauthRes = await bonusGet(
+    new Request('http://localhost/api/album/bonus/15-ghost-alternate-take'),
+    { params: Promise.resolve({ slug: '15-ghost-alternate-take' }) }
+  );
+  assert.equal(unauthRes.status, 401);
+
+  // 2. Unlock via discount code "trypipesdotpink"
+  const testEmail = 'listener@semi.test';
+  const promoReq = new Request('http://localhost/api/album/checkout', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email: testEmail, promoCode: 'trypipesdotpink' }),
+  });
+  const promoRes = await checkoutPost(promoReq);
+  assert.equal(promoRes.status, 200);
+  const promoJson = (await promoRes.json()) as { ok: boolean; unlocked: boolean; token: string };
+  assert.equal(promoJson.ok, true);
+  assert.equal(promoJson.unlocked, true);
+  assert.ok(promoJson.token.length > 20);
+
+  // 3. Authenticated byte-range request to Track 15 (Ghost Alt Take) must return 206 Partial Content
+  const authRes = await bonusGet(
+    new Request(
+      `http://localhost/api/album/bonus/15-ghost-alternate-take?token=${encodeURIComponent(promoJson.token)}`,
+      { headers: { Range: 'bytes=0-255' } }
+    ),
+    { params: Promise.resolve({ slug: '15-ghost-alternate-take' }) }
+  );
+  assert.equal(authRes.status, 206);
+  assert.match(authRes.headers.get('content-range') || '', /^bytes 0-255\/\d+$/);
+
+  // 4. Returning buyer 6-digit passwordless update flow
+  const loginInit = await createBuyerLoginCode(testEmail);
+  assert.equal(loginInit.found, true);
+  assert.ok(loginInit.code && /^\d{6}$/.test(loginInit.code));
+  const loginCheck = await verifyBuyerLoginCode(testEmail, loginInit.code!);
+  assert.equal(loginCheck.valid, true);
+  assert.ok(loginCheck.accessToken);
+
+  // 5. ID3v2.3 TRCK denominator patcher preserves exact byte length while updating /12 -> /15
+  const track01Bytes = new Uint8Array(
+    fs.readFileSync(path.join(ROOT, 'public', 'audio', '01-semi-old-oak-tree.mp3'))
+  );
+  const patched = patchMp3TrackTotalTo15(track01Bytes);
+  assert.equal(patched.byteLength, track01Bytes.byteLength);
+  const headerAscii = Buffer.from(patched.subarray(0, 4096)).toString('latin1');
+  assert.equal(headerAscii.includes('1/15') || Buffer.from(patched.subarray(0, 4096)).toString('utf16le').includes('1/15'), true);
+});

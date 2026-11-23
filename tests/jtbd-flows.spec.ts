@@ -36,7 +36,7 @@ test.describe('Semi (; - ]) Multi-Page Interactive JTBD Suite', () => {
 
     // Verify each main page mounts its own differentiated autumn watercolor layer
     await page.goto('/songs', { waitUntil: 'networkidle' });
-    await expect(page.getByTestId('songs-autumn-sky-wash')).toBeVisible();
+    await expect(page.getByTestId('songs-vinyl-watercolor-wash')).toBeVisible();
     await expect(page.getByTestId('home-autumn-paper-canvas')).toHaveCount(0);
 
     await page.goto('/gallery', { waitUntil: 'networkidle' });
@@ -191,13 +191,10 @@ test.describe('Semi (; - ]) Multi-Page Interactive JTBD Suite', () => {
     await rainNote.locator('summary').click();
     await expect(rainNote).toHaveAttribute('open', '');
 
-    // Verify Alternate Studio Take is strictly LISTEN-ONLY (no download button on card or dock)
+    // Verify Bonus Take is exclusive to the $12.99 15-track Deluxe LP (never playable in public player)
     await expect(page.getByTestId('alternate-take-card')).toContainText('Salt In The Rain (Alternate Take)');
-    await expect(page.getByTestId('download-alternate-take')).toHaveCount(0);
-    await expect(page.getByTestId('alternate-take-stream-only')).toContainText(/Listen only/i);
-    await page.getByTestId('play-alternate-take').click();
-    await expect(page.getByTestId('persistent-audio-dock')).toContainText('05b · Salt In The Rain (Alternate Take)');
-    await expect(page.getByTestId('persistent-audio-dock').locator('a[download]')).toHaveCount(0);
+    await expect(page.getByTestId('play-alternate-take')).toHaveCount(0);
+    await expect(page.getByTestId('alternate-take-deluxe-badge')).toContainText(/Exclusive to 15-track Deluxe LP/i);
 
     // Verify Show Chords on Salt In The Rain (Capo 4)
     await page.getByTestId('toggle-show-chords').click();
@@ -213,7 +210,7 @@ test.describe('Semi (; - ]) Multi-Page Interactive JTBD Suite', () => {
     await page.goto('/songs/out-of-office', { waitUntil: 'networkidle' });
     await expect(page.locator('iframe[src*="1184pyA25Uw"]')).toBeVisible();
     await expect(page.locator('#lyrics')).toContainText(/out of office/i);
-    await expect(page.getByTestId('download-alternate-take')).toHaveCount(0);
+    await expect(page.getByTestId('play-alternate-take')).toHaveCount(0);
     await page.getByTestId('toggle-show-chords').click();
     await expect(page.getByTestId('chords-meta-bar')).toContainText('G Major');
 
@@ -223,7 +220,7 @@ test.describe('Semi (; - ]) Multi-Page Interactive JTBD Suite', () => {
     await page.getByTestId('toggle-show-chords').click();
     await expect(page.getByTestId('chords-meta-bar')).toContainText('C Major');
 
-    // Verify Track 09: Ghost + YouTube video T4nVjVcqw_U + listen-only Ghost (Alt Take) + chords + essay
+    // Verify Track 09: Ghost + YouTube video T4nVjVcqw_U + Deluxe Track 15 Ghost (Alt Take) + chords + essay
     await page.goto('/songs/ghost', { waitUntil: 'networkidle' });
     const ghost = page.getByTestId('song-edition-ghost');
     await expect(ghost).toContainText('Bicentennial Man');
@@ -231,11 +228,9 @@ test.describe('Semi (; - ]) Multi-Page Interactive JTBD Suite', () => {
     await expect(ghost).toContainText(/longing for home/i);
     await expect(page.locator('iframe[src*="T4nVjVcqw_U"]')).toBeVisible();
     await expect(page.getByTestId('alternate-take-card')).toContainText('Ghost (Alt Take)');
-    await expect(page.getByTestId('download-alternate-take')).toHaveCount(0);
-    await expect(page.getByTestId('alternate-take-stream-only')).toContainText(/Listen only/i);
-    await page.getByTestId('play-alternate-take').click();
-    await expect(page.getByTestId('persistent-audio-dock')).toContainText('09b · Ghost (Alt Take)');
-    await expect(page.getByTestId('persistent-audio-dock').locator('a[download]')).toHaveCount(0);
+    await expect(page.getByTestId('alternate-take-card')).toContainText('Track 15 of 15');
+    await expect(page.getByTestId('play-alternate-take')).toHaveCount(0);
+    await expect(page.getByTestId('alternate-take-deluxe-badge')).toContainText(/Exclusive to 15-track Deluxe LP/i);
     await page.getByTestId('toggle-show-chords').click();
     await expect(page.getByTestId('chords-meta-bar')).toContainText('E Minor');
     const ghostNote = page.getByTestId('lyric-note-ghost-0');
@@ -278,7 +273,7 @@ test.describe('Semi (; - ]) Multi-Page Interactive JTBD Suite', () => {
     }
 
     // Verify 10-15 song album milestone badge & interactive mailing list signup
-    await expect(page.getByTestId('album-milestone-badge')).toContainText('11 of 10–15 songs out');
+    await expect(page.getByTestId('album-milestone-badge')).toContainText('12 of 10–15 songs out');
     await page.getByTestId('song-notify-input').fill('listener@semi.test');
     await page.getByTestId('song-notify-submit').click();
     await expect(page.getByTestId('song-notify-success')).toBeVisible();
@@ -457,5 +452,83 @@ test.describe('Semi (; - ]) Multi-Page Interactive JTBD Suite', () => {
     await reasonSelect.selectOption('Produce a video for me');
     await page.getByRole('button', { name: 'Close contact form' }).click();
     await expect(contactDialog).not.toBeVisible();
+  });
+
+  test('JTBD 7: /songs painterly wash, reliable audio seeking, $12.99 Deluxe promo unlock (trypipesdotpink), and 6-digit buyer update flow', async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await page.goto('/songs', { waitUntil: 'networkidle' });
+
+    // 1. Verify SongsVinylWash paints real non-zero watercolor pixels onto the /songs canvas
+    const washCanvas = page.getByTestId('songs-vinyl-watercolor-wash');
+    await expect(washCanvas).toBeVisible();
+    await page.mouse.move(420, 320);
+    await page.mouse.move(580, 390);
+    await page.evaluate(() => window.scrollBy(0, 260));
+    await page.waitForTimeout(350);
+
+    const paintedPixelCount = await washCanvas.evaluate((el) => {
+      const c = el as HTMLCanvasElement;
+      const ctx = c.getContext('2d');
+      if (!ctx) return 0;
+      const sample = ctx.getImageData(0, 0, Math.min(c.width, 600), Math.min(c.height, 500)).data;
+      let nonZero = 0;
+      for (let i = 3; i < sample.length; i += 16) {
+        if (sample[i] > 2) nonZero++;
+      }
+      return nonZero;
+    });
+    expect(paintedPixelCount).toBeGreaterThan(25);
+
+    // 2. Verify audio seeking jumps cleanly and holds position (backed by HTTP 206 Partial Content)
+    await page.getByTestId('play-track-01').click();
+    const dock = page.getByTestId('persistent-audio-dock');
+    await expect(dock).toBeVisible();
+    const slider = page.getByTestId('dock-seek-slider');
+    await slider.fill('65');
+    await slider.dispatchEvent('change');
+    await page.waitForTimeout(250);
+    await expect(dock).toContainText('01:05');
+
+    // 3. Open $12.99 Deluxe Edition modal & unlock free via "trypipesdotpink"
+    await page.evaluate(() => window.scrollTo(0, 0));
+    await page.waitForTimeout(150);
+    await page.getByTestId('open-deluxe-album-btn').first().click();
+    const modal = page.getByTestId('deluxe-album-modal');
+    await expect(modal).toBeVisible();
+    const box = await modal.boundingBox();
+    expect(box && box.width >= 320 && box.height >= 300).toBeTruthy();
+
+    const buyerEmail = `buyer-${Date.now()}@playwright.local`;
+    await page.getByTestId('deluxe-email-input').fill(buyerEmail);
+    await page.getByTestId('deluxe-promo-input').fill('trypipesdotpink');
+    await expect(page.getByTestId('deluxe-submit-btn')).toContainText(/Unlock Deluxe Album Free/i);
+    await page.getByTestId('deluxe-submit-btn').click();
+
+    // Verify Collector's Vault unlocks with Track 15 (Ghost Alternate Take) as finale
+    const vault = page.getByTestId('deluxe-vault-unlocked');
+    await expect(vault).toBeVisible();
+    await expect(vault).toContainText('15 · Ghost (Alternate Take) — Album Finale');
+
+    // 4. Sign out & verify returning buyer 6-digit code update flow without paying twice
+    await vault.getByRole('button', { name: 'Switch email' }).click();
+    await page.getByTestId('deluxe-tab-updates').click();
+    await page.getByTestId('deluxe-update-email-input').fill(buyerEmail);
+
+    const codeResponsePromise = page.waitForResponse(
+      (r) => r.url().includes('/api/album/send-code') && r.request().method() === 'POST'
+    );
+    await page.getByTestId('deluxe-send-code-btn').click();
+    const codeRes = await codeResponsePromise;
+    const codeData = (await codeRes.json()) as { testCode?: string };
+    expect(codeData.testCode).toMatch(/^\d{6}$/);
+
+    await page.getByTestId('deluxe-code-input').fill(codeData.testCode!);
+    await page.getByTestId('deluxe-verify-code-btn').click();
+    await expect(page.getByTestId('deluxe-vault-unlocked')).toBeVisible();
+
+    await page.getByRole('button', { name: 'Close Deluxe Edition dialog' }).click();
+    await expect(modal).not.toBeVisible();
   });
 });

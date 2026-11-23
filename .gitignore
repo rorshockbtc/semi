@@ -66,3 +66,7 @@ tests/screenshots/
 /.open-next/
 /.wrangler/
 /.data/
+
+.data/
+test-results/
+playwright-report/
