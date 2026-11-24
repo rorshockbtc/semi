@@ -3120,6 +3120,27 @@ export const FORTHCOMING_TRACKS: ForthcomingTrack[] = [
  */
 export const FILM_SCENES_GALLERY: FilmScenePhoto[] = [
   {
+    id: 'svrn-coffee',
+    src: '/photos/gallery-svrn-coffee.jpg',
+    alt: 'Semi smiling warmly at a sunlit wooden café table in a charcoal SVRN Society hoodie with a ceramic mug.',
+    caption: 'Morning coffee and warm light in West Nashville.',
+    location: 'SVRN Society · Café session',
+  },
+  {
+    id: 'svrn-record-shop',
+    src: '/photos/gallery-svrn-record-shop.jpg',
+    alt: 'Semi laughing warmly while flipping through vinyl records with a natural SVRN Society canvas tote.',
+    caption: 'Digging through crates on a quiet afternoon.',
+    location: 'SVRN Society · Record shop',
+  },
+  {
+    id: 'svrn-golden-porch',
+    src: '/photos/gallery-svrn-golden-porch.jpg',
+    alt: 'Semi smiling on a timber porch at golden hour in a cream SVRN Society tee beside an acoustic guitar.',
+    caption: 'Golden hour on the porch between takes.',
+    location: 'SVRN Society · Porch session',
+  },
+  {
     id: 'meadow-spin',
     src: '/photos/gallery-meadow-spin.jpg',
     alt: 'Semi spinning in a wildflower meadow above a river valley at golden hour.',
