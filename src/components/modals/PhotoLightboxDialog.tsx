@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useId } from 'react';
-import { ChevronLeft, ChevronRight, X } from 'lucide-react';
+import { ArrowUpRight, ChevronLeft, ChevronRight, X } from 'lucide-react';
 import SemiDialogPortal from '@/components/modals/SemiDialogPortal';
 import type { FilmScenePhoto } from '@/data/semi-songs';
 
@@ -59,9 +59,32 @@ export default function PhotoLightboxDialog({
               <img
                 src={photo.src}
                 alt={photo.alt}
-                className="max-h-[62dvh] w-full object-contain mx-auto"
+                className="max-h-[58dvh] w-full object-contain mx-auto"
               />
             </figure>
+
+            {photo.shopUrl && photo.garmentTitle && (
+              <div className="flex flex-col gap-3 rounded-xl border border-[var(--a-rule)] bg-[var(--a-surface)] p-4 sm:flex-row sm:items-center sm:justify-between">
+                <div className="space-y-0.5">
+                  <p className="font-display text-[16px] font-bold text-[var(--a-ink)]">
+                    {photo.garmentTitle}
+                  </p>
+                  <p className="text-[13px] text-[var(--a-muted)]">
+                    Designed &amp; owned by Humble Warrior · Shared to support SVRN Society
+                  </p>
+                </div>
+                <a
+                  href={photo.shopUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  data-testid="lightbox-svrn-shop-btn"
+                  className="min-h-[44px] shrink-0 inline-flex items-center justify-center gap-2 rounded-full bg-[var(--a-accent-fill)] hover:bg-[var(--a-ink)] px-5 text-[14px] font-semibold text-white transition-colors"
+                >
+                  <span>Shop on svrnsociety.com</span>
+                  <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
+                </a>
+              </div>
+            )}
 
             <div className="flex items-center justify-between gap-2 sm:gap-4 border-t border-[var(--a-rule)] pt-4">
               <button

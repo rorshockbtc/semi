@@ -181,7 +181,12 @@ test('Zero duplicate image paths across the entire site, rich song essays, Bitco
   const { FILM_SCENES_GALLERY, SEMI_TRACKS } = await import('../src/data/semi-songs.ts');
 
   assert.equal(SEMI_TRACKS.length, 12);
-  assert.equal(FILM_SCENES_GALLERY.length, 15);
+  assert.equal(FILM_SCENES_GALLERY.length, 24);
+  const svrnPhotos = FILM_SCENES_GALLERY.filter((p) => p.series === 'svrn');
+  assert.equal(svrnPhotos.length, 12);
+  for (const p of svrnPhotos) {
+    assert.ok(p.shopUrl?.startsWith('https://svrnsociety.com/products/'), `Missing Humble Warrior shopUrl on ${p.id}`);
+  }
 
   const usedImages: string[] = [
     '/photos/gallery-porch-guitar.jpg',

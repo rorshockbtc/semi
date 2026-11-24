@@ -100,6 +100,10 @@ export interface FilmScenePhoto {
   alt: string;
   caption: string;
   location: string;
+  series?: 'sessions' | 'svrn';
+  aspect?: 'portrait' | 'landscape';
+  garmentTitle?: string;
+  shopUrl?: string;
 }
 
 export const SEMI_TRACKS: SemiTrack[] = [
@@ -3120,25 +3124,15 @@ export const FORTHCOMING_TRACKS: ForthcomingTrack[] = [
  */
 export const FILM_SCENES_GALLERY: FilmScenePhoto[] = [
   {
-    id: 'svrn-coffee',
-    src: '/photos/gallery-svrn-coffee.jpg',
-    alt: 'Semi smiling warmly at a sunlit wooden café table in a charcoal SVRN Society hoodie with a ceramic mug.',
-    caption: 'Morning coffee and warm light in West Nashville.',
-    location: 'SVRN Society · Café session',
-  },
-  {
-    id: 'svrn-record-shop',
-    src: '/photos/gallery-svrn-record-shop.jpg',
-    alt: 'Semi laughing warmly while flipping through vinyl records with a natural SVRN Society canvas tote.',
-    caption: 'Digging through crates on a quiet afternoon.',
-    location: 'SVRN Society · Record shop',
-  },
-  {
-    id: 'svrn-golden-porch',
-    src: '/photos/gallery-svrn-golden-porch.jpg',
-    alt: 'Semi smiling on a timber porch at golden hour in a cream SVRN Society tee beside an acoustic guitar.',
-    caption: 'Golden hour on the porch between takes.',
-    location: 'SVRN Society · Porch session',
+    id: 'svrn-soft-revolution-maxi',
+    src: '/photos/svrn/soft-revolution-bitcoin-maxi-dress.jpg',
+    alt: 'Semi smiling down sun-drenched stone steps under bougainvillea in Humble Warrior’s Soft Revolution Bitcoin Maxi Dress.',
+    caption: 'Stone steps and bougainvillea by the water.',
+    location: 'SVRN Society · Soft Revolution',
+    series: 'svrn',
+    aspect: 'portrait',
+    garmentTitle: 'Soft Revolution: Bitcoin Maxi Dress',
+    shopUrl: 'https://svrnsociety.com/products/soft-revolution-bitcoin-maxi-dress',
   },
   {
     id: 'meadow-spin',
@@ -3146,6 +3140,18 @@ export const FILM_SCENES_GALLERY: FilmScenePhoto[] = [
     alt: 'Semi spinning in a wildflower meadow above a river valley at golden hour.',
     caption: 'Wildflower field above the Cumberland, golden hour.',
     location: 'From the “Warm Unknown” shoot',
+    series: 'sessions',
+  },
+  {
+    id: 'svrn-chancellor-cafe',
+    src: '/photos/svrn/chancellor-on-the-brink-bitcoin-pants.jpg',
+    alt: 'Semi laughing over espresso and a croissant at a sidewalk café in Humble Warrior’s Chancellor on the Brink trousers.',
+    caption: 'Sidewalk espresso and a morning laugh.',
+    location: 'SVRN Society · Chancellor Line',
+    series: 'svrn',
+    aspect: 'portrait',
+    garmentTitle: 'Chancellor on the Brink: Trousers',
+    shopUrl: 'https://svrnsociety.com/products/chancellor-on-the-brink-bitcoin-pants',
   },
   {
     id: 'denim-porch',
@@ -3153,6 +3159,18 @@ export const FILM_SCENES_GALLERY: FilmScenePhoto[] = [
     alt: 'Semi in a denim jacket sitting on craftsman porch steps between two acoustic guitars.',
     caption: 'Porch steps, two old guitars, and the late sun.',
     location: 'West Nashville · Porch session',
+    series: 'sessions',
+  },
+  {
+    id: 'svrn-aloha-satoshi',
+    src: '/photos/svrn/aloha-satoshi-sleeveless-maxi-dress.jpg',
+    alt: 'Semi laughing mid-twirl among potted lemon trees in Humble Warrior’s Aloha Satoshi Sleeveless Maxi Dress.',
+    caption: 'Sunlit courtyard among the lemon trees.',
+    location: 'SVRN Society · Aloha Satoshi',
+    series: 'svrn',
+    aspect: 'portrait',
+    garmentTitle: 'Aloha Satoshi: Sleeveless Maxi Dress',
+    shopUrl: 'https://svrnsociety.com/products/aloha-satoshi-sleeveless-maxi-dress',
   },
   {
     id: 'vintage-mic',
@@ -3160,6 +3178,18 @@ export const FILM_SCENES_GALLERY: FilmScenePhoto[] = [
     alt: 'Semi singing into a vintage brass microphone in a dim studio with pink light.',
     caption: 'One take at the brass ribbon mic.',
     location: 'From the “Old Oak Tree” video',
+    series: 'sessions',
+  },
+  {
+    id: 'svrn-nautical-blouse',
+    src: '/photos/svrn/nautical-off-shoulder-blouse.jpg',
+    alt: 'Semi smiling warmly on a coastal stone balustrade in Humble Warrior’s Crab B Off-Shoulder Blouse.',
+    caption: 'Late sun along the stone balustrade.',
+    location: 'SVRN Society · Crab ‘B’',
+    series: 'svrn',
+    aspect: 'portrait',
+    garmentTitle: "Crab 'B': Off-Shoulder Blouse",
+    shopUrl: 'https://svrnsociety.com/products/nautical-off-shoulder-blouse',
   },
   {
     id: 'turtleneck-piano',
@@ -3167,6 +3197,18 @@ export const FILM_SCENES_GALLERY: FilmScenePhoto[] = [
     alt: 'Semi in a black turtleneck seated at a worn upright piano under a single lamp.',
     caption: 'Writing the bridge at the upright.',
     location: 'Studio B · Late night',
+    series: 'sessions',
+  },
+  {
+    id: 'svrn-organic-hoodie',
+    src: '/photos/svrn/in-god-we-trust-womens-organic-hoodie.jpg',
+    alt: 'Semi walking through morning sunbeams in an olive-tree cloister wearing Humble Warrior’s In God We Trust Organic Hoodie.',
+    caption: 'Morning sunbeams under the olive trees.',
+    location: 'SVRN Society · Faith Capsule',
+    series: 'svrn',
+    aspect: 'portrait',
+    garmentTitle: "In God We Trust: Women's Organic Hoodie",
+    shopUrl: 'https://svrnsociety.com/products/in-god-we-trust-womens-organic-hoodie',
   },
   {
     id: 'sweater-records',
@@ -3174,6 +3216,18 @@ export const FILM_SCENES_GALLERY: FilmScenePhoto[] = [
     alt: 'Semi in an oatmeal cable-knit sweater flipping through vinyl in a record shop.',
     caption: 'Digging crates on a slow afternoon.',
     location: 'Record shop · Charlotte Ave',
+    series: 'sessions',
+  },
+  {
+    id: 'svrn-paris-tee',
+    src: '/photos/svrn/bitcoin-paris-vintage-wash-slim-fit-t-shirt.jpg',
+    alt: 'Semi smiling beside tall French casement windows in Humble Warrior’s Bitcoin Paris Vintage Wash T-Shirt.',
+    caption: 'Open casement windows in the afternoon.',
+    location: 'SVRN Society · Bitcoin Paris',
+    series: 'svrn',
+    aspect: 'portrait',
+    garmentTitle: 'Bitcoin Paris: Vintage Wash T-Shirt',
+    shopUrl: 'https://svrnsociety.com/products/bitcoin-paris-vintage-wash-slim-fit-t-shirt',
   },
   {
     id: 'green-dress-field',
@@ -3181,6 +3235,18 @@ export const FILM_SCENES_GALLERY: FilmScenePhoto[] = [
     alt: 'Semi in a forest-green slip dress walking through tall grass at dusk.',
     caption: 'Tall grass and the last of the light.',
     location: 'Edge of town · Dusk',
+    series: 'sessions',
+  },
+  {
+    id: 'svrn-crab-wide-leg',
+    src: '/photos/svrn/crab-b-wide-leg-pants.jpg',
+    alt: 'Semi walking barefoot along a harbor pier carrying leather sandals in Humble Warrior’s Crab B Wide Leg Pants.',
+    caption: 'Barefoot along the harbor pier.',
+    location: 'SVRN Society · Crab ‘B’',
+    series: 'svrn',
+    aspect: 'portrait',
+    garmentTitle: "Crab 'B': Wide Leg Pants",
+    shopUrl: 'https://svrnsociety.com/products/crab-b-wide-leg-pants',
   },
   {
     id: 'flannel-coffee',
@@ -3188,6 +3254,18 @@ export const FILM_SCENES_GALLERY: FilmScenePhoto[] = [
     alt: 'Semi in a red flannel shirt laughing at a café window table with a ceramic mug.',
     caption: 'Morning coffee, mid-laugh.',
     location: 'Neighborhood café',
+    series: 'sessions',
+  },
+  {
+    id: 'svrn-faux-silk-pants',
+    src: '/photos/svrn/soft-revolution-faux-silk-wide-leg-pants.jpg',
+    alt: 'Semi descending curved limestone stairs in Humble Warrior’s Soft Revolution Faux-Silk Wide Leg Pants.',
+    caption: 'Limestone steps in golden-hour shade.',
+    location: 'SVRN Society · Soft Revolution',
+    series: 'svrn',
+    aspect: 'portrait',
+    garmentTitle: 'Soft Revolution: Wide Leg Pants',
+    shopUrl: 'https://svrnsociety.com/products/soft-revolution-faux-silk-wide-leg-pants',
   },
   {
     id: 'river-sunset',
@@ -3195,6 +3273,18 @@ export const FILM_SCENES_GALLERY: FilmScenePhoto[] = [
     alt: 'Semi standing at the water’s edge facing a pastel sunset.',
     caption: 'Water, sky, and nothing else to do.',
     location: 'Riverbank · Evening',
+    series: 'sessions',
+  },
+  {
+    id: 'svrn-proverbs-hoodie',
+    src: '/photos/svrn/proverbs-11-cropped-zip-up-hoodie.jpg',
+    alt: 'Semi smiling on a sunlit rooftop terrace in Humble Warrior’s Proverbs 11:1 Cropped Zip-Up Hoodie.',
+    caption: 'Rooftop breeze right before sunset.',
+    location: 'SVRN Society · Proverbs 11:1',
+    series: 'svrn',
+    aspect: 'portrait',
+    garmentTitle: 'Proverbs 11:1: Cropped Zip-Up Hoodie',
+    shopUrl: 'https://svrnsociety.com/products/proverbs-11-cropped-zip-up-hoodie',
   },
   {
     id: 'leather-backstage',
@@ -3202,6 +3292,18 @@ export const FILM_SCENES_GALLERY: FilmScenePhoto[] = [
     alt: 'Semi in a cognac leather jacket backstage with an acoustic guitar case.',
     caption: 'Green room hallway ten minutes before doors.',
     location: 'Backstage · Listening room',
+    series: 'sessions',
+  },
+  {
+    id: 'svrn-tennis-dress',
+    src: '/photos/svrn/bitcoin-paris-green-sports-dress-set.jpg',
+    alt: 'Semi laughing beside a red-clay tennis court with a wooden racquet in Humble Warrior’s Bitcoin Paris Sports Dress Set.',
+    caption: 'Red clay court and late-morning sun.',
+    location: 'SVRN Society · Movement',
+    series: 'svrn',
+    aspect: 'portrait',
+    garmentTitle: 'Bitcoin Paris: Sports Dress Set',
+    shopUrl: 'https://svrnsociety.com/products/bitcoin-paris-green-sports-dress-set',
   },
   {
     id: 'cardigan-bookstore',
@@ -3209,6 +3311,18 @@ export const FILM_SCENES_GALLERY: FilmScenePhoto[] = [
     alt: 'Semi in a sage-green knit cardigan browsing tall wooden bookshop shelves.',
     caption: 'Lining up poetry beside the chord charts.',
     location: 'Hillsboro Village · Afternoon',
+    series: 'sessions',
+  },
+  {
+    id: 'svrn-fix-the-money-tee',
+    src: '/photos/svrn/fix-the-money-cropped-dolman-t-shirt.jpg',
+    alt: 'Semi smiling in Humble Warrior’s Fix The Money Cropped Dolman T-Shirt.',
+    caption: 'Afternoon stroll in soft daylight.',
+    location: 'SVRN Society · Fix The Money',
+    series: 'svrn',
+    aspect: 'portrait',
+    garmentTitle: 'Fix The Money: Cropped Dolman T-Shirt',
+    shopUrl: 'https://svrnsociety.com/products/fix-the-money-cropped-dolman-t-shirt',
   },
   {
     id: 'sunflower-trail',
@@ -3216,6 +3330,18 @@ export const FILM_SCENES_GALLERY: FilmScenePhoto[] = [
     alt: 'Semi in a pale-blue chambray shirt walking a sunlit park trail in late-afternoon shade.',
     caption: 'Walk before soundcheck under the oaks.',
     location: 'Percy Warner trail · Late light',
+    series: 'sessions',
+  },
+  {
+    id: 'svrn-whale-sweatshirt',
+    src: '/photos/svrn/bitcoin-whale-women-s-off-shoulder-sweatshirt.jpg',
+    alt: 'Semi smiling warmly in Humble Warrior’s Bitcoin Whale Off-Shoulder Sweatshirt.',
+    caption: 'Easy afternoon in cozy fleece.',
+    location: 'SVRN Society · Bitcoin Whale',
+    series: 'svrn',
+    aspect: 'portrait',
+    garmentTitle: 'Bitcoin Whale: Off-Shoulder Sweatshirt',
+    shopUrl: 'https://svrnsociety.com/products/bitcoin-whale-women-s-off-shoulder-sweatshirt',
   },
   {
     id: 'kitchen-songwriting',
@@ -3223,5 +3349,6 @@ export const FILM_SCENES_GALLERY: FilmScenePhoto[] = [
     alt: 'Semi sitting on a wooden kitchen stool strumming a guitar over handwritten lyrics.',
     caption: 'Second verse scribbled on butcher-block counter.',
     location: 'Sylvan Park kitchen · Morning',
+    series: 'sessions',
   },
 ];
