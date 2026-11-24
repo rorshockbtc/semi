@@ -18,6 +18,7 @@ import { SEMI_TRACKS } from '@/data/semi-songs';
 import { AUDIO_MASTER_REV } from '@/data/audio-manifest';
 import { useAudioPlayer } from '@/context/AudioPlayerContext';
 import { LocalhostTeaserCard } from '@/components/songs/LocalhostTeaserCard';
+import { PhonePlaybackFaq } from '@/components/songs/PhonePlaybackFaq';
 import {
   buildM3uPlaylist,
   buildStoreZip,
@@ -777,6 +778,8 @@ function DeluxeModalDialog({
                   })}
                 </div>
               </div>
+
+              <PhonePlaybackFaq />
 
               <div className="rounded-xl border border-[var(--a-rule)] bg-[var(--a-surface)]/70 p-3.5 text-[13px] leading-relaxed text-[var(--a-muted)]">
                 <strong>Phone &amp; Apple Music tip:</strong> Every track is numbered{' '}
