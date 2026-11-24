@@ -763,8 +763,9 @@ function DeluxeModalDialog({
                   </span>
                 </p>
                 <p className="text-[14px] leading-relaxed text-[var(--a-muted)]">
-                  Whenever we refine audio masters or add updated album art, return anytime with your
-                  email to download the latest build for free.
+                  The 15-track audio is final, while new booklet art and music videos may be released
+                  asynchronously. Check back anytime with your email to grab only what’s new—and
+                  we’ll email you whenever new art or video drops.
                 </p>
               </div>
 
