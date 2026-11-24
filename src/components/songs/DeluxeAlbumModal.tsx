@@ -361,6 +361,7 @@ function DeluxeModalDialog({
 
   // Deluxe 15-track ZIP download progress
   const [zipStatus, setZipStatus] = useState<'idle' | 'downloading' | 'done' | 'error'>('idle');
+  const [artZipStatus, setArtZipStatus] = useState<'idle' | 'downloading' | 'done' | 'error'>('idle');
   const [zipProgress, setZipProgress] = useState<{ current: number; total: number }>({
     current: 0,
     total: 16,
@@ -637,6 +638,56 @@ function DeluxeModalDialog({
     }
   };
 
+  const handleDownloadArtZip = async () => {
+    if (!unlockedToken || artZipStatus === 'downloading') return;
+    setArtZipStatus('downloading');
+    try {
+      const folder = 'Semi - I-O (Booklet & Art)';
+      const entries: ZipEntryInput[] = [];
+      const artFiles = [
+        'io_cover.jpg',
+        'io_cover_rear.jpg',
+        'io_01.jpg',
+        'io_02.jpg',
+        'io_03.jpg',
+        'io_05.jpg',
+        'io_06.jpg',
+        'io_07.jpg',
+        'io_08.jpg',
+        'io_09.jpg',
+        'io_10.jpg',
+      ];
+      for (const artName of artFiles) {
+        const artRes = await fetch(
+          `/api/album/art/${artName}?token=${encodeURIComponent(unlockedToken)}&v=${AUDIO_MASTER_REV}`
+        );
+        if (artRes.ok) {
+          const artBytes = new Uint8Array(await artRes.arrayBuffer());
+          entries.push({ name: `${folder}/${artName}`, data: artBytes });
+          if (artName === 'io_cover.jpg') {
+            entries.push({ name: `${folder}/cover.jpg`, data: artBytes });
+          }
+        }
+      }
+      const blob = buildStoreZip(entries);
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'Semi - I-O (Booklet & Art).zip';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      setTimeout(() => URL.revokeObjectURL(url), 12_000);
+
+      setArtZipStatus('done');
+      setTimeout(() => setArtZipStatus('idle'), 4500);
+    } catch (err) {
+      console.error('[ArtZip] Failed:', err);
+      setArtZipStatus('error');
+      setTimeout(() => setArtZipStatus('idle'), 4500);
+    }
+  };
+
   const toggleVaultBonusStream = (slug: string) => {
     if (!unlockedToken) return;
     pausePublicPlayer();
@@ -740,6 +791,31 @@ function DeluxeModalDialog({
                   <>
                     <Download className="w-4 h-4" />
                     <span>Download Full 15-Track Deluxe Album (.ZIP)</span>
+                  </>
+                )}
+              </button>
+
+              <button
+                type="button"
+                onClick={handleDownloadArtZip}
+                disabled={artZipStatus === 'downloading'}
+                data-testid="download-deluxe-art-zip-btn"
+                className="w-full min-h-[48px] inline-flex items-center justify-center gap-2.5 rounded-full border border-[var(--a-rule)] bg-[var(--a-surface)] hover:border-[var(--a-ink)] px-6 text-[14px] font-semibold text-[var(--a-ink)] transition-colors disabled:opacity-70"
+              >
+                {artZipStatus === 'downloading' ? (
+                  <>
+                    <Loader2 className="w-4 h-4 animate-spin" />
+                    <span>Packing Booklet &amp; Art (.ZIP)…</span>
+                  </>
+                ) : artZipStatus === 'done' ? (
+                  <>
+                    <Check className="w-4 h-4" />
+                    <span>Booklet &amp; Art ZIP Downloaded</span>
+                  </>
+                ) : (
+                  <>
+                    <Download className="w-4 h-4" />
+                    <span>Already Have the Music? Download Booklet &amp; Art Only (.ZIP)</span>
                   </>
                 )}
               </button>
