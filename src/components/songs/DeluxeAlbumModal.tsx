@@ -601,6 +601,17 @@ function DeluxeModalDialog({
           }
         }
       }
+      const videoRes = await fetch(
+        `/api/album/video/localhost?token=${encodeURIComponent(unlockedToken)}&v=${AUDIO_MASTER_REV}`
+      );
+      if (videoRes.ok) {
+        const videoBytes = new Uint8Array(await videoRes.arrayBuffer());
+        entries.push({
+          name: `${folder}/14 - Localhost (Music Video).mp4`,
+          data: videoBytes,
+        });
+      }
+
       entries.push({
         name: `${folder}/00 - Play I-O Deluxe (15 Tracks).m3u`,
         data: buildM3uPlaylist(playlistRows),
@@ -777,6 +788,35 @@ function DeluxeModalDialog({
                     );
                   })}
                 </div>
+              </div>
+
+              {/* Exclusive Localhost Music Video */}
+              <div className="rounded-xl border border-[var(--a-rule)] bg-[var(--a-surface)] p-3.5 space-y-3">
+                <div className="flex items-center justify-between gap-3">
+                  <div className="min-w-0">
+                    <p className="font-display text-[15px] font-bold truncate text-[var(--a-ink)]">
+                      14 · Localhost (Music Video)
+                    </p>
+                    <p className="font-code text-[13px] text-[var(--a-muted)]">
+                      HD MP4 · Included in Deluxe ZIP
+                    </p>
+                  </div>
+                  <a
+                    href={`/api/album/video/localhost?token=${encodeURIComponent(unlockedToken)}&v=${AUDIO_MASTER_REV}`}
+                    download="14 - Localhost (Music Video).mp4"
+                    aria-label="Download Localhost Music Video"
+                    className="inline-flex min-h-[44px] min-w-[44px] items-center justify-center rounded-full border border-[var(--a-rule)] hover:border-[var(--a-ink)] text-[var(--a-accent-text)]"
+                  >
+                    <Download className="w-4 h-4" />
+                  </a>
+                </div>
+                <video
+                  src={`/api/album/video/localhost?token=${encodeURIComponent(unlockedToken)}&v=${AUDIO_MASTER_REV}`}
+                  controls
+                  playsInline
+                  preload="metadata"
+                  className="aspect-video w-full rounded-lg bg-[#111827] object-cover"
+                />
               </div>
 
               <PhonePlaybackFaq />
