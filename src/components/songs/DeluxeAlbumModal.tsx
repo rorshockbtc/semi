@@ -260,7 +260,7 @@ export function DeluxeAlbumSection() {
             the <strong>$12.99 Deluxe Collector’s Edition</strong>, you get the complete 15-track
             master sequenced with the exclusive bonus song <strong><em>Localhost</em></strong> plus{' '}
             <strong>two studio alternate takes</strong>—closing with <em>Ghost (Alternate Take)</em>
-            —alongside the 10-plate lookbook booklet and lifetime free re-downloads whenever we
+            —alongside the 11-plate lookbook booklet and lifetime free re-downloads whenever we
             update audio or album artwork.
           </p>
 
@@ -960,7 +960,7 @@ function DeluxeModalDialog({
                     Includes all 12 songs on <em>I/O</em> plus{' '}
                     <strong>13 · Salt In The Rain (Alt Take)</strong>,{' '}
                     <strong>14 · Localhost</strong>, and{' '}
-                    <strong>15 · Ghost (Alt Take)</strong> closing the album—along with the 10-plate
+                    <strong>15 · Ghost (Alt Take)</strong> closing the album—along with the 11-plate
                     lookbook booklet and free lifetime updates.
                   </p>
 

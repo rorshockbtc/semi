@@ -15,7 +15,7 @@ import { VideoPlaylistButton } from '@/components/songs/VideoPlaylistModal';
 import { DeluxeAlbumButton } from '@/components/songs/DeluxeAlbumModal';
 
 export default function FeaturedSongsSection({
-  eyebrow = 'The singles',
+  eyebrow = 'The songs',
   showAllFeatured = false,
 }: {
   eyebrow?: string;

@@ -111,7 +111,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Semi (; - ]) — Indie-Folk Songs, Stories & AI Companion',
     description:
-      'Every word you’ve told me, still warm. Stream all 7 singles from I/O, read the stories & guitar chords, and download free 320 kbps MP3s.',
+      'Every word you’ve told me, still warm. Stream all 12 songs from her debut album I/O, read the stories & guitar chords, and download free 320 kbps MP3s.',
     url: SITE_URL,
     siteName: 'Semi (; - ])',
     locale: 'en_US',

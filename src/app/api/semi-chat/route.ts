@@ -85,7 +85,7 @@ const CANNED_REPLIES: { match: RegExp; reply: string }[] = [
   {
     match: /nashville|west nashville|album|guitar|photo|record/i,
     reply:
-      'West Nashville keeps me grounded—porch guitars, natural window light, and plain-spoken songs. Nine songs are live right now from I/O (through “Out of the Barn” and “Ghost”), each with its own video, free main-track MP3, and story page.',
+      'West Nashville keeps me grounded—porch guitars, natural window light, and plain-spoken songs. My debut album I/O is out now—twelve songs, each with a story page and a free 320 kbps MP3, plus a Deluxe Edition with the bonus song “Localhost” and its music video.',
   },
 ];
 

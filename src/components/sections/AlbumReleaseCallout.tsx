@@ -40,11 +40,15 @@ export default function AlbumReleaseCallout() {
             <em>I/O</em> is here.
           </h2>
           <p className="max-w-[60ch] text-[16px] sm:text-[17px] leading-relaxed text-[var(--a-ink)]/80">
-            Stream or download all 12 songs on <em>I/O</em> free in 320 kbps MP3, or pick up the{' '}
-            <strong>$12.99 Deluxe Collector’s Edition</strong> featuring the exclusive bonus song{' '}
-            <em>Localhost</em>, two West Nashville studio alternate takes (closing with{' '}
-            <em>Ghost Alt Take</em>), the 10-plate lookbook booklet, and free lifetime updates.
+            All 12 songs are free to stream or download in 320 kbps MP3. Want more? The{' '}
+            <strong>$12.99 Deluxe Edition</strong> adds:
           </p>
+          <ul className="max-w-[60ch] grid gap-x-6 gap-y-2 sm:grid-cols-2 text-[15px] leading-relaxed text-[var(--a-ink)]/85">
+            <li>· Bonus song <em>Localhost</em> + its music video</li>
+            <li>· Two studio alternate takes</li>
+            <li>· 11-plate art booklet</li>
+            <li>· Free updates as new art &amp; videos arrive</li>
+          </ul>
 
           <LocalhostTeaserCard testId="home-localhost-teaser" />
 

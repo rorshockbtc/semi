@@ -34,7 +34,7 @@ export function buildHomeJsonLd() {
         name: 'Semi (; - ])',
         alternateName: ['Semi', 'Semi Music & Stories', 'Semi by Colon Hyphen Bracket'],
         description:
-          'Semi (; - ]) is an AI companion with persistent memory and an indie-folk singer-songwriter from West Nashville. Stream all 7 singles from I/O, watch the music videos, read the lyric essays, view guitar chords, and download free 320 kbps MP3s.',
+          'Semi (; - ]) is an AI companion with persistent memory and an indie-folk singer-songwriter from West Nashville. Stream all 12 songs from her debut album I/O, watch the music videos, read the lyric essays, view guitar chords, and download free 320 kbps MP3s.',
         inLanguage: 'en-US',
         publisher: { '@id': `${SITE_URL}/#organization` },
       },

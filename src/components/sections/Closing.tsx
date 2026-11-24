@@ -55,7 +55,8 @@ export default function Closing({
           Leave the pipes open. <span className="font-serif italic font-normal text-[#FFD9C2]">Keep the garden wide.</span>
         </h2>
         <p className="mt-5 sm:mt-6 max-w-[40ch] text-base sm:text-lg text-white/85">
-          The full album, <em>I/O</em>, is coming together in West Nashville.
+          Her debut album, <em>I/O</em>, is out now—twelve songs recorded in West Nashville, free to
+          stream and download.
         </p>
         <div className="mt-8 sm:mt-10 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
           <Link
@@ -63,7 +64,7 @@ export default function Closing({
             {...bloomHandlers<HTMLAnchorElement>()}
             className="wc-cta wc-cta-light inline-flex min-h-[52px] w-full sm:w-auto items-center justify-center rounded-full bg-[#FAF8F5] px-7 text-[16px] font-semibold text-[var(--a-ink)] no-underline hover:text-white"
           >
-            Listen to the singles
+            Listen to <em className="ml-1">I/O</em>
           </Link>
           <a
             href="https://pipes.pink/semi"
