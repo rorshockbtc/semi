@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useMemo, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
 import { ArrowUpRight } from 'lucide-react';
 import { m } from 'framer-motion';
@@ -10,6 +10,23 @@ import { useAmbientMotion } from '@/context/AmbientMotionContext';
 import { FILM_SCENES_GALLERY, type FilmScenePhoto } from '@/data/semi-songs';
 
 type GalleryFilter = 'all' | 'brands' | 'orange-habit' | 'highdraw' | 'svrn' | 'sessions';
+const VALID_FILTERS: readonly GalleryFilter[] = [
+  'all',
+  'brands',
+  'orange-habit',
+  'highdraw',
+  'svrn',
+  'sessions',
+];
+
+function parseGalleryFilterFromLocation(): GalleryFilter | null {
+  if (typeof window === 'undefined') return null;
+  const hash = window.location.hash.replace(/^#/, '').trim().toLowerCase();
+  if (VALID_FILTERS.includes(hash as GalleryFilter)) return hash as GalleryFilter;
+  const query = new URLSearchParams(window.location.search).get('filter')?.trim().toLowerCase();
+  if (query && VALID_FILTERS.includes(query as GalleryFilter)) return query as GalleryFilter;
+  return null;
+}
 
 /**
  * Gallery. `preview` renders a 4-up strip for the home page; the full page renders an
@@ -22,6 +39,25 @@ export default function FilmScenesGallery({ preview = false }: { preview?: boole
   const [selected, setSelected] = useState<FilmScenePhoto | null>(null);
   const [filter, setFilter] = useState<GalleryFilter>('all');
   const { motionActive } = useAmbientMotion();
+
+  useEffect(() => {
+    if (preview) return;
+    const applyFromUrl = () => {
+      const parsed = parseGalleryFilterFromLocation();
+      if (parsed) setFilter(parsed);
+    };
+    applyFromUrl();
+    window.addEventListener('hashchange', applyFromUrl);
+    return () => window.removeEventListener('hashchange', applyFromUrl);
+  }, [preview]);
+
+  const handleSelectFilter = (next: GalleryFilter) => {
+    setFilter(next);
+    if (typeof window !== 'undefined' && !preview) {
+      const nextUrl = next === 'all' ? window.location.pathname : `${window.location.pathname}#${next}`;
+      window.history.replaceState({ ...(window.history.state || {}) }, '', nextUrl);
+    }
+  };
 
   const isBrandSeries = (series?: FilmScenePhoto['series']) =>
     series === 'svrn' || series === 'orange-habit' || series === 'highdraw';
@@ -134,11 +170,13 @@ export default function FilmScenesGallery({ preview = false }: { preview?: boole
                 return (
                   <button
                     key={tab.key}
+                    id={tab.key === 'all' ? undefined : tab.key}
                     type="button"
                     role="tab"
                     aria-selected={active}
+                    data-filter={tab.key}
                     data-testid={`gallery-filter-${tab.key}`}
-                    onClick={() => setFilter(tab.key)}
+                    onClick={() => handleSelectFilter(tab.key)}
                     className={`min-h-[44px] rounded-full px-5 text-[14px] font-semibold transition-colors ${
                       active
                         ? 'bg-[var(--a-ink)] text-[var(--a-surface)]'
@@ -151,7 +189,7 @@ export default function FilmScenesGallery({ preview = false }: { preview?: boole
               })}
             </div>
 
-            {/* Attribution & referral note for Humble Warrior (Orange Habit / SVRN Society) */}
+            {/* Featured Clients banner: Orange Habit / SVRN Society + High Draw Golf */}
             {filter !== 'sessions' && (
               <div
                 data-testid="svrn-attribution-banner"
@@ -159,19 +197,19 @@ export default function FilmScenesGallery({ preview = false }: { preview?: boole
               >
                 <div className="space-y-1.5 max-w-[68ch]">
                   <p className="font-code text-[13px] font-semibold uppercase tracking-[0.16em] text-[var(--a-accent-text)]">
-                    Orange Habit · SVRN Society · By Humble Warrior
+                    Featured Clients · Orange Habit · SVRN Society · High Draw Golf
                   </p>
                   <p className="text-[15px] leading-relaxed text-[var(--a-ink)]/85">
-                    Featured with permission from <strong>Humble Warrior</strong>—founder of{' '}
+                    Featured with permission from <strong>Humble Warrior</strong> (
                     <a
                       href="https://x.com/theorangehabit"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="font-semibold underline underline-offset-4 hover:text-[var(--a-accent-text)]"
                     >
-                      Orange Habit (@theorangehabit)
+                      Orange Habit
                     </a>{' '}
-                    and{' '}
+                    &amp;{' '}
                     <a
                       href="https://svrnsociety.com"
                       target="_blank"
@@ -180,8 +218,16 @@ export default function FilmScenesGallery({ preview = false }: { preview?: boole
                     >
                       SVRN Society
                     </a>
-                    . Explore her womenswear, accessories, mugs, and home decor—every link below
-                    forwards straight to her shop.
+                    ) and{' '}
+                    <a
+                      href="https://highdrawgolf.com/store"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="font-semibold underline underline-offset-4 hover:text-[var(--a-accent-text)]"
+                    >
+                      High Draw Golf
+                    </a>
+                    —every product link below forwards straight to their official stores.
                   </p>
                 </div>
                 <div className="flex flex-wrap items-center gap-2.5 shrink-0">
@@ -192,6 +238,15 @@ export default function FilmScenesGallery({ preview = false }: { preview?: boole
                     className="min-h-[44px] inline-flex items-center justify-center gap-2 rounded-full bg-[var(--a-accent-fill)] hover:bg-[var(--a-ink)] px-5 text-[14px] font-semibold text-white transition-colors"
                   >
                     <span>Shop svrnsociety.com</span>
+                    <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
+                  </a>
+                  <a
+                    href="https://highdrawgolf.com/store"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="min-h-[44px] inline-flex items-center justify-center gap-1.5 rounded-full border border-[var(--a-rule)] hover:border-[var(--a-ink)] px-4 text-[14px] font-semibold text-[var(--a-ink)] transition-colors"
+                  >
+                    <span>High Draw Golf</span>
                     <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
                   </a>
                   <a
