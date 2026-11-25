@@ -70,7 +70,8 @@ export default function PhotoLightboxDialog({
                     {photo.garmentTitle}
                   </p>
                   <p className="text-[13px] text-[var(--a-muted)]">
-                    Designed &amp; owned by Humble Warrior · Shared to support SVRN Society
+                    {photo.shopAttribution ??
+                      'Designed & owned by Humble Warrior · Shared to support SVRN Society'}
                   </p>
                 </div>
                 <a
@@ -80,7 +81,7 @@ export default function PhotoLightboxDialog({
                   data-testid="lightbox-svrn-shop-btn"
                   className="min-h-[44px] shrink-0 inline-flex items-center justify-center gap-2 rounded-full bg-[var(--a-accent-fill)] hover:bg-[var(--a-ink)] px-5 text-[14px] font-semibold text-white transition-colors"
                 >
-                  <span>Shop on svrnsociety.com</span>
+                  <span>{photo.shopCta ?? 'Shop on svrnsociety.com'}</span>
                   <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
                 </a>
               </div>

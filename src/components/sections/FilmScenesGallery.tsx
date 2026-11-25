@@ -9,12 +9,13 @@ import PhotoLightboxDialog from '@/components/modals/PhotoLightboxDialog';
 import { useAmbientMotion } from '@/context/AmbientMotionContext';
 import { FILM_SCENES_GALLERY, type FilmScenePhoto } from '@/data/semi-songs';
 
-type GalleryFilter = 'all' | 'svrn' | 'sessions';
+type GalleryFilter = 'all' | 'orange-habit' | 'highdraw' | 'svrn' | 'sessions';
 
 /**
  * Gallery. `preview` renders a 4-up strip for the home page; the full page renders an
  * editorial masonry (CSS columns) with collection filtering, explicit Humble Warrior /
- * SVRN Society attribution & direct store links, and a native <dialog> lightbox.
+ * Orange Habit & SVRN Society + High Draw Golf attribution & direct store links, and a
+ * native <dialog> lightbox.
  */
 export default function FilmScenesGallery({ preview = false }: { preview?: boolean }) {
   const sectionRef = useRef<HTMLElement>(null);
@@ -22,12 +23,20 @@ export default function FilmScenesGallery({ preview = false }: { preview?: boole
   const [filter, setFilter] = useState<GalleryFilter>('all');
   const { motionActive } = useAmbientMotion();
 
+  const orangeHabitCount = useMemo(
+    () => FILM_SCENES_GALLERY.filter((p) => p.series === 'orange-habit').length,
+    []
+  );
+  const highDrawCount = useMemo(
+    () => FILM_SCENES_GALLERY.filter((p) => p.series === 'highdraw').length,
+    []
+  );
   const svrnCount = useMemo(
     () => FILM_SCENES_GALLERY.filter((p) => p.series === 'svrn').length,
     []
   );
   const sessionsCount = useMemo(
-    () => FILM_SCENES_GALLERY.filter((p) => p.series !== 'svrn').length,
+    () => FILM_SCENES_GALLERY.filter((p) => !p.series || p.series === 'sessions').length,
     []
   );
 
@@ -41,8 +50,10 @@ export default function FilmScenesGallery({ preview = false }: { preview?: boole
       ];
       return FILM_SCENES_GALLERY.filter((p) => previewIds.includes(p.id));
     }
+    if (filter === 'orange-habit') return FILM_SCENES_GALLERY.filter((p) => p.series === 'orange-habit');
+    if (filter === 'highdraw') return FILM_SCENES_GALLERY.filter((p) => p.series === 'highdraw');
     if (filter === 'svrn') return FILM_SCENES_GALLERY.filter((p) => p.series === 'svrn');
-    if (filter === 'sessions') return FILM_SCENES_GALLERY.filter((p) => p.series !== 'svrn');
+    if (filter === 'sessions') return FILM_SCENES_GALLERY.filter((p) => !p.series || p.series === 'sessions');
     return FILM_SCENES_GALLERY;
   }, [filter, preview]);
 
@@ -62,7 +73,7 @@ export default function FilmScenesGallery({ preview = false }: { preview?: boole
         <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
           <div>
             <p className="font-sans text-[13px] font-semibold uppercase tracking-[0.22em] text-[var(--a-accent-text)]">
-              Gallery · Sessions &amp; SVRN Lookbook
+              Gallery · Sessions, Orange Habit &amp; High Draw Golf
             </p>
             {preview ? (
               <h2 id="scenes-title" className="mt-4 font-display text-big font-bold text-[var(--a-ink)]">
@@ -105,7 +116,9 @@ export default function FilmScenesGallery({ preview = false }: { preview?: boole
             >
               {[
                 { key: 'all' as const, label: `All Photographs (${FILM_SCENES_GALLERY.length})` },
-                { key: 'svrn' as const, label: `SVRN Society Lookbook (${svrnCount})` },
+                { key: 'orange-habit' as const, label: `Orange Habit (${orangeHabitCount})` },
+                { key: 'highdraw' as const, label: `High Draw Golf (${highDrawCount})` },
+                { key: 'svrn' as const, label: `SVRN Society (${svrnCount})` },
                 { key: 'sessions' as const, label: `West Nashville & Studio (${sessionsCount})` },
               ].map((tab) => {
                 const active = filter === tab.key;

@@ -100,10 +100,12 @@ export interface FilmScenePhoto {
   alt: string;
   caption: string;
   location: string;
-  series?: 'sessions' | 'svrn';
+  series?: 'sessions' | 'svrn' | 'orange-habit' | 'highdraw';
   aspect?: 'portrait' | 'landscape';
   garmentTitle?: string;
   shopUrl?: string;
+  shopAttribution?: string;
+  shopCta?: string;
 }
 
 export const SEMI_TRACKS: SemiTrack[] = [
@@ -3123,6 +3125,110 @@ export const FORTHCOMING_TRACKS: ForthcomingTrack[] = [
  * Curated, non-repeating gallery: music-video frames + editorial wardrobe portraits.
  */
 export const FILM_SCENES_GALLERY: FilmScenePhoto[] = [
+  {
+    id: 'orange-habit-mug',
+    src: '/photos/orange-habit/bitcoin-ceramic-mug.jpg',
+    alt: 'Semi smiling at a sunlit porch table holding an Orange Habit ceramic Bitcoin coffee mug.',
+    caption: 'Morning porch coffee in the Orange Habit mug.',
+    location: 'Orange Habit · Ceramic Mug',
+    series: 'orange-habit',
+    aspect: 'portrait',
+    garmentTitle: 'Orange Habit · Ceramic Bitcoin Mug',
+    shopUrl: 'https://svrnsociety.com/collections/bitcoin-mugs',
+    shopAttribution: 'Orange Habit by Humble Warrior · Used with permission',
+    shopCta: 'Shop Orange Habit Mugs',
+  },
+  {
+    id: 'highdraw-womens-hat',
+    src: '/photos/highdraw/womens-rope-hat.jpg',
+    alt: 'Semi on a sunlit Blue Ridge Mountain fairway wearing a cream-and-Carolina-blue High Draw Golf women’s rope hat.',
+    caption: 'Morning light on the fairway in the High Draw rope hat.',
+    location: 'High Draw Golf · Women’s Headwear',
+    series: 'highdraw',
+    aspect: 'portrait',
+    garmentTitle: 'High Draw Golf · Women’s Structured Rope Hat',
+    shopUrl: 'https://highdrawgolf.com',
+    shopAttribution: 'High Draw Golf · Women’s gear from the Blue Ridge Mountains',
+    shopCta: 'Visit highdrawgolf.com',
+  },
+  {
+    id: 'orange-habit-notebook',
+    src: '/photos/orange-habit/songwriting-notebook.jpg',
+    alt: 'Semi writing lyrics by a bright studio window in an Orange Habit hardcover spiral Bitcoin notebook.',
+    caption: 'Working out a chorus in the Orange Habit notebook.',
+    location: 'Orange Habit · Notebooks & Stationery',
+    series: 'orange-habit',
+    aspect: 'portrait',
+    garmentTitle: 'Orange Habit · Songwriting Notebook',
+    shopUrl: 'https://svrnsociety.com/collections/bitcoin-notepad-designs',
+    shopAttribution: 'Orange Habit by Humble Warrior · Used with permission',
+    shopCta: 'Shop Orange Habit Notebooks',
+  },
+  {
+    id: 'highdraw-womens-polo',
+    src: '/photos/highdraw/womens-performance-polo.jpg',
+    alt: 'Semi standing near a sunlit tee box with a golf iron wearing a tailored women’s slate-navy High Draw Golf performance polo.',
+    caption: 'Between nines in the tailored High Draw performance polo.',
+    location: 'High Draw Golf · Women’s Polo',
+    series: 'highdraw',
+    aspect: 'portrait',
+    garmentTitle: 'High Draw Golf · Women’s Performance Polo',
+    shopUrl: 'https://highdrawgolf.com',
+    shopAttribution: 'High Draw Golf · Women’s gear from the Blue Ridge Mountains',
+    shopCta: 'Visit highdrawgolf.com',
+  },
+  {
+    id: 'orange-habit-tote',
+    src: '/photos/orange-habit/bitcoin-canvas-tote.jpg',
+    alt: 'Semi walking along a sunlit Nashville brick sidewalk carrying an Orange Habit canvas tote bag with a vinyl record.',
+    caption: 'Record-shop run with the Orange Habit canvas tote.',
+    location: 'Orange Habit · Everyday Carry',
+    series: 'orange-habit',
+    aspect: 'portrait',
+    garmentTitle: 'Orange Habit · Canvas Tote Bag',
+    shopUrl: 'https://svrnsociety.com/collections/bitcoin-bags',
+    shopAttribution: 'Orange Habit by Humble Warrior · Used with permission',
+    shopCta: 'Shop Orange Habit Bags',
+  },
+  {
+    id: 'highdraw-womens-quarterzip',
+    src: '/photos/highdraw/womens-quarter-zip.jpg',
+    alt: 'Semi on an autumn morning golf course wearing a fitted warm cream women’s High Draw Golf quarter-zip pullover.',
+    caption: 'Crisp mountain tee time in the women’s quarter-zip.',
+    location: 'High Draw Golf · Women’s Layering',
+    series: 'highdraw',
+    aspect: 'portrait',
+    garmentTitle: 'High Draw Golf · Women’s Quarter-Zip Pullover',
+    shopUrl: 'https://highdrawgolf.com',
+    shopAttribution: 'High Draw Golf · Women’s gear from the Blue Ridge Mountains',
+    shopCta: 'Visit highdrawgolf.com',
+  },
+  {
+    id: 'orange-habit-art-print',
+    src: '/photos/orange-habit/framed-art-print.jpg',
+    alt: 'Semi relaxing in a sunlit studio corner with her guitar and a framed Orange Habit Bitcoin geometric art print on the wall.',
+    caption: 'Afternoon light and the Orange Habit framed print on the studio wall.',
+    location: 'Orange Habit · Wall Art & Home Decor',
+    series: 'orange-habit',
+    aspect: 'portrait',
+    garmentTitle: 'Orange Habit · Framed Bitcoin Art Print',
+    shopUrl: 'https://svrnsociety.com/collections/bitcoin-clocks-art-prints',
+    shopAttribution: 'Orange Habit by Humble Warrior · Used with permission',
+    shopCta: 'Shop Orange Habit Home Decor',
+  },
+  {
+    id: 'highdraw-womens-vest',
+    src: '/photos/highdraw/womens-performance-vest.jpg',
+    alt: 'Semi walking off the 18th green at golden hour wearing a tailored charcoal-navy women’s High Draw Golf performance vest.',
+    caption: 'Golden hour off the 18th green in the women’s performance vest.',
+    location: 'High Draw Golf · Women’s Outerwear',
+    series: 'highdraw',
+    aspect: 'portrait',
+    garmentTitle: 'High Draw Golf · Women’s Performance Vest',
+    shopUrl: 'https://highdrawgolf.com',
+    shopAttribution: 'High Draw Golf · Women’s gear from the Blue Ridge Mountains',
+    shopCta: 'Visit highdrawgolf.com',
+  },
   {
     id: 'svrn-soft-revolution-maxi',
     src: '/photos/svrn/soft-revolution-bitcoin-maxi-dress.jpg',
