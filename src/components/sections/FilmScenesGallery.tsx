@@ -50,10 +50,10 @@ export default function FilmScenesGallery({ preview = false }: { preview?: boole
   const photos = useMemo(() => {
     if (preview) {
       const previewIds = [
+        'orange-habit-mamp-mug',
+        'highdraw-womens-polo',
         'svrn-soft-revolution-maxi',
         'denim-porch',
-        'svrn-chancellor-cafe',
-        'meadow-spin',
       ];
       return FILM_SCENES_GALLERY.filter((p) => previewIds.includes(p.id));
     }
@@ -217,10 +217,14 @@ export default function FilmScenesGallery({ preview = false }: { preview?: boole
           }
         >
           {photos.map((photo, idx) => {
-            const isSvrn = photo.series === 'svrn';
+            const isPortraitBrand =
+              photo.aspect === 'portrait' ||
+              photo.series === 'svrn' ||
+              photo.series === 'orange-habit' ||
+              photo.series === 'highdraw';
             const aspectClass = preview
-              ? 'aspect-[4/5]'
-              : isSvrn
+              ? 'aspect-[3/4]'
+              : isPortraitBrand
                 ? 'aspect-[3/4]'
                 : idx % 3 === 1
                   ? 'aspect-[4/5]'
@@ -248,7 +252,7 @@ export default function FilmScenesGallery({ preview = false }: { preview?: boole
                     alt={photo.alt}
                     loading="lazy"
                     className={`w-full object-cover ${
-                      isSvrn ? 'object-top' : 'object-[50%_20%]'
+                      isPortraitBrand ? 'object-center' : 'object-[50%_20%]'
                     } transition-transform duration-[1200ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.04] ${aspectClass}`}
                   />
                 </button>
