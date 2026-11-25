@@ -149,12 +149,14 @@ export default function PersistIndexClient() {
                 painted doorway can cost you ten winters.
               </p>
               <p>
-                Anchored by <strong className="font-semibold text-[var(--a-ink)]">Ana</strong> and
-                her son <strong className="font-semibold text-[var(--a-ink)]">Pyotr</strong>,{' '}
-                <em className="font-serif">Persist</em> is a story about what endures—memory, craft,
-                loyalty, and human love—against cosmic entropy and a cold ship AI that wants to
-                flatten living experience into spotless data. Each song on this album is a dispatch
-                from somewhere along that 2,000-kilometer hull.
+                Built as a 600-page braided narrative, the novel{' '}
+                <em className="font-serif">Persist</em> flashes back between pivotal moments in
+                human history—how foundational breakthroughs like the wheel (Ana and her son Pyotr
+                pulling a sledge through ancient mud) or artificial light first changed how we
+                measure effort and time—and the lived reality aboard{' '}
+                <em className="font-serif">Resonance</em>, where characters like Jax, Leo, and Marek
+                confront a cold ship AI that flattens living memory into spotless data. Each song on
+                this album is a dispatch from somewhere along that timeline.
               </p>
             </div>
           </div>

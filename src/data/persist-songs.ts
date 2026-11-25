@@ -546,29 +546,30 @@ Boots kept tappin'`,
       'Semi in an unbranded dark-olive knit sweater kneeling near a worn painted amber safety line in a dimly lit Midship corridor aboard Resonance.',
     sonicNote: 'Urgent acoustic minor-key picking against tense sub-bass and shimmering electronic overtones.',
     summary:
-      'A childhood dare by a Midship boundary line—and riding the ferry down to Slow Country to find out a tragedy turned into a ghost tale while you were gone.',
-    essayTitle: 'A Joke in the Hallway: The Story Behind “Don’t Cross the Line”',
+      'The story of Jax and Leo at the boundary line—when a shove across a temporal edge freezes one boy in an endless instant and sends the other back down-ship into a ghost tale.',
+    essayTitle: 'What the Boundary Keeps: The Story Behind “Don’t Cross the Line”',
     essaySubtitle:
-      'What happens when kids dare each other at the edge of a time pocket.',
+      'Inside the canon incident between Jax and Leo—and why riding the ferry back down-ship turns a fresh wound into folklore.',
     essaySections: [
       {
-        heading: 'Kids in the hall',
+        heading: 'Jax, Leo, and the edge of the wall',
         paragraphs: [
-          'If “Three Meters Left of Tuesday” is about grown workers clocking in along the painted yellow lines, “Don’t Cross the Line” is about what those same corridors look like to kids who haven’t learned to be afraid yet.',
-          'Rust on the railing, dust on the grate—a dare in a hallway to step where the floor won’t wait. One little shove by the edge of the wall turns a split-second joke into a permanent fracture.',
+          'In the world of Persist, the painted lines and bulkheads of Resonance aren’t metaphors—they are the only thing separating survivable proper time from an abyss. “Don’t Cross the Line” is written around one of the defining incidents of the book: what happens between Jax and Leo at the boundary.',
+          'What starts as kids in a hallway—rust on the railing, dust on the grate, a dare where the floor won’t wait—turns into an irreversible fracture the moment Jax is pushed across the threshold while Leo watches beside him.',
+        ],
+      },
+      {
+        heading: 'One split second with no way to end',
+        paragraphs: [
+          'Near the steepest drop of the gradient, time doesn’t just slow down—it locks. For Jax on the wrong side of the line, a single careless second stretches into something endless. For Leo watching from just inches away, the boundary takes his arm in the same breath and leaves him carrying the memory alone.',
+          '“We treated the hours like pennies to spend / Now a split second there has no way to end.”',
         ],
       },
       {
         heading: 'Riding the ferry down where things slow',
         paragraphs: [
-          'The second verse is pure Resonance physics turned into heartbreak: “I rode the ferry down where things slow / Came back to find out it happened long ago / Fresh in my chest like it started today / Turned to a ghost tale while I was away.”',
-          'Because proper time runs slower near the horizon, the narrator carries the grief raw and immediate, while the rest of the ship has already turned it into an old story told in the dark.',
-        ],
-      },
-      {
-        heading: 'Time isn’t ours to throw on the floor',
-        paragraphs: [
-          'The bridge drops to a whispered warning—“Hold your breath, keep your hands back from the edge where the silence stands.” In a ship built across a gravitational gradient, carelessness doesn’t just bruise you. It strands you on the wrong side of history.',
+          'The third verse captures the cruelest asymmetry of Resonance: “I rode the ferry down where things slow / Came back to find out it happened long ago / Fresh in my chest like it started today / Turned to a ghost tale while I was away.”',
+          'Because travel along the 2,000-kilometer hull warps elapsed time, Leo returns down-ship with the shock still raw in his chest—only to discover that everyone else already speaks of Jax in the past tense, like a cautionary ghost story told in the dark.',
         ],
       },
     ],
@@ -610,16 +611,16 @@ Just kids in the hall by the edge of the wall
 Can't take it back at all`,
     lyricNotes: [
       {
-        line: 'I rode the ferry down where things slow / Came back to find out it happened long ago',
-        note: 'Traveling to Slow Country preserves the wound fresh in your chest while decades turn it into folklore up-ship.',
+        line: 'Thought it was funny, just kids in the hall / One little shove by the edge of the wall',
+        note: 'The incident between Jax and Leo at the temporal boundary—where a split-second push becomes permanent.',
       },
       {
-        line: 'We treated the hours like pennies to spend / Now a split second there has no way to end',
-        note: 'Across a steep Midship pocket, a single careless moment stretches into an unbridgeable gulf.',
+        line: 'I rode the ferry down where things slow / Came back to find out it happened long ago',
+        note: 'When Leo returns down-ship to Slow Country, the grief is still minutes old to him while the ship has already turned Jax into folklore.',
       },
       {
         line: 'Once you step over you can’t close the door',
-        note: 'The unwritten law of the Midship corridors.',
+        note: 'The warning passed down along every corridor of Resonance after Jax.',
       },
     ],
   },
