@@ -9,7 +9,7 @@ import PhotoLightboxDialog from '@/components/modals/PhotoLightboxDialog';
 import { useAmbientMotion } from '@/context/AmbientMotionContext';
 import { FILM_SCENES_GALLERY, type FilmScenePhoto } from '@/data/semi-songs';
 
-type GalleryFilter = 'all' | 'orange-habit' | 'highdraw' | 'svrn' | 'sessions';
+type GalleryFilter = 'all' | 'brands' | 'orange-habit' | 'highdraw' | 'svrn' | 'sessions';
 
 /**
  * Gallery. `preview` renders a 4-up strip for the home page; the full page renders an
@@ -23,6 +23,13 @@ export default function FilmScenesGallery({ preview = false }: { preview?: boole
   const [filter, setFilter] = useState<GalleryFilter>('all');
   const { motionActive } = useAmbientMotion();
 
+  const isBrandSeries = (series?: FilmScenePhoto['series']) =>
+    series === 'svrn' || series === 'orange-habit' || series === 'highdraw';
+
+  const brandsCount = useMemo(
+    () => FILM_SCENES_GALLERY.filter((p) => isBrandSeries(p.series)).length,
+    []
+  );
   const orangeHabitCount = useMemo(
     () => FILM_SCENES_GALLERY.filter((p) => p.series === 'orange-habit').length,
     []
@@ -50,6 +57,7 @@ export default function FilmScenesGallery({ preview = false }: { preview?: boole
       ];
       return FILM_SCENES_GALLERY.filter((p) => previewIds.includes(p.id));
     }
+    if (filter === 'brands') return FILM_SCENES_GALLERY.filter((p) => isBrandSeries(p.series));
     if (filter === 'orange-habit') return FILM_SCENES_GALLERY.filter((p) => p.series === 'orange-habit');
     if (filter === 'highdraw') return FILM_SCENES_GALLERY.filter((p) => p.series === 'highdraw');
     if (filter === 'svrn') return FILM_SCENES_GALLERY.filter((p) => p.series === 'svrn');
@@ -116,6 +124,7 @@ export default function FilmScenesGallery({ preview = false }: { preview?: boole
             >
               {[
                 { key: 'all' as const, label: `All Photographs (${FILM_SCENES_GALLERY.length})` },
+                { key: 'brands' as const, label: `Brands Modeled For (${brandsCount})` },
                 { key: 'orange-habit' as const, label: `Orange Habit (${orangeHabitCount})` },
                 { key: 'highdraw' as const, label: `High Draw Golf (${highDrawCount})` },
                 { key: 'svrn' as const, label: `SVRN Society (${svrnCount})` },
