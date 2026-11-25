@@ -55,6 +55,18 @@ export const PERSIST_CHORD_SHEETS: Record<string, PersistChordSheet> = {
       'Bb            A7          Dm',
     ],
   },
+  'dont-cross-the-line': {
+    key: 'B Minor (play Am shapes)',
+    capo: 'Capo 2',
+    tuning: 'Standard (E A D G B E)',
+    strumming: 'Tense Midship acoustic pick + sub-bass pulse · D – D U – U D U',
+    progression: [
+      'Am                        Fmaj7',
+      'C                         G',
+      'Dm7                       Am',
+      'Fmaj7         G           Am',
+    ],
+  },
   'redshift-reprise': {
     key: 'E Minor / G Major',
     capo: 'Capo 3 (play Em shapes)',

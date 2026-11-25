@@ -532,6 +532,98 @@ Boots kept tappin'`,
     ],
   },
   {
+    number: '05',
+    slug: 'dont-cross-the-line',
+    title: 'Don’t Cross the Line',
+    zone: 'midship',
+    zoneLabel: 'Midship',
+    properTimeLabel: 'One shove ≈ a ghost tale',
+    duration: '02:27',
+    vaultFile: '05-semi-dont-cross-the-line.mp3',
+    size: 8143184,
+    artworkSrc: '/photos/persist/track-05-dont-cross-the-line.jpg',
+    artworkAlt:
+      'Semi in an unbranded dark-olive knit sweater kneeling near a worn painted amber safety line in a dimly lit Midship corridor aboard Resonance.',
+    sonicNote: 'Urgent acoustic minor-key picking against tense sub-bass and shimmering electronic overtones.',
+    summary:
+      'A childhood dare by a Midship boundary line—and riding the ferry down to Slow Country to find out a tragedy turned into a ghost tale while you were gone.',
+    essayTitle: 'A Joke in the Hallway: The Story Behind “Don’t Cross the Line”',
+    essaySubtitle:
+      'What happens when kids dare each other at the edge of a time pocket.',
+    essaySections: [
+      {
+        heading: 'Kids in the hall',
+        paragraphs: [
+          'If “Three Meters Left of Tuesday” is about grown workers clocking in along the painted yellow lines, “Don’t Cross the Line” is about what those same corridors look like to kids who haven’t learned to be afraid yet.',
+          'Rust on the railing, dust on the grate—a dare in a hallway to step where the floor won’t wait. One little shove by the edge of the wall turns a split-second joke into a permanent fracture.',
+        ],
+      },
+      {
+        heading: 'Riding the ferry down where things slow',
+        paragraphs: [
+          'The second verse is pure Resonance physics turned into heartbreak: “I rode the ferry down where things slow / Came back to find out it happened long ago / Fresh in my chest like it started today / Turned to a ghost tale while I was away.”',
+          'Because proper time runs slower near the horizon, the narrator carries the grief raw and immediate, while the rest of the ship has already turned it into an old story told in the dark.',
+        ],
+      },
+      {
+        heading: 'Time isn’t ours to throw on the floor',
+        paragraphs: [
+          'The bridge drops to a whispered warning—“Hold your breath, keep your hands back from the edge where the silence stands.” In a ship built across a gravitational gradient, carelessness doesn’t just bruise you. It strands you on the wrong side of history.',
+        ],
+      },
+    ],
+    lyrics: `Rust on the railing, dust on the grate
+Dared you to step where the floor wouldn't wait
+Thought it was funny, just kids in the hall
+One little shove by the edge of the wall
+Some lines don't bend when you push too hard
+One careless second leaves an endless scar
+
+You can't take back what the boundary keeps
+A joke in the hallway runs down too deep
+We treated the hours like pennies to spend
+Now a split second there has no way to end
+
+I rode the ferry down where things slow
+Came back to find out it happened long ago
+Fresh in my chest like it started today
+Turned to a ghost tale while I was away
+Some lines don't bend when you push too hard
+One careless second leaves an endless scar
+
+You can't take back what the boundary keeps
+A joke in the hallway runs down too deep
+We treated the hours like pennies to spend
+Now a split second there has no way to end
+
+Hold your breath, keep your hands
+Back from the edge where the silence stands
+Time isn't ours to throw on the floor
+Once you step over you can't close the door
+
+You can't take back what the boundary keeps
+A joke in the hallway runs down too deep
+We treated the hours like pennies to spend
+Now a split second there has no way to end
+
+Just kids in the hall by the edge of the wall
+Can't take it back at all`,
+    lyricNotes: [
+      {
+        line: 'I rode the ferry down where things slow / Came back to find out it happened long ago',
+        note: 'Traveling to Slow Country preserves the wound fresh in your chest while decades turn it into folklore up-ship.',
+      },
+      {
+        line: 'We treated the hours like pennies to spend / Now a split second there has no way to end',
+        note: 'Across a steep Midship pocket, a single careless moment stretches into an unbridgeable gulf.',
+      },
+      {
+        line: 'Once you step over you can’t close the door',
+        note: 'The unwritten law of the Midship corridors.',
+      },
+    ],
+  },
+  {
     number: '14',
     slug: 'redshift-reprise',
     title: 'Redshift (Reprise)',

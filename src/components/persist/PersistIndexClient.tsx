@@ -8,6 +8,7 @@ import RelativisticHorizonCanvas from '@/art/RelativisticHorizonCanvas';
 import { useAmbientMotion } from '@/context/AmbientMotionContext';
 import PersistAccessGate from '@/components/persist/PersistAccessGate';
 import ProperTimeClocks from '@/components/persist/ProperTimeClocks';
+import ResonanceSpineVisualizer from '@/components/persist/ResonanceSpineVisualizer';
 import { usePersistAccess } from '@/components/persist/usePersistAccess';
 import {
   PERSIST_ALBUM_META,
@@ -215,6 +216,7 @@ export default function PersistIndexClient() {
                 </p>
               </div>
             </div>
+            <ResonanceSpineVisualizer activeZone={zone} onSelectZone={setZone} />
             <ProperTimeClocks />
           </div>
 
