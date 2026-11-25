@@ -50,6 +50,8 @@ next-env.d.ts
 # local agent & build-along chat logs (omitted until explicitly published)
 chats/
 **/chats/
+private/
+*whatsapp*
 *.chat.md
 *.chat.json
 *.transcript.*

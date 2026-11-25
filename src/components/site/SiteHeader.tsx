@@ -3,11 +3,15 @@
 import React, { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Menu, MessageCircle, Pause, Play, X } from 'lucide-react';
+import { ChevronDown, Lock, Menu, MessageCircle, Pause, Play, X } from 'lucide-react';
 import { useAmbientMotion } from '@/context/AmbientMotionContext';
 
+const ALBUM_ITEMS = [
+  { href: '/songs', title: 'I/O', subtitle: 'Album I · 12 songs, videos & chords' },
+  { href: '/persist', title: 'Persist', subtitle: 'Album II · Deluxe Early Access', deluxe: true },
+];
+
 const NAV_ITEMS = [
-  { href: '/songs', label: 'Songs', match: (p: string) => p.startsWith('/songs') },
   { href: '/gallery', label: 'Gallery', match: (p: string) => p === '/gallery' },
   { href: '/about', label: 'About', match: (p: string) => p === '/about' },
 ];
@@ -25,7 +29,9 @@ export default function SiteHeader() {
   const { motionActive, togglePause } = useAmbientMotion();
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const [albumsOpen, setAlbumsOpen] = useState(false);
   const panelRef = useRef<HTMLDivElement>(null);
+  const albumsRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
@@ -35,14 +41,29 @@ export default function SiteHeader() {
   }, []);
 
   useEffect(() => {
-    if (!open) return;
-    const onKey = (e: KeyboardEvent) => e.key === 'Escape' && setOpen(false);
+    if (!open && !albumsOpen) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setOpen(false);
+        setAlbumsOpen(false);
+      }
+    };
+    const onClickOutside = (e: MouseEvent) => {
+      if (albumsRef.current && !albumsRef.current.contains(e.target as Node)) {
+        setAlbumsOpen(false);
+      }
+    };
     document.addEventListener('keydown', onKey);
-    return () => document.removeEventListener('keydown', onKey);
-  }, [open]);
+    document.addEventListener('mousedown', onClickOutside);
+    return () => {
+      document.removeEventListener('keydown', onKey);
+      document.removeEventListener('mousedown', onClickOutside);
+    };
+  }, [open, albumsOpen]);
 
   const onDark = DARK_HERO_ROUTES.has(pathname) && !scrolled && !open;
   const ink = onDark ? 'text-white' : 'text-[var(--a-ink)]';
+  const albumsActive = pathname.startsWith('/songs') || pathname.startsWith('/persist');
 
   return (
     <header
@@ -63,6 +84,65 @@ export default function SiteHeader() {
         </Link>
 
         <nav aria-label="Primary navigation" className="hidden md:flex items-center gap-1">
+          <div ref={albumsRef} className="relative">
+            <button
+              type="button"
+              onClick={() => setAlbumsOpen((v) => !v)}
+              aria-expanded={albumsOpen}
+              aria-haspopup="menu"
+              data-testid="nav-albums-dropdown"
+              className={`relative min-h-[44px] inline-flex items-center gap-1.5 px-4 text-[15px] font-medium transition-opacity ${ink} ${
+                albumsActive ? 'opacity-100' : 'opacity-75 hover:opacity-100'
+              }`}
+            >
+              <span>Albums</span>
+              <ChevronDown
+                className={`h-4 w-4 transition-transform duration-200 ${albumsOpen ? 'rotate-180' : ''}`}
+                aria-hidden="true"
+              />
+              {albumsActive && (
+                <span className="absolute left-4 right-4 bottom-2 h-[2px] rounded-full bg-[var(--a-accent)]" />
+              )}
+            </button>
+
+            {albumsOpen && (
+              <div
+                role="menu"
+                className="absolute left-0 top-full mt-2 w-[290px] overflow-hidden rounded-2xl border border-[var(--a-rule)] bg-[var(--a-surface)] p-2 shadow-xl"
+              >
+                {ALBUM_ITEMS.map((album) => {
+                  const isCurrent = pathname.startsWith(album.href);
+                  return (
+                    <Link
+                      key={album.href}
+                      href={album.href}
+                      role="menuitem"
+                      onClick={() => setAlbumsOpen(false)}
+                      className={`flex min-h-[52px] flex-col justify-center rounded-xl px-3.5 py-2.5 no-underline transition-colors ${
+                        isCurrent ? 'bg-[var(--a-well)]' : 'hover:bg-[var(--a-well)]'
+                      }`}
+                    >
+                      <span className="flex items-center justify-between gap-2">
+                        <span className="font-display text-[16px] font-bold text-[var(--a-ink)]">
+                          {album.title}
+                        </span>
+                        {album.deluxe && (
+                          <span className="inline-flex items-center gap-1 rounded-full bg-[var(--a-accent-fill)]/12 px-2.5 py-0.5 font-code text-[13px] font-semibold text-[var(--a-accent-text)]">
+                            <Lock className="h-3 w-3" aria-hidden="true" />
+                            Deluxe
+                          </span>
+                        )}
+                      </span>
+                      <span className="mt-0.5 text-[13px] text-[var(--a-muted)]">
+                        {album.subtitle}
+                      </span>
+                    </Link>
+                  );
+                })}
+              </div>
+            )}
+          </div>
+
           {NAV_ITEMS.map((item) => {
             const active = item.match(pathname);
             return (
@@ -128,7 +208,12 @@ export default function SiteHeader() {
             aria-label="Mobile navigation"
             className="mx-auto flex max-w-[1400px] flex-col pl-[max(1rem,env(safe-area-inset-left,0px))] pr-[max(1rem,env(safe-area-inset-right,0px))] pt-2 pb-5"
           >
-            {[{ href: '/', label: 'Home', match: (p: string) => p === '/' }, ...NAV_ITEMS].map((item) => {
+            {[
+              { href: '/', label: 'Home', match: (p: string) => p === '/' },
+              { href: '/songs', label: 'I/O (Album I)', match: (p: string) => p.startsWith('/songs') },
+              { href: '/persist', label: 'Persist · Deluxe', match: (p: string) => p.startsWith('/persist') },
+              ...NAV_ITEMS,
+            ].map((item) => {
               const active = item.match(pathname);
               return (
                 <Link
