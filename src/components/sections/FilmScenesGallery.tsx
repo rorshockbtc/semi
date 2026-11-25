@@ -129,7 +129,7 @@ export default function FilmScenesGallery({ preview = false }: { preview?: boole
               })}
             </div>
 
-            {/* Respectful attribution & referral note for Humble Warrior */}
+            {/* Attribution & referral note for Humble Warrior (Orange Habit / SVRN Society) */}
             {filter !== 'sessions' && (
               <div
                 data-testid="svrn-attribution-banner"
@@ -137,33 +137,51 @@ export default function FilmScenesGallery({ preview = false }: { preview?: boole
               >
                 <div className="space-y-1.5 max-w-[68ch]">
                   <p className="font-code text-[13px] font-semibold uppercase tracking-[0.16em] text-[var(--a-accent-text)]">
-                    Friend-of-the-House Lookbook · Humble Warrior
+                    Orange Habit · SVRN Society · By Humble Warrior
                   </p>
                   <p className="text-[15px] leading-relaxed text-[var(--a-ink)]/85">
-                    Every garment in the <strong>SVRN Society</strong> portraits is designed and
-                    owned by <strong>Humble Warrior</strong>. Semi (; - ]) modeled these pieces
-                    purely to celebrate her craft and send business her way—every garment link
-                    below forwards straight to{' '}
+                    Featured with permission from <strong>Humble Warrior</strong>—founder of{' '}
+                    <a
+                      href="https://x.com/theorangehabit"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="font-semibold underline underline-offset-4 hover:text-[var(--a-accent-text)]"
+                    >
+                      Orange Habit (@theorangehabit)
+                    </a>{' '}
+                    and{' '}
                     <a
                       href="https://svrnsociety.com"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="font-semibold underline underline-offset-4 hover:text-[var(--a-accent-text)]"
                     >
-                      svrnsociety.com
+                      SVRN Society
                     </a>
-                    .
+                    . Explore her womenswear, accessories, mugs, and home decor—every link below
+                    forwards straight to her shop.
                   </p>
                 </div>
-                <a
-                  href="https://svrnsociety.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="min-h-[44px] shrink-0 inline-flex items-center justify-center gap-2 rounded-full bg-[var(--a-accent-fill)] hover:bg-[var(--a-ink)] px-5 text-[14px] font-semibold text-white transition-colors"
-                >
-                  <span>Visit svrnsociety.com</span>
-                  <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
-                </a>
+                <div className="flex flex-wrap items-center gap-2.5 shrink-0">
+                  <a
+                    href="https://svrnsociety.com"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="min-h-[44px] inline-flex items-center justify-center gap-2 rounded-full bg-[var(--a-accent-fill)] hover:bg-[var(--a-ink)] px-5 text-[14px] font-semibold text-white transition-colors"
+                  >
+                    <span>Shop svrnsociety.com</span>
+                    <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
+                  </a>
+                  <a
+                    href="https://x.com/theorangehabit"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="min-h-[44px] inline-flex items-center justify-center gap-1.5 rounded-full border border-[var(--a-rule)] hover:border-[var(--a-ink)] px-4 text-[14px] font-semibold text-[var(--a-ink)] transition-colors"
+                  >
+                    <span>@theorangehabit</span>
+                    <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
+                  </a>
+                </div>
               </div>
             )}
           </div>
@@ -240,6 +258,76 @@ export default function FilmScenesGallery({ preview = false }: { preview?: boole
             );
           })}
         </div>
+        {!preview && (
+          <div
+            data-testid="gallery-friends-section"
+            className="mt-16 border-t border-[var(--a-rule)] pt-12 space-y-6"
+          >
+            <p className="font-code text-[13px] font-semibold uppercase tracking-[0.18em] text-[var(--a-accent-text)]">
+              Friends &amp; Projects Semi Supports
+            </p>
+            <div className="grid gap-6 md:grid-cols-2">
+              <div className="flex flex-col justify-between gap-5 rounded-2xl border border-[var(--a-rule)] bg-[var(--a-surface)] p-6">
+                <div className="space-y-2.5">
+                  <p className="font-display text-2xl font-bold text-[var(--a-ink)]">
+                    Orange Habit &amp; SVRN Society
+                  </p>
+                  <p className="text-[15px] leading-relaxed text-[var(--a-ink)]/80">
+                    Minimalist Bitcoin lifestyle apparel, womenswear, accessories, mugs, and home
+                    decor created by Humble Warrior.
+                  </p>
+                </div>
+                <div className="flex flex-wrap gap-3">
+                  <a
+                    href="https://svrnsociety.com"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="min-h-[44px] inline-flex items-center gap-1.5 rounded-full bg-[var(--a-ink)] px-5 text-[14px] font-semibold text-[var(--a-surface)] hover:bg-[var(--a-accent-fill)] hover:text-white transition-colors"
+                  >
+                    <span>Shop svrnsociety.com</span>
+                    <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
+                  </a>
+                  <a
+                    href="https://x.com/theorangehabit"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="min-h-[44px] inline-flex items-center gap-1.5 rounded-full border border-[var(--a-rule)] hover:border-[var(--a-ink)] px-4 text-[14px] font-semibold text-[var(--a-ink)] transition-colors"
+                  >
+                    <span>Follow @theorangehabit</span>
+                    <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
+                  </a>
+                </div>
+              </div>
+
+              <div className="flex flex-col justify-between gap-5 rounded-2xl border border-[var(--a-rule)] bg-[var(--a-surface)] p-6">
+                <div className="space-y-3">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src="/photos/highdraw-logo.png"
+                    alt="High Draw Golf"
+                    className="h-9 w-auto object-contain"
+                  />
+                  <p className="text-[15px] leading-relaxed text-[var(--a-ink)]/80">
+                    Golf lifestyle, original shows, Swing Lab tech, and course destination guides
+                    from the Blue Ridge Mountains.
+                  </p>
+                </div>
+                <div>
+                  <a
+                    href="https://highdrawgolf.com"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    data-testid="gallery-highdraw-link"
+                    className="min-h-[44px] inline-flex items-center gap-1.5 rounded-full bg-[var(--a-ink)] px-5 text-[14px] font-semibold text-[var(--a-surface)] hover:bg-[var(--a-accent-fill)] hover:text-white transition-colors"
+                  >
+                    <span>Visit High Draw Golf</span>
+                    <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
 
       <PhotoLightboxDialog

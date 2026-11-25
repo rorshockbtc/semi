@@ -74,6 +74,22 @@ export default function SiteFooter() {
                     </Link>
                   </li>
                 ))}
+                {[
+                  { href: 'https://x.com/theorangehabit', l: 'Orange Habit ↗' },
+                  { href: 'https://svrnsociety.com', l: 'SVRN Society ↗' },
+                  { href: 'https://highdrawgolf.com', l: 'High Draw Golf ↗' },
+                ].map((ext) => (
+                  <li key={ext.href}>
+                    <a
+                      href={ext.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="min-h-[44px] inline-flex items-center text-[15px] sm:text-[16px] text-[#F3EFE9]/75 no-underline hover:text-white"
+                    >
+                      {ext.l}
+                    </a>
+                  </li>
+                ))}
               </ul>
             </nav>
           </div>
