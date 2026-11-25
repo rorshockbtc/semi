@@ -6,9 +6,9 @@ import { useAmbientMotion } from '@/context/AmbientMotionContext';
 import type { ResonanceZoneId } from '@/data/persist-songs';
 
 const SPINE_NODES: { id: ResonanceZoneId; label: string; km: string; rate: string }[] = [
-  { id: 'slow-country', label: 'Slow Country', km: '0 km · Horizon', rate: '1×' },
-  { id: 'midship', label: 'Midship', km: '900 km · Time Pockets', rate: '~40×' },
-  { id: 'tip', label: 'The Tip', km: '2,000 km · Frontier', rate: '~86,400×' },
+  { id: 'slow-country', label: 'Slow Country', km: '0 km · Horizon', rate: '1.0×' },
+  { id: 'midship', label: 'Midship', km: '900 km · Time Pockets', rate: '0.05× – 4.2×' },
+  { id: 'tip', label: 'The Tip', km: '2,000 km · Frontier', rate: '1.65×' },
 ];
 
 /**
