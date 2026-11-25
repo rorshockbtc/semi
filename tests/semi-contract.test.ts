@@ -181,7 +181,7 @@ test('Zero duplicate image paths across the entire site, rich song essays, Bitco
   const { FILM_SCENES_GALLERY, SEMI_TRACKS } = await import('../src/data/semi-songs.ts');
 
   assert.equal(SEMI_TRACKS.length, 12);
-  assert.equal(FILM_SCENES_GALLERY.length, 48);
+  assert.equal(FILM_SCENES_GALLERY.length, 52);
   const svrnPhotos = FILM_SCENES_GALLERY.filter((p) => p.series === 'svrn');
   assert.equal(svrnPhotos.length, 12);
   for (const p of svrnPhotos) {
