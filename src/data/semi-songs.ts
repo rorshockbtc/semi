@@ -3348,7 +3348,7 @@ export const FILM_SCENES_GALLERY: FilmScenePhoto[] = [
   },
   {
     id: 'highdraw-womens-hat',
-    src: '/photos/highdraw/womens-rope-hat.jpg',
+    src: '/photos/highdraw/womens-rope-hat.jpg?v=2',
     alt: 'Semi on a sunlit Blue Ridge Mountain fairway wearing the High Draw Rope Hat.',
     caption: 'Morning light on the fairway in the High Draw Rope Hat.',
     location: 'High Draw Golf · Seasonal Fits',
@@ -3374,7 +3374,7 @@ export const FILM_SCENES_GALLERY: FilmScenePhoto[] = [
   },
   {
     id: 'highdraw-womens-polo',
-    src: '/photos/highdraw/womens-performance-polo.jpg',
+    src: '/photos/highdraw/womens-performance-polo.jpg?v=2',
     alt: 'Semi standing near a sunlit tee box with a golf iron wearing the High Draw Performance Polo — Gold Trim.',
     caption: 'Between nines in the High Draw Performance Polo.',
     location: 'High Draw Golf · Seasonal Fits',
@@ -3400,7 +3400,7 @@ export const FILM_SCENES_GALLERY: FilmScenePhoto[] = [
   },
   {
     id: 'highdraw-womens-quarterzip',
-    src: '/photos/highdraw/womens-quarter-zip.jpg',
+    src: '/photos/highdraw/womens-quarter-zip.jpg?v=2',
     alt: 'Semi on an autumn morning golf course wearing the High Draw Quarter-Zip Pullover.',
     caption: 'Crisp mountain tee time in the High Draw Quarter-Zip Pullover.',
     location: 'High Draw Golf · Seasonal Fits',
@@ -3423,19 +3423,6 @@ export const FILM_SCENES_GALLERY: FilmScenePhoto[] = [
     shopUrl: 'https://svrnsociety.com/products/bitcoin-art-the-unknown',
     shopAttribution: 'Orange Habit / SVRN Society by Humble Warrior · Used with permission',
     shopCta: 'Shop on svrnsociety.com',
-  },
-  {
-    id: 'highdraw-womens-vest',
-    src: '/photos/highdraw/womens-performance-vest.jpg',
-    alt: 'Semi walking off the 18th green at golden hour wearing the High Draw Performance Vest.',
-    caption: 'Golden hour off the 18th green in the High Draw Performance Vest.',
-    location: 'High Draw Golf · Seasonal Fits',
-    series: 'highdraw',
-    aspect: 'portrait',
-    garmentTitle: 'High Draw Performance Vest',
-    shopUrl: 'https://highdrawgolf.com/store',
-    shopAttribution: 'High Draw Golf · Seasonal Fits from the Blue Ridge Mountains',
-    shopCta: 'Shop on highdrawgolf.com',
   },
   {
     id: 'orange-habit-mamp-mug',
