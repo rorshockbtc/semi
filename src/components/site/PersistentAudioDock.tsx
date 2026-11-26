@@ -95,7 +95,7 @@ export default function PersistentAudioDock() {
 
             <div className="min-w-0 flex-1 md:pl-1">
               <Link
-                href={`/songs/${currentTrack.slug}`}
+                href={currentTrack.href}
                 className="wc-link block font-display text-[15px] sm:text-lg font-bold text-[var(--a-ink)] truncate"
               >
                 {currentTrack.number} · {currentTrack.title}

@@ -6,6 +6,7 @@ import { ArrowLeft, ArrowRight, Info, Music, Pause, Play } from 'lucide-react';
 import RelativisticHorizonCanvas from '@/art/RelativisticHorizonCanvas';
 import PersistAccessGate from '@/components/persist/PersistAccessGate';
 import { usePersistAccess } from '@/components/persist/usePersistAccess';
+import { useAudioPlayer } from '@/context/AudioPlayerContext';
 import { PERSIST_CHORD_SHEETS, getPersistChordForLine } from '@/data/persist-chords';
 import type { PersistTrack } from '@/data/persist-songs';
 
@@ -22,22 +23,11 @@ export default function PersistTrackClient({
   nextTrack: PersistTrack;
 }) {
   const heroRef = useRef<HTMLElement>(null);
-  const audioRef = useRef<HTMLAudioElement>(null);
   const access = usePersistAccess();
-  const [playing, setPlaying] = useState(false);
+  const { currentTrack, queueAlbum, isPlaying, playPersistTrack } = useAudioPlayer();
   const [showChords, setShowChords] = useState(false);
   const chordSheet = PERSIST_CHORD_SHEETS[track.slug];
-
-  const src = access.token
-    ? `/api/persist/audio/${track.slug}?token=${encodeURIComponent(access.token)}`
-    : undefined;
-
-  const toggle = () => {
-    const a = audioRef.current;
-    if (!a) return;
-    if (a.paused) void a.play();
-    else a.pause();
-  };
+  const playing = queueAlbum === 'persist' && currentTrack.slug === track.slug && isPlaying;
 
   return (
     <>
@@ -65,10 +55,10 @@ export default function PersistTrackClient({
               </p>
 
               <div className="mt-6 sm:mt-9 flex flex-wrap items-center gap-3">
-                {access.unlocked ? (
+                {access.unlocked && access.token ? (
                   <button
                     type="button"
-                    onClick={toggle}
+                    onClick={() => playPersistTrack(track.slug, access.token!)}
                     data-testid="persist-play-btn"
                     className="inline-flex min-h-[56px] w-full sm:w-auto items-center justify-center sm:justify-start gap-3 rounded-full bg-[var(--a-accent-fill)] pl-2 pr-6 text-[16px] font-semibold text-white transition-colors hover:bg-[var(--a-ink)]"
                   >
@@ -96,21 +86,6 @@ export default function PersistTrackClient({
                   Read the lyrics
                 </a>
               </div>
-
-              {access.unlocked && (
-                <audio
-                  ref={audioRef}
-                  src={src}
-                  controls
-                  controlsList="nodownload noplaybackrate"
-                  preload="metadata"
-                  onContextMenu={(e) => e.preventDefault()}
-                  onPlay={() => setPlaying(true)}
-                  onPause={() => setPlaying(false)}
-                  onEnded={() => setPlaying(false)}
-                  className="mt-5 w-full max-w-[520px]"
-                />
-              )}
             </div>
 
             <div className="lg:col-span-6 min-w-0">

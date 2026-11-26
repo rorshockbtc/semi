@@ -8,11 +8,26 @@ import React, {
   useRef,
   useState,
 } from 'react';
-import { SEMI_TRACKS, type SemiTrack } from '@/data/semi-songs';
+import { SEMI_TRACKS } from '@/data/semi-songs';
+import { PERSIST_ALBUM_META, PERSIST_TRACKS } from '@/data/persist-songs';
 import { AUDIO_MASTER_REV } from '@/data/audio-manifest';
 
+export interface DockTrack {
+  number: string;
+  slug: string;
+  title: string;
+  subtitle: string;
+  duration: string;
+  mp3Src: string;
+  href: string;
+  album: 'I/O' | 'Persist';
+  artworkSrc: string;
+  downloadName?: string;
+}
+
 interface AudioPlayerContextValue {
-  currentTrack: SemiTrack;
+  currentTrack: DockTrack;
+  queueAlbum: 'io' | 'persist';
   hasStarted: boolean;
   isPlaying: boolean;
   playAllActive: boolean;
@@ -22,6 +37,8 @@ interface AudioPlayerContextValue {
   isMuted: boolean;
   playTrack: (slugOrIndex: string | number) => void;
   playAll: () => void;
+  playPersistTrack: (slug: string, token: string) => void;
+  playPersistAll: (token: string) => void;
   selectTrack: (slugOrIndex: string | number) => void;
   togglePlay: () => void;
   pauseAudio: () => void;
@@ -35,8 +52,34 @@ interface AudioPlayerContextValue {
 
 const AudioPlayerContext = createContext<AudioPlayerContextValue | null>(null);
 
-// Site player strictly features the 12-track commercial album I/O (no bonus/alternate takes)
-const PLAYABLE_TRACKS = SEMI_TRACKS.filter((t) => Boolean(t.mp3Src));
+const IO_QUEUE: DockTrack[] = SEMI_TRACKS.filter((t) => Boolean(t.mp3Src)).map((t) => ({
+  number: t.number,
+  slug: t.slug,
+  title: t.title,
+  subtitle: t.subtitle,
+  duration: t.duration,
+  mp3Src: withMasterRev(t.mp3Src!),
+  href: `/songs/${t.slug}`,
+  album: 'I/O',
+  artworkSrc: '/photos/io-album-cover.jpg',
+  downloadName: t.downloadName,
+}));
+
+function buildPersistQueue(token: string): DockTrack[] {
+  return PERSIST_TRACKS.map((t) => ({
+    number: t.number,
+    slug: t.slug,
+    title: t.title,
+    subtitle: `Persist · ${t.zoneLabel}`,
+    duration: t.duration,
+    mp3Src: `/api/persist/audio/${t.slug}?token=${encodeURIComponent(token)}`,
+    href: `/persist/${t.slug}`,
+    album: 'Persist',
+    artworkSrc: PERSIST_ALBUM_META.coverSrc,
+    // Strictly stream-only: never attach downloadName for Persist
+  }));
+}
+
 const VOLUME_STORAGE_KEY = 'semi_player_volume';
 const DEFAULT_VOLUME = 0.85;
 
@@ -58,6 +101,8 @@ export function AudioPlayerProvider({ children }: { children: React.ReactNode })
   const pendingSeekRef = useRef<number | null>(null);
   const lastSeekAtRef = useRef<number>(0);
 
+  const [queue, setQueue] = useState<DockTrack[]>(IO_QUEUE);
+  const [queueAlbum, setQueueAlbum] = useState<'io' | 'persist'>('io');
   const [activeIndex, setActiveIndex] = useState(0);
   const [hasStarted, setHasStarted] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -75,16 +120,21 @@ export function AudioPlayerProvider({ children }: { children: React.ReactNode })
         }
       }
     } catch {
-      // Ignore storage access errors in private browsing
+      // Ignore storage access errors
     }
     return DEFAULT_VOLUME;
   });
   const [isMuted, setIsMuted] = useState(false);
 
+  const queueRef = useRef<DockTrack[]>(queue);
   const activeIndexRef = useRef(activeIndex);
   const playAllRef = useRef(playAllActive);
   const volumeRef = useRef(volume);
   const isMutedRef = useRef(isMuted);
+
+  useEffect(() => {
+    queueRef.current = queue;
+  }, [queue]);
 
   useEffect(() => {
     activeIndexRef.current = activeIndex;
@@ -108,18 +158,16 @@ export function AudioPlayerProvider({ children }: { children: React.ReactNode })
     }
   }, [isMuted]);
 
-  const currentTrack: SemiTrack = PLAYABLE_TRACKS[activeIndex] ?? PLAYABLE_TRACKS[0];
+  const currentTrack: DockTrack = queue[activeIndex] ?? queue[0] ?? IO_QUEUE[0];
 
-  const syncMediaSession = useCallback((track: SemiTrack) => {
+  const syncMediaSession = useCallback((track: DockTrack) => {
     if (typeof navigator === 'undefined' || !('mediaSession' in navigator)) return;
     try {
       navigator.mediaSession.metadata = new MediaMetadata({
         title: track.title,
         artist: 'Semi (; - ])',
-        album: 'I/O',
-        artwork: [
-          { src: '/photos/io-album-cover.jpg', sizes: '1400x1400', type: 'image/jpeg' },
-        ],
+        album: track.album,
+        artwork: [{ src: track.artworkSrc, sizes: '1400x1400', type: 'image/jpeg' }],
       });
     } catch {
       // Ignore unsupported MediaMetadata environments
@@ -131,13 +179,12 @@ export function AudioPlayerProvider({ children }: { children: React.ReactNode })
     el.preload = 'metadata';
     el.setAttribute('playsinline', 'true');
     el.setAttribute('webkit-playsinline', 'true');
-    el.src = withMasterRev(PLAYABLE_TRACKS[0].mp3Src!);
+    el.src = IO_QUEUE[0].mp3Src;
     el.volume = volumeRef.current;
     el.muted = isMutedRef.current;
     audioRef.current = el;
 
     const onTimeUpdate = () => {
-      // Avoid stale timeupdate overwriting an active user seek within 180ms
       if (Date.now() - lastSeekAtRef.current < 180) return;
       setCurrentTime(el.currentTime);
     };
@@ -159,15 +206,16 @@ export function AudioPlayerProvider({ children }: { children: React.ReactNode })
     };
 
     const onEnded = () => {
-      if (playAllRef.current && activeIndexRef.current < PLAYABLE_TRACKS.length - 1) {
+      const q = queueRef.current;
+      if (playAllRef.current && activeIndexRef.current < q.length - 1) {
         const nextIdx = activeIndexRef.current + 1;
         activeIndexRef.current = nextIdx;
-        const next = PLAYABLE_TRACKS[nextIdx];
+        const next = q[nextIdx];
         setActiveIndex(nextIdx);
         setCurrentTime(0);
         setDuration(parseDurationFallback(next.duration));
         el.preload = 'auto';
-        el.src = withMasterRev(next.mp3Src!);
+        el.src = next.mp3Src;
         syncMediaSession(next);
 
         const tryPlay = () => {
@@ -192,9 +240,7 @@ export function AudioPlayerProvider({ children }: { children: React.ReactNode })
 
     const onPlay = () => setIsPlaying(true);
     const onPause = () => setIsPlaying(false);
-    const onError = () => {
-      setIsPlaying(false);
-    };
+    const onError = () => setIsPlaying(false);
 
     el.addEventListener('timeupdate', onTimeUpdate);
     el.addEventListener('loadedmetadata', onDurationUpdate);
@@ -216,54 +262,28 @@ export function AudioPlayerProvider({ children }: { children: React.ReactNode })
     };
   }, [syncMediaSession]);
 
-  const resolveIndex = useCallback((slugOrIndex: string | number): number => {
-    if (typeof slugOrIndex === 'number') {
-      return (slugOrIndex + PLAYABLE_TRACKS.length) % PLAYABLE_TRACKS.length;
-    }
-    const found = PLAYABLE_TRACKS.findIndex((t) => t.slug === slugOrIndex || t.number === slugOrIndex);
-    return found >= 0 ? found : 0;
-  }, []);
-
-  const selectTrack = useCallback(
-    (slugOrIndex: string | number) => {
-      const idx = resolveIndex(slugOrIndex);
+  const startFromQueue = useCallback(
+    (nextQueue: DockTrack[], album: 'io' | 'persist', idx: number) => {
       const el = audioRef.current;
-      if (!el) return;
-      if (idx !== activeIndexRef.current) {
-        const target = PLAYABLE_TRACKS[idx];
-        el.pause();
-        pendingSeekRef.current = null;
-        el.src = withMasterRev(target.mp3Src!);
-        el.load();
-        activeIndexRef.current = idx;
-        setCurrentTime(0);
-        setDuration(parseDurationFallback(target.duration));
-        setActiveIndex(idx);
-        syncMediaSession(target);
-      }
-    },
-    [resolveIndex, syncMediaSession]
-  );
-
-  const playTrack = useCallback(
-    (slugOrIndex: string | number) => {
-      const idx = resolveIndex(slugOrIndex);
-      const el = audioRef.current;
+      const sameQueue = queueRef.current === nextQueue || (album === queueAlbum && album === 'io');
+      queueRef.current = nextQueue;
+      setQueue(nextQueue);
+      setQueueAlbum(album);
       setHasStarted(true);
       setPlayAllActive(true);
       playAllRef.current = true;
       if (!el) return;
 
       el.preload = 'auto';
-      const target = PLAYABLE_TRACKS[idx];
+      const target = nextQueue[idx] ?? nextQueue[0];
 
-      if (idx !== activeIndexRef.current) {
+      if (!sameQueue || idx !== activeIndexRef.current || el.src !== target.mp3Src) {
         pendingSeekRef.current = null;
         activeIndexRef.current = idx;
         setActiveIndex(idx);
         setCurrentTime(0);
         setDuration(parseDurationFallback(target.duration));
-        el.src = withMasterRev(target.mp3Src!);
+        el.src = target.mp3Src;
         syncMediaSession(target);
         const p = el.play();
         if (p) {
@@ -283,51 +303,96 @@ export function AudioPlayerProvider({ children }: { children: React.ReactNode })
         el.pause();
       }
     },
-    [resolveIndex, syncMediaSession]
+    [queueAlbum, syncMediaSession]
+  );
+
+  const resolveIoIndex = useCallback((slugOrIndex: string | number): number => {
+    if (typeof slugOrIndex === 'number') {
+      return (slugOrIndex + IO_QUEUE.length) % IO_QUEUE.length;
+    }
+    const found = IO_QUEUE.findIndex((t) => t.slug === slugOrIndex || t.number === slugOrIndex);
+    return found >= 0 ? found : 0;
+  }, []);
+
+  const selectTrack = useCallback(
+    (slugOrIndex: string | number) => {
+      const idx = resolveIoIndex(slugOrIndex);
+      const el = audioRef.current;
+      queueRef.current = IO_QUEUE;
+      setQueue(IO_QUEUE);
+      setQueueAlbum('io');
+      if (!el) return;
+      if (idx !== activeIndexRef.current || queueAlbum !== 'io') {
+        const target = IO_QUEUE[idx];
+        el.pause();
+        pendingSeekRef.current = null;
+        el.src = target.mp3Src;
+        el.load();
+        activeIndexRef.current = idx;
+        setCurrentTime(0);
+        setDuration(parseDurationFallback(target.duration));
+        setActiveIndex(idx);
+        syncMediaSession(target);
+      }
+    },
+    [queueAlbum, resolveIoIndex, syncMediaSession]
+  );
+
+  const playTrack = useCallback(
+    (slugOrIndex: string | number) => {
+      const idx = resolveIoIndex(slugOrIndex);
+      startFromQueue(IO_QUEUE, 'io', idx);
+    },
+    [resolveIoIndex, startFromQueue]
   );
 
   const playAll = useCallback(() => {
     const el = audioRef.current;
-    setHasStarted(true);
-    if (!el) return;
-
-    if (playAllRef.current && !el.paused) {
+    if (queueAlbum === 'io' && playAllRef.current && el && !el.paused) {
       el.pause();
       return;
     }
+    startFromQueue(IO_QUEUE, 'io', 0);
+  }, [queueAlbum, startFromQueue]);
 
-    el.preload = 'auto';
-    setPlayAllActive(true);
-    playAllRef.current = true;
+  const playPersistTrack = useCallback(
+    (slug: string, token: string) => {
+      const persistQueue = buildPersistQueue(token);
+      const idx = Math.max(0, persistQueue.findIndex((t) => t.slug === slug));
+      const el = audioRef.current;
+      if (
+        queueAlbum === 'persist' &&
+        activeIndexRef.current === idx &&
+        el &&
+        el.src.includes(`/api/persist/audio/${slug}`)
+      ) {
+        if (el.paused) {
+          el.play().catch((err) => {
+            if (err?.name !== 'AbortError') setIsPlaying(false);
+          });
+        } else {
+          el.pause();
+        }
+        return;
+      }
+      startFromQueue(persistQueue, 'persist', idx);
+    },
+    [queueAlbum, startFromQueue]
+  );
 
-    if (el.paused && activeIndexRef.current === 0 && currentTime > 0 && !el.ended) {
-      syncMediaSession(PLAYABLE_TRACKS[0]);
-      const p = el.play();
-      if (p) p.catch((err) => { if (err?.name !== 'AbortError') setIsPlaying(false); });
-      return;
-    }
-
-    const first = PLAYABLE_TRACKS[0];
-    if (activeIndexRef.current !== 0) {
-      pendingSeekRef.current = null;
-      activeIndexRef.current = 0;
-      setActiveIndex(0);
-      setCurrentTime(0);
-      setDuration(parseDurationFallback(first.duration));
-      el.src = withMasterRev(first.mp3Src!);
-    } else if (el.ended) {
-      el.currentTime = 0;
-      setCurrentTime(0);
-    }
-
-    syncMediaSession(first);
-    const p = el.play();
-    if (p) {
-      p.catch((err) => {
-        if (err?.name !== 'AbortError') setIsPlaying(false);
-      });
-    }
-  }, [currentTime, syncMediaSession]);
+  const playPersistAll = useCallback(
+    (token: string) => {
+      const el = audioRef.current;
+      if (queueAlbum === 'persist' && el && !el.paused) {
+        el.pause();
+        return;
+      }
+      const persistQueue = buildPersistQueue(token);
+      const idx = queueAlbum === 'persist' ? activeIndexRef.current : 0;
+      startFromQueue(persistQueue, 'persist', idx);
+    },
+    [queueAlbum, startFromQueue]
+  );
 
   const togglePlay = useCallback(() => {
     const el = audioRef.current;
@@ -335,7 +400,8 @@ export function AudioPlayerProvider({ children }: { children: React.ReactNode })
     if (!el) return;
     el.preload = 'auto';
     if (el.paused) {
-      syncMediaSession(PLAYABLE_TRACKS[activeIndexRef.current] ?? PLAYABLE_TRACKS[0]);
+      const q = queueRef.current;
+      syncMediaSession(q[activeIndexRef.current] ?? q[0]);
       const p = el.play();
       if (p) {
         p.catch((err) => {
@@ -352,10 +418,11 @@ export function AudioPlayerProvider({ children }: { children: React.ReactNode })
   }, []);
 
   const nextTrack = useCallback(() => {
-    const nextIdx = (activeIndexRef.current + 1) % PLAYABLE_TRACKS.length;
+    const q = queueRef.current;
+    const nextIdx = (activeIndexRef.current + 1) % q.length;
     const el = audioRef.current;
     const wasPlaying = isPlaying;
-    const target = PLAYABLE_TRACKS[nextIdx];
+    const target = q[nextIdx];
     activeIndexRef.current = nextIdx;
     setActiveIndex(nextIdx);
     setHasStarted(true);
@@ -364,7 +431,7 @@ export function AudioPlayerProvider({ children }: { children: React.ReactNode })
     pendingSeekRef.current = null;
     setCurrentTime(0);
     setDuration(parseDurationFallback(target.duration));
-    el.src = withMasterRev(target.mp3Src!);
+    el.src = target.mp3Src;
     syncMediaSession(target);
     if (wasPlaying) {
       const p = el.play();
@@ -379,10 +446,11 @@ export function AudioPlayerProvider({ children }: { children: React.ReactNode })
   }, [isPlaying, syncMediaSession]);
 
   const prevTrack = useCallback(() => {
-    const prevIdx = (activeIndexRef.current - 1 + PLAYABLE_TRACKS.length) % PLAYABLE_TRACKS.length;
+    const q = queueRef.current;
+    const prevIdx = (activeIndexRef.current - 1 + q.length) % q.length;
     const el = audioRef.current;
     const wasPlaying = isPlaying;
-    const target = PLAYABLE_TRACKS[prevIdx];
+    const target = q[prevIdx];
     activeIndexRef.current = prevIdx;
     setActiveIndex(prevIdx);
     setHasStarted(true);
@@ -391,7 +459,7 @@ export function AudioPlayerProvider({ children }: { children: React.ReactNode })
     pendingSeekRef.current = null;
     setCurrentTime(0);
     setDuration(parseDurationFallback(target.duration));
-    el.src = withMasterRev(target.mp3Src!);
+    el.src = target.mp3Src;
     syncMediaSession(target);
     if (wasPlaying) {
       const p = el.play();
@@ -408,10 +476,11 @@ export function AudioPlayerProvider({ children }: { children: React.ReactNode })
   const seek = useCallback((seconds: number) => {
     if (!Number.isFinite(seconds) || seconds < 0) return;
     const el = audioRef.current;
+    const q = queueRef.current;
     const maxDur =
       el && Number.isFinite(el.duration) && el.duration > 0
         ? el.duration
-        : parseDurationFallback((PLAYABLE_TRACKS[activeIndexRef.current] ?? PLAYABLE_TRACKS[0]).duration) || 300;
+        : parseDurationFallback((q[activeIndexRef.current] ?? q[0]).duration) || 300;
     const clamped = Math.max(0, Math.min(seconds, maxDur));
 
     lastSeekAtRef.current = Date.now();
@@ -433,7 +502,6 @@ export function AudioPlayerProvider({ children }: { children: React.ReactNode })
     }
   }, []);
 
-  // Wire OS Lock Screen / Control Center MediaSession controls for iPhone & Android
   useEffect(() => {
     if (typeof navigator === 'undefined' || !('mediaSession' in navigator)) return;
     try {
@@ -478,6 +546,7 @@ export function AudioPlayerProvider({ children }: { children: React.ReactNode })
     <AudioPlayerContext.Provider
       value={{
         currentTrack,
+        queueAlbum,
         hasStarted,
         isPlaying,
         playAllActive,
@@ -487,6 +556,8 @@ export function AudioPlayerProvider({ children }: { children: React.ReactNode })
         isMuted,
         playTrack,
         playAll,
+        playPersistTrack,
+        playPersistAll,
         selectTrack,
         togglePlay,
         pauseAudio,

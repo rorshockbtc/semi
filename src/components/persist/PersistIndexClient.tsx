@@ -6,8 +6,8 @@ import { m } from 'framer-motion';
 import { ArrowRight, BookOpen, CheckCircle2, Lock, Pause, Play } from 'lucide-react';
 import RelativisticHorizonCanvas from '@/art/RelativisticHorizonCanvas';
 import { useAmbientMotion } from '@/context/AmbientMotionContext';
+import { useAudioPlayer } from '@/context/AudioPlayerContext';
 import PersistAccessGate from '@/components/persist/PersistAccessGate';
-import PersistAlbumPlayer from '@/components/persist/PersistAlbumPlayer';
 import ProperTimeClocks from '@/components/persist/ProperTimeClocks';
 import ResonanceSpineVisualizer from '@/components/persist/ResonanceSpineVisualizer';
 import { usePersistAccess } from '@/components/persist/usePersistAccess';
@@ -25,24 +25,13 @@ export default function PersistIndexClient() {
   const heroRef = useRef<HTMLElement>(null);
   const { motionActive } = useAmbientMotion();
   const access = usePersistAccess();
+  const { currentTrack, queueAlbum, isPlaying, playPersistAll, playPersistTrack } = useAudioPlayer();
   const [zone, setZone] = useState<ResonanceZoneId>('slow-country');
-  const [activeIndex, setActiveIndex] = useState(0);
-  const [playing, setPlaying] = useState(false);
 
   const zoneSpec = RESONANCE_ZONES.find((z) => z.id === zone) ?? RESONANCE_ZONES[0];
   const mainTracks = PERSIST_TRACKS.filter((t) => !t.isBonus);
   const bonusTracks = PERSIST_TRACKS.filter((t) => t.isBonus);
-
-  const playTrackBySlug = (slug: string) => {
-    const idx = PERSIST_TRACKS.findIndex((t) => t.slug === slug);
-    if (idx === -1) return;
-    if (idx === activeIndex) {
-      setPlaying((p) => !p);
-    } else {
-      setActiveIndex(idx);
-      setPlaying(true);
-    }
-  };
+  const persistPlaying = queueAlbum === 'persist' && isPlaying;
 
   const fade = (delay = 0) => ({
     initial: motionActive ? { opacity: 0, y: 18 } : false,
@@ -70,7 +59,7 @@ export default function PersistIndexClient() {
               Same sky, different clocks.
             </p>
             <p className="mt-6 max-w-[60ch] border-l-2 border-[var(--a-accent)] pl-4 sm:pl-5 text-[17px] sm:text-lg leading-relaxed text-[var(--a-ink)]/85">
-              Semi’s second album is set inside the world of Kyle’s speculative-fiction novel{' '}
+              Semi’s second album is set inside the world of Cubby’s speculative-fiction novel{' '}
               <em className="font-serif">Persist</em>. It keeps the acoustic porch-light warmth of{' '}
               <em className="font-serif">I/O</em>—fingerpicked guitar, close breath, honest
               harmony—and braids it with deep-space electronics for a story about loving people who
@@ -79,25 +68,22 @@ export default function PersistIndexClient() {
             <div className="mt-8 flex flex-wrap items-center gap-3">
               {access.checking ? (
                 <span className="font-code text-[13px] text-[var(--a-muted)]">Checking your listening pass…</span>
-              ) : access.unlocked ? (
+              ) : access.unlocked && access.token ? (
                 <>
                   <button
                     type="button"
-                    onClick={() => {
-                      if (playing) setPlaying(false);
-                      else setPlaying(true);
-                    }}
+                    onClick={() => playPersistAll(access.token!)}
                     data-testid="persist-play-all-btn"
                     className="inline-flex min-h-[52px] items-center gap-3 rounded-full bg-[var(--a-accent-fill)] pl-2 pr-6 text-[16px] font-semibold text-white transition-colors hover:bg-[var(--a-ink)]"
                   >
                     <span className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-white/20">
-                      {playing ? (
+                      {persistPlaying ? (
                         <Pause className="h-4 w-4" fill="currentColor" aria-hidden="true" />
                       ) : (
                         <Play className="h-4 w-4 translate-x-[1px]" fill="currentColor" aria-hidden="true" />
                       )}
                     </span>
-                    {playing ? `Pause “${PERSIST_TRACKS[activeIndex].title}”` : 'Play album in order'}
+                    {persistPlaying ? `Pause “${currentTrack.title}”` : 'Play album in order'}
                   </button>
                   <span className="inline-flex items-center gap-2 text-[14px] text-[var(--a-muted)]">
                     <CheckCircle2 className="h-4 w-4 text-[var(--a-accent-text)]" aria-hidden="true" />
@@ -314,8 +300,8 @@ export default function PersistIndexClient() {
 
           <ol className="mt-10 grid gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
             {mainTracks.map((t, i) => {
-              const isCurrent = PERSIST_TRACKS[activeIndex]?.slug === t.slug;
-              const isThisPlaying = isCurrent && playing;
+              const isCurrent = queueAlbum === 'persist' && currentTrack.slug === t.slug;
+              const isThisPlaying = isCurrent && isPlaying;
               return (
                 <m.li
                   key={t.slug}
@@ -350,10 +336,10 @@ export default function PersistIndexClient() {
                     </Link>
 
                     <div className="mt-3 flex flex-wrap items-center gap-3">
-                      {access.unlocked && (
+                      {access.unlocked && access.token && (
                         <button
                           type="button"
-                          onClick={() => playTrackBySlug(t.slug)}
+                          onClick={() => playPersistTrack(t.slug, access.token!)}
                           className={`inline-flex min-h-[44px] items-center gap-2 rounded-full px-4 text-[14px] font-semibold transition-colors ${
                             isThisPlaying
                               ? 'bg-[var(--a-ink)] text-[var(--a-surface)]'
@@ -388,8 +374,8 @@ export default function PersistIndexClient() {
               </p>
               <ul className="mt-4 divide-y divide-[var(--a-rule)]">
                 {bonusTracks.map((t) => {
-                  const isCurrent = PERSIST_TRACKS[activeIndex]?.slug === t.slug;
-                  const isThisPlaying = isCurrent && playing;
+                  const isCurrent = queueAlbum === 'persist' && currentTrack.slug === t.slug;
+                  const isThisPlaying = isCurrent && isPlaying;
                   return (
                     <li key={t.slug} className="flex flex-wrap items-center justify-between gap-4 py-4">
                       <Link href={`/persist/${t.slug}`} className="flex items-baseline gap-3 no-underline">
@@ -399,10 +385,10 @@ export default function PersistIndexClient() {
                         </span>
                       </Link>
                       <div className="flex items-center gap-3">
-                        {access.unlocked && (
+                        {access.unlocked && access.token && (
                           <button
                             type="button"
-                            onClick={() => playTrackBySlug(t.slug)}
+                            onClick={() => playPersistTrack(t.slug, access.token!)}
                             className={`inline-flex min-h-[44px] items-center gap-2 rounded-full px-4 text-[14px] font-semibold transition-colors ${
                               isThisPlaying
                                 ? 'bg-[var(--a-ink)] text-[var(--a-surface)]'
@@ -433,19 +419,6 @@ export default function PersistIndexClient() {
           )}
         </div>
       </section>
-
-      {access.unlocked && access.token && (
-        <div className="px-4 pb-8 sm:px-8">
-          <PersistAlbumPlayer
-            tracks={PERSIST_TRACKS}
-            activeIndex={activeIndex}
-            playing={playing}
-            token={access.token}
-            onSelectIndex={setActiveIndex}
-            onPlayingChange={setPlaying}
-          />
-        </div>
-      )}
     </>
   );
 }
