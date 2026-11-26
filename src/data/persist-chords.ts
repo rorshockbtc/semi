@@ -79,6 +79,18 @@ export const PERSIST_CHORD_SHEETS: Record<string, PersistChordSheet> = {
       'Gmaj7         A           D',
     ],
   },
+  'leave-a-note': {
+    key: 'D Major',
+    capo: 'No capo',
+    tuning: 'Standard (E A D G B E)',
+    strumming: '142-BPM driving indie-pop strum · D – D U – U D U',
+    progression: [
+      'Verse:   D   G   Bm   A',
+      'Chorus:  G   A   D    Bm',
+      '         G   A   D',
+      'Bridge:  G   Bm  A    D',
+    ],
+  },
   'redshift-reprise': {
     key: 'E Minor / G Major',
     capo: 'Capo 3 (play Em shapes)',

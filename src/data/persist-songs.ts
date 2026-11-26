@@ -729,6 +729,123 @@ I'll keep the warm parts safe in between`,
     ],
   },
   {
+    number: '07',
+    slug: 'leave-a-note',
+    title: 'Leave a Note',
+    zone: 'tip',
+    zoneLabel: 'The Tip · Midship Boundary',
+    properTimeLabel: '1.65× faster · Lifetimes in a visit',
+    duration: '02:58',
+    vaultFile: '07-semi-leave-a-note.mp3',
+    size: 7117761,
+    artworkSrc: '/photos/persist/track-07-leave-a-note.jpg',
+    artworkAlt:
+      'Inside the bright Tip observatory of Resonance framed by silver birch trees, with handwritten survival notebooks, a steaming mug, and twine-tied paper dispatches beside a courier canister.',
+    sonicNote:
+      'Upbeat indie-folk pop and driving acoustic guitar—bright chiming melodies, bouncy bassline, and soaring sing-along harmonies.',
+    summary:
+      'Sung from the fast-burning Tip where generations live whole lifetimes in a flash—laughing through late nights, writing survival answers in the margins, and packing notes down-spine so the Old Country survives.',
+    essayTitle: 'Passing the Fire Down-Spine',
+    essaySubtitle: 'When a scientist from Slow Country rides up to The Tip, whole lifetimes pass before the kettle cools.',
+    essaySections: [
+      {
+        heading: 'Lifetimes in a single visit',
+        paragraphs: [
+          'When a researcher from Slow Country travels up-spine past the Midship boundary into The Tip to request survival experiments, they step into a season that moves at a breathtaking clip. Up here, entire lifetimes unfold in the span of a single visit down-hull.',
+          'Rather than mourning the speed of their clocks, the people of The Tip lean into it—laughing through late nights with chalk dust, yellow legal pads, and hot coffee, racing to finish the math before their generation turns over.',
+        ],
+      },
+      {
+        heading: 'Notes in the courier tube',
+        paragraphs: [
+          'Everything they discover gets written down in ink and packed into physical courier canisters bound for the Old Country. Leaving a note on the lab table is how the fast-living frontier keeps the rest of humanity alive long enough to make it home.',
+        ],
+      },
+    ],
+    lyrics: `[Verse 1]
+Sunlight hitting through the kitchen blinds
+Coffee hot, we’re running out of time
+Chalk dust summer burning fast away
+Tuned up, turned up, ready for the spark before the flame
+
+[Chorus]
+Daylight fades into the dark
+Got my coat on, hand on the door
+Can’t stay static anymore
+Clock is ticking, rhythm is set
+Best things haven’t even happened yet
+Leave a note on the table
+The light out in the lab
+We are passing the fire
+Through the middle of the night
+Yeah, we burn while we’re standing
+Though the record spins around
+Leave a note on the table
+For the next ones in town
+
+[Post-Chorus]
+Ooh, for the next ones in town
+
+[Verse 2]
+Steam rising up off the paper cup
+Scratch of the pen as the volume’s up
+Yellow pad sitting by the morning breeze
+Fast burning season, living on the edge and in between
+
+[Chorus]
+Here on the starting edge
+Got my coat on, hand on the door
+Can’t stay static anymore
+Clock is ticking, rhythm is set
+Best things haven’t even happened yet
+Leave a note on the table
+The light out in the lab
+We are passing the fire
+Through the middle of the night
+Yeah, we burn while we’re standing
+Though the record spins around
+Leave a note on the table
+For the next ones in town
+
+[Bridge]
+One for the road, three for the tune
+Two for the road, lighting up the heavy load
+Pass it on, pass it on
+Leave the door unlocked and wide
+Step into the seventh stride
+
+[Chorus]
+Leave a note on the table
+The light out in the lab
+We are passing the fire
+Through the middle of the night
+Yeah, we burn while we’re standing
+Though the record spins around
+Leave a note on the table
+For the next ones in town
+
+[Outro]
+For the next ones in town
+Oh, the next ones in town
+Passing it on
+Oh yeah
+Leave a note on the table`,
+    lyricNotes: [
+      {
+        line: 'Chalk dust summer burning fast away',
+        note: 'At The Tip, proper time runs roughly 1.65× faster than Slow Country—an entire summer or generation flashes past while lower decks barely turn a page.',
+      },
+      {
+        line: 'Leave a note on the table / The light out in the lab / For the next ones in town',
+        note: 'Physical paper notes and experimental proofs left on lab tables and sent down-spine so the Old Country can survive long after The Tip’s researchers are gone.',
+      },
+      {
+        line: 'Yellow pad sitting by the morning breeze / Fast burning season, living on the edge and in between',
+        note: 'Positioned at the Midship–Tip boundary, where fast-clocked frontier researchers hand their work across the gradient.',
+      },
+    ],
+  },
+  {
     number: '14',
     slug: 'redshift-reprise',
     title: 'Redshift (Reprise)',
