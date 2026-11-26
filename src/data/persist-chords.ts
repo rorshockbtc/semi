@@ -67,6 +67,18 @@ export const PERSIST_CHORD_SHEETS: Record<string, PersistChordSheet> = {
       'Fmaj7         G           Am',
     ],
   },
+  '99-percent': {
+    key: 'D Major',
+    capo: 'No capo',
+    tuning: 'Standard (E A D G B E)',
+    strumming: '100-BPM acoustic + warm synth pulse · D – D U – D U',
+    progression: [
+      'Bm7                       Gmaj7',
+      'D                         A/C#',
+      'Em7                       Bm7',
+      'Gmaj7         A           D',
+    ],
+  },
   'redshift-reprise': {
     key: 'E Minor / G Major',
     capo: 'Capo 3 (play Em shapes)',

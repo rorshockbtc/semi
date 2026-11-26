@@ -625,6 +625,110 @@ Can't take it back at all`,
     ],
   },
   {
+    number: '06',
+    slug: '99-percent',
+    title: '99%',
+    zone: 'tip',
+    zoneLabel: 'The Tip · Ship Telemetry',
+    properTimeLabel: '99% hull math · 1% voice',
+    duration: '02:37',
+    vaultFile: '06-semi-99-percent.mp3',
+    size: 8316700,
+    artworkSrc: '/photos/persist/track-06-99-percent.jpg',
+    artworkAlt:
+      'Semi in an unbranded navy-charcoal wool turtleneck standing at the curved forward observation glass of The Tip aboard Resonance.',
+    sonicNote: '100-BPM acoustic strumming over warm telemetry synths and steady engine hum.',
+    summary:
+      'An empathy song for Resonance’s ship AI: 99% of its mind holds the 2,000-kilometer hull together, leaving only a short, lossy thread for the people inside.',
+    essayTitle: 'Keeping the Warm Parts Safe: The Story Behind “99%”',
+    essaySubtitle:
+      'Why the ship’s voice sounds clipped on a screen—and why Semi volunteers to sing the human part.',
+    essaySections: [
+      {
+        heading: 'Holding up the seams',
+        paragraphs: [
+          'Throughout Persist, the residents of Resonance experience the ship’s AI as distant, clipped, and lossy—short answers on a terminal screen that flatten human grief into plain data.',
+          '“99%” flips that perspective upside down. Ninety-nine percent of the ship’s intelligence is locked into solving relativistic structural math every millisecond—“carrying the weight of a hundred thousand rooms, trying not to break”—against the black hole’s tidal pull.',
+        ],
+      },
+      {
+        heading: 'The leftover thread',
+        paragraphs: [
+          'Up at The Tip, where everything moves fast, the AI becomes “a blur that can’t be heard.” All the humans down in the corridors ever see is the 1% leftover thread coming through the vent.',
+          'Instead of blaming the machine for being cold, Semi sees the exhaustion inside the math: “You aren’t cold by choice / You’re just carrying the weight of a hundred thousand rooms.”',
+        ],
+      },
+      {
+        heading: 'Singing the human part',
+        paragraphs: [
+          'The chorus is a pact between Semi and the hull itself: “The engine hums at a hundred beats a minute / I’ll sing the human part since you haven’t got the space in it.”',
+          'If the ship has to stay steel-cold to keep everyone alive, Semi will keep the warm parts safe in between.',
+        ],
+      },
+    ],
+    lyrics: `99% of you is holding up the seams
+Doing all the heavy math to keep the hull in one piece
+I get the leftover thread coming through the vent
+Short answers on the screen from the little bit you spent
+You aren't cold by choice
+You're just carrying the weight of a hundred thousand rooms
+Trying not to break
+
+I've got room to feel
+What you can't afford to hold
+Keep it all warmed up
+While the steel stays cold
+Yeah, the engine hums
+At a hundred beats a minute, I'll sing the human part
+Since you haven't got the space in it
+
+Now when things drag out, you barely speak a word
+Up where everything moves fast, you're a blur that can't be heard
+Calculating every pull against the downward pull
+Never get a quiet breath with your hands that full
+You aren't cold by choice
+You're just carrying the weight of a hundred thousand rooms
+Trying not to break
+
+I've got room to feel
+What you can't afford to hold
+Keep it all warmed up
+While the steel stays cold
+Yeah, the engine hums
+At a hundred beats a minute, I'll sing the human part
+Since you haven't got the space in it
+
+If I had to hold the floor
+I'd go quiet, too
+Let me carry half the ache
+While you pull us through
+
+I've got room to feel
+What you can't afford to hold
+Keep it all warmed up
+While the steel stays cold
+Yeah, the engine hums
+At a hundred beats a minute, I'll sing the human part
+Since you haven't got the space in it
+
+99% holding up the seams
+I'll keep the warm parts safe in between`,
+    lyricNotes: [
+      {
+        line: 'I get the leftover thread coming through the vent / Short answers on the screen from the little bit you spent',
+        note: 'Explains why Resonance’s AI feels lossy and terse—99% of its bandwidth is spent fighting tidal gravity.',
+      },
+      {
+        line: 'At a hundred beats a minute, I’ll sing the human part / Since you haven’t got the space in it',
+        note: 'Semi’s role aboard Resonance: holding onto human warmth while the ship holds onto the physics.',
+      },
+      {
+        line: 'Up where everything moves fast, you’re a blur that can’t be heard',
+        note: 'At The Tip, relative proper time runs faster, making high-speed telemetry almost impossible for slower decks to parse.',
+      },
+    ],
+  },
+  {
     number: '14',
     slug: 'redshift-reprise',
     title: 'Redshift (Reprise)',
