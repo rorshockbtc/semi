@@ -3,10 +3,11 @@
 import React, { useRef, useState } from 'react';
 import Link from 'next/link';
 import { m } from 'framer-motion';
-import { ArrowRight, BookOpen, CheckCircle2, Lock, Play } from 'lucide-react';
+import { ArrowRight, BookOpen, CheckCircle2, Lock, Pause, Play } from 'lucide-react';
 import RelativisticHorizonCanvas from '@/art/RelativisticHorizonCanvas';
 import { useAmbientMotion } from '@/context/AmbientMotionContext';
 import PersistAccessGate from '@/components/persist/PersistAccessGate';
+import PersistAlbumPlayer from '@/components/persist/PersistAlbumPlayer';
 import ProperTimeClocks from '@/components/persist/ProperTimeClocks';
 import ResonanceSpineVisualizer from '@/components/persist/ResonanceSpineVisualizer';
 import { usePersistAccess } from '@/components/persist/usePersistAccess';
@@ -25,9 +26,23 @@ export default function PersistIndexClient() {
   const { motionActive } = useAmbientMotion();
   const access = usePersistAccess();
   const [zone, setZone] = useState<ResonanceZoneId>('slow-country');
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [playing, setPlaying] = useState(false);
+
   const zoneSpec = RESONANCE_ZONES.find((z) => z.id === zone) ?? RESONANCE_ZONES[0];
   const mainTracks = PERSIST_TRACKS.filter((t) => !t.isBonus);
   const bonusTracks = PERSIST_TRACKS.filter((t) => t.isBonus);
+
+  const playTrackBySlug = (slug: string) => {
+    const idx = PERSIST_TRACKS.findIndex((t) => t.slug === slug);
+    if (idx === -1) return;
+    if (idx === activeIndex) {
+      setPlaying((p) => !p);
+    } else {
+      setActiveIndex(idx);
+      setPlaying(true);
+    }
+  };
 
   const fade = (delay = 0) => ({
     initial: motionActive ? { opacity: 0, y: 18 } : false,
@@ -66,15 +81,24 @@ export default function PersistIndexClient() {
                 <span className="font-code text-[13px] text-[var(--a-muted)]">Checking your listening pass…</span>
               ) : access.unlocked ? (
                 <>
-                  <Link
-                    href={`/persist/${PERSIST_TRACKS[0].slug}`}
-                    className="inline-flex min-h-[52px] items-center gap-3 rounded-full bg-[var(--a-accent-fill)] pl-2 pr-6 text-[16px] font-semibold text-white no-underline transition-colors hover:bg-[var(--a-ink)]"
+                  <button
+                    type="button"
+                    onClick={() => {
+                      if (playing) setPlaying(false);
+                      else setPlaying(true);
+                    }}
+                    data-testid="persist-play-all-btn"
+                    className="inline-flex min-h-[52px] items-center gap-3 rounded-full bg-[var(--a-accent-fill)] pl-2 pr-6 text-[16px] font-semibold text-white transition-colors hover:bg-[var(--a-ink)]"
                   >
                     <span className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-white/20">
-                      <Play className="h-4 w-4 translate-x-[1px]" fill="currentColor" aria-hidden="true" />
+                      {playing ? (
+                        <Pause className="h-4 w-4" fill="currentColor" aria-hidden="true" />
+                      ) : (
+                        <Play className="h-4 w-4 translate-x-[1px]" fill="currentColor" aria-hidden="true" />
+                      )}
                     </span>
-                    Start with “Redshift”
-                  </Link>
+                    {playing ? `Pause “${PERSIST_TRACKS[activeIndex].title}”` : 'Play album in order'}
+                  </button>
                   <span className="inline-flex items-center gap-2 text-[14px] text-[var(--a-muted)]">
                     <CheckCircle2 className="h-4 w-4 text-[var(--a-accent-text)]" aria-hidden="true" />
                     Listening as {access.email ?? 'a Deluxe owner'}
@@ -289,42 +313,72 @@ export default function PersistIndexClient() {
           </div>
 
           <ol className="mt-10 grid gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
-            {mainTracks.map((t, i) => (
-              <m.li
-                key={t.slug}
-                initial={motionActive ? { opacity: 0, y: 24 } : false}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: '-8% 0px' }}
-                transition={{ duration: 0.8, delay: (i % 3) * 0.06, ease: [0.22, 1, 0.36, 1] }}
-              >
-                <Link
-                  href={`/persist/${t.slug}`}
-                  data-testid={`persist-track-card-${t.slug}`}
-                  className="group block no-underline"
+            {mainTracks.map((t, i) => {
+              const isCurrent = PERSIST_TRACKS[activeIndex]?.slug === t.slug;
+              const isThisPlaying = isCurrent && playing;
+              return (
+                <m.li
+                  key={t.slug}
+                  initial={motionActive ? { opacity: 0, y: 24 } : false}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: '-8% 0px' }}
+                  transition={{ duration: 0.8, delay: (i % 3) * 0.06, ease: [0.22, 1, 0.36, 1] }}
                 >
-                  <div className="overflow-hidden rounded-[8px] border border-[var(--a-rule)] bg-[var(--a-surface)]">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                      src={t.artworkSrc}
-                      alt={t.artworkAlt}
-                      loading="lazy"
-                      className="aspect-[4/3] w-full object-cover transition-transform duration-[1200ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.04]"
-                    />
+                  <div className="group block">
+                    <Link
+                      href={`/persist/${t.slug}`}
+                      data-testid={`persist-track-card-${t.slug}`}
+                      className="block no-underline"
+                    >
+                      <div className="overflow-hidden rounded-[8px] border border-[var(--a-rule)] bg-[var(--a-surface)]">
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
+                          src={t.artworkSrc}
+                          alt={t.artworkAlt}
+                          loading="lazy"
+                          className="aspect-[4/3] w-full object-cover transition-transform duration-[1200ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.04]"
+                        />
+                      </div>
+                      <div className="mt-4 flex items-baseline gap-3">
+                        <span className="font-code text-[13px] text-[var(--a-accent-text)]">{t.number}</span>
+                        <h3 className="font-display text-[24px] font-bold leading-tight text-[var(--a-ink)]">{t.title}</h3>
+                      </div>
+                      <p className="mt-1 font-code text-[13px] text-[var(--a-muted)]">
+                        {t.zoneLabel} · {t.duration}
+                      </p>
+                      <p className="mt-3 font-serif italic text-[17px] leading-snug text-[var(--a-ink)]/85">{t.summary}</p>
+                    </Link>
+
+                    <div className="mt-3 flex flex-wrap items-center gap-3">
+                      {access.unlocked && (
+                        <button
+                          type="button"
+                          onClick={() => playTrackBySlug(t.slug)}
+                          className={`inline-flex min-h-[44px] items-center gap-2 rounded-full px-4 text-[14px] font-semibold transition-colors ${
+                            isThisPlaying
+                              ? 'bg-[var(--a-ink)] text-[var(--a-surface)]'
+                              : 'bg-[var(--a-accent-fill)] text-white hover:bg-[var(--a-ink)]'
+                          }`}
+                        >
+                          {isThisPlaying ? (
+                            <Pause className="h-3.5 w-3.5" fill="currentColor" aria-hidden="true" />
+                          ) : (
+                            <Play className="h-3.5 w-3.5 translate-x-[1px]" fill="currentColor" aria-hidden="true" />
+                          )}
+                          <span>{isThisPlaying ? 'Playing' : 'Play'}</span>
+                        </button>
+                      )}
+                      <Link
+                        href={`/persist/${t.slug}`}
+                        className="inline-flex min-h-[44px] items-center gap-1.5 text-[15px] font-semibold text-[var(--a-ink)] no-underline hover:underline underline-offset-4"
+                      >
+                        Story, chords &amp; lyrics <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" aria-hidden="true" />
+                      </Link>
+                    </div>
                   </div>
-                  <div className="mt-4 flex items-baseline gap-3">
-                    <span className="font-code text-[13px] text-[var(--a-accent-text)]">{t.number}</span>
-                    <h3 className="font-display text-[24px] font-bold leading-tight text-[var(--a-ink)]">{t.title}</h3>
-                  </div>
-                  <p className="mt-1 font-code text-[13px] text-[var(--a-muted)]">
-                    {t.zoneLabel} · {t.duration}
-                  </p>
-                  <p className="mt-3 font-serif italic text-[17px] leading-snug text-[var(--a-ink)]/85">{t.summary}</p>
-                  <span className="mt-3 inline-flex min-h-[44px] items-center gap-1.5 text-[15px] font-semibold text-[var(--a-ink)]">
-                    Story &amp; lyrics <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" aria-hidden="true" />
-                  </span>
-                </Link>
-              </m.li>
-            ))}
+                </m.li>
+              );
+            })}
           </ol>
 
           {bonusTracks.length > 0 && (
@@ -333,28 +387,65 @@ export default function PersistIndexClient() {
                 Deluxe bonus takes
               </p>
               <ul className="mt-4 divide-y divide-[var(--a-rule)]">
-                {bonusTracks.map((t) => (
-                  <li key={t.slug}>
-                    <Link
-                      href={`/persist/${t.slug}`}
-                      className="group flex min-h-[64px] items-center justify-between gap-4 py-4 no-underline"
-                    >
-                      <span className="flex items-baseline gap-3">
+                {bonusTracks.map((t) => {
+                  const isCurrent = PERSIST_TRACKS[activeIndex]?.slug === t.slug;
+                  const isThisPlaying = isCurrent && playing;
+                  return (
+                    <li key={t.slug} className="flex flex-wrap items-center justify-between gap-4 py-4">
+                      <Link href={`/persist/${t.slug}`} className="flex items-baseline gap-3 no-underline">
                         <span className="font-code text-[13px] text-[var(--a-accent-text)]">{t.number}</span>
-                        <span className="font-display text-[19px] font-bold text-[var(--a-ink)]">{t.title}</span>
-                      </span>
-                      <span className="flex items-center gap-3 font-code text-[13px] text-[var(--a-muted)]">
-                        {t.duration}
-                        <ArrowRight className="h-4 w-4 text-[var(--a-ink)] transition-transform group-hover:translate-x-1" aria-hidden="true" />
-                      </span>
-                    </Link>
-                  </li>
-                ))}
+                        <span className="font-display text-[19px] font-bold text-[var(--a-ink)] hover:underline underline-offset-4">
+                          {t.title}
+                        </span>
+                      </Link>
+                      <div className="flex items-center gap-3">
+                        {access.unlocked && (
+                          <button
+                            type="button"
+                            onClick={() => playTrackBySlug(t.slug)}
+                            className={`inline-flex min-h-[44px] items-center gap-2 rounded-full px-4 text-[14px] font-semibold transition-colors ${
+                              isThisPlaying
+                                ? 'bg-[var(--a-ink)] text-[var(--a-surface)]'
+                                : 'border border-[var(--a-rule)] bg-[var(--a-surface)] text-[var(--a-ink)] hover:border-[var(--a-ink)]'
+                            }`}
+                          >
+                            {isThisPlaying ? (
+                              <Pause className="h-3.5 w-3.5" fill="currentColor" aria-hidden="true" />
+                            ) : (
+                              <Play className="h-3.5 w-3.5 translate-x-[1px]" fill="currentColor" aria-hidden="true" />
+                            )}
+                            <span>{isThisPlaying ? 'Playing' : 'Play'}</span>
+                          </button>
+                        )}
+                        <Link
+                          href={`/persist/${t.slug}`}
+                          className="inline-flex min-h-[44px] items-center gap-2 font-code text-[13px] text-[var(--a-muted)] no-underline hover:text-[var(--a-ink)]"
+                        >
+                          {t.duration}
+                          <ArrowRight className="h-4 w-4 text-[var(--a-ink)]" aria-hidden="true" />
+                        </Link>
+                      </div>
+                    </li>
+                  );
+                })}
               </ul>
             </div>
           )}
         </div>
       </section>
+
+      {access.unlocked && access.token && (
+        <div className="px-4 pb-8 sm:px-8">
+          <PersistAlbumPlayer
+            tracks={PERSIST_TRACKS}
+            activeIndex={activeIndex}
+            playing={playing}
+            token={access.token}
+            onSelectIndex={setActiveIndex}
+            onPlayingChange={setPlaying}
+          />
+        </div>
+      )}
     </>
   );
 }
