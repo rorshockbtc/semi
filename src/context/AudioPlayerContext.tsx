@@ -192,6 +192,17 @@ export function AudioPlayerProvider({ children }: { children: React.ReactNode })
     const onDurationUpdate = () => {
       if (Number.isFinite(el.duration) && el.duration > 0) {
         setDuration(el.duration);
+        if (typeof navigator !== 'undefined' && 'mediaSession' in navigator && 'setPositionState' in navigator.mediaSession) {
+          try {
+            navigator.mediaSession.setPositionState({
+              duration: el.duration,
+              playbackRate: el.playbackRate || 1,
+              position: Math.min(el.currentTime || 0, el.duration),
+            });
+          } catch {
+            // Ignore unsupported position state
+          }
+        }
       }
       if (pendingSeekRef.current !== null && el.readyState >= 1) {
         const target = pendingSeekRef.current;
@@ -216,30 +227,53 @@ export function AudioPlayerProvider({ children }: { children: React.ReactNode })
         setDuration(parseDurationFallback(next.duration));
         el.preload = 'auto';
         el.src = next.mp3Src;
+        el.load();
         syncMediaSession(next);
 
-        const tryPlay = () => {
-          const p = el.play();
-          if (p) {
-            p.catch(() => {
-              const onCanPlay = () => {
-                el.removeEventListener('canplay', onCanPlay);
-                el.play().catch(() => setIsPlaying(false));
-              };
-              el.addEventListener('canplay', onCanPlay, { once: true });
-            });
-          }
-        };
-        tryPlay();
+        const p = el.play();
+        if (p) {
+          p.catch(() => {
+            const onCanPlay = () => {
+              el.removeEventListener('canplay', onCanPlay);
+              el.play().catch(() => setIsPlaying(false));
+            };
+            el.addEventListener('canplay', onCanPlay, { once: true });
+          });
+        }
         return;
       }
       setPlayAllActive(false);
       setIsPlaying(false);
       setCurrentTime(0);
+      if (typeof navigator !== 'undefined' && 'mediaSession' in navigator) {
+        try {
+          navigator.mediaSession.playbackState = 'paused';
+        } catch {
+          // ignore
+        }
+      }
     };
 
-    const onPlay = () => setIsPlaying(true);
-    const onPause = () => setIsPlaying(false);
+    const onPlay = () => {
+      setIsPlaying(true);
+      if (typeof navigator !== 'undefined' && 'mediaSession' in navigator) {
+        try {
+          navigator.mediaSession.playbackState = 'playing';
+        } catch {
+          // ignore
+        }
+      }
+    };
+    const onPause = () => {
+      setIsPlaying(false);
+      if (typeof navigator !== 'undefined' && 'mediaSession' in navigator) {
+        try {
+          navigator.mediaSession.playbackState = 'paused';
+        } catch {
+          // ignore
+        }
+      }
+    };
     const onError = () => setIsPlaying(false);
 
     el.addEventListener('timeupdate', onTimeUpdate);
@@ -276,8 +310,12 @@ export function AudioPlayerProvider({ children }: { children: React.ReactNode })
 
       el.preload = 'auto';
       const target = nextQueue[idx] ?? nextQueue[0];
+      const resolvedSrc =
+        typeof window !== 'undefined'
+          ? new URL(target.mp3Src, window.location.origin).href
+          : target.mp3Src;
 
-      if (!sameQueue || idx !== activeIndexRef.current || el.src !== target.mp3Src) {
+      if (!sameQueue || idx !== activeIndexRef.current || el.src !== resolvedSrc) {
         pendingSeekRef.current = null;
         activeIndexRef.current = idx;
         setActiveIndex(idx);

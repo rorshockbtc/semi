@@ -597,15 +597,17 @@ export default function PersistCosmosWash() {
       ctx.clearRect(0, 0, width, height);
       ctx.globalCompositeOperation = 'multiply';
 
-      // 1. 3D Curved Spacetime Manifold Mesh (projects 3D gravitational funnel depression + scroll wave)
+      // 1. 3D Curved Spacetime Manifold Mesh (true 3D Z-axis perspective + funnel drop-lines)
       const gridStep = width < 640 ? 64 : 84;
       const scrollOffset = (window.scrollY * 0.28) % gridStep;
-      const projectManifold = (gx: number, gy: number): [number, number] => {
-        // Subtle travelling spacetime wave down the page
-        const waveZ =
-          Math.sin(gx * 0.008 + now * 0.0007) * Math.cos((gy + window.scrollY * 0.35) * 0.007) * 14;
-        let px = gx;
-        let py = gy + waveZ * 0.45;
+      const cxView = width * 0.5;
+      const cyView = height * 0.5;
+      const focal = 680;
+
+      const projectManifold = (gx: number, gy: number): [number, number, number] => {
+        // Z-axis displacement (positive Z = deeper into the gravity well)
+        let z =
+          Math.sin(gx * 0.008 + now * 0.0007) * Math.cos((gy + window.scrollY * 0.35) * 0.007) * 26;
         if (pointer.active) {
           const dx = gx - pointer.x;
           const dy = gy - pointer.y;
@@ -613,15 +615,14 @@ export default function PersistCosmosWash() {
           const radius = width < 640 ? 220 : 320;
           if (dist < radius) {
             const norm = 1 - dist / radius;
-            const funnelDepth = Math.pow(norm, 1.65);
-            // 3D funnel pulls vertices inward toward the throat AND dips downward in Z-perspective
-            const radialPinch = funnelDepth * 0.36;
-            px -= dx * radialPinch;
-            py -= dy * radialPinch;
-            py += funnelDepth * 44;
+            const funnelDepth = Math.pow(norm, 1.55);
+            z += funnelDepth * 190;
           }
         }
-        return [px, py];
+        const scale = focal / (focal + z);
+        const px = cxView + (gx - cxView) * scale;
+        const py = cyView + (gy - cyView) * scale + z * 0.24;
+        return [px, py, z];
       };
 
       ctx.lineWidth = 0.95;
@@ -647,12 +648,28 @@ export default function PersistCosmosWash() {
         ctx.stroke();
       }
 
+      // Subtle Z-axis vertical depth stems at warped grid intersections so 3D depth reads immediately
+      ctx.lineWidth = 0.85;
+      for (let gx = 0; gx <= width; gx += gridStep) {
+        for (let gy = -scrollOffset; gy <= height + gridStep; gy += gridStep) {
+          const [px, py, z] = projectManifold(gx, gy);
+          if (Math.abs(z) > 16) {
+            ctx.beginPath();
+            ctx.moveTo(gx, gy);
+            ctx.lineTo(px, py);
+            ctx.strokeStyle =
+              z > 0 ? 'rgba(168, 34, 84, 0.14)' : 'rgba(36, 62, 114, 0.1)';
+            ctx.stroke();
+          }
+        }
+      }
+
       // Concentric 3D manifold elevation rings around cursor gravity well
       if (pointer.active) {
         for (let ring = 1; ring <= 4; ring++) {
           const r = ring * 38;
           ctx.beginPath();
-          ctx.ellipse(pointer.x, pointer.y + (5 - ring) * 5, r, r * 0.62, 0, 0, Math.PI * 2);
+          ctx.ellipse(pointer.x, pointer.y + (5 - ring) * 6, r, r * 0.58, 0, 0, Math.PI * 2);
           ctx.strokeStyle = `rgba(168, 34, 84, ${(0.045 * (5 - ring)).toFixed(3)})`;
           ctx.lineWidth = 1;
           ctx.stroke();
