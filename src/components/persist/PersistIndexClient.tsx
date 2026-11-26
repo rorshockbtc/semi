@@ -8,6 +8,7 @@ import RelativisticHorizonCanvas from '@/art/RelativisticHorizonCanvas';
 import { useAmbientMotion } from '@/context/AmbientMotionContext';
 import { useAudioPlayer } from '@/context/AudioPlayerContext';
 import PersistAccessGate from '@/components/persist/PersistAccessGate';
+import PersistPhysicsScrollBand from '@/components/persist/PersistPhysicsScrollBand';
 import ProperTimeClocks from '@/components/persist/ProperTimeClocks';
 import ResonanceSpineVisualizer from '@/components/persist/ResonanceSpineVisualizer';
 import { usePersistAccess } from '@/components/persist/usePersistAccess';
@@ -192,15 +193,22 @@ export default function PersistIndexClient() {
                 label: 'The Tip · 2,000 km Up-Ship',
                 caption: 'Where generations rise while Slow Country barely turns a page.',
               },
-            ].map((plate) => (
-              <figure key={plate.src} className="space-y-2.5">
+            ].map((plate, idx) => (
+              <m.figure
+                key={plate.src}
+                initial={motionActive ? { opacity: 0, y: 20 } : false}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: '-8% 0px' }}
+                transition={{ duration: 0.7, delay: idx * 0.08, ease: [0.22, 1, 0.36, 1] }}
+                className="space-y-2.5"
+              >
                 <div className="overflow-hidden rounded-[8px] border border-[var(--a-rule)] bg-[var(--a-well)]">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={plate.src}
                     alt={plate.alt}
                     loading="lazy"
-                    className="aspect-video w-full object-cover"
+                    className="aspect-video w-full object-cover transition-transform duration-700 hover:scale-[1.03]"
                   />
                 </div>
                 <figcaption className="space-y-0.5">
@@ -211,7 +219,7 @@ export default function PersistIndexClient() {
                     {plate.caption}
                   </p>
                 </figcaption>
-              </figure>
+              </m.figure>
             ))}
           </div>
 
@@ -271,6 +279,9 @@ export default function PersistIndexClient() {
               </p>
             </div>
           </div>
+
+          {/* SCROLL-DRIVEN RELATIVISTIC PHYSICS BAND (REAL EQUATIONS + DIAGRAMS) */}
+          <PersistPhysicsScrollBand />
         </div>
       </section>
 
@@ -303,7 +314,13 @@ export default function PersistIndexClient() {
               const isCurrent = queueAlbum === 'persist' && currentTrack.slug === t.slug;
               const isThisPlaying = isCurrent && isPlaying;
               return (
-                <li key={t.slug}>
+                <m.li
+                  key={t.slug}
+                  initial={motionActive ? { opacity: 0, y: 20 } : false}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: '-8% 0px' }}
+                  transition={{ duration: 0.7, delay: (i % 3) * 0.06, ease: [0.22, 1, 0.36, 1] }}
+                >
                   <div className="group block">
                     <Link
                       href={`/persist/${t.slug}`}
@@ -356,7 +373,7 @@ export default function PersistIndexClient() {
                       </Link>
                     </div>
                   </div>
-                </li>
+                </m.li>
               );
             })}
           </ol>
