@@ -1,10 +1,9 @@
 'use client';
 
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
 import { m } from 'framer-motion';
 import { ArrowRight, BookOpen, CheckCircle2, Lock, Pause, Play } from 'lucide-react';
-import RelativisticHorizonCanvas from '@/art/RelativisticHorizonCanvas';
 import { useAmbientMotion } from '@/context/AmbientMotionContext';
 import { useAudioPlayer } from '@/context/AudioPlayerContext';
 import PersistAccessGate from '@/components/persist/PersistAccessGate';
@@ -23,7 +22,6 @@ const wrap =
   'relative z-10 mx-auto max-w-[1400px] pl-[max(1.25rem,env(safe-area-inset-left,0px))] pr-[max(1.25rem,env(safe-area-inset-right,0px))] sm:px-8 lg:px-12';
 
 export default function PersistIndexClient() {
-  const heroRef = useRef<HTMLElement>(null);
   const { motionActive } = useAmbientMotion();
   const access = usePersistAccess();
   const { currentTrack, queueAlbum, isPlaying, playPersistAll, playPersistTrack } = useAudioPlayer();
@@ -43,11 +41,7 @@ export default function PersistIndexClient() {
   return (
     <>
       {/* HERO */}
-      <section
-        ref={heroRef}
-        className="relative overflow-x-clip bg-[var(--a-bg)] wc-paper-grain pt-28 pb-16 sm:pt-40 sm:pb-24"
-      >
-        <RelativisticHorizonCanvas containerRef={heroRef} />
+      <section className="relative overflow-x-clip bg-transparent pt-28 pb-16 sm:pt-40 sm:pb-24">
         <div className={`${wrap} grid gap-10 lg:grid-cols-12 lg:items-end`}>
           <m.div {...fade()} className="lg:col-span-7 min-w-0">
             <p className="font-code text-[13px] font-semibold uppercase tracking-[0.2em] text-[var(--a-accent-text)]">
@@ -124,7 +118,7 @@ export default function PersistIndexClient() {
       {/* STORY PROLOGUE: LIFE ABOARD RESONANCE + PROPER TIME CLOCKS */}
       <section
         id="world-of-persist"
-        className="scroll-mt-20 border-y border-[var(--a-rule)] bg-[var(--a-surface)] py-16 sm:py-24"
+        className="scroll-mt-20 border-y border-[var(--a-rule)] bg-transparent py-16 sm:py-24"
       >
         <div className={`${wrap} space-y-14`}>
           <div className="grid gap-10 lg:grid-cols-12 lg:items-start">
@@ -287,7 +281,7 @@ export default function PersistIndexClient() {
 
       {/* GATE */}
       {!access.checking && !access.unlocked && (
-        <section id="listen" className="scroll-mt-24 bg-[var(--a-bg)] pt-16 sm:pt-24">
+        <section id="listen" className="scroll-mt-24 bg-transparent pt-16 sm:pt-24">
           <div className={wrap}>
             <PersistAccessGate access={access} />
           </div>
@@ -295,7 +289,7 @@ export default function PersistIndexClient() {
       )}
 
       {/* TRACKLIST */}
-      <section className="bg-[var(--a-bg)] py-16 sm:py-24">
+      <section className="bg-transparent py-16 sm:py-24">
         <div className={wrap}>
           <div className="flex flex-wrap items-end justify-between gap-4 border-b border-[var(--a-rule)] pb-5">
             <div>

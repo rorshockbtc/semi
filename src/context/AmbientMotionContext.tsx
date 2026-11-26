@@ -21,6 +21,8 @@ const AmbientMotionContext = createContext<AmbientMotionContextValue>({
 const STORAGE_KEY = 'semi:ambient-motion-paused';
 const CHANGE_EVENT = 'semi:ambient-motion-change';
 
+type UserMotionPref = 'paused' | 'active' | null;
+
 function subscribePauseStore(callback: () => void): () => void {
   window.addEventListener(CHANGE_EVENT, callback);
   window.addEventListener('storage', callback);
@@ -30,30 +32,35 @@ function subscribePauseStore(callback: () => void): () => void {
   };
 }
 
-function getPausedSnapshot(): boolean {
+function getUserPrefSnapshot(): UserMotionPref {
   try {
-    return sessionStorage.getItem(STORAGE_KEY) === 'true';
+    const raw = sessionStorage.getItem(STORAGE_KEY);
+    if (raw === 'true' || raw === 'paused') return 'paused';
+    if (raw === 'active') return 'active';
+    return null;
   } catch {
-    return false;
+    return null;
   }
 }
 
 export function AmbientMotionProvider({ children }: { children: React.ReactNode }) {
   const accentMotion = useMotionPreference();
   const framerReduced = useReducedMotion();
-  const pausedByUser = useSyncExternalStore(subscribePauseStore, getPausedSnapshot, () => false);
+  const userPref = useSyncExternalStore(subscribePauseStore, getUserPrefSnapshot, () => null);
 
   const osReduced = Boolean(framerReduced || accentMotion.isReduced);
-  const motionActive = !osReduced && !pausedByUser;
+  const motionActive =
+    userPref === 'active' ? true : userPref === 'paused' ? false : !osReduced;
+  const pausedByUser = userPref === 'paused';
 
   useEffect(() => {
-    document.documentElement.dataset.motion = pausedByUser ? 'paused' : 'active';
-  }, [pausedByUser]);
+    document.documentElement.dataset.motion = motionActive ? 'active' : 'paused';
+  }, [motionActive]);
 
   const togglePause = () => {
-    const next = !getPausedSnapshot();
+    const nextActive = !motionActive;
     try {
-      sessionStorage.setItem(STORAGE_KEY, next ? 'true' : 'false');
+      sessionStorage.setItem(STORAGE_KEY, nextActive ? 'active' : 'paused');
     } catch {
       // Ignore storage errors in restricted environments
     }
@@ -69,7 +76,7 @@ export function AmbientMotionProvider({ children }: { children: React.ReactNode 
         togglePause,
       }}
     >
-      <MotionConfig reducedMotion={pausedByUser ? 'always' : 'user'}>
+      <MotionConfig reducedMotion={motionActive ? 'never' : 'always'}>
         {children}
       </MotionConfig>
     </AmbientMotionContext.Provider>

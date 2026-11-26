@@ -1,6 +1,8 @@
 'use client';
 
 import React from 'react';
+import { m } from 'framer-motion';
+import { useAmbientMotion } from '@/context/AmbientMotionContext';
 import type { ResonanceZoneId } from '@/data/persist-songs';
 
 const SPINE_NODES: { id: ResonanceZoneId; label: string; km: string; rate: string }[] = [
@@ -10,8 +12,8 @@ const SPINE_NODES: { id: ResonanceZoneId; label: string; km: string; rate: strin
 ];
 
 /**
- * 2,000-kilometer Resonance spine diagram showing the black hole horizon
- * and the three proper-time zones.
+ * Animated 2,000-kilometer Resonance spine diagram showing the black hole horizon,
+ * the three proper-time zones, and a relativistic photon pulse climbing up-ship.
  */
 export default function ResonanceSpineVisualizer({
   activeZone,
@@ -20,24 +22,35 @@ export default function ResonanceSpineVisualizer({
   activeZone: ResonanceZoneId;
   onSelectZone: (zone: ResonanceZoneId) => void;
 }) {
+  const { motionActive: animate } = useAmbientMotion();
+
   return (
-    <div className="rounded-2xl border border-[var(--a-rule)] bg-[var(--a-well)] p-5 sm:p-6 space-y-4">
+    <div className="rounded-2xl border border-[var(--a-rule)] bg-[var(--a-well)]/88 backdrop-blur-[2px] p-5 sm:p-6 space-y-4">
       <div className="flex flex-wrap items-center justify-between gap-2">
         <p className="font-code text-[13px] font-semibold uppercase tracking-[0.16em] text-[var(--a-accent-text)]">
           Resonance · 2,000 km Gravitational Spine
         </p>
         <p className="font-code text-[13px] text-[var(--a-muted)]">
-          Black hole horizon ← → Deep space
+          r → rₛ (Horizon) ← → Deep space (2,000 km)
         </p>
       </div>
 
       {/* Spine Track */}
       <div className="relative py-2">
-        {/* Background gradient rail */}
-        <div
-          aria-hidden="true"
-          className="h-2 w-full rounded-full bg-gradient-to-r from-[#B45309] via-[#A3285C] to-[#344E7A] opacity-30"
-        />
+        <div className="relative h-2.5 w-full overflow-hidden rounded-full bg-[var(--a-ink)]/10">
+          <div
+            aria-hidden="true"
+            className="h-full w-full bg-gradient-to-r from-[#B45309] via-[#A3285C] to-[#344E7A] opacity-45"
+          />
+          {animate && (
+            <m.div
+              aria-hidden="true"
+              className="pointer-events-none absolute top-0 bottom-0 w-16 rounded-full bg-gradient-to-r from-transparent via-[#FE299E] to-transparent"
+              animate={{ left: ['-10%', '100%'] }}
+              transition={{ duration: 4.2, repeat: Infinity, ease: 'easeInOut' }}
+            />
+          )}
+        </div>
 
         {/* Clickable Zone Waypoints */}
         <div className="mt-4 grid grid-cols-1 gap-2.5 sm:grid-cols-3">
@@ -51,7 +64,7 @@ export default function ResonanceSpineVisualizer({
                 className={`min-h-[52px] rounded-xl border px-3.5 py-2.5 text-left transition-colors ${
                   selected
                     ? 'border-[var(--a-ink)] bg-[var(--a-surface)]'
-                    : 'border-[var(--a-rule)] bg-transparent hover:border-[var(--a-ink)]/50'
+                    : 'border-[var(--a-rule)] bg-[var(--a-surface)]/55 hover:border-[var(--a-ink)]/50'
                 }`}
               >
                 <span className="flex items-center justify-between gap-2">
