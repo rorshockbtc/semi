@@ -734,7 +734,7 @@ I'll keep the warm parts safe in between`,
     title: 'Leave a Note',
     zone: 'tip',
     zoneLabel: 'The Tip · Midship Boundary',
-    properTimeLabel: '1.65× faster · Lifetimes in a visit',
+    properTimeLabel: 'Tip clock · Years for every Old Country day',
     duration: '02:58',
     vaultFile: '07-semi-leave-a-note.mp3',
     size: 7117761,
@@ -744,21 +744,28 @@ I'll keep the warm parts safe in between`,
     sonicNote:
       'Upbeat indie-folk pop and driving acoustic guitar—bright chiming melodies, bouncy bassline, and soaring sing-along harmonies.',
     summary:
-      'Sung from the fast-burning Tip where generations live whole lifetimes in a flash—laughing through late nights, writing survival answers in the margins, and packing notes down-spine so the Old Country survives.',
+      'Sung by the fast-living researchers of The Tip, who spend their short, bright lives running the experiments the Old Country can’t wait for—and leave their answers on the table for whoever comes next.',
     essayTitle: 'Passing the Fire Down-Spine',
-    essaySubtitle: 'When a scientist from Slow Country rides up to The Tip, whole lifetimes pass before the kettle cools.',
+    essaySubtitle: 'Why the Old Country depends on lives lived quickly at The Tip.',
     essaySections: [
       {
-        heading: 'Lifetimes in a single visit',
+        heading: 'Why the Old Country needs The Tip',
         paragraphs: [
-          'When a researcher from Slow Country travels up-spine past the Midship boundary into The Tip to request survival experiments, they step into a season that moves at a breathtaking clip. Up here, entire lifetimes unfold in the span of a single visit down-hull.',
-          'Rather than mourning the speed of their clocks, the people of The Tip lean into it—laughing through late nights with chalk dust, yellow legal pads, and hot coffee, racing to finish the math before their generation turns over.',
+          'Aboard Resonance, the Old Country is where humanity keeps its best minds—physicists, historians, artists—living long, slow days near the horizon so they can look after the ship across centuries. But a slow clock has a cost: an experiment that needs thirty years of work still needs thirty years down there.',
+          'Two thousand kilometers up-spine, time runs far faster. A few days in Slow Country can be years or even decades at The Tip. So the Old Country sends its hardest questions up the hull, and The Tip spends whole human lifetimes answering them.',
         ],
       },
       {
-        heading: 'Notes in the courier tube',
+        heading: 'A visitor from down-spine',
         paragraphs: [
-          'Everything they discover gets written down in ink and packed into physical courier canisters bound for the Old Country. Leaving a note on the lab table is how the fast-living frontier keeps the rest of humanity alive long enough to make it home.',
+          'In the novel, a scientist from the Old Country travels up to The Tip to ask for experiments—and, honestly, for inspiration. What the visitor finds isn’t a grim laboratory. It’s sunlight through kitchen blinds, chalk dust, hot coffee, and people laughing past midnight because they know their season is short.',
+          '“Leave a Note” is their song. Nobody up here expects to be around when the results finally matter. They write the answers in the margins, pack the notes down-spine, and hand the fire to the next ones in town.',
+        ],
+      },
+      {
+        heading: 'Not a sad song',
+        paragraphs: [
+          'The chorus holds the whole ethic of The Tip: “Leave a note on the table for the next ones in town.” It’s the sound of people who decided that a short life spent on something that matters is a full one—and who refuse to waste a minute of it feeling sorry for themselves.',
         ],
       },
     ],
@@ -833,7 +840,7 @@ Leave a note on the table`,
     lyricNotes: [
       {
         line: 'Chalk dust summer burning fast away',
-        note: 'At The Tip, proper time runs roughly 1.65× faster than Slow Country—an entire summer or generation flashes past while lower decks barely turn a page.',
+        note: 'At The Tip, a single Old Country week can be decades—a whole “summer” of research burns past while the lower decks barely turn a page.',
       },
       {
         line: 'Leave a note on the table / The light out in the lab / For the next ones in town',
@@ -861,21 +868,29 @@ Leave a note on the table`,
     sonicNote:
       'Crisp rhythmic ticking percussion and warm indie-pop synth pulse—intimate verse storytelling lifting into an urgent, propulsive chorus.',
     summary:
-      'New York, 1992: Elijah meets Hannah—a lighting designer racing to the Majestic Theatre—over coffee, never guessing how a one-cent rounding error echoes across centuries.',
+      'New York, 1992. A sleepless junior analyst named Elijah and a lighting designer named Hannah meet under a flickering deli light—two people who notice the tiny things everyone else rounds away.',
     essayTitle: 'The Smudge Upon the Page',
-    essaySubtitle: 'Elijah and Hannah in 1992, long before Resonance ever left the cradle.',
+    essaySubtitle: 'Elijah and Hannah in 1992—the night the novel begins.',
     essaySections: [
       {
-        heading: 'Before the ship',
+        heading: 'Where the novel begins',
         paragraphs: [
-          'Persist opens far from any black hole, in the humid August heat of 1992 New York. Elijah—a young trader stepping around spilled produce and Spin magazine headlines—asks a stranger named Hannah for coffee before she has to run to a focus call at the Majestic Theatre.',
-          'Neither of them will live to see the 2,000-kilometer ship Resonance launch generations later. Yet their chance meeting—and the tiny one-cent rounding error on a paper tab—sets a quiet ripple in motion that outlasts them by centuries.',
+          'Persist doesn’t open on a starship. It opens on Avenue B in the August heat of 1992—Clinton’s bus tour on the newsstands, Nevermind leaking out of a passing car. Elijah is twenty-five, a junior analyst who has been awake since three in the morning hunting a one-cent discrepancy in a million-dollar capital flow.',
+          'In a corner deli, under a failing fluorescent tube, he loses his patience over a botched sandwich order and that awful buzzing light. A woman at the end of the counter laughs—because she hates the light too. Her name is Hannah. She lights shows at the Majestic Theatre. That night they meet at The Copperhead, a basement bar on Seventh Street that only uses incandescent bulbs.',
+        ],
+      },
+      {
+        heading: 'Two people who live in the small differences',
+        paragraphs: [
+          'Elijah sees money as signal—tiny discrepancies everyone else ignores. Hannah literally sees more color than other people; where her director sees “blue,” she sees violet spill and burning orange. Both of them care about the small gaps nobody else notices.',
+          '“One Cent” is sung from inside that first night: two drinks in a basement bar, a handshake, and a decimal so small it barely registers. Neither of them knows it yet, but what starts between them will travel farther than either of them ever will.',
         ],
       },
       {
         heading: 'Every tiny decimal',
         paragraphs: [
-          'Across an infinite timeline, a single cent on a receipt or a millimeter off at midnight looks like nothing at all. Five hundred miles—or five hundred kilometers—down the road, that invisible decimal decides where humanity wakes up.',
+          'The second verse looks ahead without saying so: “500 miles down the road, missing by a hair’s breadth.” Persist is a book about how small errors—and small kindnesses—compound over enormous distances. And Resonance is a very long road.',
+          'You can read the opening chapter, “Light,” right here on the site.',
         ],
       },
     ],
@@ -938,16 +953,16 @@ Keep the rhythm running
 Along for the ride`,
     lyricNotes: [
       {
-        line: '1992 outside / Two drinks on a paper tab / Wound it down a single cent',
-        note: 'Rooted in the novel’s 1992 flashback chapter introducing Elijah and Hannah—decades before Resonance is built.',
+        line: 'Basement bar at Seventh Street / Two drinks on a paper tab',
+        note: 'The Copperhead—a basement bar on Seventh Street lit only by incandescent bulbs—where Elijah and Hannah share their first martinis in the novel’s opening chapter.',
       },
       {
         line: '500 miles down the road / Missing by a hair’s breadth',
-        note: 'Foreshadows the 500-kilometer hull & trajectory discrepancy aboard Resonance—how small rounding errors compound across cosmic distance.',
+        note: 'A quiet nod to one of the novel’s central ideas: tiny errors compound across enormous distances—like the length of a 2,000-kilometer ship.',
       },
       {
         line: 'Every tiny decimal / Changes where we’re going to',
-        note: 'Connects Elijah’s 1992 world of markets and stage lights to the relativistic fate of the ship.',
+        note: 'Elijah hunts one-cent discrepancies for a living. The song turns his job into a philosophy.',
       },
     ],
   },
@@ -956,8 +971,8 @@ Along for the ride`,
     slug: 'violet-bleed',
     title: 'Violet Bleed',
     zone: 'midship',
-    zoneLabel: 'Midship · Stretchy Time Seams',
-    properTimeLabel: 'Tetrachromacy & heterochromia · Seeing the seams',
+    zoneLabel: 'Aboard Resonance · Seeing the seams',
+    properTimeLabel: 'A fourth color cone · Inherited from Hannah',
     duration: '02:41',
     vaultFile: '09-semi-violet-bleed.mp3',
     size: 6448641,
@@ -967,15 +982,28 @@ Along for the ride`,
     sonicNote:
       'Driven 118-BPM indie-electronic pulse with bright guitar seams and an urgent, glowing chorus.',
     summary:
-      'Discovering that heterochromia and extra-color vision inherited from Elijah and Hannah’s 1992 meeting let certain people aboard Resonance literally see where spacetime stretches.',
+      'Generations after Elijah and Hannah, some people aboard Resonance are born with Hannah’s gift—extra color vision that lets them see exactly where time stretches inside the ship.',
     essayTitle: 'Seeing the Stretched Seams',
-    essaySubtitle: 'Heterochromia, tetrachromacy, and the hidden violet edge of time pockets.',
+    essaySubtitle: 'Hannah’s fourth color cone, carried all the way to the edge of a black hole.',
     essaySections: [
       {
-        heading: 'Inherited from 1992',
+        heading: 'Hannah’s eyes',
         paragraphs: [
-          'Generations after Elijah and Hannah crossed paths in 1992 New York, a genetic trait—heterochromia paired with rare tetrachromatic color sensitivity—surfaces aboard Resonance. To almost everyone else, a Midship bulkhead looks like plain painted steel.',
-          'To those carrying that extra spectral band, the edges of a gravitational time pocket shimmer with a distinct violet bleed—making invisible temporal cliffs suddenly visible to the naked eye.',
+          'In the novel’s opening chapter, Hannah is a lighting designer with tetrachromacy—a fourth kind of color cone in her eyes. She sees violets and oranges other people don’t have words for, and she spends her days arguing with directors who can’t see what she sees.',
+          'What begins between her and Elijah in 1992 carries that trait forward. It travels down the generations—through wars and information revolutions—all the way aboard Resonance.',
+        ],
+      },
+      {
+        heading: 'The violet bleed',
+        paragraphs: [
+          'Near a black hole, light doesn’t just dim. It stretches and bends. To most people aboard the ship, the edge of a time pocket looks like ordinary painted steel. To someone carrying Hannah’s fourth cone, the edge glows—a deep violet bleed running down the seam where time bends.',
+          'Some of them carry a visible mark of it: mismatched eyes, heterochromia. In the novel, a father named Kiran teaches his son Leo to turn down the ship’s visual dampeners and trust his own eyes instead—“Don’t look at where the light is brightest. Look at the edges. Look for the bleed.”',
+        ],
+      },
+      {
+        heading: 'A hidden inheritance switching on',
+        paragraphs: [
+          '“Violet Bleed” is the moment of discovery: walking down a gray hallway everyone else squints through and suddenly seeing the warning lines nobody else can. “Red and green and blue only tell part.” It’s a song about a gift that waited centuries to matter.',
         ],
       },
     ],
@@ -987,7 +1015,7 @@ Funny what your eyes will do when the map goes blind
 Waking up a brand new earth right behind your mind
 
 [Pre-Chorus]
-Three times on the old VCD
+Three times on the old VCR
 Never told the whole, now the edges start to hum
 Pulling at my soul
 
@@ -1004,7 +1032,7 @@ Every bend along the steel paints a warning line
 Everybody misses it, looks like home to mine
 
 [Pre-Chorus]
-Three times on the old VCD
+Three times on the old VCR
 Never told the whole, now the edges start to hum
 Pulling at my soul
 
@@ -1037,7 +1065,7 @@ Keep the rhythm moving down the corridor`,
       },
       {
         line: 'Red and green and blue only tell part / Open up the hidden band',
-        note: 'Tetrachromacy—four cone receptors instead of three—traces directly back to Elijah and Hannah’s 1992 genetic handshake.',
+        note: 'Tetrachromacy—four kinds of color cones instead of three—traces back to Hannah, the lighting designer from the novel’s opening chapter.',
       },
     ],
   },
@@ -1057,15 +1085,27 @@ Keep the rhythm moving down the corridor`,
     sonicNote:
       'Upbeat 122-BPM celebratory indie-folk rock—porch-light warmth and gang-vocal party chorus hiding a bittersweet relativistic goodbye.',
     summary:
-      'The Tip’s young researchers throw Marrok a bright, loud goodbye party—knowing that once his shuttle drops back to Slow Country, they’ll be old or gone before he ever returns.',
+      'Marek, a researcher from the Old Country, finishes his work at The Tip, and the young scientists throw him a goodbye party. It sounds like a great weekend. Underneath, everyone knows that once his shuttle heads back down-spine, they’ll be old—or gone—before he could ever return.',
     essayTitle: 'A Whole Life Before the Flight',
-    essaySubtitle: 'Marrok’s farewell party at The Tip, where a weekend goodbye is a lifetime.',
+    essaySubtitle: 'Marek’s farewell party at The Tip, where a weekend goodbye is a lifetime.',
     essaySections: [
       {
-        heading: 'Party with a hidden clock',
+        heading: 'A visitor on a slower clock',
         paragraphs: [
-          'When Marrok travels up-spine from Slow Country to gather research and work alongside the newest generation of scientists at The Tip, nobody wastes a second on stiff goodbyes. They string up lights, pour drinks, and turn a single weekend into a celebration.',
-          'Beneath the laughter sits the unspoken math of Resonance: as soon as Marrok boards the shuttle back to his slow-clocked home, years and decades will race past at The Tip. By the time he could ever ride back up, everyone raising a glass tonight will be old—or already gone.',
+          'Marek comes up from the Old Country to gather research and work alongside The Tip’s newest crop of scientists. For him, it’s a short trip. For them, it’s a real stretch of a much faster life—long enough to become close friends.',
+        ],
+      },
+      {
+        heading: 'Why they throw a party',
+        paragraphs: [
+          'Everyone at The Tip understands the math. When Marek boards the shuttle home, a few of his days will become years and decades up here. If he ever rides back up, the people raising a glass tonight will be grey-haired, or already gone.',
+          'So nobody gives a speech. They put a record on side two, stick Polaroids to the fridge, and pour out the rest of the bottle. “You get a lifetime in forty-eight when everybody already knows.”',
+        ],
+      },
+      {
+        heading: 'A party song with a second meaning',
+        paragraphs: [
+          'Heard cold, “Borrowing Tomorrow” is a summer-weekend anthem. If you know Resonance, every line is a goodbye. Nobody’s making five-year plans because five years at The Tip is half a career. The whole party is a lifetime squeezed in before the flight.',
         ],
       },
     ],
@@ -1122,11 +1162,11 @@ Yeah, we’re spending it tonight`,
     lyricNotes: [
       {
         line: 'Nobody’s making five-year plans / Nobody’s saving up for spring',
-        note: 'For Tip researchers throwing Marrok a farewell, five years is practically a generation away once his shuttle drops back toward the horizon.',
+        note: 'For Tip researchers throwing Marek a farewell, five years is practically a generation away once his shuttle drops back toward the horizon.',
       },
       {
         line: 'You get a lifetime in forty-eight / When everybody already knows',
-        note: 'Everyone at the party understands they won’t see Marrok again until they are elderly—if they are still alive at all.',
+        note: 'Everyone at the party understands they won’t see Marek again until they are elderly—if they are still alive at all.',
       },
     ],
   },
@@ -1146,15 +1186,27 @@ Yeah, we’re spending it tonight`,
     sonicNote:
       'Steady 111-BPM acoustic road-song—rolling folk-rock snare, dusty acoustic strumming, and resolute harmony.',
     summary:
-      'Boarding the shuttles to the US generation ship Resonance as Earth collapses—leaving behind the only home humanity ever knew, sorted into Tip, Midship, and Old Country.',
+      'When Earth can no longer hold everyone, families line up for the shuttles to Resonance—America’s ark. It sounds like a road song about leaving a small town. It’s really about leaving the planet.',
     essayTitle: 'Shuttle Ascent to Resonance',
-    essaySubtitle: 'Leaving a collapsing Earth behind for a 2,000-kilometer hull in orbit.',
+    essaySubtitle: 'Leaving a collapsing Earth for a 2,000-kilometer hull in orbit.',
     essaySections: [
       {
-        heading: 'Boarding the US ark',
+        heading: 'An ark for one country',
         paragraphs: [
-          'When Earth’s collapse becomes irreversible, not every nation can build a generation ship. Resonance is the United States vessel—2,000 kilometers of steel assembled to carry as much of humanity’s future and memory as can fit.',
-          'On the surface, the song sounds like packing up a house and hitting the highway. Underneath, it is the moment families board the orbital shuttles—bound for the metropolitan Tip, the Southern and Southwestern Midship, or the Old Country where scientists and artists will guard the long horizon.',
+          'In Persist, Earth is collapsing, and not every nation can build a ship. Resonance is the United States’ answer: 2,000 kilometers of hull built to carry as many people, as much knowledge, and as much culture as it possibly can.',
+        ],
+      },
+      {
+        heading: 'Who goes where',
+        paragraphs: [
+          'Where you’re placed aboard the ship shapes everything that follows. By random happenstance, people from the big metropolitan areas end up at The Tip. Families from the South and Southwest fill the Midship. The Old Country gets a mix of ordinary citizens and humanity’s best minds—scientists, artists, keepers of culture—who choose its long, slow days so they can help the generations that come after.',
+          'Nobody boarding the shuttles understands yet what those placements will mean—how one family’s week will be another family’s decade.',
+        ],
+      },
+      {
+        heading: 'Why it sounds like a road song',
+        paragraphs: [
+          'The lyrics never mention space. Pack the last box, leave the key under the mat, watch the town shrink to a marble in the rearview. That’s on purpose: leaving Earth would feel like every move you’ve ever made—just with no way back. “Ain’t no turning back once the wheels go round.”',
         ],
       },
     ],
@@ -1247,15 +1299,28 @@ We’re already gone`,
     sonicNote:
       '82-BPM acoustic folk ballad—fingerpicked guitar, warm fiddle-like sustain, and a grounded, timeless chorus.',
     summary:
-      'Ana and her injured son Pyotr in the ancient mud—the forgotten, nameless moment a mother’s desperation to reach medicine gave humanity the wheel.',
+      'Thousands of years before Resonance, a mother named Ana is dragging her feverish son Pyotr through a freezing marsh toward the healer. Her sledge is stuck. What she builds to save him is the wheel.',
     essayTitle: 'What Nobody Ever Sang About',
-    essaySubtitle: 'Ana and Pyotr, the mud-heavy sledge, and the invention of the wheel.',
+    essaySubtitle: 'Ana, Pyotr, a sinking sledge, and the invention of the wheel.',
     essaySections: [
       {
-        heading: 'A mother’s desperation',
+        heading: 'Everybody uses it. Nobody knows who made it.',
         paragraphs: [
-          'Long before cities, markets, or starships, a mother named Ana is trying to drag her injured son Pyotr through freezing mud and reeds toward a distant settlement for medicine. Every inch on a flat wooden sledge feels impossible.',
-          'Everyone on Earth—and everyone aboard Resonance—depends on the wheel, yet nobody knows the name of the person who first carved one. In Persist, that breakthrough wasn’t born in a workshop; it was born out of a mother’s refusal to let her child die in the clay.',
+          'The wheel may be the most important invention in human history, and it has no author—no name, no story, no song. One of the oldest wooden wheels ever found was pulled out of the Ljubljana Marshes in Slovenia, roughly five thousand years old. Persist imagines who might have made it, and why.',
+        ],
+      },
+      {
+        heading: 'A mother and a stuck sledge',
+        paragraphs: [
+          'Ana’s son Pyotr is seven winters old—too big to carry, too hurt to walk, burning with fever. Her husband Urdjo is away at the hunt. The healer’s hut is hours away across the mud, and her flat sledge, built for mountain snow, keeps sinking.',
+          'Then a half-sunk log rolls under the runner. It doesn’t fight the mud; it walks across it. Ana tries birch rollers, but they keep slipping out the back. So she does something no one has done: she cuts two circles of birch, burns and scrapes a hole through their hearts, and binds them to an ash axle with strips of the deer hide wrapped around her son.',
+        ],
+      },
+      {
+        heading: 'The ground lets him go',
+        paragraphs: [
+          'The sledge stops dragging. Behind her, the tracks become two thin, clean lines. She reaches the healer’s fire, and she doesn’t care that she has just changed the future of her people. She only cares that Pyotr is still breathing.',
+          '“Circle” sings that moment back to her. Every road humanity ever built—including the 2,000-kilometer one aboard Resonance—starts at a waterside like hers. You can read the full chapter here on the site.',
         ],
       },
     ],
@@ -1323,11 +1388,11 @@ Started at the waterside`,
     lyricNotes: [
       {
         line: 'Seven winters on your back / Every timber where we sank',
-        note: 'Ana dragging her injured son Pyotr on a heavy wooden sledge through freezing marshland toward medicine.',
+        note: 'Pyotr is seven winters old in the novel—too big for Ana to carry, too hurt to walk—as she hauls him through the marsh on a sinking sledge.',
       },
       {
         line: 'Cut the sinew straight and true / Slide the axle through the grain',
-        note: 'The forgotten origin of the wheel—born from maternal sacrifice long before recorded history.',
+        note: 'In the chapter, Ana cuts two birch circles, burns a hole through their centers, and binds them to an ash axle with strips of her son’s deer-hide blanket.',
       },
     ],
   },

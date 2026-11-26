@@ -11,6 +11,8 @@ import PersistPhysicsScrollBand from '@/components/persist/PersistPhysicsScrollB
 import ProperTimeClocks from '@/components/persist/ProperTimeClocks';
 import ResonanceSpineVisualizer from '@/components/persist/ResonanceSpineVisualizer';
 import { usePersistAccess } from '@/components/persist/usePersistAccess';
+import PersistUpdatesSignup from '@/components/persist/PersistUpdatesSignup';
+import { PERSIST_CHAPTERS } from '@/data/persist-chapters';
 import {
   PERSIST_ALBUM_META,
   PERSIST_TRACKS,
@@ -98,6 +100,12 @@ export default function PersistIndexClient() {
                 className="inline-flex min-h-[52px] items-center gap-2 rounded-full border border-[var(--a-rule)] bg-[var(--a-surface)] px-5 text-[15px] font-semibold text-[var(--a-ink)] no-underline transition-colors hover:border-[var(--a-ink)]"
               >
                 <BookOpen className="h-4 w-4" aria-hidden="true" /> Read the story of Resonance
+              </a>
+              <a
+                href="#read"
+                className="inline-flex min-h-[52px] items-center gap-2 px-2 text-[15px] font-semibold text-[var(--a-ink)] underline-offset-4 hover:underline"
+              >
+                Read a chapter <ArrowRight className="h-4 w-4" aria-hidden="true" />
               </a>
             </div>
           </m.div>
@@ -273,6 +281,51 @@ export default function PersistIndexClient() {
 
           {/* SCROLL-DRIVEN RELATIVISTIC PHYSICS BAND (REAL EQUATIONS + DIAGRAMS) */}
           <PersistPhysicsScrollBand />
+        </div>
+      </section>
+
+      {/* READ FROM THE NOVEL + WORK IN PROGRESS */}
+      <section id="read" data-testid="persist-read-section" className="scroll-mt-24 bg-transparent pt-16 sm:pt-24">
+        <div className={`${wrap} space-y-10`}>
+          <div className="rounded-2xl border border-[var(--a-rule)]/70 bg-[var(--a-bg)]/88 backdrop-blur-[2px] p-6 sm:p-8">
+            <p className="font-sans text-[13px] font-semibold uppercase tracking-[0.22em] text-[var(--a-accent-text)]">
+              Read from the novel
+            </p>
+            <h2 className="mt-3 font-display text-[clamp(1.85rem,1.3rem+2.5vw,3rem)] font-bold leading-[1.06] tracking-[-0.02em] text-[var(--a-ink)]">
+              Two chapters, free to read.
+            </h2>
+            <p className="mt-3 max-w-[62ch] text-[17px] leading-relaxed text-[var(--a-ink)]/90">
+              The songs make more sense once you know the world. Here are two early chapters from{' '}
+              <em>Persist</em>—lightly edited drafts, shared so you can step inside before the book is
+              finished.
+            </p>
+            <ul className="mt-8 grid gap-4 md:grid-cols-2">
+              {PERSIST_CHAPTERS.map((c) => (
+                <li key={c.slug}>
+                  <Link
+                    href={`/persist/read/${c.slug}`}
+                    data-testid={`persist-read-${c.slug}`}
+                    className="group flex h-full flex-col rounded-xl border border-[var(--a-rule)] bg-[var(--a-surface)] p-5 no-underline transition-colors hover:border-[var(--a-ink)]"
+                  >
+                    <span className="font-code text-[13px] uppercase tracking-[0.16em] text-[var(--a-accent-text)]">
+                      {c.label} · {c.readingMinutes} min
+                    </span>
+                    <span className="mt-2 font-display text-[26px] font-bold leading-tight text-[var(--a-ink)]">
+                      {c.title}
+                    </span>
+                    <span className="mt-1 font-code text-[13px] text-[var(--a-muted)]">{c.era}</span>
+                    <span className="mt-3 flex-1 text-[16px] leading-relaxed text-[var(--a-ink)]/85">{c.dek}</span>
+                    <span className="mt-4 inline-flex items-center gap-1.5 text-[15px] font-semibold text-[var(--a-ink)]">
+                      <BookOpen className="h-4 w-4" aria-hidden="true" /> Read the chapter
+                      <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" aria-hidden="true" />
+                    </span>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <PersistUpdatesSignup />
         </div>
       </section>
 

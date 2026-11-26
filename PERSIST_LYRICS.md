@@ -470,7 +470,7 @@ Along for the ride
 ---
 
 ## 09 · Violet Bleed
-*Midship · Stretchy Time Seams · 02:41*
+*Aboard Resonance · Seeing the seams · 02:41*
 
 [Verse 1]
 Step off the bus right about noon
@@ -480,7 +480,7 @@ Funny what your eyes will do when the map goes blind
 Waking up a brand new earth right behind your mind
 
 [Pre-Chorus]
-Three times on the old VCD
+Three times on the old VCR
 Never told the whole, now the edges start to hum
 Pulling at my soul
 
@@ -497,7 +497,7 @@ Every bend along the steel paints a warning line
 Everybody misses it, looks like home to mine
 
 [Pre-Chorus]
-Three times on the old VCD
+Three times on the old VCR
 Never told the whole, now the edges start to hum
 Pulling at my soul
 

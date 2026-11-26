@@ -37,7 +37,7 @@ const PHYSICS_EQUATIONS = [
   'v = 0.99c  ·  γ ≈ 7.09',
   'rₛ = 2GM / c²',
   'ds² = −(1 − rₛ/r)c²dt² + …',
-  'Δt_tip / Δt_slow ≈ 1.65',
+  'Δt_tip / Δt_slow ≫ 1',
   'L = 2,000 km · Resonance',
 ];
 

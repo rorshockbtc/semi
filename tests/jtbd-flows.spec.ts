@@ -555,4 +555,41 @@ test.describe('Semi (; - ]) Multi-Page Interactive JTBD Suite', () => {
     await page.getByRole('button', { name: 'Close Deluxe Edition dialog' }).click();
     await expect(modal).not.toBeVisible();
   });
+
+  test('JTBD 8: Persist reader opens a free chapter, reaches the song, and subscribes for novel updates', async ({
+    page,
+  }) => {
+    const errors: string[] = [];
+    page.on('pageerror', (e) => errors.push(e.message));
+
+    await page.goto('/persist', { waitUntil: 'networkidle' });
+    const read = page.getByTestId('persist-read-section');
+    await read.scrollIntoViewIfNeeded();
+    await expect(page.getByTestId('persist-read-circle')).toBeVisible();
+    await expect(page.getByTestId('persist-read-light')).toBeVisible();
+
+    await page.getByTestId('persist-read-circle').click();
+    await expect(page).toHaveURL(/\/persist\/read\/circle$/);
+    const chapter = page.getByTestId('persist-chapter-circle');
+    await expect(chapter.getByRole('heading', { level: 1, name: 'Circle' })).toBeVisible();
+    await expect(chapter).toContainText('The ground has let you go.');
+    await expect(chapter).not.toContainText('Peter');
+
+    const songLink = page.getByRole('link', { name: /The song\s*Circle/ });
+    await expect(songLink).toHaveAttribute('href', '/persist/circle');
+
+    const signup = page.getByTestId('persist-updates-signup');
+    await signup.scrollIntoViewIfNeeded();
+    await page.getByTestId('persist-topic-semi').uncheck();
+    await page.getByTestId('persist-updates-input').fill('reader@playwright.local');
+    await page.getByTestId('persist-updates-submit').click();
+    await expect(page.getByTestId('persist-updates-success')).toBeVisible();
+
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto('/persist/read/light', { waitUntil: 'networkidle' });
+    const overflow = await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
+    expect(overflow).toBeLessThanOrEqual(0);
+    expect(errors).toEqual([]);
+  });
 });
+

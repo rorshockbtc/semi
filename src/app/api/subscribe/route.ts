@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { sendSemiWelcomeEmail } from '@/lib/mailer';
-import { upsertSubscriber } from '@/lib/subscribers';
+import { normalizeTopics, recordSubscriberTopics, upsertSubscriber } from '@/lib/subscribers';
 
 export const dynamic = 'force-dynamic';
 
@@ -12,8 +12,9 @@ function isSyntheticTestEmail(email: string): boolean {
 
 export async function POST(req: Request) {
   try {
-    const body = (await req.json().catch(() => ({}))) as { email?: unknown };
+    const body = (await req.json().catch(() => ({}))) as { email?: unknown; topics?: unknown };
     const rawEmail = typeof body.email === 'string' ? body.email.trim().toLowerCase() : '';
+    const topics = normalizeTopics(body.topics);
 
     if (!rawEmail || rawEmail.length > 254 || !EMAIL_RE.test(rawEmail)) {
       return NextResponse.json(
@@ -23,6 +24,11 @@ export async function POST(req: Request) {
     }
 
     const { record, isNewOrReactivated, storage } = await upsertSubscriber(rawEmail);
+    try {
+      await recordSubscriberTopics(rawEmail, topics);
+    } catch (topicErr) {
+      console.warn('[Subscribe] Topic save warning (subscriber still saved):', topicErr);
+    }
 
     let emailDispatched = false;
     if (isNewOrReactivated && !isSyntheticTestEmail(rawEmail)) {

@@ -192,3 +192,51 @@ export async function unsubscribeByToken(token: string): Promise<boolean> {
   writeFallbackSubscribers(list);
   return true;
 }
+
+export type SubscriberTopic = 'semi' | 'persist-novel' | 'persist-album';
+
+export const SUBSCRIBER_TOPICS: readonly SubscriberTopic[] = ['semi', 'persist-novel', 'persist-album'];
+
+export function normalizeTopics(raw: unknown): SubscriberTopic[] {
+  if (!Array.isArray(raw)) return ['semi'];
+  const picked = raw.filter((t): t is SubscriberTopic =>
+    typeof t === 'string' && (SUBSCRIBER_TOPICS as readonly string[]).includes(t)
+  );
+  return picked.length ? Array.from(new Set(picked)) : ['semi'];
+}
+
+/**
+ * Records which updates a subscriber asked for (Semi’s songs, the Persist novel, the Persist album).
+ * Stored in a separate table so the original `subscribers` schema stays untouched.
+ */
+export async function recordSubscriberTopics(rawEmail: string, topics: SubscriberTopic[]): Promise<void> {
+  const email = rawEmail.trim().toLowerCase();
+  const now = new Date().toISOString();
+  const d1 = await getD1Binding();
+  if (d1) {
+    await d1
+      .prepare(
+        'CREATE TABLE IF NOT EXISTS subscriber_topics (email TEXT NOT NULL, topic TEXT NOT NULL, created_at TEXT NOT NULL, PRIMARY KEY (email, topic))'
+      )
+      .bind()
+      .run();
+    for (const topic of topics) {
+      await d1
+        .prepare('INSERT OR IGNORE INTO subscriber_topics (email, topic, created_at) VALUES (?1, ?2, ?3)')
+        .bind(email, topic, now)
+        .run();
+    }
+    return;
+  }
+
+  try {
+    const file = getFallbackFilePath().replace(/subscribers\.json$/, 'subscriber-topics.json');
+    const existing: Record<string, string[]> = fs.existsSync(file)
+      ? JSON.parse(fs.readFileSync(file, 'utf8'))
+      : {};
+    existing[email] = Array.from(new Set([...(existing[email] ?? []), ...topics]));
+    fs.writeFileSync(file, JSON.stringify(existing, null, 2), 'utf8');
+  } catch {
+    // Ignore read-only filesystem errors when running on ephemeral serverless
+  }
+}
