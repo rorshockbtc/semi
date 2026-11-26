@@ -121,7 +121,7 @@ export default function PersistIndexClient() {
         className="scroll-mt-20 border-y border-[var(--a-rule)] bg-transparent py-16 sm:py-24"
       >
         <div className={`${wrap} space-y-14`}>
-          <div className="grid gap-10 lg:grid-cols-12 lg:items-start">
+          <div className="grid gap-10 lg:grid-cols-12 lg:items-start rounded-2xl bg-[var(--a-bg)]/84 backdrop-blur-[2px] p-6 sm:p-8 border border-[var(--a-rule)]/70">
             <div className="lg:col-span-5 space-y-4">
               <p className="font-sans text-[13px] font-semibold uppercase tracking-[0.22em] text-[var(--a-accent-text)]">
                 The world of the novel · Resonance
@@ -134,34 +134,31 @@ export default function PersistIndexClient() {
               </p>
             </div>
 
-            <div className="lg:col-span-7 space-y-5 max-w-[66ch] text-[17px] sm:text-[18px] leading-[1.78] text-[var(--a-ink)]/90">
+            <div className="lg:col-span-7 space-y-5 max-w-[66ch] text-[17px] sm:text-[18px] leading-[1.78] text-[var(--a-ink)]/95">
               <p>
-                <strong className="font-semibold text-[var(--a-ink)]">Resonance</strong> is a
-                2,000-kilometer-long generation ship—roughly the length of Alaska—held in a steep
-                gravitational gradient just outside the event horizon of a supermassive black hole.
-                Because the ship is so vast and sits so close to the gravity well, time does not
-                pass at the same speed from one end of the hull to the other.
+                When Earth collapses, not every nation can build an ark.{' '}
+                <strong className="font-semibold text-[var(--a-ink)]">Resonance</strong> is the
+                United States generation ship—2,000 kilometers long, roughly the length of Alaska,
+                held in a steep gravitational gradient just outside a supermassive black hole.
               </p>
               <p>
-                Down in <strong className="font-semibold text-[var(--a-ink)]">Slow Country</strong>{' '}
-                (the Old Country), closest to the black hole, gravity pulls so hard that every
-                second feels thick and unhurried. Travel up-ship to{' '}
-                <strong className="font-semibold text-[var(--a-ink)]">The Tip</strong> for a week of
-                work or friendship, and you can return home to find the people you just met have
-                already lived entire lifetimes and passed away. Between them lies{' '}
-                <strong className="font-semibold text-[var(--a-ink)]">The Midship</strong>—a
-                volatile corridor of localized time pockets where stepping three meters past a
-                painted doorway can cost you ten winters.
+                Because the ship spans so far out from the event horizon, time fractures into three
+                clocks. Down in <strong className="font-semibold text-[var(--a-ink)]">Slow Country</strong>{' '}
+                (the Old Country), where random citizens live alongside humanity’s best physicists,
+                artists, and minds, a few days stretch across months or years in{' '}
+                <strong className="font-semibold text-[var(--a-ink)]">The Midship</strong> (settled
+                by folks from the South and Southwest, where pockets oscillate erratically between
+                Slow Country and Tip speed—never faster than The Tip) and years to decades at{' '}
+                <strong className="font-semibold text-[var(--a-ink)]">The Tip</strong> (major
+                metropolitan areas, physically the fastest-clocked frontier aboard the ship).
               </p>
               <p>
                 Built as a 600-page braided narrative, the novel{' '}
-                <em>Persist</em> flashes back between pivotal moments in
-                human history—how foundational breakthroughs like the wheel (Ana and her son Pyotr
-                pulling a sledge through ancient mud) or artificial light first changed how we
-                measure effort and time—and the lived reality aboard{' '}
-                <em>Resonance</em>, where characters like Jax, Leo, and Marek
-                confront a cold ship AI that flattens living memory into spotless data. Each song on
-                this album is a dispatch from somewhere along that timeline.
+                <em>Persist</em> flashes back between pivotal moments in human history—Elijah and
+                Hannah in 1992, Ana and her son Pyotr inventing the wheel in the ancient mud, and
+                humanity boarding the shuttles—and the lived reality aboard{' '}
+                <em>Resonance</em>, where Old Country physicists run long-horizon survival
+                experiments fed by whole lifetimes of research racing down from The Tip.
               </p>
             </div>
           </div>

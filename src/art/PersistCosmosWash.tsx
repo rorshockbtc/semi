@@ -201,7 +201,7 @@ export default function PersistCosmosWash() {
         bornAt: now,
         lifeMs: opts?.lifeMs ?? 11500 + Math.random() * 3500,
         lobes,
-        peakAlpha: opts?.alpha ?? 0.24,
+        peakAlpha: opts?.alpha ?? 0.11,
       });
       if (washes.length > (isMobile ? 18 : 34)) {
         washes.shift();
@@ -232,10 +232,10 @@ export default function PersistCosmosWash() {
           lifeMs,
           kind: 'equation',
           equation: eq,
-          scale: isMobile ? 0.88 : 1,
+          scale: isMobile ? 0.86 : 0.96,
           rotation: (Math.random() - 0.5) * 0.05,
           color,
-          peakAlpha: 0.48,
+          peakAlpha: 0.28,
         });
       } else {
         const diag = DIAGRAM_KINDS[diagramIdx % DIAGRAM_KINDS.length];
@@ -249,10 +249,10 @@ export default function PersistCosmosWash() {
           lifeMs,
           kind: 'diagram',
           diagram: diag,
-          scale: isMobile ? 0.84 : 1.08,
+          scale: isMobile ? 0.82 : 1.02,
           rotation: (Math.random() - 0.5) * 0.24,
           color,
-          peakAlpha: 0.52,
+          peakAlpha: 0.3,
         });
       }
 
@@ -274,7 +274,7 @@ export default function PersistCosmosWash() {
       const c = nextColor();
       spawnNebula(width * pt.rx, height * pt.ry, 10, 3, seedNow - 800 + i * 70, {
         radiusScale: 1.45,
-        alpha: 0.26,
+        alpha: 0.11,
         lifeMs: 18000,
         color: c,
       });
@@ -597,51 +597,69 @@ export default function PersistCosmosWash() {
       ctx.clearRect(0, 0, width, height);
       ctx.globalCompositeOperation = 'multiply';
 
-      // 1. Curved Spacetime Geodesic Grid (warps around cursor + scrolls in parallax)
-      const gridStep = width < 640 ? 78 : 104;
+      // 1. 3D Curved Spacetime Manifold Mesh (projects 3D gravitational funnel depression + scroll wave)
+      const gridStep = width < 640 ? 64 : 84;
       const scrollOffset = (window.scrollY * 0.28) % gridStep;
-      ctx.lineWidth = 0.9;
-      ctx.strokeStyle = 'rgba(36, 62, 114, 0.13)';
+      const projectManifold = (gx: number, gy: number): [number, number] => {
+        // Subtle travelling spacetime wave down the page
+        const waveZ =
+          Math.sin(gx * 0.008 + now * 0.0007) * Math.cos((gy + window.scrollY * 0.35) * 0.007) * 14;
+        let px = gx;
+        let py = gy + waveZ * 0.45;
+        if (pointer.active) {
+          const dx = gx - pointer.x;
+          const dy = gy - pointer.y;
+          const dist = Math.hypot(dx, dy);
+          const radius = width < 640 ? 220 : 320;
+          if (dist < radius) {
+            const norm = 1 - dist / radius;
+            const funnelDepth = Math.pow(norm, 1.65);
+            // 3D funnel pulls vertices inward toward the throat AND dips downward in Z-perspective
+            const radialPinch = funnelDepth * 0.36;
+            px -= dx * radialPinch;
+            py -= dy * radialPinch;
+            py += funnelDepth * 44;
+          }
+        }
+        return [px, py];
+      };
+
+      ctx.lineWidth = 0.95;
+      ctx.strokeStyle = 'rgba(36, 62, 114, 0.15)';
 
       for (let gy = -scrollOffset; gy <= height + gridStep; gy += gridStep) {
         ctx.beginPath();
-        for (let gx = 0; gx <= width; gx += 32) {
-          let wy = gy;
-          if (pointer.active) {
-            const dx = gx - pointer.x;
-            const dy = gy - pointer.y;
-            const dist = Math.hypot(dx, dy);
-            if (dist < 260) {
-              const pull = Math.pow(1 - dist / 260, 2) * 30;
-              wy += (dy / (dist + 18)) * pull;
-            }
-          }
-          if (gx === 0) ctx.moveTo(gx, wy);
-          else ctx.lineTo(gx, wy);
+        for (let gx = 0; gx <= width; gx += 22) {
+          const [px, py] = projectManifold(gx, gy);
+          if (gx === 0) ctx.moveTo(px, py);
+          else ctx.lineTo(px, py);
         }
         ctx.stroke();
       }
 
       for (let gx = 0; gx <= width; gx += gridStep) {
         ctx.beginPath();
-        for (let gy = 0; gy <= height; gy += 32) {
-          let wx = gx;
-          if (pointer.active) {
-            const dx = gx - pointer.x;
-            const dy = gy - pointer.y;
-            const dist = Math.hypot(dx, dy);
-            if (dist < 260) {
-              const pull = Math.pow(1 - dist / 260, 2) * 30;
-              wx += (dx / (dist + 18)) * pull;
-            }
-          }
-          if (gy === 0) ctx.moveTo(wx, gy);
-          else ctx.lineTo(wx, gy);
+        for (let gy = -scrollOffset; gy <= height + gridStep; gy += 22) {
+          const [px, py] = projectManifold(gx, gy);
+          if (gy <= -scrollOffset) ctx.moveTo(px, py);
+          else ctx.lineTo(px, py);
         }
         ctx.stroke();
       }
 
-      // 2. Galactic Watercolor Nebula Washes
+      // Concentric 3D manifold elevation rings around cursor gravity well
+      if (pointer.active) {
+        for (let ring = 1; ring <= 4; ring++) {
+          const r = ring * 38;
+          ctx.beginPath();
+          ctx.ellipse(pointer.x, pointer.y + (5 - ring) * 5, r, r * 0.62, 0, 0, Math.PI * 2);
+          ctx.strokeStyle = `rgba(168, 34, 84, ${(0.045 * (5 - ring)).toFixed(3)})`;
+          ctx.lineWidth = 1;
+          ctx.stroke();
+        }
+      }
+
+      // 2. Galactic Watercolor Nebula Washes (kept subtle so Warm Sandstone text stays crisp)
       for (let i = washes.length - 1; i >= 0; i--) {
         if (!drawNebula(washes[i], now)) {
           washes.splice(i, 1);
@@ -738,7 +756,7 @@ export default function PersistCosmosWash() {
       const c = nextColor();
       spawnNebula(spawnX, spawnY, (Math.random() - 0.5) * 18, -dy * 0.12, now, {
         radiusScale: 1.5,
-        alpha: 0.28,
+        alpha: 0.12,
         color: c,
       });
       spawnVignette(spawnX, spawnY, now);
@@ -766,7 +784,7 @@ export default function PersistCosmosWash() {
       lastPointer = { x: e.clientX, y: e.clientY, time: now };
       spawnNebula(e.clientX, e.clientY, dx, dy, now, {
         radiusScale: 1.05 + Math.min(dist / 90, 0.55),
-        alpha: 0.22,
+        alpha: 0.1,
       });
     };
 
@@ -775,7 +793,7 @@ export default function PersistCosmosWash() {
       const now = performance.now();
       spawnNebula(e.clientX, e.clientY, 8, -4, now, {
         radiusScale: 1.4,
-        alpha: 0.3,
+        alpha: 0.14,
       });
       spawnVignette(e.clientX, e.clientY, now);
     };

@@ -469,6 +469,254 @@ Along for the ride
 
 ---
 
+## 09 · Violet Bleed
+*Midship · Stretchy Time Seams · 02:41*
+
+[Verse 1]
+Step off the bus right about noon
+Hallway painted gray, everyone is squinting hard
+Trying to find the way
+Funny what your eyes will do when the map goes blind
+Waking up a brand new earth right behind your mind
+
+[Pre-Chorus]
+Three times on the old VCD
+Never told the whole, now the edges start to hum
+Pulling at my soul
+
+[Chorus]
+I can see the violet bleed running down the seam
+Waking up a fourth dimension sharper than a dream
+Keep the sneakers moving fast down the corridor
+Sing what was always there hidden by the floor
+
+[Verse 2]
+Used to think the room was blank, nothing left to read
+Now the bruise electric tint gives me what I need
+Every bend along the steel paints a warning line
+Everybody misses it, looks like home to mine
+
+[Pre-Chorus]
+Three times on the old VCD
+Never told the whole, now the edges start to hum
+Pulling at my soul
+
+[Chorus]
+I can see the violet bleed running down the seam
+Waking up a fourth dimension sharper than a dream
+Keep the sneakers moving fast down the corridor
+Sing what was always there hidden by the floor
+
+[Bridge]
+Red and green and blue only tell part
+Open up the hidden band running through the chart
+Step into the frequency, feel the pulse aligned
+Every shifted wavelength turning into mine
+
+[Chorus]
+I can see the violet bleed running down the seam
+Waking up a fourth dimension sharper than a dream
+Keep the sneakers moving fast down the corridor
+Sing what was always there hidden by the floor
+
+[Outro]
+Violet on the seam
+Sharper than a dream
+Keep the rhythm moving down the corridor
+
+---
+
+## 10 · Borrowing Tomorrow
+*The Tip · Farewell Party · 02:58*
+
+[Verse 1]
+Friday night on the porch’s floor
+Drinks lined up on the kitchen rail
+Both of us know come Monday noon
+We’re boardin’ a different trail
+Nobody’s making five-year plans
+Nobody’s saving up for spring
+Counting the hours like loose change
+Spending it all on everything
+
+[Chorus]
+We’re borrowing tomorrow
+Spending it tonight
+Laughing like a whole life
+Fits before the flight
+
+[Verse 2]
+Polaroids stuck to the fridge door
+Records spinning on side two
+Telling a decade of stories
+Before the weekend is through
+I don’t care what the calendar says
+I don’t care how fast it goes
+You get a lifetime in forty-eight
+When everybody already knows
+
+[Chorus]
+We’re borrowing tomorrow
+Spending it tonight
+Laughing like a whole life
+Fits before the flight
+
+[Bridge]
+Don’t say anything, no looking back
+Two days of summer on a one-way track
+Pour out the rest of it, turn up the sound
+Best kind of living with your feet off the ground
+
+[Chorus]
+We’re borrowing tomorrow
+Spending it tonight
+Laughing like a whole life
+Fits before the flight
+
+[Outro]
+Whole life in a weekend before the morning light
+Yeah, we’re spending it tonight
+Tonight
+Oh, we’re borrowing tomorrow
+Yeah, we’re spending it tonight
+
+---
+
+## 11 · Leaving It Behind
+*Earth Departure · Boarding Resonance · 02:56*
+
+[Verse 1]
+Pack the last box by the door
+Left the key beneath the mat
+Nothing left to argue for
+No more looking back at that
+
+[Verse 2]
+Rearview mirror getting small
+Town is just a marble now
+Didn’t want to leave it all
+Had to go to figure out
+
+[Chorus]
+Leaving it behind
+Stepping off the ground
+Ain’t no turning back once the wheels go round
+No, we won’t look down
+We’re already gone
+Leaving it behind
+Rolling steady on
+
+[Verse 3]
+Saw the red dust passing by
+Through the window on the right
+Said goodbye to every mile
+Rolled on out into the night
+
+[Verse 4]
+People ask you if you’re scared
+When the road runs out of town
+Truth is you were scared
+Never laying burdens down
+
+[Chorus]
+Leaving it behind
+Stepping off the ground
+Ain’t no turning back once the wheels go round
+No, we won’t look down
+We’re already gone
+Leaving it behind
+Rolling steady on
+
+[Bridge]
+Maybe we were meant to stay
+Maybe we were meant to roam
+Either way we drew the line
+And built another home
+
+[Chorus]
+Leaving it behind
+Stepping off the ground
+Ain’t no turning back once the wheels go round
+No, we won’t look down
+We’re already gone
+Leaving it behind
+Rolling steady on
+
+[Outro]
+Leaving it behind
+Rolling steady on
+Ain’t no turning back
+We’re already gone
+
+---
+
+## 12 · Circle
+*Ancient Flashback · Ana & Pyotr · 02:59*
+
+[Verse 1]
+Cold mist rises past our knees
+Reeds bend low beside the bank
+Seven winters on your back
+Every timber where we sank
+Take the flint inside your palm
+Shave the rough edge off the oak
+Every journey starts right here
+Before a single word was spoke
+
+[Chorus]
+Round and round the wooden wheel
+Rolling through the wet and clay
+Now we don’t have to carry all
+The weight we carried yesterday
+Small hands learning how to turn
+Out into the open wide
+Every road we ever built
+Started at the waterside
+
+[Verse 2]
+Raindrops falling on your coat
+Muddy footprints in the grass
+Little boy beside the marsh
+Building something meant to last
+Cut the sinew straight and true
+Slide the axle through the grain
+Once a circle starts to roll
+Nothing stays the same again
+
+[Chorus]
+Round and round the wooden wheel
+Rolling through the wet and clay
+Now we don’t have to carry all
+The weight we carried yesterday
+Small hands learning how to turn
+Out into the open wide
+Every road we ever built
+Started at the waterside
+
+[Bridge]
+Thousands of miles ahead
+Farther than our eyes can see
+Every step that takes us far
+Starts with just you and me
+
+[Chorus]
+Round and round the wooden wheel
+Rolling through the wet and clay
+Now we don’t have to carry all
+The weight we carried yesterday
+Small hands learning how to turn
+Out into the open wide
+Every road we ever built
+Started at the waterside
+
+[Outro]
+Round and round the wooden wheel
+Out into the open wide
+Every road we ever built
+Started at the waterside
+
+---
+
 ## 14 · Redshift (Reprise)
 *Horizon edge · 02:49*
 

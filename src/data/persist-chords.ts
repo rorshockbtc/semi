@@ -102,6 +102,49 @@ export const PERSIST_CHORD_SHEETS: Record<string, PersistChordSheet> = {
       'Chorus:     G    C    Em   D',
     ],
   },
+  'violet-bleed': {
+    key: 'E Major',
+    capo: 'No capo',
+    tuning: 'Standard (E A D G B E)',
+    strumming: '118-BPM driving pulse · D – D U – U D U',
+    progression: [
+      'Verse:   E    A    C#m   B',
+      'Chorus:  E    B    C#m   A',
+      'Bridge:  A    B    C#m   B',
+    ],
+  },
+  'borrowing-tomorrow': {
+    key: 'D Major',
+    capo: 'No capo',
+    tuning: 'Standard (E A D G B E)',
+    strumming: '122-BPM celebratory indie-folk strum · D – D U – D U',
+    progression: [
+      'Verse / Chorus:  D    G    Bm   A',
+      'Bridge:          G    A    Bm   D',
+    ],
+  },
+  'leaving-it-behind': {
+    key: 'G Major',
+    capo: 'No capo',
+    tuning: 'Standard (E A D G B E)',
+    strumming: '111-BPM rolling road groove · D – D U – U D U',
+    progression: [
+      'Verse:   G    C    Em   D',
+      'Chorus:  C    G    D    Em',
+      'Bridge:  C    G    Am   D',
+    ],
+  },
+  'circle': {
+    key: 'G Major',
+    capo: 'Capo 2 (or open G)',
+    tuning: 'Standard (E A D G B E)',
+    strumming: '82-BPM fingerpicked folk ballad · P – i m a',
+    progression: [
+      'Verse:   G    C    G    D   |  G    C    Em   D',
+      'Chorus:  G    D    Em   C',
+      'Bridge:  C    G    D    Em  |  C    G    D',
+    ],
+  },
   'redshift-reprise': {
     key: 'E Minor / G Major',
     capo: 'Capo 3 (play Em shapes)',

@@ -227,10 +227,10 @@ export default function PersistPhysicsScrollBand() {
             </m.g>
 
             <text x="14" y="22" fill="#344E7A" fontSize="13" fontFamily="monospace">
-              Tip (1.65×)
+              Tip (Fastest)
             </text>
             <text x="14" y="68" fill="#A3285C" fontSize="13" fontFamily="monospace">
-              Midship
+              Midship (1×–Tip)
             </text>
             <text x="14" y="112" fill="#B45309" fontSize="13" fontFamily="monospace">
               Slow (1.0×)

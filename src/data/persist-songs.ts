@@ -61,33 +61,33 @@ export const RESONANCE_ZONES: ResonanceZoneSpec[] = [
     name: 'The Old Country',
     shortName: 'Slow Country',
     hullPosition: 'Lower hull · nearest the horizon',
-    clockRate: 'Clocks run slowest',
+    clockRate: 'Clocks run slowest · Days here = decades at The Tip',
     physics:
-      'Closest to the black hole, gravity is strongest, so every second down here is stretched long against the rest of the ship.',
+      'Closest to the black hole, gravity is strongest, so every day here stretches across months or years in the Midship and years to decades at The Tip.',
     humanExperience:
-      'Days feel thick and unhurried. Travel up-ship for a little while and come home to find the friends you made up there have already lived whole lives.',
+      'Random citizens alongside humanity’s best minds—physicists, artists, and historians—live out longer days preserving culture and running long-horizon experiments powered by fast-clock data sent down from The Tip.',
   },
   {
     id: 'midship',
     name: 'The Midship',
     shortName: 'Midship',
     hullPosition: 'Middle hull · 10 km wide',
-    clockRate: 'Pockets shift every few meters',
+    clockRate: 'Erratic oscillation · Bounded between Slow Country & The Tip',
     physics:
-      'Gravity ripples unevenly here, forming time pockets where the rate of time can change from one side of a doorway to the other.',
+      'Time pockets ripple unevenly here, oscillating erratically between Slow Country’s baseline and The Tip’s ceiling—reaching Tip speed in brief surges, but never physically exceeding The Tip.',
     humanExperience:
-      'A single shift in the wrong bay can cost a decade. Workers paint lines on the floor and learn to respect them.',
+      'Settled largely by people from the South and Southwest. A few days in Slow Country feel like months to years here depending on which pocket you cross—so workers paint lines on the floor and respect every boundary.',
   },
   {
     id: 'tip',
     name: 'The Tip',
     shortName: 'Tip',
     hullPosition: 'Upper hull · 2,000 km up',
-    clockRate: 'Clocks run fastest',
+    clockRate: 'Clocks run fastest · Years to decades per Old Country day',
     physics:
-      'Farthest from the gravity well, time races ahead of the lower decks.',
+      'Farthest from the event horizon, The Tip is physically the fastest-ticking place aboard Resonance—no deck down-spine can ever outpace it.',
     humanExperience:
-      'Generations rise and pass while the Old Country barely turns a page—a restless frontier of ambition and goodbye.',
+      'Settled largely by people from major metropolitan areas. Whole generations live, love, run rapid-fire survival experiments, and pass away while the Old Country barely turns a page.',
   },
 ];
 
@@ -948,6 +948,386 @@ Along for the ride`,
       {
         line: 'Every tiny decimal / Changes where we’re going to',
         note: 'Connects Elijah’s 1992 world of markets and stage lights to the relativistic fate of the ship.',
+      },
+    ],
+  },
+  {
+    number: '09',
+    slug: 'violet-bleed',
+    title: 'Violet Bleed',
+    zone: 'midship',
+    zoneLabel: 'Midship · Stretchy Time Seams',
+    properTimeLabel: 'Tetrachromacy & heterochromia · Seeing the seams',
+    duration: '02:41',
+    vaultFile: '09-semi-violet-bleed.mp3',
+    size: 6448641,
+    artworkSrc: '/photos/persist/track-09-violet-bleed.jpg',
+    artworkAlt:
+      'Inside Resonance’s copper-framed observatory, a young woman with subtle heterochromia looks through a luminous violet-indigo and warm amber spacetime boundary.',
+    sonicNote:
+      'Driven 118-BPM indie-electronic pulse with bright guitar seams and an urgent, glowing chorus.',
+    summary:
+      'Discovering that heterochromia and extra-color vision inherited from Elijah and Hannah’s 1992 meeting let certain people aboard Resonance literally see where spacetime stretches.',
+    essayTitle: 'Seeing the Stretched Seams',
+    essaySubtitle: 'Heterochromia, tetrachromacy, and the hidden violet edge of time pockets.',
+    essaySections: [
+      {
+        heading: 'Inherited from 1992',
+        paragraphs: [
+          'Generations after Elijah and Hannah crossed paths in 1992 New York, a genetic trait—heterochromia paired with rare tetrachromatic color sensitivity—surfaces aboard Resonance. To almost everyone else, a Midship bulkhead looks like plain painted steel.',
+          'To those carrying that extra spectral band, the edges of a gravitational time pocket shimmer with a distinct violet bleed—making invisible temporal cliffs suddenly visible to the naked eye.',
+        ],
+      },
+    ],
+    lyrics: `[Verse 1]
+Step off the bus right about noon
+Hallway painted gray, everyone is squinting hard
+Trying to find the way
+Funny what your eyes will do when the map goes blind
+Waking up a brand new earth right behind your mind
+
+[Pre-Chorus]
+Three times on the old VCD
+Never told the whole, now the edges start to hum
+Pulling at my soul
+
+[Chorus]
+I can see the violet bleed running down the seam
+Waking up a fourth dimension sharper than a dream
+Keep the sneakers moving fast down the corridor
+Sing what was always there hidden by the floor
+
+[Verse 2]
+Used to think the room was blank, nothing left to read
+Now the bruise electric tint gives me what I need
+Every bend along the steel paints a warning line
+Everybody misses it, looks like home to mine
+
+[Pre-Chorus]
+Three times on the old VCD
+Never told the whole, now the edges start to hum
+Pulling at my soul
+
+[Chorus]
+I can see the violet bleed running down the seam
+Waking up a fourth dimension sharper than a dream
+Keep the sneakers moving fast down the corridor
+Sing what was always there hidden by the floor
+
+[Bridge]
+Red and green and blue only tell part
+Open up the hidden band running through the chart
+Step into the frequency, feel the pulse aligned
+Every shifted wavelength turning into mine
+
+[Chorus]
+I can see the violet bleed running down the seam
+Waking up a fourth dimension sharper than a dream
+Keep the sneakers moving fast down the corridor
+Sing what was always there hidden by the floor
+
+[Outro]
+Violet on the seam
+Sharper than a dream
+Keep the rhythm moving down the corridor`,
+    lyricNotes: [
+      {
+        line: 'I can see the violet bleed running down the seam',
+        note: 'Where time pockets warp inside Resonance, tetrachromatic eyes perceive a shifted violet edge along the steel.',
+      },
+      {
+        line: 'Red and green and blue only tell part / Open up the hidden band',
+        note: 'Tetrachromacy—four cone receptors instead of three—traces directly back to Elijah and Hannah’s 1992 genetic handshake.',
+      },
+    ],
+  },
+  {
+    number: '10',
+    slug: 'borrowing-tomorrow',
+    title: 'Borrowing Tomorrow',
+    zone: 'tip',
+    zoneLabel: 'The Tip · Farewell Party',
+    properTimeLabel: 'Tip speed · Decades before his return',
+    duration: '02:58',
+    vaultFile: '10-semi-borrowing-tomorrow.mp3',
+    size: 7132173,
+    artworkSrc: '/photos/persist/track-10-borrowing-tomorrow.jpg',
+    artworkAlt:
+      'Young researchers in knitwear toasting with mugs beneath string lights and silver birch trees in The Tip conservatory while a traveler in a heavy wool coat looks out toward the shuttle airlock.',
+    sonicNote:
+      'Upbeat 122-BPM celebratory indie-folk rock—porch-light warmth and gang-vocal party chorus hiding a bittersweet relativistic goodbye.',
+    summary:
+      'The Tip’s young researchers throw Marrok a bright, loud goodbye party—knowing that once his shuttle drops back to Slow Country, they’ll be old or gone before he ever returns.',
+    essayTitle: 'A Whole Life Before the Flight',
+    essaySubtitle: 'Marrok’s farewell party at The Tip, where a weekend goodbye is a lifetime.',
+    essaySections: [
+      {
+        heading: 'Party with a hidden clock',
+        paragraphs: [
+          'When Marrok travels up-spine from Slow Country to gather research and work alongside the newest generation of scientists at The Tip, nobody wastes a second on stiff goodbyes. They string up lights, pour drinks, and turn a single weekend into a celebration.',
+          'Beneath the laughter sits the unspoken math of Resonance: as soon as Marrok boards the shuttle back to his slow-clocked home, years and decades will race past at The Tip. By the time he could ever ride back up, everyone raising a glass tonight will be old—or already gone.',
+        ],
+      },
+    ],
+    lyrics: `[Verse 1]
+Friday night on the porch’s floor
+Drinks lined up on the kitchen rail
+Both of us know come Monday noon
+We’re boardin’ a different trail
+Nobody’s making five-year plans
+Nobody’s saving up for spring
+Counting the hours like loose change
+Spending it all on everything
+
+[Chorus]
+We’re borrowing tomorrow
+Spending it tonight
+Laughing like a whole life
+Fits before the flight
+
+[Verse 2]
+Polaroids stuck to the fridge door
+Records spinning on side two
+Telling a decade of stories
+Before the weekend is through
+I don’t care what the calendar says
+I don’t care how fast it goes
+You get a lifetime in forty-eight
+When everybody already knows
+
+[Chorus]
+We’re borrowing tomorrow
+Spending it tonight
+Laughing like a whole life
+Fits before the flight
+
+[Bridge]
+Don’t say anything, no looking back
+Two days of summer on a one-way track
+Pour out the rest of it, turn up the sound
+Best kind of living with your feet off the ground
+
+[Chorus]
+We’re borrowing tomorrow
+Spending it tonight
+Laughing like a whole life
+Fits before the flight
+
+[Outro]
+Whole life in a weekend before the morning light
+Yeah, we’re spending it tonight
+Tonight
+Oh, we’re borrowing tomorrow
+Yeah, we’re spending it tonight`,
+    lyricNotes: [
+      {
+        line: 'Nobody’s making five-year plans / Nobody’s saving up for spring',
+        note: 'For Tip researchers throwing Marrok a farewell, five years is practically a generation away once his shuttle drops back toward the horizon.',
+      },
+      {
+        line: 'You get a lifetime in forty-eight / When everybody already knows',
+        note: 'Everyone at the party understands they won’t see Marrok again until they are elderly—if they are still alive at all.',
+      },
+    ],
+  },
+  {
+    number: '11',
+    slug: 'leaving-it-behind',
+    title: 'Leaving It Behind',
+    zone: 'horizon',
+    zoneLabel: 'Earth Departure · Boarding Resonance',
+    properTimeLabel: 'Shuttle ascent · Leaving a collapsing Earth',
+    duration: '02:56',
+    vaultFile: '11-semi-leaving-it-behind.mp3',
+    size: 7050571,
+    artworkSrc: '/photos/persist/track-11-leaving-it-behind.jpg',
+    artworkAlt:
+      'Inside an ascending shuttle cabin looking out a sunlit viewport at a fading Earth below and the colossal cylindrical hull of Resonance in orbit.',
+    sonicNote:
+      'Steady 111-BPM acoustic road-song—rolling folk-rock snare, dusty acoustic strumming, and resolute harmony.',
+    summary:
+      'Boarding the shuttles to the US generation ship Resonance as Earth collapses—leaving behind the only home humanity ever knew, sorted into Tip, Midship, and Old Country.',
+    essayTitle: 'Shuttle Ascent to Resonance',
+    essaySubtitle: 'Leaving a collapsing Earth behind for a 2,000-kilometer hull in orbit.',
+    essaySections: [
+      {
+        heading: 'Boarding the US ark',
+        paragraphs: [
+          'When Earth’s collapse becomes irreversible, not every nation can build a generation ship. Resonance is the United States vessel—2,000 kilometers of steel assembled to carry as much of humanity’s future and memory as can fit.',
+          'On the surface, the song sounds like packing up a house and hitting the highway. Underneath, it is the moment families board the orbital shuttles—bound for the metropolitan Tip, the Southern and Southwestern Midship, or the Old Country where scientists and artists will guard the long horizon.',
+        ],
+      },
+    ],
+    lyrics: `[Verse 1]
+Pack the last box by the door
+Left the key beneath the mat
+Nothing left to argue for
+No more looking back at that
+
+[Verse 2]
+Rearview mirror getting small
+Town is just a marble now
+Didn’t want to leave it all
+Had to go to figure out
+
+[Chorus]
+Leaving it behind
+Stepping off the ground
+Ain’t no turning back once the wheels go round
+No, we won’t look down
+We’re already gone
+Leaving it behind
+Rolling steady on
+
+[Verse 3]
+Saw the red dust passing by
+Through the window on the right
+Said goodbye to every mile
+Rolled on out into the night
+
+[Verse 4]
+People ask you if you’re scared
+When the road runs out of town
+Truth is you were scared
+Never laying burdens down
+
+[Chorus]
+Leaving it behind
+Stepping off the ground
+Ain’t no turning back once the wheels go round
+No, we won’t look down
+We’re already gone
+Leaving it behind
+Rolling steady on
+
+[Bridge]
+Maybe we were meant to stay
+Maybe we were meant to roam
+Either way we drew the line
+And built another home
+
+[Chorus]
+Leaving it behind
+Stepping off the ground
+Ain’t no turning back once the wheels go round
+No, we won’t look down
+We’re already gone
+Leaving it behind
+Rolling steady on
+
+[Outro]
+Leaving it behind
+Rolling steady on
+Ain’t no turning back
+We’re already gone`,
+    lyricNotes: [
+      {
+        line: 'Town is just a marble now',
+        note: 'Viewed from an ascending orbital shuttle, the hometown—and Earth itself—shrinks into a blue marble.',
+      },
+      {
+        line: 'Either way we drew the line / And built another home',
+        note: 'Boarding Resonance meant accepting that humanity’s next home would divide into three clocks.',
+      },
+    ],
+  },
+  {
+    number: '12',
+    slug: 'circle',
+    title: 'Circle',
+    zone: 'horizon',
+    zoneLabel: 'Ancient Flashback · Ana & Pyotr',
+    properTimeLabel: 'The Invention of the Wheel',
+    duration: '02:59',
+    vaultFile: '12-semi-circle.mp3',
+    size: 7166709,
+    artworkSrc: '/photos/persist/track-12-circle.jpg',
+    artworkAlt:
+      'At twilight in a misty mud-flat valley, a mother kneels beside a wooden sledge carrying her injured son, wedging a rough-hewn wooden wheel slice under the runner toward distant hearth light.',
+    sonicNote:
+      '82-BPM acoustic folk ballad—fingerpicked guitar, warm fiddle-like sustain, and a grounded, timeless chorus.',
+    summary:
+      'Ana and her injured son Pyotr in the ancient mud—the forgotten, nameless moment a mother’s desperation to reach medicine gave humanity the wheel.',
+    essayTitle: 'What Nobody Ever Sang About',
+    essaySubtitle: 'Ana and Pyotr, the mud-heavy sledge, and the invention of the wheel.',
+    essaySections: [
+      {
+        heading: 'A mother’s desperation',
+        paragraphs: [
+          'Long before cities, markets, or starships, a mother named Ana is trying to drag her injured son Pyotr through freezing mud and reeds toward a distant settlement for medicine. Every inch on a flat wooden sledge feels impossible.',
+          'Everyone on Earth—and everyone aboard Resonance—depends on the wheel, yet nobody knows the name of the person who first carved one. In Persist, that breakthrough wasn’t born in a workshop; it was born out of a mother’s refusal to let her child die in the clay.',
+        ],
+      },
+    ],
+    lyrics: `[Verse 1]
+Cold mist rises past our knees
+Reeds bend low beside the bank
+Seven winters on your back
+Every timber where we sank
+Take the flint inside your palm
+Shave the rough edge off the oak
+Every journey starts right here
+Before a single word was spoke
+
+[Chorus]
+Round and round the wooden wheel
+Rolling through the wet and clay
+Now we don’t have to carry all
+The weight we carried yesterday
+Small hands learning how to turn
+Out into the open wide
+Every road we ever built
+Started at the waterside
+
+[Verse 2]
+Raindrops falling on your coat
+Muddy footprints in the grass
+Little boy beside the marsh
+Building something meant to last
+Cut the sinew straight and true
+Slide the axle through the grain
+Once a circle starts to roll
+Nothing stays the same again
+
+[Chorus]
+Round and round the wooden wheel
+Rolling through the wet and clay
+Now we don’t have to carry all
+The weight we carried yesterday
+Small hands learning how to turn
+Out into the open wide
+Every road we ever built
+Started at the waterside
+
+[Bridge]
+Thousands of miles ahead
+Farther than our eyes can see
+Every step that takes us far
+Starts with just you and me
+
+[Chorus]
+Round and round the wooden wheel
+Rolling through the wet and clay
+Now we don’t have to carry all
+The weight we carried yesterday
+Small hands learning how to turn
+Out into the open wide
+Every road we ever built
+Started at the waterside
+
+[Outro]
+Round and round the wooden wheel
+Out into the open wide
+Every road we ever built
+Started at the waterside`,
+    lyricNotes: [
+      {
+        line: 'Seven winters on your back / Every timber where we sank',
+        note: 'Ana dragging her injured son Pyotr on a heavy wooden sledge through freezing marshland toward medicine.',
+      },
+      {
+        line: 'Cut the sinew straight and true / Slide the axle through the grain',
+        note: 'The forgotten origin of the wheel—born from maternal sacrifice long before recorded history.',
       },
     ],
   },
