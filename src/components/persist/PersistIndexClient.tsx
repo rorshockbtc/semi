@@ -60,8 +60,8 @@ export default function PersistIndexClient() {
             </p>
             <p className="mt-6 max-w-[60ch] border-l-2 border-[var(--a-accent)] pl-4 sm:pl-5 text-[17px] sm:text-lg leading-relaxed text-[var(--a-ink)]/85">
               Semi’s second album is set inside the world of Cubby’s speculative-fiction novel{' '}
-              <em className="font-serif">Persist</em>. It keeps the acoustic porch-light warmth of{' '}
-              <em className="font-serif">I/O</em>—fingerpicked guitar, close breath, honest
+              <em>Persist</em>. It keeps the acoustic porch-light warmth of{' '}
+              <em>I/O</em>—fingerpicked guitar, close breath, honest
               harmony—and braids it with deep-space electronics for a story about loving people who
               live on a different clock than you do.
             </p>
@@ -160,11 +160,11 @@ export default function PersistIndexClient() {
               </p>
               <p>
                 Built as a 600-page braided narrative, the novel{' '}
-                <em className="font-serif">Persist</em> flashes back between pivotal moments in
+                <em>Persist</em> flashes back between pivotal moments in
                 human history—how foundational breakthroughs like the wheel (Ana and her son Pyotr
                 pulling a sledge through ancient mud) or artificial light first changed how we
                 measure effort and time—and the lived reality aboard{' '}
-                <em className="font-serif">Resonance</em>, where characters like Jax, Leo, and Marek
+                <em>Resonance</em>, where characters like Jax, Leo, and Marek
                 confront a cold ship AI that flattens living memory into spotless data. Each song on
                 this album is a dispatch from somewhere along that timeline.
               </p>
