@@ -406,6 +406,69 @@ Leave a note on the table
 
 ---
 
+## 08 · One Cent
+*1992 Flashback · Earth · 03:01*
+
+[Verse 1]
+Basement bar at Seventh Street
+Neon buzzing on the glass
+1992 outside
+Watching winter traffic pass
+Two drinks on a paper tab
+Wound it down a single cent
+Shook your hand and walked away
+Never knew what zero meant
+
+[Pre-Chorus]
+It was barely worth the dime
+Just a smudge upon the page
+Funny how a tiny slip
+Built a whole new cage
+
+[Chorus]
+One cent off at midnight
+A millimeter wide
+You don’t feel the steering pull
+When you’re along for the ride
+Keep the sneakers pounding
+Down the avenue
+Every tiny decimal
+Changes where we’re going to
+
+[Verse 2]
+Carried it inside my coat
+Out into the pouring rain
+Thought we had the numbers right
+’Til we ran the math again
+500 miles down the road
+Missing by a hair’s breadth
+Funny how a quiet nod
+Sets the pace for what comes next
+
+[Pre-Chorus]
+It was barely worth the dime
+Just a smudge upon the page
+Funny how a tiny slip
+Built a whole new cage
+
+[Chorus]
+One cent off at midnight
+A millimeter wide
+You don’t feel the steering pull
+When you’re along for the ride
+Keep the sneakers pounding
+Down the avenue
+Every tiny decimal
+Changes where we’re going to
+
+[Outro]
+One cent off
+A millimeter wide
+Keep the rhythm running
+Along for the ride
+
+---
+
 ## 14 · Redshift (Reprise)
 *Horizon edge · 02:49*
 

@@ -91,6 +91,17 @@ export const PERSIST_CHORD_SHEETS: Record<string, PersistChordSheet> = {
       'Bridge:  G   Bm  A    D',
     ],
   },
+  'one-cent': {
+    key: 'G Major',
+    capo: 'No capo',
+    tuning: 'Standard (E A D G B E)',
+    strumming: '107-BPM rhythmic pulse · D – U D – U D U',
+    progression: [
+      'Verse:      G    C    Em   D',
+      'Pre-Chorus: Am   C    G    D',
+      'Chorus:     G    C    Em   D',
+    ],
+  },
   'redshift-reprise': {
     key: 'E Minor / G Major',
     capo: 'Capo 3 (play Em shapes)',

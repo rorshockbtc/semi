@@ -846,6 +846,112 @@ Leave a note on the table`,
     ],
   },
   {
+    number: '08',
+    slug: 'one-cent',
+    title: 'One Cent',
+    zone: 'horizon',
+    zoneLabel: '1992 Flashback · Earth',
+    properTimeLabel: 'Before Resonance · The Rounding Error',
+    duration: '03:01',
+    vaultFile: '08-semi-one-cent.mp3',
+    size: 7232953,
+    artworkSrc: '/photos/persist/track-08-one-cent.jpg',
+    artworkAlt:
+      'A sunlit corner booth in a 1992 city coffee shop with a single bright copper penny beside a ceramic cup and paper slip on the worn table.',
+    sonicNote:
+      'Crisp rhythmic ticking percussion and warm indie-pop synth pulse—intimate verse storytelling lifting into an urgent, propulsive chorus.',
+    summary:
+      'New York, 1992: Elijah meets Hannah—a lighting designer racing to the Majestic Theatre—over coffee, never guessing how a one-cent rounding error echoes across centuries.',
+    essayTitle: 'The Smudge Upon the Page',
+    essaySubtitle: 'Elijah and Hannah in 1992, long before Resonance ever left the cradle.',
+    essaySections: [
+      {
+        heading: 'Before the ship',
+        paragraphs: [
+          'Persist opens far from any black hole, in the humid August heat of 1992 New York. Elijah—a young trader stepping around spilled produce and Spin magazine headlines—asks a stranger named Hannah for coffee before she has to run to a focus call at the Majestic Theatre.',
+          'Neither of them will live to see the 2,000-kilometer ship Resonance launch generations later. Yet their chance meeting—and the tiny one-cent rounding error on a paper tab—sets a quiet ripple in motion that outlasts them by centuries.',
+        ],
+      },
+      {
+        heading: 'Every tiny decimal',
+        paragraphs: [
+          'Across an infinite timeline, a single cent on a receipt or a millimeter off at midnight looks like nothing at all. Five hundred miles—or five hundred kilometers—down the road, that invisible decimal decides where humanity wakes up.',
+        ],
+      },
+    ],
+    lyrics: `[Verse 1]
+Basement bar at Seventh Street
+Neon buzzing on the glass
+1992 outside
+Watching winter traffic pass
+Two drinks on a paper tab
+Wound it down a single cent
+Shook your hand and walked away
+Never knew what zero meant
+
+[Pre-Chorus]
+It was barely worth the dime
+Just a smudge upon the page
+Funny how a tiny slip
+Built a whole new cage
+
+[Chorus]
+One cent off at midnight
+A millimeter wide
+You don’t feel the steering pull
+When you’re along for the ride
+Keep the sneakers pounding
+Down the avenue
+Every tiny decimal
+Changes where we’re going to
+
+[Verse 2]
+Carried it inside my coat
+Out into the pouring rain
+Thought we had the numbers right
+’Til we ran the math again
+500 miles down the road
+Missing by a hair’s breadth
+Funny how a quiet nod
+Sets the pace for what comes next
+
+[Pre-Chorus]
+It was barely worth the dime
+Just a smudge upon the page
+Funny how a tiny slip
+Built a whole new cage
+
+[Chorus]
+One cent off at midnight
+A millimeter wide
+You don’t feel the steering pull
+When you’re along for the ride
+Keep the sneakers pounding
+Down the avenue
+Every tiny decimal
+Changes where we’re going to
+
+[Outro]
+One cent off
+A millimeter wide
+Keep the rhythm running
+Along for the ride`,
+    lyricNotes: [
+      {
+        line: '1992 outside / Two drinks on a paper tab / Wound it down a single cent',
+        note: 'Rooted in the novel’s 1992 flashback chapter introducing Elijah and Hannah—decades before Resonance is built.',
+      },
+      {
+        line: '500 miles down the road / Missing by a hair’s breadth',
+        note: 'Foreshadows the 500-kilometer hull & trajectory discrepancy aboard Resonance—how small rounding errors compound across cosmic distance.',
+      },
+      {
+        line: 'Every tiny decimal / Changes where we’re going to',
+        note: 'Connects Elijah’s 1992 world of markets and stage lights to the relativistic fate of the ship.',
+      },
+    ],
+  },
+  {
     number: '14',
     slug: 'redshift-reprise',
     title: 'Redshift (Reprise)',
