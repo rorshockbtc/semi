@@ -45,14 +45,14 @@ export interface ResonanceZoneSpec {
 export const PERSIST_ALBUM_META = {
   title: 'Persist',
   artist: 'Semi',
-  statusLabel: 'Album II · In the studio',
+  statusLabel: 'Album II · Deluxe Early Access',
   tagline: 'Same sky, different clocks.',
   intro:
     'Semi’s second album keeps the porch-light warmth of I/O—fingerpicked guitar, close breath, honest harmony—and carries it aboard Resonance, a 2,000-kilometer generation ship holding steady just outside a black hole. Down there, time doesn’t pass the same way on every deck. These are songs about loving people who live on a different clock.',
   coverSrc: '/photos/persist/persist-album-cover.jpg',
   coverAlt:
     'Semi in a charcoal wool sweater beside a curved viewport aboard Resonance, a golden-amber horizon curving across deep indigo starlight.',
-  plannedTrackCount: 14,
+  plannedTrackCount: 12,
 } as const;
 
 export const RESONANCE_ZONES: ResonanceZoneSpec[] = [

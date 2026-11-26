@@ -347,10 +347,12 @@ export default function PersistIndexClient() {
                 Songs &amp; stories
               </p>
               <h2 className="mt-3 font-display text-[clamp(1.85rem,1.3rem+2.5vw,3rem)] font-bold leading-[1.06] tracking-[-0.02em] text-[var(--a-ink)]">
-                {mainTracks.length} of {PERSIST_ALBUM_META.plannedTrackCount} songs finished
+                {mainTracks.length} main tracks finished
               </h2>
             </div>
-            <p className="font-code text-[13px] text-[var(--a-muted)]">More arriving as they’re recorded</p>
+            <p className="font-code text-[13px] text-[var(--a-muted)]">
+              Plus {bonusTracks.length} bonus takes · {PERSIST_TRACKS.length} tracks total
+            </p>
           </div>
 
           <ol className="mt-10 grid gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
