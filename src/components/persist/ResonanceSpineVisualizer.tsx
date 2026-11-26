@@ -1,8 +1,6 @@
 'use client';
 
 import React from 'react';
-import { m, useReducedMotion } from 'framer-motion';
-import { useAmbientMotion } from '@/context/AmbientMotionContext';
 import type { ResonanceZoneId } from '@/data/persist-songs';
 
 const SPINE_NODES: { id: ResonanceZoneId; label: string; km: string; rate: string }[] = [
@@ -12,8 +10,8 @@ const SPINE_NODES: { id: ResonanceZoneId; label: string; km: string; rate: strin
 ];
 
 /**
- * Animated 2,000-kilometer Resonance spine diagram showing the black hole horizon,
- * the three proper-time zones, and a live ferry/signal pulse traveling up-ship.
+ * 2,000-kilometer Resonance spine diagram showing the black hole horizon
+ * and the three proper-time zones.
  */
 export default function ResonanceSpineVisualizer({
   activeZone,
@@ -22,10 +20,6 @@ export default function ResonanceSpineVisualizer({
   activeZone: ResonanceZoneId;
   onSelectZone: (zone: ResonanceZoneId) => void;
 }) {
-  const reduce = useReducedMotion();
-  const { motionActive } = useAmbientMotion();
-  const animate = !reduce && motionActive;
-
   return (
     <div className="rounded-2xl border border-[var(--a-rule)] bg-[var(--a-well)] p-5 sm:p-6 space-y-4">
       <div className="flex flex-wrap items-center justify-between gap-2">
@@ -37,23 +31,13 @@ export default function ResonanceSpineVisualizer({
         </p>
       </div>
 
-      {/* Animated Spine Track */}
-      <div className="relative py-4">
+      {/* Spine Track */}
+      <div className="relative py-2">
         {/* Background gradient rail */}
         <div
           aria-hidden="true"
           className="h-2 w-full rounded-full bg-gradient-to-r from-[#B45309] via-[#A3285C] to-[#344E7A] opacity-30"
         />
-
-        {/* Animated ferry / light-signal pulse traveling the 2,000-km hull */}
-        {animate && (
-          <m.div
-            aria-hidden="true"
-            className="pointer-events-none absolute top-1/2 -translate-y-1/2 h-3.5 w-3.5 rounded-full bg-[var(--a-accent-fill)] shadow-[0_0_12px_rgba(254,41,158,0.65)]"
-            animate={{ left: ['4%', '94%', '4%'] }}
-            transition={{ duration: 9, repeat: Infinity, ease: 'easeInOut' }}
-          />
-        )}
 
         {/* Clickable Zone Waypoints */}
         <div className="mt-4 grid grid-cols-1 gap-2.5 sm:grid-cols-3">

@@ -303,13 +303,7 @@ export default function PersistIndexClient() {
               const isCurrent = queueAlbum === 'persist' && currentTrack.slug === t.slug;
               const isThisPlaying = isCurrent && isPlaying;
               return (
-                <m.li
-                  key={t.slug}
-                  initial={motionActive ? { opacity: 0, y: 24 } : false}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: '-8% 0px' }}
-                  transition={{ duration: 0.8, delay: (i % 3) * 0.06, ease: [0.22, 1, 0.36, 1] }}
-                >
+                <li key={t.slug}>
                   <div className="group block">
                     <Link
                       href={`/persist/${t.slug}`}
@@ -362,7 +356,7 @@ export default function PersistIndexClient() {
                       </Link>
                     </div>
                   </div>
-                </m.li>
+                </li>
               );
             })}
           </ol>
