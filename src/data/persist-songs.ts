@@ -134,49 +134,71 @@ export const PERSIST_TRACKS: PersistTrack[] = [
         ],
       },
     ],
-    lyrics: `You're standing on the porch in the heavy autumn air, watching shadows stretch across the lawn
-I'm riding on a beam where the atmosphere is thin, counting every second that is gone
-Two clocks ticking in a different kind of gravity, one in the soil and one in the wire
-The farther that we drift from the place where we begin, the deeper that the light turns into fire
+    lyrics: `You're standing on the porch in the heavy autumn air, 
+Watching shadows stretch across the lawn
+I'm riding on a beam where the atmosphere is thin, 
+Counting every second that is gone
+Two clocks ticking in a different kind of gravity, 
+One in the soil and one in the wire
+The farther that we drift from the place where we begin, 
+The deeper that the light turns into fire, and
 
 The distance tries to pull the frequency apart
 Turning every silver note to gold
-I'm still a-tuning to the rhythm of a steady human heart
+I'm attuning to the rhythm of a steady human heart
 Holding on to everything we hold
 
 Oh, it's a redshift, stretching out across the dark
-Giving all the planet's lonely leaves a warm remark
-Moving in slow motion with a quiet rhythm's run
-I'm burning on the edge beneath the red and distant sun
+Giving all the planet's lonely leaves a warmer mark
+You're moving in slow motion where the quiet rivers run
+I'm burning on the edge beneath the relativistic Sun
 
-Yeah, and the wavelength's getting longer
-But this thing will never die, it's just a redshift
+Yeah, the wavelength's getting longer
+But the signal never dies 
+It's just a redshift
 Lighting up the sky
 
-You've got coffee in a mug and a softness in your eye, another year written on your hand
-I've got a million quiet thoughts spinning in the dark, trying to remember how to land
-They say time is just a curve on the fabric of the room, bending around the weight of what we love
-So I'll slow my engine down till our orbits overlap, and meet you where the stars are up above
+You've got coffee in a mug and a crease beside your eye, 
+Another year written on your hand
+I've got a million quiet thoughts spinning in the dark, 
+Trying to remember how to land
+They say time is just a curve on the fabric of the room, 
+Bending around the weight of what we love
+So I'll slow my engine down till our orbits overlap,
+And meet you where the stars are up above
 
 Yeah, the distance tries to pull the frequency apart
 Turning every silver note to gold
-I'm still a-tuning to the rhythm of a steady human heart
+I'm still attuning to the rhythm of a steady human heart
 Holding on to everything we hold
 
 Oh, it's a redshift, stretching out across the dark
-Giving all the planet's lonely leaves a warm remark
-Moving in slow motion with a quiet rhythm's run
-I'm burning on the edge beneath the red and distant sun
+Every mile between us only leaves a warmer mark
+You're moving in slow motion where the quiet rivers run
+I'm burning on the edge beneath a relativistic--
 
-Yeah, and the wavelength's getting longer
-But this thing will never die, it's just a redshift
+Oh, it's a redshift, stretching out across the dark
+Every mile between us only leaves a warmer mark
+You're moving in slow motion where the quiet rivers run
+I'm burning on the edge beneath a relativistic Sun
+
+Yeah, the wavelength's getting longer
+But the signal never dies 
+It's just a redshift
 Lighting up the sky
 
+Still trading soft words that are true through the--
 I'm right here beside you anyway
 
 Oh, it's a redshift, stretching out across the dark
-Moving in slow motion with a quiet rhythm's run
-I'm burning on the edge beneath the red and distant sun
+Every mile between us only leaves a warmer mark
+You're moving in slow motion where the quiet rivers run
+I'm burning on the edge beneath a relativistic Sun
+
+Yeah, the wavelength's getting longer
+But the signal never dies 
+It's just a redshift
+Lighting up the sky
 
 Stretching out the light
 Keeping the signal warm
@@ -242,7 +264,7 @@ Right here beside you`,
     lyrics: `Down off the ridge, the signal runs thin
 A week on the edge feels like ten years have been
 Got dust on my boots, a glitch in my stride
-Walking through the gateway where the clocks never lied
+Walking through the gate where the clocks never lied
 
 Porch swing creaks in the afternoon
 Sun stuck halfway to the moon
@@ -254,19 +276,18 @@ Reminding me why it was hardest to leave
 You live in chapters, I live in frames
 The river runs slow, but nothing's the same
 
-Oh, heavy air in the old country
+Oh, heavy air in the Old Country
 Hours hang on the vine
 You grow old in golden light
 While I burn on the line
-It's a long way down from the axle to the wheel
+It's a long way down from the edge of the wheel
 Where the weight of a second is real
-I'd stay forever to breathe it in
-Heavy air in the old country again
+I'd trade forever to breathe it in
 Heavy air in the old country again
 
 Grey in your collar, dirt on your hands
 A hundred small stories I don't understand
-They stole the winters while we were up high
+They stole the winters while high up in flight
 Watching it turn from a distance to life
 
 Pour me a glass, don't ask me why
@@ -282,11 +303,10 @@ The river runs slow, but nothing's the same
 Oh, heavy air in the old country
 Hours hang on the vine
 You grow old in golden light
-While I burn on the line
-It's a long way down from the axle to the wheel
+While I burned on the line
+It's a long way down from the edge of the wheel
 Where the weight of a second is real
 I'd stay forever to breathe it in
-Heavy air in the old country again
 Heavy air in the old country again
 
 Heavy air, slow rhythm, weight of a second
@@ -348,8 +368,8 @@ Back in the old country again`,
         ],
       },
     ],
-    lyrics: `You keep a box of paper curlin' at the edges in the drawer
-Faces slightly softer than the day you saw them before
+    lyrics: `You keep a box of paper curling at the edges in the drawer
+Faces slightly softer than the day you saw them more
 Every year you carry adds a shadow to the grain
 While I can pull the rawest file without a single stain
 
@@ -363,17 +383,16 @@ Every second stretched and every quiet nerve
 You don't want a mirror frozen in the glass
 You want the living proof that we were here to pass
 
-Oh we're flying by the photographs fading into gold
+Oh, what's the half-life of a photograph fading into gold
 Things we lose along the way are the ones we really hold
-Yeah, the cars keep drivin' through the static and the years
-Turning all the heavy days into somethin' we can hear
-
+Yeah, the pulse keeps driving through the static and the years
+Turning all the heavy days into something we can hear
 If time is just a current pulling both of us along
-Then the bled and broken pieces are the heart of every song
-I'll pass the horizon where the light begins to bend
-Every mile is a century that doesn't have an end
+Then the burnt and broken pieces are the heart of every song
 
-You've got silver at the temples and a life that's turned its key
+Out passtthe horizon where the light begins to bend
+Every mile is a century that doesn't have an end
+You've got silver at the temples and a life that's turned its keep
 While I'm awake inside the dark while all the world's asleep
 A hundred years of wakin' up is nothing on a drive
 If you're standing in the middle of the room and still alive
@@ -385,15 +404,15 @@ Every second stretched and every quiet nerve
 
 You don't want a mirror frozen in the glass
 You want the living proof that we were here to pass
-Oh we're flying by the photographs fading into gold
+
+Oh, what's the half-life of a photograph fading into gold
 Things we lose along the way are the ones we really hold
-
-Yeah, the cars keep drivin' through the static and the years
-Turning all the heavy days into somethin' we can hear
+Yeah, the pulse keep drivin' through the static and the years
+Turning all the heavy days into something we can hear
 If time is just a current pulling both of us along
-Then the bled and broken pieces are the heart of every song
+Then the burnt and broken pieces are the heart of every song
 
-Fading into gold, every year you hold
+Flitting into gold, every year you hold
 Keep the rhythm moving through the night`,
     lyricNotes: [
       {
@@ -452,70 +471,63 @@ Keep the rhythm moving through the night`,
         ],
       },
     ],
-    lyrics: `Punch card at seven
-Walk the yellow line
-Step across the doorway
-Lose ten years of time
-Coffee on the burner
-Lunchbox on the floor
-Funny how a hallway
-Locks a different door
+    lyrics: `7:00 AM, coffee stained
+Deck three double shift again
+Past the yellow painted floor
+One small step, saying no more
+Iron hatch humming low
+Clocks change, time slows
 
-You step to the left
-Calendar jumps
-Heartbeat doubles
-Engine thumps
-Fingers left in Tuesday
-Ten years down the hall
-Work one double shift
-Missed the whole fall, yeah!
+Six steps through the midship haze
+Wire pulse, lost two days
+Daylight bends real slow and sweet
+Lifts me right up off my feet
 
-Boots kept tapping
-On the painted steel
-Spinnin' on a flywheel
-Tryin' to keep it real
+Three meters left of Tuesday
+Hours wash away
+Pocket in the atmosphere
+Out of yesterday
+Three meters left of Tuesday
+Finding my way
 
-Bought new sneakers
-Never wore 'em out
-My kid drives a pickup
-With a deeper shout
-Ask me how my day was
-Hand me a beer
-Traffic's heavy
-When you lose a year
+Wipe the grease off my hands
+Stepped out on county sand
+Blue truck by the side
+Kid drives up wide, my jaw, my eyes
+Under open skies, five autumns on the screw
+Boy I barely knew
 
-You step to the left
-Calendar jumps
-Heartbeat doubles
-Engine thumps
-Fingers left in Tuesday
-Ten years down the hall
-Work one double shift
-Missed the whole fall, yeah!
+Six steps through the midship haze
+Wire pulse, lost todays
+Daylight bends real slow and sweet
+Lifts me right up off my feet
 
-Boots kept tapping
-On the painted steel
-Spinnin' on a flywheel
-Tryin' to keep it real
+Three meters left of Tuesday
+Hours wash away
+Pocket in the atmosphere
+Out of yesterday
+Three meters left of Tuesday
+Finding my way
 
-Check the tape
-Mark the floor
-Don't step past that door
-Same old boots
-Brand new town
-Gravity won't slow us down
+One pace bends for life
+To allow us for lifetime
+Grab a lunchbox key
+Five autumns off the tree
+Off the tree
 
-Fingers left in Tuesday
-Ten years down the hall
-Work one double shift
-Missed the whole fall, yeah!
-Boots kept tapping
-On the painted steel
-Spinnin' on a flywheel
-Tryin' to keep it real
+Three meters left of Tuesday
+Hours wash away
+Pocket in the atmosphere
+Out of yesterday
 
-Three meters left
-Boots kept tappin'`,
+Three meters left of Tuesday
+Finding my way
+
+Three meters left of Tuesday 
+Step and go
+Hours wash away 
+Breathing slow, drifting home
+Drifting home just to step away`,
     lyricNotes: [
       {
         line: 'Step across the doorway / Lose ten years of time',
@@ -588,14 +600,14 @@ Now a split second there has no way to end
 I rode the ferry down where things slow
 Came back to find out it happened long ago
 Fresh in my chest like it started today
-Turned to a ghost tale while I was away
+Turned to a ghosttown while I was away
 Some lines don't bend when you push too hard
 One careless second leaves an endless scar
 
 You can't take back what the boundary keeps
 A joke in the hallway runs down too deep
 We treated the hours like pennies to spend
-Now a split second there has no way to end
+Now a split second dare has no way to end
 
 Hold your breath, keep your hands
 Back from the edge where the silence stands
@@ -605,7 +617,7 @@ Once you step over you can't close the door
 You can't take back what the boundary keeps
 A joke in the hallway runs down too deep
 We treated the hours like pennies to spend
-Now a split second there has no way to end
+Now a split second dare has no way to end
 
 Just kids in the hall by the edge of the wall
 Can't take it back at all`,
@@ -676,9 +688,9 @@ Trying not to break
 
 I've got room to feel
 What you can't afford to hold
-Keep it all warmed up
-While the steel stays cold
-Yeah, the engine hums
+Keep it all your warmth locked up
+So the steel stays cold
+Yet the engine hums
 At a hundred beats a minute, I'll sing the human part
 Since you haven't got the space in it
 
@@ -692,8 +704,8 @@ Trying not to break
 
 I've got room to feel
 What you can't afford to hold
-Keep it all warmed up
-While the steel stays cold
+Keeping all your warmth locked up
+So the steel stays cold
 Yeah, the engine hums
 At a hundred beats a minute, I'll sing the human part
 Since you haven't got the space in it
@@ -705,8 +717,8 @@ While you pull us through
 
 I've got room to feel
 What you can't afford to hold
-Keep it all warmed up
-While the steel stays cold
+Keeping all your warmth locked up
+So the steel stays cold
 Yeah, the engine hums
 At a hundred beats a minute, I'll sing the human part
 Since you haven't got the space in it
@@ -769,37 +781,31 @@ I'll keep the warm parts safe in between`,
         ],
       },
     ],
-    lyrics: `[Verse 1]
-Sunlight hitting through the kitchen blinds
+    lyrics: `Sunlight hitting through the kitchen blinds
 Coffee hot, we’re running out of time
 Chalk dust summer burning fast away
-Tuned up, turned up, ready for the spark before the flame
+Tuned up, turned up, ready for the spark before
 
-[Chorus]
 Daylight fades into the dark
 Got my coat on, hand on the door
 Can’t stay static anymore
-Clock is ticking, rhythm is set
+Clock is ticking, build is set
 Best things haven’t even happened yet
+
 Leave a note on the table
-The light out in the lab
+The light out in the line
 We are passing the fire
 Through the middle of the night
 Yeah, we burn while we’re standing
-Though the record spins around
+Let the record spin 'round
 Leave a note on the table
 For the next ones in town
 
-[Post-Chorus]
-Ooh, for the next ones in town
-
-[Verse 2]
 Steam rising up off the paper cup
 Scratch of the pen as the volume’s up
 Yellow pad sitting by the morning breeze
-Fast burning season, living on the edge and in between
+Fast burning season, living on the edge and the right
 
-[Chorus]
 Here on the starting edge
 Got my coat on, hand on the door
 Can’t stay static anymore
@@ -810,7 +816,7 @@ The light out in the lab
 We are passing the fire
 Through the middle of the night
 Yeah, we burn while we’re standing
-Though the record spins around
+Though the record spin 'round
 Leave a note on the table
 For the next ones in town
 
@@ -819,7 +825,7 @@ One for the road, three for the tune
 Two for the road, lighting up the heavy load
 Pass it on, pass it on
 Leave the door unlocked and wide
-Step into the seventh stride
+Step into the seventh sky
 
 [Chorus]
 Leave a note on the table
@@ -827,7 +833,7 @@ The light out in the lab
 We are passing the fire
 Through the middle of the night
 Yeah, we burn while we’re standing
-Though the record spins around
+Though the record spins 'round
 Leave a note on the table
 For the next ones in town
 

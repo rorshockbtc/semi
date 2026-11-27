@@ -26,6 +26,7 @@ export default function PersistentAudioDock() {
     hasStarted,
     isPlaying,
     playAllActive,
+    audioError,
     currentTime,
     duration,
     volume,
@@ -101,8 +102,14 @@ export default function PersistentAudioDock() {
                 {currentTrack.number} · {currentTrack.title}
               </Link>
               <p className="font-code text-[13px] text-[var(--a-muted)] truncate">
-                Semi (; - ]) · {currentTrack.subtitle}
-                {playAllActive ? ' · Playing all' : ''}
+                {audioError ? (
+                  <span className="text-[var(--a-accent-text)] font-semibold">{audioError}</span>
+                ) : (
+                  <>
+                    Semi (; - ]) · {currentTrack.subtitle}
+                    {playAllActive ? ' · Playing all' : ''}
+                  </>
+                )}
               </p>
             </div>
 

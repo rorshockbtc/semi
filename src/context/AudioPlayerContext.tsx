@@ -31,6 +31,7 @@ interface AudioPlayerContextValue {
   hasStarted: boolean;
   isPlaying: boolean;
   playAllActive: boolean;
+  audioError: string | null;
   currentTime: number;
   duration: number;
   volume: number;
@@ -107,6 +108,7 @@ export function AudioPlayerProvider({ children }: { children: React.ReactNode })
   const [hasStarted, setHasStarted] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
   const [playAllActive, setPlayAllActive] = useState(false);
+  const [audioError, setAudioError] = useState<string | null>(null);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
   const [volume, setVolumeState] = useState<number>(() => {
@@ -255,6 +257,7 @@ export function AudioPlayerProvider({ children }: { children: React.ReactNode })
     };
 
     const onPlay = () => {
+      setAudioError(null);
       setIsPlaying(true);
       if (typeof navigator !== 'undefined' && 'mediaSession' in navigator) {
         try {
@@ -274,7 +277,10 @@ export function AudioPlayerProvider({ children }: { children: React.ReactNode })
         }
       }
     };
-    const onError = () => setIsPlaying(false);
+    const onError = () => {
+      setIsPlaying(false);
+      setAudioError('Could not load this track. Check your connection or re-unlock your pass.');
+    };
 
     el.addEventListener('timeupdate', onTimeUpdate);
     el.addEventListener('loadedmetadata', onDurationUpdate);
@@ -588,6 +594,7 @@ export function AudioPlayerProvider({ children }: { children: React.ReactNode })
         hasStarted,
         isPlaying,
         playAllActive,
+        audioError,
         currentTime,
         duration,
         volume,

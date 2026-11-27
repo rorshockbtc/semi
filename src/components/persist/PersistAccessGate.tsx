@@ -2,10 +2,10 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { Lock, Mail, ShieldCheck } from 'lucide-react';
+import { KeyRound, Lock, Mail, ShieldCheck } from 'lucide-react';
 import type { PersistAccess } from '@/components/persist/usePersistAccess';
 
-/** Email → 6-digit code gate. Validates I/O Deluxe ownership (paid or promo code). */
+/** Email → 6-digit code OR direct promo/listener code gate. Validates I/O Deluxe ownership. */
 export default function PersistAccessGate({
   access,
   compact = false,
@@ -13,8 +13,10 @@ export default function PersistAccessGate({
   access: PersistAccess;
   compact?: boolean;
 }) {
+  const [mode, setMode] = useState<'email' | 'code'>('email');
   const [email, setEmail] = useState('');
   const [code, setCode] = useState('');
+  const [promoCode, setPromoCode] = useState('');
   const [codeSent, setCodeSent] = useState(false);
   const [busy, setBusy] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
@@ -79,6 +81,46 @@ export default function PersistAccessGate({
     }
   };
 
+  const redeemPromo = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError(null);
+    setMessage(null);
+    const clean = email.trim().toLowerCase();
+    const cleanPromo = promoCode.trim();
+    if (!clean.includes('@')) {
+      setError('Enter your email address so we can save your listening pass.');
+      return;
+    }
+    if (!cleanPromo) {
+      setError('Enter your access or promo code.');
+      return;
+    }
+    setBusy(true);
+    try {
+      const res = await fetch('/api/album/checkout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: clean, promoCode: cleanPromo }),
+      });
+      const data = (await res.json()) as {
+        ok?: boolean;
+        unlocked?: boolean;
+        token?: string;
+        email?: string;
+        error?: string;
+      };
+      if (!res.ok || !data.ok || !data.token) {
+        setError(data.error || 'That code wasn’t recognized. Please double-check and try again.');
+      } else {
+        access.grant(data.token, data.email ?? clean);
+      }
+    } catch {
+      setError('Couldn’t verify right now. Please try again.');
+    } finally {
+      setBusy(false);
+    }
+  };
+
   const inputCls =
     'min-h-[48px] w-full flex-1 rounded-full border border-[var(--a-rule)] bg-[var(--a-well)] px-5 text-[16px] text-[var(--a-ink)] placeholder:text-[var(--a-muted)] focus:border-[var(--a-ink)] focus:outline-none';
   const btnCls =
@@ -102,16 +144,62 @@ export default function PersistAccessGate({
             to get the preview. The full album will launch and stream sometime in the coming months
             and is being written and published early for fans of the first album.
           </p>
-          <Link
-            href="/songs#deluxe-edition"
-            className="wc-link inline-flex min-h-[44px] items-center text-[15px] font-semibold text-[var(--a-ink)]"
-          >
-            Get the I/O Deluxe Edition to unlock Persist →
-          </Link>
+          <div className="flex flex-wrap items-center gap-4 pt-1">
+            <Link
+              href="/songs#deluxe-edition"
+              className="wc-link inline-flex min-h-[44px] items-center text-[15px] font-semibold text-[var(--a-ink)]"
+            >
+              Get the I/O Deluxe Edition →
+            </Link>
+            <button
+              type="button"
+              onClick={() => {
+                setMode(mode === 'email' ? 'code' : 'email');
+                setError(null);
+                setMessage(null);
+              }}
+              className="min-h-[44px] text-[14px] font-semibold text-[var(--a-accent-text)] underline underline-offset-4 hover:text-[var(--a-ink)]"
+            >
+              {mode === 'email' ? 'Have a promo or listener code?' : 'Use I/O Deluxe email instead'}
+            </button>
+          </div>
         </div>
 
         <div className={compact ? '' : 'lg:col-span-6'}>
-          {!codeSent ? (
+          {mode === 'code' ? (
+            <form onSubmit={redeemPromo} className="space-y-3">
+              <label htmlFor="persist-promo-email" className="block text-[14px] font-semibold text-[var(--a-ink)]">
+                Unlock directly with your email &amp; access code
+              </label>
+              <div className="flex flex-col gap-3 sm:flex-row">
+                <input
+                  id="persist-promo-email"
+                  type="email"
+                  autoComplete="email"
+                  required
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="you@example.com"
+                  className={inputCls}
+                />
+                <input
+                  id="persist-promo-code"
+                  type="text"
+                  autoCapitalize="none"
+                  autoCorrect="off"
+                  required
+                  value={promoCode}
+                  onChange={(e) => setPromoCode(e.target.value)}
+                  placeholder="Access code"
+                  className={inputCls}
+                />
+                <button type="submit" disabled={busy} className={btnCls}>
+                  <KeyRound className="h-4 w-4" aria-hidden="true" />
+                  {busy ? 'Unlocking…' : 'Unlock'}
+                </button>
+              </div>
+            </form>
+          ) : !codeSent ? (
             <form onSubmit={requestCode} className="space-y-3">
               <label htmlFor="persist-email" className="block text-[14px] font-semibold text-[var(--a-ink)]">
                 Your I/O Deluxe email
