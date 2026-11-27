@@ -99,9 +99,9 @@ export const PERSIST_TRACKS: PersistTrack[] = [
     zone: 'horizon',
     zoneLabel: 'Horizon edge',
     properTimeLabel: 'Two clocks, one hull',
-    duration: '02:59',
+    duration: '03:01',
     vaultFile: '01-semi-redshift.mp3',
-    size: 9376493,
+    size: 7229113,
     artworkSrc: '/photos/persist/track-01-redshift.jpg',
     artworkAlt:
       'Semi with an acoustic guitar over her shoulder in a ship corridor beside an oval viewport of reddening starlight.',
@@ -271,7 +271,7 @@ Sun stuck halfway to the moon
 You're laughing together with lines 'round your eyes
 While I stand here under familiar skies
 
-Gravity pulls like a hand on a sleeve
+Gravity pulls like a hand on my sleeve
 Reminding me why it was hardest to leave
 You live in chapters, I live in frames
 The river runs slow, but nothing's the same
@@ -279,7 +279,7 @@ The river runs slow, but nothing's the same
 Oh, heavy air in the Old Country
 Hours hang on the vine
 You grow old in golden light
-While I burn on the line
+While I burned on the line
 It's a long way down from the edge of the wheel
 Where the weight of a second is real
 I'd trade forever to breathe it in
@@ -295,7 +295,7 @@ My voice hasn't changed since we said goodbye
 You pull up a chair in the shade of the oak
 Like two different timelines were only a joke
 
-Yeah, gravity pulls like a hand on a sleeve
+Yeah, gravity pulls like a hand on my sleeve
 Reminding me why it was hardest to leave
 You live in chapters, I live in frames
 The river runs slow, but nothing's the same
@@ -378,7 +378,7 @@ Like a porch bulb flickering before it gives out for the night
 I can read the timestamps down to every fraction of a beat
 Still I'm learning what it means when something's bitter and it's sweet
 
-And the clock keeps spinnin' on a different curve
+And the clock keeps spinning on a different curve
 Every second stretched and every quiet nerve
 You don't want a mirror frozen in the glass
 You want the living proof that we were here to pass
@@ -390,11 +390,11 @@ Turning all the heavy days into something we can hear
 If time is just a current pulling both of us along
 Then the burnt and broken pieces are the heart of every song
 
-Out passtthe horizon where the light begins to bend
+Out past the horizon where the light begins to bend
 Every mile is a century that doesn't have an end
 You've got silver at the temples and a life that's turned its keep
-While I'm awake inside the dark while all the world's asleep
-A hundred years of wakin' up is nothing on a drive
+While I'm awake inside the dark, while all the world's asleep
+A hundred years of waking up is nothing on a drive
 If you're standing in the middle of the room and still alive
 
 You tell me that a scar is just a story with some weight
@@ -478,7 +478,7 @@ One small step, saying no more
 Iron hatch humming low
 Clocks change, time slows
 
-Six steps through the midship haze
+Six steps through the Midship haze
 Wire pulse, lost two days
 Daylight bends real slow and sweet
 Lifts me right up off my feet
@@ -493,11 +493,11 @@ Finding my way
 Wipe the grease off my hands
 Stepped out on county sand
 Blue truck by the side
-Kid drives up wide, my jaw, my eyes
+Kid drives up wide: my jaw, my eyes
 Under open skies, five autumns on the screw
 Boy I barely knew
 
-Six steps through the midship haze
+Six steps through the Midship haze
 Wire pulse, lost todays
 Daylight bends real slow and sweet
 Lifts me right up off my feet
@@ -550,9 +550,9 @@ Drifting home just to step away`,
     zone: 'midship',
     zoneLabel: 'Midship',
     properTimeLabel: 'One shove ≈ a ghost tale',
-    duration: '02:27',
+    duration: '02:29',
     vaultFile: '05-semi-dont-cross-the-line.mp3',
-    size: 8143184,
+    size: 5959057,
     artworkSrc: '/photos/persist/track-05-dont-cross-the-line.jpg',
     artworkAlt:
       'Semi in an unbranded dark-olive knit sweater kneeling near a worn painted amber safety line in a dimly lit Midship corridor aboard Resonance.',
@@ -696,7 +696,7 @@ Since you haven't got the space in it
 
 Now when things drag out, you barely speak a word
 Up where everything moves fast, you're a blur that can't be heard
-Calculating every pull against the downward pull
+Calculating every poll against the downward pull
 Never get a quiet breath with your hands that full
 You aren't cold by choice
 You're just carrying the weight of a hundred thousand rooms
@@ -711,7 +711,7 @@ At a hundred beats a minute, I'll sing the human part
 Since you haven't got the space in it
 
 If I had to hold the floor
-I'd go quiet, too
+I'd go quiet too
 Let me carry half the ache
 While you pull us through
 
@@ -747,9 +747,9 @@ I'll keep the warm parts safe in between`,
     zone: 'tip',
     zoneLabel: 'The Tip · Midship Boundary',
     properTimeLabel: 'Tip clock · Years for every Old Country day',
-    duration: '02:58',
+    duration: '03:00',
     vaultFile: '07-semi-leave-a-note.mp3',
-    size: 7117761,
+    size: 7185921,
     artworkSrc: '/photos/persist/track-07-leave-a-note.jpg',
     artworkAlt:
       'Inside the bright Tip observatory of Resonance framed by silver birch trees, with handwritten survival notebooks, a steaming mug, and twine-tied paper dispatches beside a courier canister.',
@@ -786,10 +786,10 @@ Coffee hot, we’re running out of time
 Chalk dust summer burning fast away
 Tuned up, turned up, ready for the spark before
 
-Daylight fades into the dark
+The daylight fades into the dark
 Got my coat on, hand on the door
 Can’t stay static anymore
-Clock is ticking, build is set
+Clock is ticking, building is set
 Best things haven’t even happened yet
 
 Leave a note on the table
@@ -804,30 +804,29 @@ For the next ones in town
 Steam rising up off the paper cup
 Scratch of the pen as the volume’s up
 Yellow pad sitting by the morning breeze
-Fast burning season, living on the edge and the right
+Fast burning season, living on the edge and then right
 
 Here on the starting edge
 Got my coat on, hand on the door
 Can’t stay static anymore
 Clock is ticking, rhythm is set
-Best things haven’t even happened yet
+Best days haven’t even happened yet
+
 Leave a note on the table
-The light out in the lab
+The iron out in the light
 We are passing the fire
 Through the middle of the night
 Yeah, we burn while we’re standing
-Though the record spin 'round
+Let the record spin 'round
 Leave a note on the table
 For the next ones in town
 
-[Bridge]
 One for the road, three for the tune
 Two for the road, lighting up the heavy load
 Pass it on, pass it on
 Leave the door unlocked and wide
 Step into the seventh sky
 
-[Chorus]
 Leave a note on the table
 The light out in the lab
 We are passing the fire
@@ -837,10 +836,9 @@ Though the record spins 'round
 Leave a note on the table
 For the next ones in town
 
-[Outro]
 For the next ones in town
 Oh, the next ones in town
-Passing it on
+Passing it forward now
 Oh yeah
 Leave a note on the table`,
     lyricNotes: [
@@ -900,8 +898,7 @@ Leave a note on the table`,
         ],
       },
     ],
-    lyrics: `[Verse 1]
-Basement bar at Seventh Street
+    lyrics: `Basement bar at Seventh Street
 Neon buzzing on the glass
 1992 outside
 Watching winter traffic pass
@@ -910,13 +907,11 @@ Wound it down a single cent
 Shook your hand and walked away
 Never knew what zero meant
 
-[Pre-Chorus]
-It was barely worth the dime
+It was barely worth a dime
 Just a smudge upon the page
 Funny how a tiny slip
 Built a whole new cage
 
-[Chorus]
 One cent off at midnight
 A millimeter wide
 You don’t feel the steering pull
@@ -926,7 +921,6 @@ Down the avenue
 Every tiny decimal
 Changes where we’re going to
 
-[Verse 2]
 Carried it inside my coat
 Out into the pouring rain
 Thought we had the numbers right
@@ -936,13 +930,11 @@ Missing by a hair’s breadth
 Funny how a quiet nod
 Sets the pace for what comes next
 
-[Pre-Chorus]
-It was barely worth the dime
+It was barely worth a dime
 Just a smudge upon the page
 Funny how a tiny slip
 Built a whole new cage
 
-[Chorus]
 One cent off at midnight
 A millimeter wide
 You don’t feel the steering pull
@@ -952,7 +944,6 @@ Down the avenue
 Every tiny decimal
 Changes where we’re going to
 
-[Outro]
 One cent off
 A millimeter wide
 Keep the rhythm running
@@ -979,9 +970,9 @@ Along for the ride`,
     zone: 'midship',
     zoneLabel: 'Aboard Resonance · Seeing the seams',
     properTimeLabel: 'A fourth color cone · Inherited from Hannah',
-    duration: '02:41',
+    duration: '02:43',
     vaultFile: '09-semi-violet-bleed.mp3',
-    size: 6448641,
+    size: 6516801,
     artworkSrc: '/photos/persist/track-09-violet-bleed.jpg',
     artworkAlt:
       'Inside Resonance’s copper-framed observatory, a young woman with subtle heterochromia looks through a luminous violet-indigo and warm amber spacetime boundary.',
@@ -1013,54 +1004,45 @@ Along for the ride`,
         ],
       },
     ],
-    lyrics: `[Verse 1]
-Step off the bus right about noon
+    lyrics: `Standard bus went out at noon
 Hallway painted gray, everyone is squinting hard
 Trying to find the way
 Funny what your eyes will do when the map goes blind
-Waking up a brand new earth right behind your mind
+Waking up a brand new nerve right behind your mind
 
-[Pre-Chorus]
 Three times on the old VCR
 Never told the whole, now the edges start to hum
 Pulling at my soul
 
-[Chorus]
 I can see the violet bleed running down the seam
-Waking up a fourth dimension sharper than a dream
+Waking up a fourth or shape sharper than a dream
 Keep the sneakers moving fast down the corridor
 Sing what was always there hidden by the floor
 
-[Verse 2]
 Used to think the room was blank, nothing left to read
 Now the bruise electric tint gives me what I need
 Every bend along the steel paints a warning line
 Everybody misses it, looks like home to mine
 
-[Pre-Chorus]
 Three times on the old VCR
 Never told the whole, now the edges start to hum
 Pulling at my soul
 
-[Chorus]
 I can see the violet bleed running down the seam
-Waking up a fourth dimension sharper than a dream
+Waking up a fourth or shape sharper than a dream
 Keep the sneakers moving fast down the corridor
 Sing what was always there hidden by the floor
 
-[Bridge]
-Red and green and blue only tell part
+Red and green and blue only tell a part
 Open up the hidden band running through the chart
 Step into the frequency, feel the pulse aligned
 Every shifted wavelength turning into mine
 
-[Chorus]
 I can see the violet bleed running down the seam
-Waking up a fourth dimension sharper than a dream
+Waking up a fourth or shape sharper than a dream
 Keep the sneakers moving fast down the corridor
 Sing what was always there hidden by the floor
 
-[Outro]
 Violet on the seam
 Sharper than a dream
 Keep the rhythm moving down the corridor`,
@@ -1082,9 +1064,9 @@ Keep the rhythm moving down the corridor`,
     zone: 'tip',
     zoneLabel: 'The Tip · Farewell Party',
     properTimeLabel: 'Tip speed · Decades before his return',
-    duration: '02:58',
+    duration: '03:00',
     vaultFile: '10-semi-borrowing-tomorrow.mp3',
-    size: 7132173,
+    size: 7200333,
     artworkSrc: '/photos/persist/track-10-borrowing-tomorrow.jpg',
     artworkAlt:
       'Young researchers in knitwear toasting with mugs beneath string lights and silver birch trees in The Tip conservatory while a traveler in a heavy wool coat looks out toward the shuttle airlock.',
@@ -1115,8 +1097,7 @@ Keep the rhythm moving down the corridor`,
         ],
       },
     ],
-    lyrics: `[Verse 1]
-Friday night on the porch’s floor
+    lyrics: `Friday night and the porch is full
 Drinks lined up on the kitchen rail
 Both of us know come Monday noon
 We’re boardin’ a different trail
@@ -1125,13 +1106,11 @@ Nobody’s saving up for spring
 Counting the hours like loose change
 Spending it all on everything
 
-[Chorus]
 We’re borrowing tomorrow
 Spending it tonight
 Laughing like a whole life
 Fits before the flight
 
-[Verse 2]
 Polaroids stuck to the fridge door
 Records spinning on side two
 Telling a decade of stories
@@ -1141,30 +1120,31 @@ I don’t care how fast it goes
 You get a lifetime in forty-eight
 When everybody already knows
 
-[Chorus]
 We’re borrowing tomorrow
 Spending it tonight
 Laughing like a whole life
 Fits before the flight
 
-[Bridge]
-Don’t say anything, no looking back
+Don’t signal anything, no looking back
 Two days of summer on a one-way track
 Pour out the rest of it, turn up the sound
 Best kind of living with your feet off the ground
 
-[Chorus]
 We’re borrowing tomorrow
 Spending it tonight
 Laughing like a whole life
 Fits before the flight
 
-[Outro]
-Whole life in a weekend before the morning light
+Whole life in a weekend before the morning flight
 Yeah, we’re spending it tonight
 Tonight
 Oh, we’re borrowing tomorrow
-Yeah, we’re spending it tonight`,
+Yeah, we’re spending it tonight
+
+We’re borrowing tomorrow
+Spending it tonight
+Laughing like a whole life
+Fits before the flight`,
     lyricNotes: [
       {
         line: 'Nobody’s making five-year plans / Nobody’s saving up for spring',
@@ -1183,9 +1163,9 @@ Yeah, we’re spending it tonight`,
     zone: 'horizon',
     zoneLabel: 'Earth Departure · Boarding Resonance',
     properTimeLabel: 'Shuttle ascent · Leaving a collapsing Earth',
-    duration: '02:56',
+    duration: '02:58',
     vaultFile: '11-semi-leaving-it-behind.mp3',
-    size: 7050571,
+    size: 7118731,
     artworkSrc: '/photos/persist/track-11-leaving-it-behind.jpg',
     artworkAlt:
       'Inside an ascending shuttle cabin looking out a sunlit viewport at a fading Earth below and the colossal cylindrical hull of Resonance in orbit.',
@@ -1216,40 +1196,34 @@ Yeah, we’re spending it tonight`,
         ],
       },
     ],
-    lyrics: `[Verse 1]
-Pack the last box by the door
+    lyrics: `Pack the last box by the door
 Left the key beneath the mat
 Nothing left to argue for
 No more looking back at that
 
-[Verse 2]
 Rearview mirror getting small
 Town is just a marble now
 Didn’t want to leave it all
-Had to go to figure out
+Had to go to figure how
 
-[Chorus]
 Leaving it behind
 Stepping off the ground
-Ain’t no turning back once the wheels go round
+Ain’t no turning back once the wheels go 'round
 No, we won’t look down
 We’re already gone
 Leaving it behind
 Rolling steady on
 
-[Verse 3]
 Saw the red dust passing by
 Through the window on the right
 Said goodbye to every mile
 Rolled on out into the night
 
-[Verse 4]
 People ask you if you’re scared
 When the road runs out of town
 Truth is you were scared
 Never laying burdens down
 
-[Chorus]
 Leaving it behind
 Stepping off the ground
 Ain’t no turning back once the wheels go round
@@ -1258,22 +1232,19 @@ We’re already gone
 Leaving it behind
 Rolling steady on
 
-[Bridge]
 Maybe we were meant to stay
 Maybe we were meant to roam
 Either way we drew the line
 And built another home
 
-[Chorus]
 Leaving it behind
 Stepping off the ground
-Ain’t no turning back once the wheels go round
+Ain’t no turning back once the wheels go 'round
 No, we won’t look down
 We’re already gone
 Leaving it behind
 Rolling steady on
 
-[Outro]
 Leaving it behind
 Rolling steady on
 Ain’t no turning back
@@ -1296,9 +1267,9 @@ We’re already gone`,
     zone: 'horizon',
     zoneLabel: 'Ancient Flashback · Ana & Pyotr',
     properTimeLabel: 'The Invention of the Wheel',
-    duration: '02:59',
+    duration: '03:01',
     vaultFile: '12-semi-circle.mp3',
-    size: 7166709,
+    size: 7234869,
     artworkSrc: '/photos/persist/track-12-circle.jpg',
     artworkAlt:
       'At twilight in a misty mud-flat valley, a mother kneels beside a wooden sledge carrying her injured son, wedging a rough-hewn wooden wheel slice under the runner toward distant hearth light.',
@@ -1330,8 +1301,7 @@ We’re already gone`,
         ],
       },
     ],
-    lyrics: `[Verse 1]
-Cold mist rises past our knees
+    lyrics: `Cold mist rising past our knees
 Reeds bend low beside the bank
 Seven winters on your back
 Every timber where we sank
@@ -1340,8 +1310,7 @@ Shave the rough edge off the oak
 Every journey starts right here
 Before a single word was spoke
 
-[Chorus]
-Round and round the wooden wheel
+'Round and 'round the wooden wheel
 Rolling through the wet and clay
 Now we don’t have to carry all
 The weight we carried yesterday
@@ -1350,18 +1319,16 @@ Out into the open wide
 Every road we ever built
 Started at the waterside
 
-[Verse 2]
 Raindrops falling on your coat
 Muddy footprints in the grass
 Little boy beside the marsh
 Building something meant to last
-Cut the sinew straight and true
+Cut the center straight and true
 Slide the axle through the grain
 Once a circle starts to roll
 Nothing stays the same again
 
-[Chorus]
-Round and round the wooden wheel
+'Round and 'round the wooden wheel
 Rolling through the wet and clay
 Now we don’t have to carry all
 The weight we carried yesterday
@@ -1370,14 +1337,12 @@ Out into the open wide
 Every road we ever built
 Started at the waterside
 
-[Bridge]
 Thousands of miles ahead
-Farther than our eyes can see
+Further than our eyes can see
 Every step that takes us far
 Starts with just you and me
 
-[Chorus]
-Round and round the wooden wheel
+'Round and 'round the wooden wheel
 Rolling through the wet and clay
 Now we don’t have to carry all
 The weight we carried yesterday
@@ -1386,7 +1351,6 @@ Out into the open wide
 Every road we ever built
 Started at the waterside
 
-[Outro]
 Round and round the wooden wheel
 Out into the open wide
 Every road we ever built
@@ -1403,15 +1367,15 @@ Started at the waterside`,
     ],
   },
   {
-    number: '14',
+    number: '13',
     slug: 'redshift-reprise',
     title: 'Redshift (Reprise)',
     zone: 'horizon',
     zoneLabel: 'Horizon edge',
     properTimeLabel: '1 second here ≈ 10 years there',
-    duration: '02:49',
+    duration: '02:51',
     vaultFile: '14-semi-redshift-reprise.mp3',
-    size: 9508083,
+    size: 6824973,
     isBonus: true,
     artworkSrc: '/photos/persist/track-14-redshift-reprise.jpg',
     artworkAlt:
@@ -1438,29 +1402,32 @@ Started at the waterside`,
         ],
       },
     ],
-    lyrics: `You pull away, the light turns blue
+    lyrics: `One two three,
+One two
+
+You pull away, the light turns blue
 I stay right here and look for you
 The wavelength stretches out so long
 A quiet space inside the song
-We spin in place
-We spin in space
+We spin in place, we spin in space
 I trace the curve across your face
 
-Heavy weight in heavy space
+Heavy weight, heavy space
 Time slows down in the outer place
 One second here is ten years there
-I feel you pulling me up, pulling me up in air
+I feel your pull in the--
+Oh, in the open air
 
 Now you're drifting past the speed of light
 Leaving a crimson trail through the night
 Gravity holds while the dark red bends
 Show me where the timeline starts and ends
 Caught in the redshift, drawn to your trace
-Sweeping orbits in the curve of space
+Two faint orbits in the curve of space
 Oh, slow the hours and pull me back in
 Tell me where we end and begin
 
-Solar haze and moon
+Solar haze on rue
 Massive stars in heavy grounds
 Clock ticks fast without a sound
 We fly ahead at light-speed pace
@@ -1469,17 +1436,18 @@ I count the frames in empty space
 A Doppler shift, a sudden flash
 Two satellites before the crash
 
-Heavy weight in heavy space
+Heavy weight, heavy space
 Time slows down in the outer place
 One second here is ten years there
-I feel you pulling me up, pulling me up in air
+I feel your pull in the--
+Oh, in the open air
 
 Now you're drifting past the speed of light
 Leaving a crimson trail through the night
 Gravity holds while the dark red bends
 Show me where the timeline starts and ends
 Caught in the redshift, drawn to your trace
-Sweeping orbits in the curve of space
+Two faint orbits in the curve of space
 Oh, slow the hours and pull me back in
 Tell me where we end and begin
 
@@ -1494,7 +1462,7 @@ Leaving a crimson trail through the night
 Gravity holds while the dark red bends
 Show me where the timeline starts and ends
 Caught in the redshift, drawn to your trace
-Sweeping orbits in the curve of space
+Two faint orbits in the curve of space
 Oh, slow the hours and pull me back in
 Tell me where we end and begin
 
@@ -1518,7 +1486,7 @@ Gravity holds`,
     ],
   },
   {
-    number: '15',
+    number: '14',
     slug: 'half-life-alternate',
     title: 'Half Life (Alternate Take)',
     zone: 'midship',
@@ -1555,14 +1523,15 @@ Gravity holds`,
     ],
     lyrics: `Shoebox in the closet, curled up at the seams
 Faces getting softer, blurring at the edges
-I can pull the rough cut, clean as daylight yet
+I can pull the raw file, clean as the day we met
 You say a real memory needs room to forget
 
 You don't want a mirror locked behind the glass
-You want the messy truth that we were here to pass
+You want the messy proof that we were here to pass
+
 Half-life of a Polaroid fading on the wall
-The pieces that we lose are the ones we keep at all
-Keep the rhythm moving through the static and the years
+The pieces that we lose are the ones we keep at
+All keep the rhythm moving through the static and the years
 Every scratch upon the tape is how we know we're here
 
 Shift change on the Midship, walking down the hall
@@ -1570,22 +1539,22 @@ One step past the bulkhead, ten winters on the wall
 You've got coffee on your sleeve, and a crease beside your mouth
 I'm still standing where you left me, looking north and south
 You don't want a mirror locked behind the glass
-You want the messy truth that we were here to pass
+You want the messy proof that we were here to pass
 
 Half-life of a Polaroid fading on the wall
-The pieces that we lose are the ones we keep at all
-Keep the rhythm moving through the static and the years
+The pieces that we lose are the ones we keep at
+All keep the rhythm moving through the static and the years
 Every scratch upon the tape is how we know we're here
 
 Not a cold archive, not a spotless screen
 Just a warmth inside the gaps of everything we've seen
 Half-life of a Polaroid fading on the wall
-The pieces that we lose are the ones we keep at all
+The pieces that we lose are the ones we keep at
 
-Keep the rhythm moving through the static and the years
+All keep the rhythm moving through the static and the years
 Every scratch upon the tape is how we know we're here
-Fading on the wall, the ones we keep at all
-Keep the rhythm moving through the years`,
+Fading on the wall, the ones we keep at
+All keep the rhythm moving through the years`,
     lyricNotes: [
       {
         line: 'One step past the bulkhead, ten winters on the wall',
