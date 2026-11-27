@@ -39,7 +39,11 @@ export async function POST(req: Request) {
       });
       if (!sent.sent) {
         return NextResponse.json(
-          { ok: false, error: 'Email delivery isn’t configured in this environment. Use your receipt link instead.' },
+          {
+            ok: false,
+            emailUnavailable: true,
+            error: 'Email code delivery isn’t available right now—use the Access / Promo Code tab to unlock immediately.',
+          },
           { status: 503 }
         );
       }

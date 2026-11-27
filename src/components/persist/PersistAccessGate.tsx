@@ -13,7 +13,7 @@ export default function PersistAccessGate({
   access: PersistAccess;
   compact?: boolean;
 }) {
-  const [mode, setMode] = useState<'email' | 'code'>('email');
+  const [mode, setMode] = useState<'code' | 'email'>('code');
   const [email, setEmail] = useState('');
   const [code, setCode] = useState('');
   const [promoCode, setPromoCode] = useState('');
@@ -38,8 +38,16 @@ export default function PersistAccessGate({
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email: clean }),
       });
-      const data = (await res.json()) as { ok?: boolean; message?: string; error?: string };
+      const data = (await res.json()) as {
+        ok?: boolean;
+        emailUnavailable?: boolean;
+        message?: string;
+        error?: string;
+      };
       if (!res.ok || !data.ok) {
+        if (data.emailUnavailable) {
+          setMode('code');
+        }
         setError(data.error || 'We couldn’t find an I/O Deluxe unlock for that email yet.');
       } else {
         setCodeSent(true);

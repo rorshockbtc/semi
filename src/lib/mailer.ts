@@ -212,11 +212,7 @@ export async function sendDeluxeLoginCodeEmail(params: {
   recipientEmail: string;
   code: string;
 }): Promise<{ sent: boolean; skippedReason?: string }> {
-  const { host, port, user, pass } = getSmtpConfig();
-  if (!user || !pass) {
-    return { sent: false, skippedReason: 'smtp_not_configured' };
-  }
-
+  const subject = `${params.code} is your I/O Deluxe Edition access code`;
   const text = [
     'Hey —',
     '',
@@ -251,22 +247,50 @@ export async function sendDeluxeLoginCodeEmail(params: {
 </body>
 </html>`;
 
-  const transporter = nodemailer.createTransport({
-    host,
-    port,
-    secure: port === 465,
-    auth: { user, pass },
-    tls: { rejectUnauthorized: false },
-  });
+  const resendKey = process.env.RESEND_API_KEY?.trim();
+  if (resendKey) {
+    try {
+      const from = process.env.RESEND_FROM?.trim() || 'Semi <semi@colonhyphenbracket.pink>';
+      const res = await fetch('https://api.resend.com/emails', {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${resendKey}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ from, to: [params.recipientEmail], subject, text, html }),
+      });
+      if (res.ok) return { sent: true };
+    } catch {
+      // Fall through to SMTP or clean fallback
+    }
+  }
 
-  await transporter.sendMail({
-    from: `"Semi" <${user}>`,
-    to: params.recipientEmail,
-    replyTo: user,
-    subject: `${params.code} is your I/O Deluxe Edition access code`,
-    text,
-    html,
-  });
+  const { host, port, user, pass } = getSmtpConfig();
+  if (!user || !pass) {
+    return { sent: false, skippedReason: 'smtp_not_configured' };
+  }
 
-  return { sent: true };
+  try {
+    const transporter = nodemailer.createTransport({
+      host,
+      port,
+      secure: port === 465,
+      auth: { user, pass },
+      tls: { rejectUnauthorized: false },
+    });
+
+    await transporter.sendMail({
+      from: `"Semi" <${user}>`,
+      to: params.recipientEmail,
+      replyTo: user,
+      subject,
+      text,
+      html,
+    });
+
+    return { sent: true };
+  } catch (err) {
+    console.warn('[Mailer] SMTP send failed (likely Workers socket restriction):', err);
+    return { sent: false, skippedReason: 'smtp_unavailable' };
+  }
 }
