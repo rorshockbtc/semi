@@ -292,14 +292,14 @@ export default function PersistIndexClient() {
               Read from the novel
             </p>
             <h2 className="mt-3 font-display text-[clamp(1.85rem,1.3rem+2.5vw,3rem)] font-bold leading-[1.06] tracking-[-0.02em] text-[var(--a-ink)]">
-              Two chapters, free to read.
+              Read “Circle” from the novel.
             </h2>
             <p className="mt-3 max-w-[62ch] text-[17px] leading-relaxed text-[var(--a-ink)]/90">
-              The songs make more sense once you know the world. Here are two early chapters from{' '}
-              <em>Persist</em>—lightly edited drafts, shared so you can step inside before the book is
-              finished.
+              The songs hit deeper once you know the world. Read the complete chapter behind{' '}
+              <em>Circle</em> below—a second chapter from aboard <em>Resonance</em> will be added
+              soon.
             </p>
-            <ul className="mt-8 grid gap-4 md:grid-cols-2">
+            <ul className="mt-8 grid gap-4">
               {PERSIST_CHAPTERS.map((c) => (
                 <li key={c.slug}>
                   <Link

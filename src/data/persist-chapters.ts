@@ -574,16 +574,6 @@ function minutes(blocks: PersistChapterBlock[]): number {
 
 export const PERSIST_CHAPTERS: PersistChapter[] = [
   {
-    slug: 'light',
-    title: 'Light',
-    label: 'Chapter One',
-    era: 'New York · August 1992',
-    dek: 'A sleepless junior analyst and a lighting designer who sees more color than anyone else meet under a buzzing deli light. The novel begins here—and so does something that will outlast them both.',
-    readingMinutes: minutes(BLOCKS.light),
-    relatedTrackSlug: 'one-cent',
-    blocks: BLOCKS.light,
-  },
-  {
     slug: 'circle',
     title: 'Circle',
     label: 'From the novel',
@@ -597,4 +587,8 @@ export const PERSIST_CHAPTERS: PersistChapter[] = [
 
 export function getPersistChapter(slug: string): PersistChapter | undefined {
   return PERSIST_CHAPTERS.find((c) => c.slug === slug);
+}
+
+export function getPersistChapterByTrack(trackSlug: string): PersistChapter | undefined {
+  return PERSIST_CHAPTERS.find((c) => c.relatedTrackSlug === trackSlug);
 }

@@ -2,11 +2,12 @@
 
 import React, { useRef, useState } from 'react';
 import Link from 'next/link';
-import { ArrowLeft, ArrowRight, Info, Music, Pause, Play } from 'lucide-react';
+import { ArrowLeft, ArrowRight, BookOpen, Info, Music, Pause, Play } from 'lucide-react';
 import RelativisticHorizonCanvas from '@/art/RelativisticHorizonCanvas';
 import PersistAccessGate from '@/components/persist/PersistAccessGate';
 import { usePersistAccess } from '@/components/persist/usePersistAccess';
 import { useAudioPlayer } from '@/context/AudioPlayerContext';
+import { getPersistChapterByTrack } from '@/data/persist-chapters';
 import { PERSIST_CHORD_SHEETS, getPersistChordForLine } from '@/data/persist-chords';
 import type { PersistTrack } from '@/data/persist-songs';
 
@@ -150,6 +151,33 @@ export default function PersistTrackClient({
               </section>
             ))}
           </div>
+
+          {(() => {
+            const chapter = getPersistChapterByTrack(track.slug);
+            if (!chapter) return null;
+            return (
+              <div className="mt-12 max-w-[64ch]">
+                <Link
+                  href={`/persist/read/${chapter.slug}`}
+                  data-testid={`track-read-chapter-${chapter.slug}`}
+                  className="group flex items-center justify-between gap-4 rounded-2xl border border-[var(--a-rule)] bg-[var(--a-surface)] p-5 sm:p-6 no-underline transition-colors hover:border-[var(--a-ink)]"
+                >
+                  <div>
+                    <p className="font-code text-[13px] font-semibold uppercase tracking-[0.16em] text-[var(--a-accent-text)]">
+                      {chapter.label} · {chapter.readingMinutes} min read
+                    </p>
+                    <p className="mt-1 font-display text-xl sm:text-2xl font-bold text-[var(--a-ink)]">
+                      Read “{chapter.title}” from the novel
+                    </p>
+                    <p className="mt-1 text-[15px] text-[var(--a-muted)]">{chapter.era}</p>
+                  </div>
+                  <span className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[var(--a-accent-fill)] text-white transition-transform group-hover:translate-x-0.5">
+                    <BookOpen className="h-5 w-5" aria-hidden="true" />
+                  </span>
+                </Link>
+              </div>
+            );
+          })()}
 
           <div className="mt-14 space-y-4 border-t border-[var(--a-rule)] pt-8">
             <p className="font-code text-[13px] font-semibold uppercase tracking-[0.18em] text-[var(--a-accent-text)]">
