@@ -3,6 +3,7 @@ import AutumnPaperCanvas from '@/art/AutumnPaperCanvas';
 import SiteHeader from '@/components/site/SiteHeader';
 import SiteFooter from '@/components/site/SiteFooter';
 import Hero from '@/components/sections/Hero';
+import PersistPromoVideoSection from '@/components/sections/PersistPromoVideoSection';
 import AlbumReleaseCallout from '@/components/sections/AlbumReleaseCallout';
 import WelcomeVideoSection from '@/components/sections/WelcomeVideoSection';
 import FeaturedSongsSection from '@/components/sections/FeaturedSongsSection';
@@ -24,6 +25,7 @@ export default function HomePage() {
       <SiteHeader />
       <main id="main" className="relative z-10 flex-1">
         <Hero />
+        <PersistPromoVideoSection />
         <AlbumReleaseCallout />
         <WelcomeVideoSection />
         <FeaturedSongsSection />

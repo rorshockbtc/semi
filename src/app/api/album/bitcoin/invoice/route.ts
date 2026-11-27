@@ -1,23 +1,35 @@
-import { DELUXE_PRICE_CENTS } from '../../../../../lib/album-purchases.ts';
+import { DELUXE_PRICE_CENTS, resolvePromoPricing } from '../../../../../lib/album-purchases.ts';
 
 export const dynamic = 'force-dynamic';
 
 const STRIKE_API_BASE = 'https://api.strike.me/v1';
 
 export async function POST(request: Request) {
-  let body: { email?: string } = {};
+  let body: { email?: string; promoCode?: string } = {};
   try {
-    body = (await request.json()) as { email?: string };
+    body = (await request.json()) as { email?: string; promoCode?: string };
   } catch {
     return Response.json({ ok: false, error: 'Invalid request body' }, { status: 400 });
   }
 
   const email = typeof body.email === 'string' ? body.email.trim().toLowerCase() : '';
+  const promo = typeof body.promoCode === 'string' ? body.promoCode.trim().toLowerCase() : '';
   if (!email || !email.includes('@') || !email.includes('.')) {
     return Response.json(
       { ok: false, error: 'Please enter a valid email address for your receipt and lifetime updates.' },
       { status: 400 }
     );
+  }
+
+  let amountCents = DELUXE_PRICE_CENTS;
+  if (promo) {
+    const resolved = resolvePromoPricing(promo);
+    if (!resolved.valid) {
+      return Response.json({ ok: false, error: resolved.error }, { status: 400 });
+    }
+    if (resolved.kind === 'discount') {
+      amountCents = resolved.amountCents;
+    }
   }
 
   const strikeKey = process.env.STRIKE_API_KEY?.trim();
@@ -32,7 +44,7 @@ export async function POST(request: Request) {
     );
   }
 
-  const amountUsd = (DELUXE_PRICE_CENTS / 100).toFixed(2);
+  const amountUsd = (amountCents / 100).toFixed(2);
   const correlationId = `semi-io-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
 
   const invRes = await fetch(`${STRIKE_API_BASE}/invoices`, {

@@ -2,6 +2,7 @@ import {
   DELUXE_COOKIE_NAME,
   DELUXE_PRICE_CENTS,
   PROMO_CODE_FREE,
+  resolvePromoPricing,
   upsertAlbumPurchase,
 } from '../../../../lib/album-purchases.ts';
 import { sendDeluxeReceiptEmail } from '../../../../lib/mailer.ts';
@@ -47,56 +48,63 @@ export async function POST(req: Request) {
     }
 
     const origin = new URL(req.url).origin;
+    let unitAmountCents = DELUXE_PRICE_CENTS;
+    let appliedPromoCode: string | null = null;
 
-    // 1. Direct 100%-off promo code: trypipesdotpink
+    // 1. Validate promo code (free unlock OR BlackFriday $5.99 discount)
     if (promo) {
-      if (promo !== PROMO_CODE_FREE) {
+      const resolved = resolvePromoPricing(promo);
+      if (!resolved.valid) {
         return Response.json(
           {
             ok: false,
-            error:
-              'That discount code was not recognized. Check the spelling or clear it to pay with Stripe.',
+            error: resolved.error,
           },
           { status: 400 }
         );
       }
 
-      const { record, isNew } = await upsertAlbumPurchase({
-        email,
-        source: `promo:${PROMO_CODE_FREE}`,
-        amountCents: 0,
-      });
+      if (resolved.kind === 'free') {
+        const { record, isNew } = await upsertAlbumPurchase({
+          email,
+          source: `promo:${PROMO_CODE_FREE}`,
+          amountCents: 0,
+        });
 
-      if (isNew && !isSyntheticTestEmail(email)) {
-        try {
-          await sendDeluxeReceiptEmail({
-            recipientEmail: email,
-            accessToken: record.accessToken,
-            origin,
-          });
-        } catch (mailErr) {
-          console.warn('[AlbumCheckout] Promo receipt email warning:', mailErr);
+        if (isNew && !isSyntheticTestEmail(email)) {
+          try {
+            await sendDeluxeReceiptEmail({
+              recipientEmail: email,
+              accessToken: record.accessToken,
+              origin,
+            });
+          } catch (mailErr) {
+            console.warn('[AlbumCheckout] Promo receipt email warning:', mailErr);
+          }
         }
+
+        return Response.json(
+          {
+            ok: true,
+            unlocked: true,
+            email: record.email,
+            token: record.accessToken,
+            message: 'Code accepted! Your I/O Deluxe 15-Track Edition is unlocked with lifetime updates.',
+          },
+          {
+            status: 200,
+            headers: {
+              'Set-Cookie': buildCookieHeader(record.accessToken, origin.startsWith('https://')),
+            },
+          }
+        );
       }
 
-      return Response.json(
-        {
-          ok: true,
-          unlocked: true,
-          email: record.email,
-          token: record.accessToken,
-          message: 'Code accepted! Your I/O Deluxe 15-Track Edition is unlocked with lifetime updates.',
-        },
-        {
-          status: 200,
-          headers: {
-            'Set-Cookie': buildCookieHeader(record.accessToken, origin.startsWith('https://')),
-          },
-        }
-      );
+      unitAmountCents = resolved.amountCents;
+      appliedPromoCode = resolved.code;
     }
 
-    // 2. Paid $12.99 Stripe Checkout Session
+    // 2. Paid Stripe Checkout Session ($12.99 standard, or $5.99 with BlackFriday)
     const stripeKey = process.env.STRIPE_SECRET_KEY?.trim();
     if (!stripeKey || (!stripeKey.startsWith('sk_') && !stripeKey.startsWith('rk_'))) {
       return Response.json(
@@ -115,10 +123,12 @@ export async function POST(req: Request) {
     form.set('customer_email', email);
     form.set('allow_promotion_codes', 'true');
     form.set('line_items[0][price_data][currency]', 'usd');
-    form.set('line_items[0][price_data][unit_amount]', String(DELUXE_PRICE_CENTS));
+    form.set('line_items[0][price_data][unit_amount]', String(unitAmountCents));
     form.set(
       'line_items[0][price_data][product_data][name]',
-      'Semi (; - ]) — I/O (Deluxe 15-Track Collector’s Edition)'
+      appliedPromoCode
+        ? 'Semi (; - ]) — I/O (Deluxe 15-Track Collector’s Edition · Black Friday)'
+        : 'Semi (; - ]) — I/O (Deluxe 15-Track Collector’s Edition)'
     );
     form.set(
       'line_items[0][price_data][product_data][description]',
@@ -131,6 +141,9 @@ export async function POST(req: Request) {
     form.set('line_items[0][quantity]', '1');
     form.set('metadata[album]', 'io-deluxe-15');
     form.set('metadata[buyer_email]', email);
+    if (appliedPromoCode) {
+      form.set('metadata[promo_code]', appliedPromoCode);
+    }
     form.set(
       'success_url',
       `${origin}/songs?checkout=success&session_id={CHECKOUT_SESSION_ID}#deluxe-edition`

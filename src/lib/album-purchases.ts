@@ -7,8 +7,43 @@ import { getCloudflareContext } from '@opennextjs/cloudflare';
 export const DELUXE_PRICE_CENTS = 1299;
 export const DELUXE_PRICE_LABEL = '$12.99';
 export const PROMO_CODE_FREE = 'trypipesdotpink';
+export const BLACK_FRIDAY_PROMO_CODE = 'blackfriday';
+export const BLACK_FRIDAY_PRICE_CENTS = 599;
+/** Tuesday, December 1, 2026 at 12:00 AM CST (UTC-6 = 06:00 UTC). */
+export const BLACK_FRIDAY_EXPIRES_AT_MS = Date.UTC(2026, 11, 1, 6, 0, 0);
 export const DELUXE_COOKIE_NAME = 'semi_io_deluxe_token';
 export const ALBUM_EDITION_VERSION = '2026.11.22-v2';
+
+export function resolvePromoPricing(
+  rawCode: string,
+  nowMs: number = Date.now()
+):
+  | { valid: true; kind: 'free' | 'discount'; amountCents: number; code: string }
+  | { valid: false; expired?: boolean; error: string } {
+  const clean = rawCode.trim().toLowerCase();
+  if (clean === PROMO_CODE_FREE) {
+    return { valid: true, kind: 'free', amountCents: 0, code: PROMO_CODE_FREE };
+  }
+  if (clean === BLACK_FRIDAY_PROMO_CODE) {
+    if (nowMs >= BLACK_FRIDAY_EXPIRES_AT_MS) {
+      return {
+        valid: false,
+        expired: true,
+        error: 'The BlackFriday promo code expired Tuesday at 12:00 AM CST.',
+      };
+    }
+    return {
+      valid: true,
+      kind: 'discount',
+      amountCents: BLACK_FRIDAY_PRICE_CENTS,
+      code: BLACK_FRIDAY_PROMO_CODE,
+    };
+  }
+  return {
+    valid: false,
+    error: 'That discount code was not recognized. Check the spelling or clear it to pay with Stripe.',
+  };
+}
 
 export interface AlbumPurchaseRecord {
   email: string;

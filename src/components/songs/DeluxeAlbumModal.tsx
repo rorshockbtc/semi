@@ -417,6 +417,10 @@ function DeluxeModalDialog({
   }, []);
 
   const isFreePromoTyped = promoCode.trim().toLowerCase() === 'trypipesdotpink';
+  const isBlackFridayWindow = Date.now() < Date.UTC(2026, 11, 1, 6, 0, 0);
+  const isBlackFridayPromoTyped =
+    isBlackFridayWindow && promoCode.trim().toLowerCase() === 'blackfriday';
+  const displayPrice = isBlackFridayPromoTyped ? '$5.99' : '$12.99';
 
   const handleCheckoutOrPromo = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -465,7 +469,7 @@ function DeluxeModalDialog({
       const res = await fetch('/api/album/bitcoin/invoice', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: cleanEmail }),
+        body: JSON.stringify({ email: cleanEmail, promoCode: promoCode.trim() }),
       });
       const data = await res.json().catch(() => ({}));
       if (!res.ok || !data.ok || !data.lnInvoice) {
@@ -1004,6 +1008,20 @@ function DeluxeModalDialog({
                       data-testid="deluxe-promo-input"
                       className="w-full min-h-[48px] rounded-xl border border-[var(--a-rule)] bg-white px-4 font-code text-[14px] text-[var(--a-ink)] focus:border-[var(--a-ink)] focus:outline-none"
                     />
+                    {isBlackFridayWindow && (
+                      <p className="text-[13px] text-[var(--a-muted)]">
+                        {isBlackFridayPromoTyped ? (
+                          <span className="font-semibold text-[var(--a-accent-text)]">
+                            BlackFriday applied — $5.99 (expires Tue 12:00 AM CST).
+                          </span>
+                        ) : (
+                          <>
+                            Black Friday: enter <code className="font-code text-[var(--a-ink)]">BlackFriday</code> for{' '}
+                            <strong className="text-[var(--a-ink)]">$5.99</strong> (ends Tue 12:00 AM CST).
+                          </>
+                        )}
+                      </p>
+                    )}
                   </div>
 
                   {error && (
@@ -1030,7 +1048,7 @@ function DeluxeModalDialog({
                     ) : isFreePromoTyped ? (
                       <span>Unlock Deluxe Album Free ($0.00)</span>
                     ) : (
-                      <span>Continue to Stripe Checkout · $12.99</span>
+                      <span>Continue to Stripe Checkout · {displayPrice}</span>
                     )}
                   </button>
 
@@ -1042,7 +1060,7 @@ function DeluxeModalDialog({
                       data-testid="deluxe-bitcoin-btn"
                       className="w-full min-h-[50px] inline-flex items-center justify-center gap-2 rounded-full border border-[var(--a-ink)] bg-[var(--a-surface)] hover:bg-[var(--a-ink)] hover:text-[#FAF8F5] px-6 text-[15px] font-semibold text-[var(--a-ink)] transition-colors disabled:opacity-70"
                     >
-                      <span>Pay with Bitcoin (Lightning · $12.99)</span>
+                      <span>Pay with Bitcoin (Lightning · {displayPrice})</span>
                     </button>
                   )}
 
