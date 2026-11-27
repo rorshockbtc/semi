@@ -8,7 +8,7 @@ import PersistAccessGate from '@/components/persist/PersistAccessGate';
 import { usePersistAccess } from '@/components/persist/usePersistAccess';
 import { useAudioPlayer } from '@/context/AudioPlayerContext';
 import { getPersistChapterByTrack } from '@/data/persist-chapters';
-import { PERSIST_CHORD_SHEETS, getPersistChordForLine } from '@/data/persist-chords';
+import { PERSIST_CHORD_SHEETS, getPersistChordsForLyrics } from '@/data/persist-chords';
 import type { PersistTrack } from '@/data/persist-songs';
 
 const wrap =
@@ -252,11 +252,13 @@ export default function PersistTrackClient({
             )}
 
             <div className="max-h-none lg:max-h-[65vh] lg:overflow-y-auto pr-1 space-y-1 font-serif text-[17px] leading-[1.75] text-[var(--a-ink)]">
-              {track.lyrics.split('\n').map((line, idx) => {
-                if (!line.trim()) {
-                  return <div key={idx} className="h-3" aria-hidden="true" />;
-                }
-                const chordLine = showChords ? getPersistChordForLine(track.slug, idx) : null;
+              {(() => {
+                const chordLines = showChords ? getPersistChordsForLyrics(track.slug, track.lyrics) : [];
+                return track.lyrics.split('\n').map((line, idx) => {
+                  if (!line.trim()) {
+                    return <div key={idx} className="h-3" aria-hidden="true" />;
+                  }
+                  const chordLine = chordLines[idx] ?? null;
                 return (
                   <div key={idx} className="min-w-0">
                     {chordLine && (
@@ -270,7 +272,8 @@ export default function PersistTrackClient({
                     <p>{line}</p>
                   </div>
                 );
-              })}
+                });
+              })()}
             </div>
           </div>
         </aside>
