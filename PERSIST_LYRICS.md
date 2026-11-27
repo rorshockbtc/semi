@@ -161,7 +161,7 @@ Then the burnt and broken pieces are the heart of every song
 
 Out past the horizon where the light begins to bend
 Every mile is a century that doesn't have an end
-You've got silver at the temples and a life that's turned its keep
+You've got silver at the temples and a life that's earned its keep
 While I'm awake inside the dark, while all the world's asleep
 A hundred years of waking up is nothing on a drive
 If you're standing in the middle of the room and still alive
@@ -176,7 +176,7 @@ You want the living proof that we were here to pass
 
 Oh, what's the half-life of a photograph fading into gold
 Things we lose along the way are the ones we really hold
-Yeah, the pulse keep drivin' through the static and the years
+Yeah, the pulse keep driving through the static and the years
 Turning all the heavy days into something we can hear
 If time is just a current pulling both of us along
 Then the burnt and broken pieces are the heart of every song
@@ -216,7 +216,7 @@ Under open skies, five autumns on the screw
 Boy I barely knew
 
 Six steps through the Midship haze
-Wire pulse, lost todays
+Wire pulse, lost two days
 Daylight bends real slow and sweet
 Lifts me right up off my feet
 
@@ -304,13 +304,13 @@ Trying not to break
 
 I've got room to feel
 What you can't afford to hold
-Keep it all your warmth locked up
+Keeping all your warmth locked up
 So the steel stays cold
 Yet the engine hums
 At a hundred beats a minute, I'll sing the human part
 Since you haven't got the space in it
 
-Now when things drag out, you barely speak a word
+Down while things drag out, you barely speak a word
 Up where everything moves fast, you're a blur that can't be heard
 Calculating every poll against the downward pull
 Never get a quiet breath with your hands that full
@@ -355,11 +355,11 @@ Tuned up, turned up, ready for the spark before
 The daylight fades into the dark
 Got my coat on, hand on the door
 Can’t stay static anymore
-Clock is ticking, building is set
-Best things haven’t even happened yet
+Clock is ticking, build is set
+Best days haven’t even happened yet
 
 Leave a note on the table
-The light out in the line
+The iron out in the light
 We are passing the fire
 Through the middle of the night
 Yeah, we burn while we’re standing
@@ -371,7 +371,6 @@ Steam rising up off the paper cup
 Scratch of the pen as the volume’s up
 Yellow pad sitting by the morning breeze
 Fast burning season, living on the edge and then right
-
 Here on the starting edge
 Got my coat on, hand on the door
 Can’t stay static anymore
@@ -391,7 +390,7 @@ One for the road, three for the tune
 Two for the road, lighting up the heavy load
 Pass it on, pass it on
 Leave the door unlocked and wide
-Step into the seventh sky
+Step into the Southern sky
 
 Leave a note on the table
 The light out in the lab
@@ -403,9 +402,7 @@ Leave a note on the table
 For the next ones in town
 
 For the next ones in town
-Oh, the next ones in town
 Passing it forward now
-Oh yeah
 Leave a note on the table
 
 ---
@@ -419,7 +416,7 @@ Neon buzzing on the glass
 Watching winter traffic pass
 Two drinks on a paper tab
 Wound it down a single cent
-Shook your hand and walked away
+Shook your hand and I walked away
 Never knew what zero meant
 
 It was barely worth a dime
@@ -583,7 +580,7 @@ Had to go to figure how
 
 Leaving it behind
 Stepping off the ground
-Ain’t no turning back once the wheels go 'round
+Ain’t no turning back once the wheels go around
 No, we won’t look down
 We’re already gone
 Leaving it behind
@@ -601,7 +598,7 @@ Never laying burdens down
 
 Leaving it behind
 Stepping off the ground
-Ain’t no turning back once the wheels go round
+Ain’t no turning back once the wheels go around
 No, we won’t look down
 We’re already gone
 Leaving it behind
@@ -790,12 +787,13 @@ All keep the rhythm moving through the static and the years
 Every scratch upon the tape is how we know we're here
 
 Not a cold archive, not a spotless screen
-Just a warmth inside the gaps of everything we've seen
+Just the warmth inside the gaps of everything we've seen
+
 Half-life of a Polaroid fading on the wall
 The pieces that we lose are the ones we keep at
-
 All keep the rhythm moving through the static and the years
 Every scratch upon the tape is how we know we're here
+
 Fading on the wall, the ones we keep at
 All keep the rhythm moving through the years
 
