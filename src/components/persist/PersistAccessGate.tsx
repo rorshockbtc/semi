@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { KeyRound, Lock, Mail, ShieldCheck } from 'lucide-react';
 import type { PersistAccess } from '@/components/persist/usePersistAccess';
 
-/** Email → 6-digit code OR direct promo/listener code gate. Validates I/O Deluxe ownership. */
+/** Email-only unlock (checks I/O Deluxe & first-album subscribers) OR optional promo/access code gate. */
 export default function PersistAccessGate({
   access,
   compact = false,
@@ -13,82 +13,43 @@ export default function PersistAccessGate({
   access: PersistAccess;
   compact?: boolean;
 }) {
-  const [mode, setMode] = useState<'code' | 'email'>('code');
+  const [mode, setMode] = useState<'email' | 'code'>('email');
   const [email, setEmail] = useState('');
-  const [code, setCode] = useState('');
   const [promoCode, setPromoCode] = useState('');
-  const [codeSent, setCodeSent] = useState(false);
   const [busy, setBusy] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
-  const requestCode = async (e: React.FormEvent) => {
+  const emailUnlock = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
     setMessage(null);
     const clean = email.trim().toLowerCase();
     if (!clean.includes('@')) {
-      setError('Enter the email you used for the I/O Deluxe Edition.');
+      setError('Enter the email you used for the first album or I/O Deluxe Edition.');
       return;
     }
     setBusy(true);
     try {
-      const res = await fetch('/api/album/send-code', {
+      const res = await fetch('/api/album/email-unlock', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email: clean }),
       });
       const data = (await res.json()) as {
         ok?: boolean;
-        directUnlock?: boolean;
+        unlocked?: boolean;
         token?: string;
         email?: string;
-        emailUnavailable?: boolean;
-        message?: string;
         error?: string;
       };
-      if (!res.ok || !data.ok) {
-        if (data.emailUnavailable) {
-          setMode('code');
-        }
-        setError(data.error || 'We couldn’t find an I/O Deluxe unlock for that email yet.');
-      } else if (data.directUnlock && data.token) {
-        access.grant(data.token, data.email ?? clean);
+      if (!res.ok || !data.ok || !data.token) {
+        setError(data.error || 'We didn’t find that email in the I/O library yet.');
       } else {
-        setCodeSent(true);
-        setMessage(data.message || 'Check your inbox for a 6-digit code.');
+        access.grant(data.token, data.email ?? clean);
       }
     } catch {
       setError('Couldn’t reach the server. Please try again.');
-    } finally {
-      setBusy(false);
-    }
-  };
-
-  const verifyCode = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setError(null);
-    setMessage(null);
-    const clean = email.trim().toLowerCase();
-    if (code.trim().length < 6) {
-      setError('Enter the 6-digit code from your email.');
-      return;
-    }
-    setBusy(true);
-    try {
-      const res = await fetch('/api/album/verify-code', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: clean, code: code.trim() }),
-      });
-      const data = (await res.json()) as { ok?: boolean; token?: string; email?: string; error?: string };
-      if (!res.ok || !data.ok || !data.token) {
-        setError(data.error || 'That code didn’t match or has expired.');
-      } else {
-        access.grant(data.token, data.email ?? clean);
-      }
-    } catch {
-      setError('Couldn’t verify right now. Please try again.');
     } finally {
       setBusy(false);
     }
@@ -212,10 +173,10 @@ export default function PersistAccessGate({
                 </button>
               </div>
             </form>
-          ) : !codeSent ? (
-            <form onSubmit={requestCode} className="space-y-3">
+          ) : (
+            <form onSubmit={emailUnlock} className="space-y-3">
               <label htmlFor="persist-email" className="block text-[14px] font-semibold text-[var(--a-ink)]">
-                Your I/O Deluxe email
+                Enter your email to listen
               </label>
               <div className="flex flex-col gap-3 sm:flex-row">
                 <input
@@ -230,42 +191,12 @@ export default function PersistAccessGate({
                 />
                 <button type="submit" disabled={busy} className={btnCls}>
                   <Mail className="h-4 w-4" aria-hidden="true" />
-                  {busy ? 'Checking…' : 'Send code'}
+                  {busy ? 'Checking…' : 'Start listening'}
                 </button>
               </div>
-            </form>
-          ) : (
-            <form onSubmit={verifyCode} className="space-y-3">
-              <label htmlFor="persist-code" className="block text-[14px] font-semibold text-[var(--a-ink)]">
-                6-digit code sent to {email}
-              </label>
-              <div className="flex flex-col gap-3 sm:flex-row">
-                <input
-                  id="persist-code"
-                  inputMode="numeric"
-                  autoComplete="one-time-code"
-                  maxLength={6}
-                  required
-                  value={code}
-                  onChange={(e) => setCode(e.target.value.replace(/\D/g, '').slice(0, 6))}
-                  placeholder="123456"
-                  className={`${inputCls} font-code tracking-[0.3em]`}
-                />
-                <button type="submit" disabled={busy} className={btnCls}>
-                  <ShieldCheck className="h-4 w-4" aria-hidden="true" />
-                  {busy ? 'Verifying…' : 'Start listening'}
-                </button>
-              </div>
-              <button
-                type="button"
-                onClick={() => {
-                  setCodeSent(false);
-                  setCode('');
-                }}
-                className="min-h-[44px] text-[14px] font-medium text-[var(--a-muted)] underline underline-offset-4 hover:text-[var(--a-ink)]"
-              >
-                Use a different email
-              </button>
+              <p className="text-[13px] text-[var(--a-muted)]">
+                Any email already registered for the first album or <em>I/O Deluxe Edition</em> unlocks automatically.
+              </p>
             </form>
           )}
           {message && (

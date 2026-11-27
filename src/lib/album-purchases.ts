@@ -306,6 +306,38 @@ export async function findPurchaseByEmail(
   return all.find((r) => r.email === email) ?? null;
 }
 
+/** Checks whether an email is registered in either `album_purchases` or `subscribers` (first-album downloads / signups). */
+export async function hasRegisteredEmailAccess(rawEmail: string): Promise<boolean> {
+  const email = rawEmail.trim().toLowerCase();
+  if (!email) return false;
+
+  const purchase = await findPurchaseByEmail(email);
+  if (purchase) return true;
+
+  const d1 = await getD1Binding();
+  if (d1) {
+    try {
+      await d1
+        .prepare(
+          'CREATE TABLE IF NOT EXISTS subscribers (email TEXT PRIMARY KEY, unsubscribe_token TEXT NOT NULL, status TEXT NOT NULL DEFAULT \'active\', created_at TEXT NOT NULL, updated_at TEXT NOT NULL)'
+        )
+        .bind()
+        .run();
+      const row = await d1
+        .prepare('SELECT email FROM subscribers WHERE email = ?1')
+        .bind(email)
+        .first<{ email: string }>();
+      if (row?.email) return true;
+    } catch {
+      // Ignore D1 subscriber lookup error
+    }
+    return false;
+  }
+
+  const subs = readJsonArray<{ email?: string }>('subscribers.json');
+  return subs.some((s) => typeof s.email === 'string' && s.email.trim().toLowerCase() === email);
+}
+
 export async function verifyPurchaseToken(token: string | null | undefined): Promise<{
   valid: boolean;
   email: string | null;
