@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { ChevronDown, Lock, Menu, MessageCircle, Pause, Play, X } from 'lucide-react';
 import { useAmbientMotion } from '@/context/AmbientMotionContext';
+import BlackFridayBanner from '@/components/site/BlackFridayBanner';
 
 const ALBUM_ITEMS = [
   { href: '/songs', title: 'I/O', subtitle: 'Album I · 12 songs, videos & chords' },
@@ -13,6 +14,7 @@ const ALBUM_ITEMS = [
 
 const NAV_ITEMS = [
   { href: '/gallery', label: 'Gallery', match: (p: string) => p === '/gallery' },
+  { href: '/patron', label: 'Patron', match: (p: string) => p === '/patron' },
   { href: '/about', label: 'About', match: (p: string) => p === '/about' },
 ];
 
@@ -73,6 +75,7 @@ export default function SiteHeader() {
           : 'border-b border-[var(--a-rule)] bg-[var(--a-bg)]/95 backdrop-blur-md'
       }`}
     >
+      <BlackFridayBanner />
       <div className="mx-auto flex h-16 sm:h-[72px] max-w-[1400px] items-center justify-between gap-2 sm:gap-3 pl-[max(0.875rem,env(safe-area-inset-left,0px))] pr-[max(0.875rem,env(safe-area-inset-right,0px))] sm:px-8 lg:px-12">
         <Link
           href="/"

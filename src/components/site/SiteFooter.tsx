@@ -63,6 +63,7 @@ export default function SiteFooter() {
                 {[
                   { href: '/songs', l: 'All songs' },
                   { href: '/gallery', l: 'Gallery' },
+                  { href: '/patron', l: 'Become a Patron' },
                   { href: '/about', l: 'About' },
                 ].map((i) => (
                   <li key={i.href}>
