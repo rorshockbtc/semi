@@ -78,7 +78,7 @@ export default function SiteFooter() {
                 {[
                   { href: 'https://x.com/theorangehabit', l: 'Orange Habit ↗' },
                   { href: 'https://svrnsociety.com', l: 'SVRN Society ↗' },
-                  { href: 'https://highdrawgolf.com', l: 'High Draw Golf ↗' },
+                  { href: 'https://highdrawgear.com', l: 'High Draw Gear ↗' },
                 ].map((ext) => (
                   <li key={ext.href}>
                     <a

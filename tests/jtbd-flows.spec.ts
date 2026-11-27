@@ -593,5 +593,63 @@ test.describe('Semi (; - ]) Multi-Page Interactive JTBD Suite', () => {
     expect(overflow).toBeLessThanOrEqual(0);
     expect(errors).toEqual([]);
   });
+
+  test('JTBD 9: Gallery High Draw Gear links and responsive button ergonomics on desktop and mobile', async ({
+    page,
+  }) => {
+    const errors: string[] = [];
+    page.on('pageerror', (e) => errors.push(e.message));
+
+    // 1. Desktop verification
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await page.goto('/gallery', { waitUntil: 'networkidle' });
+
+    const headerLink = page.getByTestId('gallery-highdraw-header-link');
+    await expect(headerLink).toBeVisible();
+    await expect(headerLink).toHaveAttribute('href', 'https://highdrawgear.com');
+    const headerBox = await headerLink.boundingBox();
+    expect(headerBox?.height).toBeGreaterThanOrEqual(44);
+
+    const bannerBtn = page.getByTestId('gallery-highdraw-banner-btn');
+    await expect(bannerBtn).toBeVisible();
+    await expect(bannerBtn).toHaveAttribute('href', 'https://highdrawgear.com');
+    const bannerBox = await bannerBtn.boundingBox();
+    expect(bannerBox?.height).toBeGreaterThanOrEqual(44);
+
+    const friendsLink = page.getByTestId('gallery-highdraw-link');
+    await friendsLink.scrollIntoViewIfNeeded();
+    await expect(friendsLink).toBeVisible();
+    await expect(friendsLink).toHaveAttribute('href', 'https://highdrawgear.com');
+    const friendsBox = await friendsLink.boundingBox();
+    expect(friendsBox?.height).toBeGreaterThanOrEqual(44);
+
+    // Filter to highdraw and verify photo shop link
+    await page.getByTestId('gallery-filter-highdraw').click();
+    const photoShopLink = page.getByTestId('gallery-shop-link-highdraw-womens-polo-carolina');
+    await photoShopLink.scrollIntoViewIfNeeded();
+    await expect(photoShopLink).toBeVisible();
+    await expect(photoShopLink).toHaveAttribute('href', 'https://highdrawgear.com');
+    await expect(photoShopLink).toContainText('Shop High Draw Gear');
+
+    // 2. Mobile ergonomics verification (390x844)
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto('/gallery', { waitUntil: 'networkidle' });
+
+    const mobileHeaderLink = page.getByTestId('gallery-highdraw-header-link');
+    await expect(mobileHeaderLink).toBeVisible();
+    const mobileHeaderBox = await mobileHeaderLink.boundingBox();
+    expect(mobileHeaderBox?.height).toBeGreaterThanOrEqual(44);
+    expect(mobileHeaderBox?.width).toBeGreaterThanOrEqual(300);
+
+    const mobileFriendsLink = page.getByTestId('gallery-highdraw-link');
+    await mobileFriendsLink.scrollIntoViewIfNeeded();
+    await expect(mobileFriendsLink).toBeVisible();
+    const mobileFriendsBox = await mobileFriendsLink.boundingBox();
+    expect(mobileFriendsBox?.height).toBeGreaterThanOrEqual(44);
+
+    const overflow = await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
+    expect(overflow).toBeLessThanOrEqual(0);
+    expect(errors).toEqual([]);
+  });
 });
 

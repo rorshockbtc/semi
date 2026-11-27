@@ -213,7 +213,7 @@ Stepped out on county sand
 Blue truck by the side
 Kid drives up wide: my jaw, my eyes
 Under open skies, five autumns on the screw
-Boy I barely knew
+A boy I barely knew
 
 Six steps through the Midship haze
 Wire pulse, lost two days
@@ -627,7 +627,7 @@ We’re already gone
 ## 12 · Circle
 *Ancient Flashback · Ana & Pyotr · 02:59*
 
-Cold mist rising past our knees
+Cold mud rising past our knees
 Reeds bend low beside the bank
 Seven winters on your back
 Every timber where we sank
