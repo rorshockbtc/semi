@@ -40,6 +40,9 @@ export default function PersistAccessGate({
       });
       const data = (await res.json()) as {
         ok?: boolean;
+        directUnlock?: boolean;
+        token?: string;
+        email?: string;
         emailUnavailable?: boolean;
         message?: string;
         error?: string;
@@ -49,6 +52,8 @@ export default function PersistAccessGate({
           setMode('code');
         }
         setError(data.error || 'We couldn’t find an I/O Deluxe unlock for that email yet.');
+      } else if (data.directUnlock && data.token) {
+        access.grant(data.token, data.email ?? clean);
       } else {
         setCodeSent(true);
         setMessage(data.message || 'Check your inbox for a 6-digit code.');

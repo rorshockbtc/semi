@@ -1,5 +1,10 @@
 import { NextResponse } from 'next/server';
-import { createBuyerLoginCode } from '@/lib/album-purchases';
+import {
+  ALBUM_EDITION_VERSION,
+  DELUXE_COOKIE_NAME,
+  createBuyerLoginCode,
+  createSignedAccessToken,
+} from '@/lib/album-purchases';
 import { sendDeluxeLoginCodeEmail } from '@/lib/mailer';
 
 export const dynamic = 'force-dynamic';
@@ -25,7 +30,7 @@ export async function POST(req: Request) {
           ok: false,
           notFound: true,
           error:
-            'We didn’t find an I/O Deluxe purchase under that email yet. Check for typos or unlock the album first.',
+            'We didn’t find an I/O Deluxe purchase under that email yet. Check for typos or unlock with an access code.',
         },
         { status: 404 }
       );
@@ -38,14 +43,26 @@ export async function POST(req: Request) {
         code: result.code,
       });
       if (!sent.sent) {
-        return NextResponse.json(
-          {
-            ok: false,
-            emailUnavailable: true,
-            error: 'Email code delivery isn’t available right now—use the Access / Promo Code tab to unlock immediately.',
-          },
-          { status: 503 }
-        );
+        // Buyer is already verified in D1 (`album_purchases`); unlock directly instead of stranding them when SMTP is unavailable.
+        const token = createSignedAccessToken(email);
+        const origin = new URL(req.url).origin;
+        const res = NextResponse.json({
+          ok: true,
+          directUnlock: true,
+          unlocked: true,
+          email,
+          token,
+          editionVersion: ALBUM_EDITION_VERSION,
+          message: `Verified your I/O Deluxe Edition library for ${email}.`,
+        });
+        res.cookies.set(DELUXE_COOKIE_NAME, token, {
+          httpOnly: false,
+          sameSite: 'lax',
+          secure: origin.startsWith('https://'),
+          path: '/',
+          maxAge: 60 * 60 * 24 * 365,
+        });
+        return res;
       }
     }
 

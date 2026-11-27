@@ -502,6 +502,10 @@ function DeluxeModalDialog({
         setError(data?.error || 'Unable to send verification code.');
         return;
       }
+      if (data.directUnlock && data.token) {
+        onUnlocked(data.token, data.email || email.trim().toLowerCase());
+        return;
+      }
       setCodeStep('code');
       setInfo(data.message || 'Check your inbox for your 6-digit code.');
     } catch {
