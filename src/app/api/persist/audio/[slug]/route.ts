@@ -70,7 +70,7 @@ export async function GET(
     'Content-Type': 'audio/mpeg',
     'Accept-Ranges': 'bytes',
     'Content-Disposition': 'inline',
-    'Cache-Control': 'private, no-store, no-transform',
+    'Cache-Control': 'private, max-age=3600, no-transform',
     'X-Content-Type-Options': 'nosniff',
     Vary: 'Range, Cookie',
   };
@@ -191,7 +191,7 @@ export async function HEAD(
       'Accept-Ranges': 'bytes',
       'Content-Length': String(entry.size),
       'Content-Disposition': 'inline',
-      'Cache-Control': 'private, no-store, no-transform',
+      'Cache-Control': 'private, max-age=3600, no-transform',
     },
   });
 }

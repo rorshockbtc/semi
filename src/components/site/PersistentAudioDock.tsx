@@ -25,6 +25,7 @@ export default function PersistentAudioDock() {
     currentTrack,
     hasStarted,
     isPlaying,
+    isBuffering,
     playAllActive,
     audioError,
     currentTime,
@@ -104,6 +105,8 @@ export default function PersistentAudioDock() {
               <p className="font-code text-[13px] text-[var(--a-muted)] truncate">
                 {audioError ? (
                   <span className="text-[var(--a-accent-text)] font-semibold">{audioError}</span>
+                ) : isBuffering && isPlaying ? (
+                  <span className="text-[var(--a-accent-text)]">Buffering… · {currentTrack.subtitle}</span>
                 ) : (
                   <>
                     Semi (; - ]) · {currentTrack.subtitle}

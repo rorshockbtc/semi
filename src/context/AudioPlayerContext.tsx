@@ -30,6 +30,7 @@ interface AudioPlayerContextValue {
   queueAlbum: 'io' | 'persist';
   hasStarted: boolean;
   isPlaying: boolean;
+  isBuffering: boolean;
   playAllActive: boolean;
   audioError: string | null;
   currentTime: number;
@@ -108,6 +109,7 @@ export function AudioPlayerProvider({ children }: { children: React.ReactNode })
   const [hasStarted, setHasStarted] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
   const [playAllActive, setPlayAllActive] = useState(false);
+  const [isBuffering, setIsBuffering] = useState(false);
   const [audioError, setAudioError] = useState<string | null>(null);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
@@ -133,6 +135,7 @@ export function AudioPlayerProvider({ children }: { children: React.ReactNode })
   const playAllRef = useRef(playAllActive);
   const volumeRef = useRef(volume);
   const isMutedRef = useRef(isMuted);
+  const stallTimerRef = useRef<number | null>(null);
 
   useEffect(() => {
     queueRef.current = queue;
@@ -218,7 +221,16 @@ export function AudioPlayerProvider({ children }: { children: React.ReactNode })
       }
     };
 
+    const clearStallTimer = () => {
+      if (stallTimerRef.current !== null) {
+        window.clearTimeout(stallTimerRef.current);
+        stallTimerRef.current = null;
+      }
+    };
+
     const onEnded = () => {
+      clearStallTimer();
+      setIsBuffering(false);
       const q = queueRef.current;
       if (playAllRef.current && activeIndexRef.current < q.length - 1) {
         const nextIdx = activeIndexRef.current + 1;
@@ -229,12 +241,12 @@ export function AudioPlayerProvider({ children }: { children: React.ReactNode })
         setDuration(parseDurationFallback(next.duration));
         el.preload = 'auto';
         el.src = next.mp3Src;
-        el.load();
         syncMediaSession(next);
 
         const p = el.play();
         if (p) {
-          p.catch(() => {
+          p.catch((err) => {
+            if (err?.name === 'AbortError') return;
             const onCanPlay = () => {
               el.removeEventListener('canplay', onCanPlay);
               el.play().catch(() => setIsPlaying(false));
@@ -267,7 +279,37 @@ export function AudioPlayerProvider({ children }: { children: React.ReactNode })
         }
       }
     };
+    const onPlaying = () => {
+      clearStallTimer();
+      setIsBuffering(false);
+      setAudioError(null);
+    };
+    const onCanPlay = () => {
+      clearStallTimer();
+      setIsBuffering(false);
+    };
+    const onWaiting = () => {
+      if (!el.paused) {
+        setIsBuffering(true);
+      }
+    };
+    const onStalled = () => {
+      if (el.paused) return;
+      setIsBuffering(true);
+      clearStallTimer();
+      stallTimerRef.current = window.setTimeout(() => {
+        stallTimerRef.current = null;
+        if (!el.paused && el.readyState < 3 && el.src) {
+          const resumeAt = Number.isFinite(el.currentTime) ? el.currentTime : 0;
+          pendingSeekRef.current = resumeAt > 0.25 ? resumeAt : null;
+          el.load();
+          el.play().catch(() => {});
+        }
+      }, 4500);
+    };
     const onPause = () => {
+      clearStallTimer();
+      setIsBuffering(false);
       setIsPlaying(false);
       if (typeof navigator !== 'undefined' && 'mediaSession' in navigator) {
         try {
@@ -278,6 +320,8 @@ export function AudioPlayerProvider({ children }: { children: React.ReactNode })
       }
     };
     const onError = () => {
+      clearStallTimer();
+      setIsBuffering(false);
       setIsPlaying(false);
       setAudioError('Could not load this track. Check your connection or re-unlock your pass.');
     };
@@ -287,16 +331,25 @@ export function AudioPlayerProvider({ children }: { children: React.ReactNode })
     el.addEventListener('durationchange', onDurationUpdate);
     el.addEventListener('ended', onEnded);
     el.addEventListener('play', onPlay);
+    el.addEventListener('playing', onPlaying);
+    el.addEventListener('canplay', onCanPlay);
+    el.addEventListener('waiting', onWaiting);
+    el.addEventListener('stalled', onStalled);
     el.addEventListener('pause', onPause);
     el.addEventListener('error', onError);
 
     return () => {
+      clearStallTimer();
       el.pause();
       el.removeEventListener('timeupdate', onTimeUpdate);
       el.removeEventListener('loadedmetadata', onDurationUpdate);
       el.removeEventListener('durationchange', onDurationUpdate);
       el.removeEventListener('ended', onEnded);
       el.removeEventListener('play', onPlay);
+      el.removeEventListener('playing', onPlaying);
+      el.removeEventListener('canplay', onCanPlay);
+      el.removeEventListener('waiting', onWaiting);
+      el.removeEventListener('stalled', onStalled);
       el.removeEventListener('pause', onPause);
       el.removeEventListener('error', onError);
     };
@@ -593,6 +646,7 @@ export function AudioPlayerProvider({ children }: { children: React.ReactNode })
         queueAlbum,
         hasStarted,
         isPlaying,
+        isBuffering,
         playAllActive,
         audioError,
         currentTime,
