@@ -3,7 +3,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
-import { ChevronDown, ChevronUp, Disc3, Pause, Play, Wifi } from 'lucide-react';
+import { Check, ChevronDown, ChevronUp, Disc3, Pause, Play, Share2, Wifi } from 'lucide-react';
 import { useAudioPlayer, type DockTrack } from '@/context/AudioPlayerContext';
 import {
   LyricsLanguageBar,
@@ -14,6 +14,7 @@ import { PERSIST_ALBUM_META, PERSIST_TRACKS } from '@/data/persist-songs';
 import { SEMI_TRACKS } from '@/data/semi-songs';
 
 const DEVICE_STORAGE_KEY = 'semi_listen_device_id';
+const PASS_CODE_STORAGE_KEY = 'semi_listen_pass_code';
 const LANG_STORAGE_KEY = 'semi_lyrics_lang';
 
 interface TranslationBundle {
@@ -133,6 +134,8 @@ export default function ListenPassClient() {
   const [bundle, setBundle] = useState<TranslationBundle | null>(null);
   const [loadingLang, setLoadingLang] = useState(false);
   const [expandedSlug, setExpandedSlug] = useState<string | null>(null);
+  const [passCode, setPassCode] = useState<string | null>(null);
+  const [sharedCopied, setSharedCopied] = useState(false);
 
   useEffect(() => {
     try {
@@ -172,26 +175,49 @@ export default function ListenPassClient() {
   useEffect(() => {
     let cancelled = false;
     const id = getOrCreateDeviceId();
+    let storedPass = '';
+    try {
+      storedPass = window.localStorage.getItem(PASS_CODE_STORAGE_KEY) ?? '';
+    } catch {
+      // Ignore storage errors
+    }
+    const effectivePass = passParam || storedPass;
+
     fetch('/api/listen-pass/activate', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ pass: passParam, deviceId: id }),
+      body: JSON.stringify({ pass: effectivePass, deviceId: id }),
     })
       .then((res) => res.json())
-      .then((data: { active?: boolean; streamToken?: string; deviceId?: string }) => {
-        if (cancelled) return;
-        if (data?.active && data?.streamToken) {
-          setStreamToken(data.streamToken);
-          setDeviceId(data.deviceId ?? id);
-          setStatus('active');
-          // Strip ?pass= from URL cleanly while preserving Next.js history state
-          if (passParam && typeof window !== 'undefined') {
-            window.history.replaceState({ ...(window.history.state || {}) }, '', '/listen');
+      .then(
+        (data: {
+          active?: boolean;
+          streamToken?: string;
+          deviceId?: string;
+          passCode?: string;
+        }) => {
+          if (cancelled) return;
+          if (data?.active && data?.streamToken) {
+            setStreamToken(data.streamToken);
+            setDeviceId(data.deviceId ?? id);
+            if (data.passCode) {
+              setPassCode(data.passCode);
+              try {
+                window.localStorage.setItem(PASS_CODE_STORAGE_KEY, data.passCode);
+              } catch {
+                // Ignore storage errors
+              }
+            }
+            setStatus('active');
+            // Strip ?pass= from URL cleanly while preserving Next.js history state
+            if (passParam && typeof window !== 'undefined') {
+              window.history.replaceState({ ...(window.history.state || {}) }, '', '/listen');
+            }
+          } else {
+            setStatus('locked');
           }
-        } else {
-          setStatus('locked');
         }
-      })
+      )
       .catch(() => {
         if (!cancelled) setStatus('locked');
       });
@@ -199,6 +225,37 @@ export default function ListenPassClient() {
       cancelled = true;
     };
   }, [passParam]);
+
+  const handleSharePass = async () => {
+    if (!passCode || typeof window === 'undefined') return;
+    const shareUrl = `${window.location.origin}/listen?pass=${encodeURIComponent(passCode)}`;
+    const shareTitle = 'Semi (; - ]) — Listen Free';
+    const shareText =
+      lang === 'es'
+        ? 'Escucha los álbumes de Semi en línea:'
+        : lang === 'fr'
+          ? 'Écoutez les albums de Semi en ligne :'
+          : lang === 'ru'
+            ? 'Слушайте альбомы Semi онлайн:'
+            : 'Listen to Semi’s albums online:';
+
+    if (typeof navigator !== 'undefined' && typeof navigator.share === 'function') {
+      try {
+        await navigator.share({ title: shareTitle, text: shareText, url: shareUrl });
+        return;
+      } catch {
+        // User cancelled or share failed; fall through to clipboard
+      }
+    }
+
+    try {
+      await navigator.clipboard.writeText(shareUrl);
+      setSharedCopied(true);
+      setTimeout(() => setSharedCopied(false), 2500);
+    } catch {
+      // Ignore clipboard failure
+    }
+  };
 
   const handleLangChange = (next: LyricsLang) => {
     setLang(next);
@@ -368,30 +425,69 @@ export default function ListenPassClient() {
           </button>
         </div>
 
-        <button
-          type="button"
-          data-testid="listen-play-album-btn"
-          onClick={() => {
-            if (isPlayingCurrentAlbum) {
-              pauseAudio();
-            } else {
-              playStreamQueue(activeQueue, album, 0);
-            }
-          }}
-          className="min-h-[44px] inline-flex items-center justify-center gap-2 rounded-full bg-[var(--a-accent-fill)] hover:bg-[var(--a-ink)] px-6 text-[14px] font-semibold text-white transition-colors"
-        >
-          {isPlayingCurrentAlbum ? (
-            <>
-              <Pause className="h-4 w-4" aria-hidden="true" />
-              <span>{copy.pauseAlbum}</span>
-            </>
-          ) : (
-            <>
-              <Disc3 className="h-4 w-4" aria-hidden="true" />
-              <span>{copy.playAlbum}</span>
-            </>
+        <div className="flex flex-wrap items-center gap-2.5">
+          {passCode && (
+            <button
+              type="button"
+              onClick={handleSharePass}
+              data-testid="listen-share-pass-btn"
+              className="min-h-[44px] inline-flex items-center justify-center gap-2 rounded-full border border-[var(--a-rule)] bg-[var(--a-surface)] hover:border-[var(--a-ink)] px-5 text-[14px] font-semibold text-[var(--a-ink)] transition-colors"
+            >
+              {sharedCopied ? (
+                <>
+                  <Check className="h-4 w-4 text-[var(--a-accent-text)]" aria-hidden="true" />
+                  <span>
+                    {lang === 'es'
+                      ? 'Enlace copiado'
+                      : lang === 'fr'
+                        ? 'Lien copié'
+                        : lang === 'ru'
+                          ? 'Ссылка скопирована'
+                          : 'Link copied'}
+                  </span>
+                </>
+              ) : (
+                <>
+                  <Share2 className="h-4 w-4" aria-hidden="true" />
+                  <span>
+                    {lang === 'es'
+                      ? 'Compartir'
+                      : lang === 'fr'
+                        ? 'Partager'
+                        : lang === 'ru'
+                          ? 'Поделиться'
+                          : 'Share'}
+                  </span>
+                </>
+              )}
+            </button>
           )}
-        </button>
+
+          <button
+            type="button"
+            data-testid="listen-play-album-btn"
+            onClick={() => {
+              if (isPlayingCurrentAlbum) {
+                pauseAudio();
+              } else {
+                playStreamQueue(activeQueue, album, 0);
+              }
+            }}
+            className="min-h-[44px] inline-flex items-center justify-center gap-2 rounded-full bg-[var(--a-accent-fill)] hover:bg-[var(--a-ink)] px-6 text-[14px] font-semibold text-white transition-colors"
+          >
+            {isPlayingCurrentAlbum ? (
+              <>
+                <Pause className="h-4 w-4" aria-hidden="true" />
+                <span>{copy.pauseAlbum}</span>
+              </>
+            ) : (
+              <>
+                <Disc3 className="h-4 w-4" aria-hidden="true" />
+                <span>{copy.playAlbum}</span>
+              </>
+            )}
+          </button>
+        </div>
       </div>
 
       {/* Stream-Only Tracklist (Zero Download Buttons) */}

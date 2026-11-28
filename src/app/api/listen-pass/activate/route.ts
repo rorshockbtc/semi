@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import {
   LISTEN_PASS_COOKIE_NAME,
   createDeviceStreamToken,
+  getPhysicalPassCode,
   verifyDeviceStreamToken,
   verifyPhysicalPassCode,
 } from '@/lib/listen-pass';
@@ -27,6 +28,8 @@ export async function POST(request: Request) {
         ? body.deviceId.trim().replace(/[^a-zA-Z0-9_-]/g, '').slice(0, 64)
         : '';
 
+    const passCode = await getPhysicalPassCode();
+
     // 1. Check if this device already holds a valid bound stream token cookie
     const existingCookie = readCookieToken(request);
     const existingCheck = await verifyDeviceStreamToken(existingCookie);
@@ -35,6 +38,7 @@ export async function POST(request: Request) {
         active: true,
         deviceId: existingCheck.deviceId,
         streamToken: existingCookie,
+        passCode,
         remembered: true,
       });
     }
@@ -57,6 +61,7 @@ export async function POST(request: Request) {
       active: true,
       deviceId,
       streamToken,
+      passCode,
       remembered: false,
     });
 
