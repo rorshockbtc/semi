@@ -174,6 +174,7 @@ export default function SiteHeader() {
             role="group"
             aria-label="Lyrics language"
             data-testid="navbar-language-selector"
+            data-no-translate="true"
             className={`hidden md:inline-flex items-center gap-0.5 rounded-full border p-0.5 ${
               onDark
                 ? 'border-white/20 bg-white/[0.06]'

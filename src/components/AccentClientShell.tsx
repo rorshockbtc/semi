@@ -7,6 +7,7 @@ import { AmbientMotionProvider } from '@/context/AmbientMotionContext';
 import { AudioPlayerProvider } from '@/context/AudioPlayerContext';
 import PersistentAudioDock from '@/components/site/PersistentAudioDock';
 import GlobalAskSemi from '@/components/site/GlobalAskSemi';
+import SiteTranslator from '@/components/site/SiteTranslator';
 import { DeluxeModalHost } from '@/components/songs/DeluxeAlbumModal';
 
 /**
@@ -28,6 +29,7 @@ export default function AccentClientShell({ children }: { children: React.ReactN
       <AmbientMotionProvider>
         <AudioPlayerProvider>
           {children}
+          <SiteTranslator />
           <DeluxeModalHost />
           <GlobalAskSemi />
           <PersistentAudioDock />

@@ -530,26 +530,10 @@ export default function SongEditionClient({ track, prevTrack, nextTrack }: SongE
 
           <div
             data-testid="edition-lyrics-grid"
-            data-lyrics-lang={lyricsLang}
+            data-no-translate="true"
             className="mx-auto mt-10 sm:mt-14 max-w-[620px] space-y-10 sm:space-y-12"
           >
-            {lyricsLang !== 'en' && ioLyrics
-              ? ioLyrics.map((stanza, idx) => (
-                  <div
-                    key={`tr-${lyricsLang}-${stanza.section}-${idx}`}
-                    className={`min-w-0 border-t pt-6 first:border-t-0 first:pt-0 ${theme.dark ? 'border-white/15' : 'border-[var(--a-rule)]'}`}
-                  >
-                    <h3 className={`font-code text-[13px] uppercase tracking-[0.16em] ${theme.dark ? 'text-[#FFB8DA]' : 'text-[var(--a-accent-text)]'}`}>
-                      {stanza.section}
-                    </h3>
-                    <div className="mt-4 space-y-1 font-serif text-[20px] sm:text-[24px] leading-[1.55]">
-                      {stanza.lines.map((line, lIdx) => (
-                        <p key={lIdx}>{line}</p>
-                      ))}
-                    </div>
-                  </div>
-                ))
-              : track.lyrics.map((stanza, idx) => (
+            {track.lyrics.map((stanza, idx) => (
               <div
                 key={`${stanza.section}-${idx}`}
                 className={`min-w-0 border-t pt-6 first:border-t-0 first:pt-0 ${theme.dark ? 'border-white/15' : 'border-[var(--a-rule)]'}`}

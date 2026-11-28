@@ -269,17 +269,14 @@ export default function PersistTrackClient({
 
             <div
               data-testid="persist-lyrics-body"
-              data-lyrics-lang={lyricsLang}
+              data-no-translate="true"
               className="max-h-none lg:max-h-[65vh] lg:overflow-y-auto pr-1 space-y-1 font-serif text-[17px] leading-[1.75] text-[var(--a-ink)]"
             >
               {(() => {
-                const activeLyrics =
-                  lyricsLang !== 'en' && persistLyrics ? persistLyrics : track.lyrics;
-                const chordLines =
-                  showChords && lyricsLang === 'en'
-                    ? getPersistChordsForLyrics(track.slug, track.lyrics)
-                    : [];
-                return activeLyrics.split('\n').map((line, idx) => {
+                const chordLines = showChords
+                  ? getPersistChordsForLyrics(track.slug, track.lyrics)
+                  : [];
+                return track.lyrics.split('\n').map((line, idx) => {
                   if (!line.trim()) {
                     return <div key={idx} className="h-3" aria-hidden="true" />;
                   }
