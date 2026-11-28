@@ -659,7 +659,7 @@ test.describe('Semi (; - ]) Multi-Page Interactive JTBD Suite', () => {
     page.on('pageerror', (e) => errors.push(e.message));
 
     await page.setViewportSize({ width: 1440, height: 900 });
-    await page.goto('/', { waitUntil: 'networkidle' });
+    await page.goto('/', { waitUntil: 'load' });
 
     // Start playing the album via Play All
     await page.getByTestId('play-all-button').click();
