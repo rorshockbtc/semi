@@ -700,5 +700,47 @@ test.describe('Semi (; - ]) Multi-Page Interactive JTBD Suite', () => {
 
     expect(errors).toEqual([]);
   });
+
+  test('JTBD 11: Tasteful Spanish, French, and Russian lyrics translations work on I/O and Persist without burdening English', async ({
+    page,
+  }) => {
+    const errors: string[] = [];
+    page.on('pageerror', (e) => errors.push(e.message));
+
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await page.goto('/songs/old-oak-tree', { waitUntil: 'load' });
+
+    const grid = page.getByTestId('edition-lyrics-grid');
+    await expect(grid).toHaveAttribute('data-lyrics-lang', 'en');
+    await expect(page.getByTestId('lyrics-translation-note')).toHaveCount(0);
+
+    // Switch to Spanish
+    await page.getByTestId('lyrics-lang-es').click();
+    await expect(grid).toHaveAttribute('data-lyrics-lang', 'es');
+    await expect(page.getByTestId('lyrics-translation-note')).toContainText('Traducción literaria al español');
+
+    // Switch to French
+    await page.getByTestId('lyrics-lang-fr').click();
+    await expect(grid).toHaveAttribute('data-lyrics-lang', 'fr');
+    await expect(page.getByTestId('lyrics-translation-note')).toContainText('Traduction littéraire en français');
+
+    // Switch to Russian
+    await page.getByTestId('lyrics-lang-ru').click();
+    await expect(grid).toHaveAttribute('data-lyrics-lang', 'ru');
+    await expect(page.getByTestId('lyrics-translation-note')).toContainText('Литературный перевод на русский');
+
+    // Navigate to Persist track -> language preference persists
+    await page.goto('/persist/circle', { waitUntil: 'load' });
+    const persistLyrics = page.getByTestId('persist-lyrics-body');
+    await expect(persistLyrics).toHaveAttribute('data-lyrics-lang', 'ru');
+    await expect(page.getByTestId('lyrics-translation-note')).toContainText('Литературный перевод на русский');
+
+    // Switch back to English -> clean original with zero translation note
+    await page.getByTestId('lyrics-lang-en').click();
+    await expect(persistLyrics).toHaveAttribute('data-lyrics-lang', 'en');
+    await expect(page.getByTestId('lyrics-translation-note')).toHaveCount(0);
+
+    expect(errors).toEqual([]);
+  });
 });
 

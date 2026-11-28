@@ -9,6 +9,7 @@ import { usePersistAccess } from '@/components/persist/usePersistAccess';
 import { useAudioPlayer } from '@/context/AudioPlayerContext';
 import { getPersistChapterByTrack } from '@/data/persist-chapters';
 import { PERSIST_CHORD_SHEETS, getPersistChordsForLyrics } from '@/data/persist-chords';
+import { LyricsLanguageBar, useLyricsTranslation } from '@/components/songs/LyricsLanguageBar';
 import type { PersistTrack } from '@/data/persist-songs';
 
 const wrap =
@@ -27,6 +28,13 @@ export default function PersistTrackClient({
   const access = usePersistAccess();
   const { currentTrack, queueAlbum, isPlaying, playPersistTrack } = useAudioPlayer();
   const [showChords, setShowChords] = useState(false);
+  const {
+    lang: lyricsLang,
+    setLang: setLyricsLang,
+    loading: translationLoading,
+    persistLyrics,
+    linerNote,
+  } = useLyricsTranslation('persist', track.slug);
   const chordSheet = PERSIST_CHORD_SHEETS[track.slug];
   const playing = queueAlbum === 'persist' && currentTrack.slug === track.slug && isPlaying;
 
@@ -211,7 +219,7 @@ export default function PersistTrackClient({
                 </p>
                 <h2 className="mt-1 font-display text-2xl font-bold text-[var(--a-ink)]">{track.title}</h2>
               </div>
-              {chordSheet && (
+              {chordSheet && lyricsLang === 'en' && (
                 <button
                   type="button"
                   onClick={() => setShowChords((prev) => !prev)}
@@ -229,7 +237,15 @@ export default function PersistTrackClient({
               )}
             </div>
 
-            {chordSheet && showChords && (
+            <LyricsLanguageBar
+              lang={lyricsLang}
+              onChange={setLyricsLang}
+              linerNote={linerNote}
+              loading={translationLoading}
+              align="left"
+            />
+
+            {chordSheet && showChords && lyricsLang === 'en' && (
               <div
                 data-testid="chords-meta-bar"
                 className="rounded-xl border border-[var(--a-rule)] bg-[var(--a-well)] px-4 py-3 text-[13px] leading-relaxed text-[var(--a-ink)] space-y-1"
@@ -251,27 +267,36 @@ export default function PersistTrackClient({
               </div>
             )}
 
-            <div className="max-h-none lg:max-h-[65vh] lg:overflow-y-auto pr-1 space-y-1 font-serif text-[17px] leading-[1.75] text-[var(--a-ink)]">
+            <div
+              data-testid="persist-lyrics-body"
+              data-lyrics-lang={lyricsLang}
+              className="max-h-none lg:max-h-[65vh] lg:overflow-y-auto pr-1 space-y-1 font-serif text-[17px] leading-[1.75] text-[var(--a-ink)]"
+            >
               {(() => {
-                const chordLines = showChords ? getPersistChordsForLyrics(track.slug, track.lyrics) : [];
-                return track.lyrics.split('\n').map((line, idx) => {
+                const activeLyrics =
+                  lyricsLang !== 'en' && persistLyrics ? persistLyrics : track.lyrics;
+                const chordLines =
+                  showChords && lyricsLang === 'en'
+                    ? getPersistChordsForLyrics(track.slug, track.lyrics)
+                    : [];
+                return activeLyrics.split('\n').map((line, idx) => {
                   if (!line.trim()) {
                     return <div key={idx} className="h-3" aria-hidden="true" />;
                   }
                   const chordLine = chordLines[idx] ?? null;
-                return (
-                  <div key={idx} className="min-w-0">
-                    {chordLine && (
-                      <span
-                        data-testid="lyric-chord-line"
-                        className="mt-2 block overflow-x-auto whitespace-pre font-code text-[13px] font-semibold leading-snug tracking-wide text-[var(--a-accent-text)]"
-                      >
-                        {chordLine}
-                      </span>
-                    )}
-                    <p>{line}</p>
-                  </div>
-                );
+                  return (
+                    <div key={idx} className="min-w-0">
+                      {chordLine && (
+                        <span
+                          data-testid="lyric-chord-line"
+                          className="mt-2 block overflow-x-auto whitespace-pre font-code text-[13px] font-semibold leading-snug tracking-wide text-[var(--a-accent-text)]"
+                        >
+                          {chordLine}
+                        </span>
+                      )}
+                      <p>{line}</p>
+                    </div>
+                  );
                 });
               })()}
             </div>
