@@ -269,33 +269,62 @@ export default function PersistTrackClient({
 
             <div
               data-testid="persist-lyrics-body"
+              data-lyrics-lang={lyricsLang}
               data-no-translate="true"
               className="max-h-none lg:max-h-[65vh] lg:overflow-y-auto pr-1 space-y-1 font-serif text-[17px] leading-[1.75] text-[var(--a-ink)]"
             >
-              {(() => {
-                const chordLines = showChords
-                  ? getPersistChordsForLyrics(track.slug, track.lyrics)
-                  : [];
-                return track.lyrics.split('\n').map((line, idx) => {
-                  if (!line.trim()) {
-                    return <div key={idx} className="h-3" aria-hidden="true" />;
-                  }
-                  const chordLine = chordLines[idx] ?? null;
-                  return (
-                    <div key={idx} className="min-w-0">
-                      {chordLine && (
-                        <span
-                          data-testid="lyric-chord-line"
-                          className="mt-2 block overflow-x-auto whitespace-pre font-code text-[13px] font-semibold leading-snug tracking-wide text-[var(--a-accent-text)]"
-                        >
-                          {chordLine}
-                        </span>
-                      )}
-                      <p>{line}</p>
-                    </div>
-                  );
-                });
-              })()}
+              {lyricsLang !== 'en' && persistLyrics ? (
+                <div className="space-y-6">
+                  {(() => {
+                    const enStanzas = track.lyrics.trim().split(/\n\s*\n/);
+                    const trStanzas = persistLyrics.trim().split(/\n\s*\n/);
+                    return enStanzas.map((stanza, sIdx) => (
+                      <div
+                        key={sIdx}
+                        className="space-y-2.5 border-t border-[var(--a-rule)] pt-4 first:border-t-0 first:pt-0"
+                      >
+                        <div className="space-y-0.5 text-[var(--a-ink)]">
+                          {stanza.split('\n').map((line, lIdx) => (
+                            <p key={lIdx}>{line}</p>
+                          ))}
+                        </div>
+                        {trStanzas[sIdx] && (
+                          <div className="space-y-0.5 border-l-2 border-[var(--a-accent-fill)]/40 pl-3.5 italic text-[16px] text-[var(--a-ink)]/75">
+                            {trStanzas[sIdx].split('\n').map((line, lIdx) => (
+                              <p key={lIdx}>{line}</p>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    ));
+                  })()}
+                </div>
+              ) : (
+                (() => {
+                  const chordLines = showChords
+                    ? getPersistChordsForLyrics(track.slug, track.lyrics)
+                    : [];
+                  return track.lyrics.split('\n').map((line, idx) => {
+                    if (!line.trim()) {
+                      return <div key={idx} className="h-3" aria-hidden="true" />;
+                    }
+                    const chordLine = chordLines[idx] ?? null;
+                    return (
+                      <div key={idx} className="min-w-0">
+                        {chordLine && (
+                          <span
+                            data-testid="lyric-chord-line"
+                            className="mt-2 block overflow-x-auto whitespace-pre font-code text-[13px] font-semibold leading-snug tracking-wide text-[var(--a-accent-text)]"
+                          >
+                            {chordLine}
+                          </span>
+                        )}
+                        <p>{line}</p>
+                      </div>
+                    );
+                  });
+                })()
+              )}
             </div>
           </div>
         </aside>

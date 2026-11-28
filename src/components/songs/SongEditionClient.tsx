@@ -530,10 +530,48 @@ export default function SongEditionClient({ track, prevTrack, nextTrack }: SongE
 
           <div
             data-testid="edition-lyrics-grid"
+            data-lyrics-lang={lyricsLang}
             data-no-translate="true"
-            className="mx-auto mt-10 sm:mt-14 max-w-[620px] space-y-10 sm:space-y-12"
+            className={`mx-auto mt-10 sm:mt-14 space-y-10 sm:space-y-12 ${
+              lyricsLang !== 'en' && ioLyrics ? 'max-w-[920px]' : 'max-w-[620px]'
+            }`}
           >
-            {track.lyrics.map((stanza, idx) => (
+            {lyricsLang !== 'en' && ioLyrics
+              ? track.lyrics.map((stanza, idx) => {
+                  const tr = ioLyrics[idx];
+                  return (
+                    <div
+                      key={`bi-${lyricsLang}-${stanza.section}-${idx}`}
+                      className={`min-w-0 border-t pt-6 first:border-t-0 first:pt-0 ${theme.dark ? 'border-white/15' : 'border-[var(--a-rule)]'}`}
+                    >
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-10">
+                        <div>
+                          <h3 className={`font-code text-[13px] uppercase tracking-[0.16em] ${theme.dark ? 'text-[#FFB8DA]' : 'text-[var(--a-accent-text)]'}`}>
+                            {stanza.section}
+                          </h3>
+                          <div className="mt-3 space-y-1 font-serif text-[19px] sm:text-[21px] leading-[1.55]">
+                            {stanza.lines.map((line, lIdx) => (
+                              <p key={lIdx}>{line}</p>
+                            ))}
+                          </div>
+                        </div>
+                        {tr && (
+                          <div className={`md:border-l md:pl-8 ${theme.dark ? 'border-white/15 text-[#F3EFE9]/80' : 'border-[var(--a-rule)] text-[var(--a-ink)]/80'}`}>
+                            <h3 className={`font-code text-[13px] uppercase tracking-[0.16em] ${theme.dark ? 'text-[#F3EFE9]/55' : 'text-[var(--a-muted)]'}`}>
+                              {tr.section}
+                            </h3>
+                            <div className="mt-3 space-y-1 font-serif italic text-[18px] sm:text-[20px] leading-[1.55]">
+                              {tr.lines.map((line, lIdx) => (
+                                <p key={lIdx}>{line}</p>
+                              ))}
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  );
+                })
+              : track.lyrics.map((stanza, idx) => (
               <div
                 key={`${stanza.section}-${idx}`}
                 className={`min-w-0 border-t pt-6 first:border-t-0 first:pt-0 ${theme.dark ? 'border-white/15' : 'border-[var(--a-rule)]'}`}
