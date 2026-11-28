@@ -651,5 +651,54 @@ test.describe('Semi (; - ]) Multi-Page Interactive JTBD Suite', () => {
     expect(overflow).toBeLessThanOrEqual(0);
     expect(errors).toEqual([]);
   });
+
+  test('JTBD 10: Album and Localhost teaser keep playing in consistent PersistentAudioDock across page navigation until user pauses', async ({
+    page,
+  }) => {
+    const errors: string[] = [];
+    page.on('pageerror', (e) => errors.push(e.message));
+
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await page.goto('/', { waitUntil: 'networkidle' });
+
+    // Start playing the album via Play All
+    await page.getByTestId('play-all-button').click();
+    const dock = page.getByTestId('persistent-audio-dock');
+    await expect(dock).toBeVisible();
+    const playToggle = page.getByTestId('dock-play-toggle');
+    await expect(playToggle).toHaveAttribute('aria-label', /Pause Old Oak Tree/);
+
+    // Navigate to Gallery via header link -> dock must stay visible & keep playing
+    await page.locator('header a[href="/gallery"]').first().click();
+    await expect(page).toHaveURL(/\/gallery$/);
+    await expect(dock).toBeVisible();
+    await expect(playToggle).toHaveAttribute('aria-label', /Pause Old Oak Tree/);
+
+    // Navigate to About via header link -> dock must stay visible & keep playing
+    await page.locator('header a[href="/about"]').first().click();
+    await expect(page).toHaveURL(/\/about$/);
+    await expect(dock).toBeVisible();
+    await expect(playToggle).toHaveAttribute('aria-label', /Pause Old Oak Tree/);
+
+    // User explicitly pauses the song -> only user action stops playback
+    await playToggle.click();
+    await expect(playToggle).toHaveAttribute('aria-label', /Play Old Oak Tree/);
+
+    // Navigate to /songs and play Localhost teaser -> must use the same PersistentAudioDock and persist across navigation
+    await page.locator('header a[href="/songs"]').first().click();
+    await expect(page).toHaveURL(/\/songs$/);
+    const teaserPlayBtn = page.getByTestId('songs-localhost-teaser').locator('button').first();
+    await teaserPlayBtn.scrollIntoViewIfNeeded();
+    await teaserPlayBtn.click();
+    await expect(dock).toBeVisible();
+    await expect(dock).toContainText('Localhost');
+
+    await page.locator('header a[href="/gallery"]').first().click();
+    await expect(page).toHaveURL(/\/gallery$/);
+    await expect(dock).toBeVisible();
+    await expect(dock).toContainText('Localhost');
+
+    expect(errors).toEqual([]);
+  });
 });
 

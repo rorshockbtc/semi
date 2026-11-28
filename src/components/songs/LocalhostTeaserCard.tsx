@@ -1,13 +1,25 @@
 'use client';
 
-import React, { useEffect, useRef, useState } from 'react';
+import React from 'react';
 import { Lock, Pause, Play, Sparkles } from 'lucide-react';
 import { AUDIO_MASTER_REV } from '@/data/audio-manifest';
-import { useAudioPlayer } from '@/context/AudioPlayerContext';
+import { useAudioPlayer, type DockTrack } from '@/context/AudioPlayerContext';
 import { triggerOpenDeluxeModal } from '@/components/songs/DeluxeAlbumModal';
 
-const TEASER_STOP_EVENT = 'semi:stop-localhost-teaser';
 const FALLBACK_DURATION = 179; // 02:59
+const LOCALHOST_TEASER_SLUG = 'localhost-teaser';
+
+const LOCALHOST_TEASER_TRACK: DockTrack = {
+  number: '14',
+  slug: LOCALHOST_TEASER_SLUG,
+  title: 'Localhost',
+  subtitle: 'I/O Deluxe Bonus · Stream-Only Preview',
+  duration: '02:59',
+  mp3Src: `/api/album/teaser?v=${AUDIO_MASTER_REV}`,
+  href: '/songs#deluxe-edition',
+  album: 'I/O',
+  artworkSrc: '/photos/io-album-cover.jpg',
+};
 
 function formatClock(sec: number): string {
   if (!Number.isFinite(sec) || sec < 0) return '00:00';
@@ -23,87 +35,30 @@ export function LocalhostTeaserCard({
   testId?: string;
   className?: string;
 }) {
-  const { isPlaying: mainPlayerPlaying, pauseAudio: pauseMainPlayer } = useAudioPlayer();
-  const instanceIdRef = useRef<string>('');
-  const audioRef = useRef<HTMLAudioElement | null>(null);
+  const {
+    currentTrack,
+    isPlaying: globalPlaying,
+    currentTime: globalCurrentTime,
+    duration: globalDuration,
+    playCustomTrack,
+    seek,
+  } = useAudioPlayer();
 
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [currentTime, setCurrentTime] = useState(0);
-  const [duration, setDuration] = useState(FALLBACK_DURATION);
-
-  useEffect(() => {
-    instanceIdRef.current = Math.random().toString(36).slice(2);
-  }, []);
-
-  // Pause teaser automatically if the main site dock player starts playing
-  useEffect(() => {
-    if (mainPlayerPlaying && audioRef.current && !audioRef.current.paused) {
-      audioRef.current.pause();
-    }
-  }, [mainPlayerPlaying]);
-
-  // Coordinate across multiple teaser cards if mounted on different sections
-  useEffect(() => {
-    const onOtherPlay = (e: Event) => {
-      const detail = (e as CustomEvent<{ id?: string }>).detail;
-      if (detail?.id !== instanceIdRef.current && audioRef.current && !audioRef.current.paused) {
-        audioRef.current.pause();
-      }
-    };
-    window.addEventListener(TEASER_STOP_EVENT, onOtherPlay);
-    return () => {
-      window.removeEventListener(TEASER_STOP_EVENT, onOtherPlay);
-      audioRef.current?.pause();
-    };
-  }, []);
-
-  const ensureAudioElement = (): HTMLAudioElement => {
-    if (audioRef.current) return audioRef.current;
-    const el = new Audio(`/api/album/teaser?v=${AUDIO_MASTER_REV}`);
-    el.preload = 'none';
-    el.setAttribute('playsinline', 'true');
-    el.setAttribute('controlsList', 'nodownload');
-    el.addEventListener('loadedmetadata', () => {
-      if (Number.isFinite(el.duration) && el.duration > 0) {
-        setDuration(el.duration);
-      }
-    });
-    el.addEventListener('timeupdate', () => {
-      setCurrentTime(el.currentTime);
-    });
-    el.addEventListener('play', () => setIsPlaying(true));
-    el.addEventListener('pause', () => setIsPlaying(false));
-    el.addEventListener('ended', () => {
-      setIsPlaying(false);
-      setCurrentTime(0);
-    });
-    audioRef.current = el;
-    return el;
-  };
+  const isActive = currentTrack.slug === LOCALHOST_TEASER_SLUG;
+  const isPlaying = isActive && globalPlaying;
+  const currentTime = isActive ? globalCurrentTime : 0;
+  const duration = isActive && globalDuration > 0 ? globalDuration : FALLBACK_DURATION;
 
   const handleTogglePlay = () => {
-    const el = ensureAudioElement();
-    if (!el.paused) {
-      el.pause();
-      return;
-    }
-
-    pauseMainPlayer();
-    window.dispatchEvent(
-      new CustomEvent(TEASER_STOP_EVENT, { detail: { id: instanceIdRef.current } })
-    );
-    el.play().catch(() => setIsPlaying(false));
+    playCustomTrack(LOCALHOST_TEASER_TRACK);
   };
 
   const handleSeek = (nextSeconds: number) => {
-    const el = ensureAudioElement();
     const clamped = Math.max(0, Math.min(nextSeconds, duration || FALLBACK_DURATION));
-    setCurrentTime(clamped);
-    try {
-      el.currentTime = clamped;
-    } catch {
-      // Ignore pre-metadata seek errors
+    if (!isActive) {
+      playCustomTrack(LOCALHOST_TEASER_TRACK);
     }
+    seek(clamped);
   };
 
   return (

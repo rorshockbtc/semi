@@ -41,6 +41,7 @@ interface AudioPlayerContextValue {
   playAll: () => void;
   playPersistTrack: (slug: string, token: string) => void;
   playPersistAll: (token: string) => void;
+  playCustomTrack: (track: DockTrack) => void;
   selectTrack: (slugOrIndex: string | number) => void;
   togglePlay: () => void;
   pauseAudio: () => void;
@@ -491,6 +492,58 @@ export function AudioPlayerProvider({ children }: { children: React.ReactNode })
     [queueAlbum, startFromQueue]
   );
 
+  const playCustomTrack = useCallback(
+    (track: DockTrack) => {
+      const el = audioRef.current;
+      const cur = queueRef.current[activeIndexRef.current];
+      const resolvedSrc =
+        typeof window !== 'undefined'
+          ? new URL(track.mp3Src, window.location.origin).href
+          : track.mp3Src;
+
+      if (cur && cur.slug === track.slug && el && el.src === resolvedSrc) {
+        if (el.paused) {
+          setHasStarted(true);
+          syncMediaSession(track);
+          const p = el.play();
+          if (p) {
+            p.catch((err) => {
+              if (err?.name !== 'AbortError') setIsPlaying(false);
+            });
+          }
+        } else {
+          el.pause();
+        }
+        return;
+      }
+
+      const nextQueue = [track];
+      queueRef.current = nextQueue;
+      setQueue(nextQueue);
+      setQueueAlbum(track.album === 'Persist' ? 'persist' : 'io');
+      setHasStarted(true);
+      setPlayAllActive(false);
+      playAllRef.current = false;
+      activeIndexRef.current = 0;
+      setActiveIndex(0);
+      if (!el) return;
+
+      el.preload = 'auto';
+      pendingSeekRef.current = null;
+      setCurrentTime(0);
+      setDuration(parseDurationFallback(track.duration));
+      el.src = track.mp3Src;
+      syncMediaSession(track);
+      const p = el.play();
+      if (p) {
+        p.catch((err) => {
+          if (err?.name !== 'AbortError') setIsPlaying(false);
+        });
+      }
+    },
+    [syncMediaSession]
+  );
+
   const togglePlay = useCallback(() => {
     const el = audioRef.current;
     setHasStarted(true);
@@ -657,6 +710,7 @@ export function AudioPlayerProvider({ children }: { children: React.ReactNode })
         playAll,
         playPersistTrack,
         playPersistAll,
+        playCustomTrack,
         selectTrack,
         togglePlay,
         pauseAudio,

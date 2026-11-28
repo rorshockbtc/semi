@@ -345,8 +345,7 @@ function DeluxeModalDialog({
   onClose: () => void;
 }) {
   const dialogRef = useRef<HTMLDialogElement | null>(null);
-  const bonusAudioRef = useRef<HTMLAudioElement | null>(null);
-  const { pauseAudio: pausePublicPlayer } = useAudioPlayer();
+  const { currentTrack, isPlaying: globalPlaying, playCustomTrack } = useAudioPlayer();
 
   const [tab, setTab] = useState<'buy' | 'updates'>(initialTab);
   const [email, setEmail] = useState('');
@@ -366,9 +365,6 @@ function DeluxeModalDialog({
     current: 0,
     total: 16,
   });
-
-  // Private vault bonus preview player (only rendered inside unlocked buyer vault!)
-  const [playingBonusSlug, setPlayingBonusSlug] = useState<string | null>(null);
 
   // Bitcoin Lightning (Strike) invoice state
   const [btcInvoice, setBtcInvoice] = useState<{
@@ -409,7 +405,6 @@ function DeluxeModalDialog({
       dialog.showModal();
     }
     return () => {
-      bonusAudioRef.current?.pause();
       if (dialog?.open) {
         dialog.close();
       }
@@ -698,26 +693,19 @@ function DeluxeModalDialog({
 
   const toggleVaultBonusStream = (slug: string) => {
     if (!unlockedToken) return;
-    pausePublicPlayer();
-
-    if (!bonusAudioRef.current) {
-      const el = new Audio();
-      el.setAttribute('playsinline', 'true');
-      el.addEventListener('ended', () => setPlayingBonusSlug(null));
-      el.addEventListener('pause', () => setPlayingBonusSlug((cur) => (el.ended ? null : cur)));
-      bonusAudioRef.current = el;
-    }
-
-    const el = bonusAudioRef.current;
-    if (playingBonusSlug === slug && !el.paused) {
-      el.pause();
-      setPlayingBonusSlug(null);
-      return;
-    }
-
-    el.src = `/api/album/bonus/${slug}?token=${encodeURIComponent(unlockedToken)}&v=${AUDIO_MASTER_REV}`;
-    setPlayingBonusSlug(slug);
-    el.play().catch(() => setPlayingBonusSlug(null));
+    const bt = DELUXE_BONUS_LIST.find((t) => t.slug === slug);
+    if (!bt) return;
+    playCustomTrack({
+      number: bt.number,
+      slug: bt.slug,
+      title: bt.title,
+      subtitle: 'I/O Deluxe Vault · Bonus Track',
+      duration: bt.duration,
+      mp3Src: `/api/album/bonus/${bt.slug}?token=${encodeURIComponent(unlockedToken)}&v=${AUDIO_MASTER_REV}`,
+      href: '/songs#deluxe-edition',
+      album: 'I/O',
+      artworkSrc: '/photos/io-album-cover.jpg',
+    });
   };
 
   if (typeof document === 'undefined') return null;
@@ -836,7 +824,7 @@ function DeluxeModalDialog({
                 </p>
                 <div className="divide-y divide-[var(--a-rule)] rounded-xl border border-[var(--a-rule)] bg-[var(--a-surface)]">
                   {DELUXE_BONUS_LIST.map((bt) => {
-                    const isPlayingThis = playingBonusSlug === bt.slug;
+                    const isPlayingThis = globalPlaying && currentTrack.slug === bt.slug;
                     const dlHref = `/api/album/bonus/${bt.slug}?token=${encodeURIComponent(unlockedToken)}&v=${AUDIO_MASTER_REV}`;
                     return (
                       <div key={bt.slug} className="p-3.5 flex items-center justify-between gap-3">
