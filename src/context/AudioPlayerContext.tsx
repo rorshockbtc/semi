@@ -42,6 +42,7 @@ interface AudioPlayerContextValue {
   playPersistTrack: (slug: string, token: string) => void;
   playPersistAll: (token: string) => void;
   playCustomTrack: (track: DockTrack) => void;
+  playStreamQueue: (tracks: DockTrack[], album: 'io' | 'persist', startIndex?: number) => void;
   selectTrack: (slugOrIndex: string | number) => void;
   togglePlay: () => void;
   pauseAudio: () => void;
@@ -544,6 +545,39 @@ export function AudioPlayerProvider({ children }: { children: React.ReactNode })
     [syncMediaSession]
   );
 
+  const playStreamQueue = useCallback(
+    (tracks: DockTrack[], album: 'io' | 'persist', startIndex = 0) => {
+      if (!tracks.length) return;
+      const idx = Math.max(0, Math.min(startIndex, tracks.length - 1));
+      const el = audioRef.current;
+      const target = tracks[idx];
+      const cur = queueRef.current[activeIndexRef.current];
+      const resolvedSrc =
+        typeof window !== 'undefined'
+          ? new URL(target.mp3Src, window.location.origin).href
+          : target.mp3Src;
+
+      if (cur && cur.slug === target.slug && el && el.src === resolvedSrc) {
+        if (el.paused) {
+          setHasStarted(true);
+          syncMediaSession(target);
+          const p = el.play();
+          if (p) {
+            p.catch((err) => {
+              if (err?.name !== 'AbortError') setIsPlaying(false);
+            });
+          }
+        } else {
+          el.pause();
+        }
+        return;
+      }
+
+      startFromQueue(tracks, album, idx);
+    },
+    [startFromQueue, syncMediaSession]
+  );
+
   const togglePlay = useCallback(() => {
     const el = audioRef.current;
     setHasStarted(true);
@@ -711,6 +745,7 @@ export function AudioPlayerProvider({ children }: { children: React.ReactNode })
         playPersistTrack,
         playPersistAll,
         playCustomTrack,
+        playStreamQueue,
         selectTrack,
         togglePlay,
         pauseAudio,

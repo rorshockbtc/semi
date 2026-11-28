@@ -742,5 +742,52 @@ test.describe('Semi (; - ]) Multi-Page Interactive JTBD Suite', () => {
 
     expect(errors).toEqual([]);
   });
+
+  test('JTBD 12: Owner QR generator (/listen/qr) and device-bound stream-only listening pass (/listen) with language toggle and zero downloads', async ({
+    page,
+  }) => {
+    const errors: string[] = [];
+    page.on('pageerror', (e) => errors.push(e.message));
+
+    // 1. Owner QR gate rejects unauthorized email
+    await page.goto('/listen/qr', { waitUntil: 'load' });
+    await page.getByTestId('listen-qr-email-input').fill('stranger@example.com');
+    await page.getByTestId('listen-qr-submit').click();
+    await expect(page.getByTestId('listen-qr-error')).toBeVisible();
+
+    // 2. Owner email unlocks print-ready QR code
+    await page.getByTestId('listen-qr-email-input').fill('cubby@colonhyphenbracket.pink');
+    await page.getByTestId('listen-qr-submit').click();
+    await expect(page.getByTestId('listen-qr-ready')).toBeVisible();
+    await expect(page.getByTestId('listen-qr-svg').locator('svg')).toBeVisible();
+
+    const passUrlText = await page.getByTestId('listen-qr-ready').locator('.font-code.break-all').textContent();
+    expect(passUrlText).toContain('/listen?pass=');
+    const passPath = new URL(passUrlText!.trim()).pathname + new URL(passUrlText!.trim()).search;
+
+    // 3. Scanning QR activates device-bound stream-only pass
+    await page.goto(passPath, { waitUntil: 'load' });
+    await expect(page.getByTestId('listen-pass-active')).toBeVisible();
+    await expect(page.getByTestId('listen-pass-device-badge')).toContainText('ID:');
+
+    // 4. Reloading /listen without ?pass= remembers the device automatically
+    await page.goto('/listen', { waitUntil: 'load' });
+    await expect(page.getByTestId('listen-pass-active')).toBeVisible();
+
+    // 5. Simple language toggle works on UI + inline lyrics
+    await page.getByTestId('lyrics-lang-es').click();
+    await expect(page.getByTestId('listen-pass-active')).toContainText('Escucha a Semi');
+    await page.getByTestId('listen-lyrics-toggle-redshift').click();
+    await expect(page.getByTestId('listen-lyrics-panel-redshift')).toBeVisible();
+
+    // 6. Playing a track uses PersistentAudioDock with ZERO download links
+    await page.getByTestId('listen-track-redshift').click();
+    const dock = page.getByTestId('persistent-audio-dock');
+    await expect(dock).toBeVisible();
+    await expect(dock).toContainText('Redshift');
+    await expect(dock.locator('a[download]')).toHaveCount(0);
+
+    expect(errors).toEqual([]);
+  });
 });
 
