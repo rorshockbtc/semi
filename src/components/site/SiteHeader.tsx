@@ -3,9 +3,10 @@
 import React, { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { ChevronDown, Lock, Menu, MessageCircle, Pause, Play, X } from 'lucide-react';
+import { ChevronDown, Globe, Lock, Menu, MessageCircle, Pause, Play, X } from 'lucide-react';
 import { useAmbientMotion } from '@/context/AmbientMotionContext';
 import BlackFridayBanner from '@/components/site/BlackFridayBanner';
+import { type LyricsLang, useLyricsTranslation } from '@/components/songs/LyricsLanguageBar';
 
 const ALBUM_ITEMS = [
   { href: '/songs', title: 'I/O', subtitle: 'Album I · 12 songs, videos & chords' },
@@ -29,6 +30,7 @@ const DARK_HERO_ROUTES = new Set([
 export default function SiteHeader() {
   const pathname = usePathname() || '/';
   const { motionActive, togglePause } = useAmbientMotion();
+  const { lang: lyricsLang, setLang: setLyricsLang } = useLyricsTranslation('io', '');
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const [albumsOpen, setAlbumsOpen] = useState(false);
@@ -167,6 +169,51 @@ export default function SiteHeader() {
         </nav>
 
         <div className="flex shrink-0 items-center gap-1 sm:gap-2">
+          {/* Lyrics & listening language selector */}
+          <div
+            role="group"
+            aria-label="Lyrics language"
+            data-testid="navbar-language-selector"
+            className={`hidden md:inline-flex items-center gap-0.5 rounded-full border p-0.5 ${
+              onDark
+                ? 'border-white/20 bg-white/[0.06]'
+                : 'border-[var(--a-rule)] bg-[var(--a-surface)]'
+            }`}
+          >
+            <span
+              className={`inline-flex items-center pl-2 pr-1 ${
+                onDark ? 'text-white/60' : 'text-[var(--a-muted)]'
+              }`}
+              aria-hidden="true"
+            >
+              <Globe className="h-3.5 w-3.5" />
+            </span>
+            {(['en', 'es', 'fr', 'ru'] as const satisfies readonly LyricsLang[]).map((code) => {
+              const active = lyricsLang === code;
+              return (
+                <button
+                  key={code}
+                  type="button"
+                  onClick={() => setLyricsLang(code)}
+                  aria-pressed={active}
+                  aria-label={`Lyrics language: ${code.toUpperCase()}`}
+                  data-testid={`navbar-lang-${code}`}
+                  className={`min-h-[36px] min-w-[34px] rounded-full px-2 font-code text-[13px] font-semibold uppercase tracking-wider transition-colors ${
+                    active
+                      ? onDark
+                        ? 'bg-white text-[#111827]'
+                        : 'bg-[var(--a-ink)] text-[var(--a-surface)]'
+                      : onDark
+                        ? 'text-white/75 hover:text-white'
+                        : 'text-[var(--a-muted)] hover:text-[var(--a-ink)]'
+                  }`}
+                >
+                  {code}
+                </button>
+              );
+            })}
+          </div>
+
           {/* WCAG 2.2.2 pause control for looping film & ambient motion; label swaps, no aria-pressed */}
           <button
             type="button"
@@ -233,6 +280,38 @@ export default function SiteHeader() {
                 </Link>
               );
             })}
+
+            <div
+              role="group"
+              aria-label="Lyrics language (mobile)"
+              data-testid="mobile-navbar-language-selector"
+              className="mt-4 flex items-center justify-between gap-2 rounded-2xl border border-[var(--a-rule)] bg-[var(--a-surface)] px-3.5 py-2.5"
+            >
+              <span className="inline-flex items-center gap-1.5 font-code text-[13px] font-semibold uppercase tracking-wider text-[var(--a-muted)]">
+                <Globe className="h-4 w-4" aria-hidden="true" />
+                <span>Lyrics</span>
+              </span>
+              <div className="inline-flex items-center gap-1">
+                {(['en', 'es', 'fr', 'ru'] as const satisfies readonly LyricsLang[]).map((code) => {
+                  const active = lyricsLang === code;
+                  return (
+                    <button
+                      key={code}
+                      type="button"
+                      onClick={() => setLyricsLang(code)}
+                      aria-pressed={active}
+                      className={`min-h-[38px] min-w-[40px] rounded-full px-2.5 font-code text-[13px] font-semibold uppercase tracking-wider transition-colors ${
+                        active
+                          ? 'bg-[var(--a-ink)] text-[var(--a-surface)]'
+                          : 'text-[var(--a-muted)] hover:text-[var(--a-ink)]'
+                      }`}
+                    >
+                      {code}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
 
             <div className="mt-4 grid grid-cols-1 gap-2.5 sm:grid-cols-2">
               <button
